@@ -1,0 +1,33 @@
+{
+  "name": "Retro Ski",
+  "version": "0.0.1",
+  "description": "Retro ski game using Excalibur",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview",
+    "test": "npm run build && ex-test -d ./dist -t ./test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathieuher/retroSki.git"
+  },
+  "keywords": [
+    "retroSki"
+  ],
+  "author": "Mathieu H.",
+  "license": "",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "excalibur": "0.28.4",
+    "typescript": "5.3.3",
+    "vite": "4.5.1"
+  },
+  "dependencies": {
+    "@excaliburjs/testing": "^0.25.0"
+  }
+}
