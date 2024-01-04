@@ -1,7 +1,7 @@
 {
-  "name": "Retro Ski",
+  "name": "retroSki",
   "version": "0.0.1",
-  "description": "Retro ski game using Excalibur",
+  "description": "Retro ski game",
   "main": "index.js",
   "scripts": {
     "dev": "vite",
@@ -18,9 +18,6 @@
   ],
   "author": "Mathieu H.",
   "license": "",
-  "bugs": {
-    "url": ""
-  },
   "homepage": "",
   "devDependencies": {
     "excalibur": "0.28.4",

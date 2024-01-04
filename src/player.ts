@@ -1,19 +1,20 @@
-import { Actor, vec } from "excalibur";
-import { Resources } from "./resources";
+import { Actor, Color, Engine, vec } from "excalibur";
 
 export class Player extends Actor {
-  constructor() {
+
+  public speed = 0;
+
+  constructor(engine: Engine) {
     super({
-      pos: vec(150, 150),
-      width: 100,
-      height: 100
+      pos: engine.worldToScreenCoordinates(vec(0, 0)),
+      width: 20,
+      height: 20,
+      color: Color.Red
     });
   }
 
   onInitialize() {
-    this.graphics.add(Resources.Sword.toSprite());
-    this.on('pointerup', () => {
-      alert('yo');
-    });
   }
+
+
 }

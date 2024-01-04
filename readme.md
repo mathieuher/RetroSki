@@ -1,6 +1,8 @@
-# Excalibur TypeScript & Vite template
+# Retro Ski game
+Welcome on a new game dev journey
 
-## Getting Started
+## Goal
+1. Build a small and fun multiplayer retro ski game
 
 1. [Generate a repository](https://github.com/excaliburjs/template-ts-vite/generate) from this template
 2. Modify the `package.json` with your own details
