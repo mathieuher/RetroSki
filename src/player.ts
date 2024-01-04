@@ -1,4 +1,5 @@
-import { Actor, Color, Engine, vec } from "excalibur";
+import { Actor, Color, Engine, Keys, vec } from "excalibur";
+import { Config } from "./config";
 
 export class Player extends Actor {
 
@@ -16,5 +17,19 @@ export class Player extends Actor {
   onInitialize() {
   }
 
+  update(engine: Engine, delta: number): void {
+    if (engine.input.keyboard.isHeld(Keys.ArrowLeft)) {
+      this.carving('left');
+    } else if (engine.input.keyboard.isHeld(Keys.ArrowRight)) {
+      this.carving('right');
+    }
+  }
 
+  private carving(orientation: 'left' | 'right'): void {
+    if (orientation === 'left') {
+      this.vel.x -= this.vel.x > 0 ? Config.CARVING_INVERTER_VELOCITY * Config.CARVING_LATERAL_VELOCITY : Config.CARVING_LATERAL_VELOCITY;
+    } else {
+      this.vel.x += this.vel.x < 0 ? Config.CARVING_INVERTER_VELOCITY * Config.CARVING_LATERAL_VELOCITY : Config.CARVING_LATERAL_VELOCITY;
+    }
+  }
 }
