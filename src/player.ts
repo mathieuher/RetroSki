@@ -1,5 +1,6 @@
 import { Actor, Color, Engine, Keys, Text, vec } from "excalibur";
 import { Config } from "./config";
+import { Resources } from "./resources";
 
 export class Player extends Actor {
     public speed = 0;
@@ -9,24 +10,30 @@ export class Player extends Actor {
         }
     );
 
+    private skierSprite = Resources.Skier.toSprite();
+    private skierCarvingSprite = Resources.SkierCarving.toSprite();
+    private skierSlidingSprite = Resources.SkierSliding.toSprite();
+
     constructor(engine: Engine) {
         super({
             pos: engine.worldToScreenCoordinates(vec(0, 0)),
-            width: 20,
-            height: 30,
-            anchor: vec(0.5, 1),
-            color: Color.Red
+            width: 50,
+            height: 50,
+            anchor: vec(0.5, 0.5)
         });
     }
 
     onInitialize() {
-        this.graphics.offset = vec(0, 40);
-        this.graphics.add(this.velocityLabel);
+        this.graphics.add(Resources.Skier.toSprite());
+        // this.graphics.offset = vec(0, 25);
+        //this.graphics.add(this.velocityLabel);
     }
 
     update(engine: Engine, delta: number): void {
         // Position
         if (this.hasTurningIntention(engine)) {
+            this.graphics.use(this.hasSlidingIntention(engine) ? this.skierSlidingSprite : this.skierCarvingSprite);
+            this.graphics.flipHorizontal = this.hasLeftSlidingIntention(engine) || this.hasLeftCarvingIntention(engine);
             if (this.hasLeftSlidingIntention(engine)) {
                 this.sliding('left');
             } else if (this.hasRightSlidingIntention(engine)) {
@@ -37,6 +44,7 @@ export class Player extends Actor {
                 this.carving('right');
             }
         } else {
+            this.graphics.use(this.skierSprite);
             this.reduceTurning();
         }
 
