@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Color, Engine, Text, TextAlign, vec } from "excalibur";
+import { Actor, CollisionType, Color, Engine, Text, vec } from "excalibur";
 import { Config } from "./config";
 import { Resources } from "./resources";
 
@@ -138,10 +138,6 @@ export class Player extends Actor {
 
     private isMovingRight(): boolean {
         return this.vel.x > 0;
-    }
-
-    private isMovingStraight(): boolean {
-        return this.vel.x === 0;
     }
 
     private hasBreakingIntention(engine: Engine): boolean {

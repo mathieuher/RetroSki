@@ -1,7 +1,7 @@
-import { Actor, Color, Engine, Line, Vector, vec } from "excalibur";
+import { Actor, Color, Line, Vector } from "excalibur";
 
 export class Lines extends Actor {
-    constructor(engine: Engine, position: Vector) {
+    constructor(position: Vector) {
         super({
             pos: position
         });

@@ -11,7 +11,7 @@ export class Gate extends Actor {
     private gateNumber: number;
     private polesColor: Color;
 
-    constructor(engine: Engine, position: Vector, color: Color, gateNumber: number) {
+    constructor(position: Vector, color: Color, gateNumber: number) {
         super({
             pos: position,
             width: Config.GATE_MIN_WIDTH + (Math.random() * (Config.GATE_MAX_WIDTH - Config.GATE_MIN_WIDTH)),
@@ -50,9 +50,9 @@ export class Gate extends Actor {
     }
 
     private buildComponents(engine: Engine): void {
-        this.leftPole = new Pole(engine, vec(0, 0), this.polesColor);
-        this.detectionZone = new GateDetection(engine, vec(Config.POLE_WIDTH, 0), this.width - (2 * Config.POLE_WIDTH));
-        this.rightPole = new Pole(engine, vec(this.width - Config.POLE_WIDTH, 0), this.polesColor);
+        this.leftPole = new Pole(vec(0, 0), this.polesColor);
+        this.detectionZone = new GateDetection(vec(Config.POLE_WIDTH, 0), this.width - (2 * Config.POLE_WIDTH));
+        this.rightPole = new Pole(vec(this.width - Config.POLE_WIDTH, 0), this.polesColor);
 
         this.addChild(this.leftPole!);
         this.addChild(this.detectionZone!);

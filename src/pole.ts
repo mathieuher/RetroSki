@@ -1,8 +1,8 @@
-import { Actor, CollisionType, Color, Engine, Vector, vec } from "excalibur";
+import { Actor, CollisionType, Color, Vector, vec } from "excalibur";
 import { Config } from "./config";
 
 export class Pole extends Actor {
-    constructor(engine: Engine, position: Vector, color: Color) {
+    constructor(position: Vector, color: Color) {
         super({
             pos: position,
             width: Config.POLE_WIDTH,
