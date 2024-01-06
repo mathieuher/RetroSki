@@ -1,68 +1,66 @@
 import { Actor, CollisionType, Engine, vec } from "excalibur";
-import { Config } from "./config";
-import { Resources } from "./resources";
-import { format } from "date-fns";
+import { Config } from "../config";
+import { Resources } from "../resources";
 
-export class Player extends Actor {
+export class Skier extends Actor {
     public speed = 0;
 
-    private engine: Engine;
+    public racing = true;
     private skierSprite = Resources.Skier.toSprite();
     private skierCarvingSprite = Resources.SkierCarving.toSprite();
     private skierSlidingSprite = Resources.SkierSliding.toSprite();
     private skierBrakingSprite = Resources.SkierBraking.toSprite();
-    private speedometerUi = document.getElementById('speedometer');
-    private timerUi = document.getElementById('timer');
-    private startTime?: number;
 
-    constructor(engine: Engine) {
+    constructor() {
         super({
-            pos: engine.worldToScreenCoordinates(vec(0, 200)),
+            pos: vec(0, 0),
             width: 50,
             height: 50,
             z: 10,
             anchor: vec(0.5, 0.5),
             collisionType: CollisionType.Fixed
         });
-
-        this.engine = engine;
     }
 
     onInitialize() {
         this.graphics.add(this.skierSprite);
-        this.speedometerUi!.style.visibility = 'inherit';
-        this.timerUi!.style.visibility = 'inherit';
-        this.startTime = this.engine.clock.now();
+        this.scene.camera.strategy.camera;
+        this.scene.camera.pos = vec(0, -200);
+        this.scene.camera.zoom = 1;
+
     }
 
-    update(engine: Engine, delta: number): void {
-        if (this.hasTurningIntention(engine)) {
-            this.graphics.use(this.hasSlidingIntention(engine) ? this.skierSlidingSprite : this.skierCarvingSprite);
-            this.graphics.flipHorizontal = this.hasLeftSlidingIntention(engine) || this.hasLeftCarvingIntention(engine);
-            if (this.hasLeftSlidingIntention(engine)) {
-                this.sliding('left');
-            } else if (this.hasRightSlidingIntention(engine)) {
-                this.sliding('right');
-            } else if (this.hasLeftCarvingIntention(engine)) {
-                this.carving('left');
-            } else if (this.hasRightCarvingIntention(engine)) {
-                this.carving('right');
-            }
-        } else {
-            if (this.hasBreakingIntention(engine)) {
-                this.updateSpeed('braking');
-                this.graphics.use(this.skierBrakingSprite);
+    update(engine: Engine): void {
+        if (this.racing) {
+            if (this.hasTurningIntention(engine)) {
+                this.graphics.use(this.hasSlidingIntention(engine) ? this.skierSlidingSprite : this.skierCarvingSprite);
+                this.graphics.flipHorizontal = this.hasLeftSlidingIntention(engine) || this.hasLeftCarvingIntention(engine);
+                if (this.hasLeftSlidingIntention(engine)) {
+                    this.sliding('left');
+                } else if (this.hasRightSlidingIntention(engine)) {
+                    this.sliding('right');
+                } else if (this.hasLeftCarvingIntention(engine)) {
+                    this.carving('left');
+                } else if (this.hasRightCarvingIntention(engine)) {
+                    this.carving('right');
+                }
             } else {
-                this.updateSpeed('standard');
-                this.graphics.use(this.skierSprite);
+                if (this.hasBreakingIntention(engine)) {
+                    this.updateSpeed('braking');
+                    this.graphics.use(this.skierBrakingSprite);
+                } else {
+                    this.updateSpeed('standard');
+                    this.graphics.use(this.skierSprite);
+                }
+                this.reduceTurning();
             }
+
+            this.updateDirection(engine);
+        } else {
+            this.updateSpeed('braking');
+            this.graphics.use(this.skierBrakingSprite);
             this.reduceTurning();
         }
-
-        this.displaySpeed();
-        this.displayTime();
-
-        this.updateDirection(engine);
     }
 
     private updateDirection(engine: Engine): void {
@@ -95,17 +93,9 @@ export class Player extends Actor {
             default:
                 this.speed = this.speed;
         }
-    }
 
-    private displaySpeed(): void {
-        this.speedometerUi!.innerText = Math.floor(this.speed) + ' km/h';
-    }
-
-    private displayTime(): void {
-        if (this.startTime) {
-            const elapsedTime = format(this.engine.clock.now() - this.startTime, 'mm:ss:SS');
-            this.timerUi!.innerText = `${elapsedTime}`;
-        }
+        this.vel.y = -this.speed * Config.SPEED_VISUAL_RATE;
+        this.scene.camera.pos.y = this.pos.y - 200;
     }
 
     private getVelocityAngle(lateralVelocity: number): number {

@@ -4,6 +4,10 @@ export class Config {
     // DISPLAY
     static DISPLAY_WIDTH = 800;
     static DISPLAY_HEIGHT = 600;
+    static HORIZONTAL_CAMERA_POINT = 0;
+    static DISPLAY_MIN_MARGIN = 50;
+    static DISPLAY_MAX_RIGHT_POSITION = (Config.DISPLAY_WIDTH / 2) - Config.DISPLAY_MIN_MARGIN;
+    static DISPLAY_MAX_LEFT_POSITION = -Config.DISPLAY_MAX_RIGHT_POSITION;
 
     // CONTROLS
     static CONTROL_CARVE_RIGHT = Keys.ArrowRight;
@@ -13,6 +17,7 @@ export class Config {
 
     // SPEED
     static MAX_SPEED = 145;
+    static SPEED_VISUAL_RATE = 4;
     static SLOW_SPEED_LIMIT = 60;
 
     // SLOPE
@@ -28,21 +33,22 @@ export class Config {
     // GATES
     static GATE_MAX_WIDTH = 250;
     static GATE_MIN_WIDTH = 200;
-    static GATE_FIRST_DISTANCE = 200;
     static GATE_MIN_VERTICAL_DISTANCE = 220;
     static GATE_MAX_VERTICAL_DISTANCE = 380;
     static GATE_MIN_HORIZONTAL_DISTANCE = 250;
     static GATE_MAX_HORIZONTAL_DISTANCE = 400;
-    static GATE_MAX_LEFT_POSITION = 50;
-    static GATE_MAX_RIGHT_POSITION = Config.DISPLAY_WIDTH - 100 - Config.GATE_MAX_WIDTH;
-    static GATE_DESTROY_CHECKPOINT = 620;
-    static GATE_MAX_NUMBER = 55;
-    static GATE_MIN_NUMBER = 35;
-    static GATE_VELOCITY_RATE = 4.2;
+    static GATE_MAX_LEFT_POSITION = Config.DISPLAY_MAX_LEFT_POSITION;
+    static GATE_MAX_RIGHT_POSITION = Config.DISPLAY_MAX_RIGHT_POSITION - Config.GATE_MAX_WIDTH;
+    static GATE_MAX_NUMBER = 45;
+    static GATE_MIN_NUMBER = 30;
+    static FINAL_GATE_WIDTH = 600;
+    static FINAL_GATE_POSITION = -(Config.FINAL_GATE_WIDTH / 2);
 
     // POLES
     static POLE_WIDTH = 3;
     static POLE_HEIGHT = 20;
+    static FINAL_POLE_WIDTH = 25;
+    static FINAL_POLE_HEIGHT = 70;
 
     // CARVING
     static CARVING_ACCELERATION_RATE = 0.01;
@@ -57,5 +63,4 @@ export class Config {
     static SLIDING_INVERTER_RATE = 1.5;
     static SLIDING_INVERTER_VELOCITY = Config.SLIDING_INVERTER_RATE * Config.SLIDING_LATERAL_VELOCITY;
     static SLIDING_MAX_VISUAL_ANGLE = 360;
-
 }

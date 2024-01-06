@@ -1,16 +1,15 @@
 import { Actor, CollisionType, PreCollisionEvent, Vector, vec } from "excalibur";
-import { Config } from "./config";
-import { Player } from "./player";
+import { Skier } from "./skier";
+import { Config } from "../config";
 
-export class GateDetection extends Actor {
-    constructor(position: Vector, width: number) {
+export class GateDetector extends Actor {
+    constructor(position: Vector, width: number, isFinalDetection = false) {
         super({
             pos: position,
             width: width,
-            height: Config.POLE_HEIGHT,
-            // color: Color.Cyan,
+            height: isFinalDetection ? Config.FINAL_POLE_HEIGHT : Config.POLE_HEIGHT,
             anchor: vec(0, 0.5),
-            collisionType: CollisionType.Active
+            collisionType: CollisionType.Passive,
         });
     }
 
@@ -19,7 +18,7 @@ export class GateDetection extends Actor {
     }
 
     private onPreCollision(event: PreCollisionEvent): void {
-        if (event.other instanceof Player) {
+        if (event.other instanceof Skier) {
             this.parent.emit('passed');
             this.kill();
         }

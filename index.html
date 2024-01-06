@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./src/style.scss">
+    <link rel="stylesheet" href="./src/scss/game.scss">
     <title>Retro Ski</title>
 </head>
 
@@ -18,16 +18,12 @@
             <div class="game-container">
                 <canvas id="game"></canvas>
             </div>
-            <div id="speedometer">
-                0 km/h
-            </div>
-            <div id="timer">
-                00:00:00
-            </div>
+            <div id="speedometer"></div>
+            <div id="timer"></div>
         </div>
         <div class="footer">Imaginated, concepted and executed by une-descente.ch</div>
     </div>
-    <script type="module" src="./src/main.ts"></script>
+    <script type="module" src="./src/game.ts"></script>
 </body>
 
 </html>
