@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+html body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    color: #033968;
+}
+
+.ui-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #428bca;
+    overflow: hidden;
+
+    .header {
+        font-size: 3rem;
+        padding: 2rem;
+        display: flex;
+        width: calc(100% - 4rem);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hud-container {
+        position: relative;
+        border: 5px solid #17548a;
+        border-radius: 20px;
+        overflow: hidden;
+
+        .game-container {
+
+            width: 800px;
+            height: 600px;
+        }
+
+        #speedometer,
+        #timer {
+            display: flex;
+            width: 90px;
+            align-items: center;
+            justify-content: end;
+            position: absolute;
+            bottom: 0;
+            color: #17548a9d;
+            font-size: 1.1rem;
+            padding: 0.25rem 0.5rem;
+            height: 40px;
+            visibility: hidden;
+
+            &#speedometer {
+                left: 0;
+            }
+
+            &#timer {
+                right: 0;
+            }
+        }
+    }
+
+    .footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1 1 auto;
+    }
+}

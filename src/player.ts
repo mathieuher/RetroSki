@@ -1,19 +1,19 @@
-import { Actor, CollisionType, Color, Engine, Text, vec } from "excalibur";
+import { Actor, CollisionType, Engine, vec } from "excalibur";
 import { Config } from "./config";
 import { Resources } from "./resources";
+import { format } from "date-fns";
 
 export class Player extends Actor {
     public speed = 0;
 
+    private engine: Engine;
     private skierSprite = Resources.Skier.toSprite();
     private skierCarvingSprite = Resources.SkierCarving.toSprite();
     private skierSlidingSprite = Resources.SkierSliding.toSprite();
     private skierBrakingSprite = Resources.SkierBraking.toSprite();
-    private speedLabel = new Text({
-        text: '0 km/h',
-        color: Color.Red,
-        origin: vec(0, 100)
-    });
+    private speedometerUi = document.getElementById('speedometer');
+    private timerUi = document.getElementById('timer');
+    private startTime?: number;
 
     constructor(engine: Engine) {
         super({
@@ -24,10 +24,15 @@ export class Player extends Actor {
             anchor: vec(0.5, 0.5),
             collisionType: CollisionType.Fixed
         });
+
+        this.engine = engine;
     }
 
     onInitialize() {
         this.graphics.add(this.skierSprite);
+        this.speedometerUi!.style.visibility = 'inherit';
+        this.timerUi!.style.visibility = 'inherit';
+        this.startTime = this.engine.clock.now();
     }
 
     update(engine: Engine, delta: number): void {
@@ -54,8 +59,8 @@ export class Player extends Actor {
             this.reduceTurning();
         }
 
-        this.speedLabel.text = `${Math.floor(this.speed)} km/h`;
-        this.graphics.add(this.speedLabel)
+        this.displaySpeed();
+        this.displayTime();
 
         this.updateDirection(engine);
     }
@@ -89,6 +94,17 @@ export class Player extends Actor {
                 break;
             default:
                 this.speed = this.speed;
+        }
+    }
+
+    private displaySpeed(): void {
+        this.speedometerUi!.innerText = Math.floor(this.speed) + ' km/h';
+    }
+
+    private displayTime(): void {
+        if (this.startTime) {
+            const elapsedTime = format(this.engine.clock.now() - this.startTime, 'mm:ss:SS');
+            this.timerUi!.innerText = `${elapsedTime}`;
         }
     }
 

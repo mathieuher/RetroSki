@@ -2,13 +2,14 @@ import { Keys } from "excalibur";
 
 export class Config {
     // DISPLAY
-    static DISPLAY_WIDTH = 1000;
+    static DISPLAY_WIDTH = 800;
     static DISPLAY_HEIGHT = 600;
 
     // CONTROLS
     static CONTROL_CARVE_RIGHT = Keys.ArrowRight;
     static CONTROL_CARVE_LEFT = Keys.ArrowLeft;
     static CONTROL_BRAKE = Keys.Space;
+    static DEBUG_KEY = Keys.D;
 
     // SPEED
     static MAX_SPEED = 145;

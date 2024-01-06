@@ -1,13 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./src/style.css">
-    <title>Restro ski</title>
-  </head>
-  <body>
+    <link rel="stylesheet" href="./src/style.scss">
+    <title>Retro Ski</title>
+</head>
+
+<body>
+    <div class="ui-container">
+        <div class="header">
+            Retro ski
+        </div>
+        <div class="hud-container">
+            <div class="game-container">
+                <canvas id="game"></canvas>
+            </div>
+            <div id="speedometer">
+                0 km/h
+            </div>
+            <div id="timer">
+                00:00:00
+            </div>
+        </div>
+        <div class="footer">Imaginated, concepted and executed by une-descente.ch</div>
+    </div>
     <script type="module" src="./src/main.ts"></script>
-  </body>
+</body>
+
 </html>

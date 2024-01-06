@@ -1,4 +1,4 @@
-import { Color, DisplayMode, Engine, Loader, Vector, vec } from "excalibur";
+import { Color, DisplayMode, Engine, Keys, Loader, Vector, vec } from "excalibur";
 import { Player } from "./player";
 import { Resources } from "./resources";
 import { Gate } from "./gate";
@@ -19,8 +19,9 @@ class Game extends Engine {
     private gates: Gate[] = [];
 
     constructor() {
-        super({ width: 800, height: 600, backgroundColor: Color.White, displayMode: DisplayMode.FitScreen, fixedUpdateFps: 40 });
+        super({ displayMode: DisplayMode.FitContainer, backgroundColor: Color.White, fixedUpdateFps: 60, canvasElementId: 'game' });
     }
+
     initialize() {
         this.skier = new Player(this);
 
@@ -33,6 +34,10 @@ class Game extends Engine {
     }
 
     onPreUpdate(_engine: Engine, _delta: number): void {
+        if (_engine.input.keyboard.wasPressed(Config.DEBUG_KEY)) {
+            _engine.showDebug(!_engine.isDebug);
+        }
+
         this.setTrackVelocity(this.skier ? this.skier.speed : 0);
     }
 
