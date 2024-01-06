@@ -28,6 +28,7 @@ class Game extends Engine {
     initialize() {
         this.skier = new Player(this);
         this.lines = new Lines(this, this.previousSkierPos);
+
         this.add(this.skier);
         this.add(this.lines);
 
@@ -55,7 +56,7 @@ class Game extends Engine {
 
     private getNextGatePosition(gateNumber: number, currentGatePosition?: Vector): Vector {
         if (!currentGatePosition) {
-            return vec(Config.GATE_MAX_LEFT_POSITION + (Math.random() * (Config.GATE_MAX_RIGHT_POSITION - Config.GATE_MAX_LEFT_POSITION)), Config.GATE_FIRST_DISTANCE);
+            return vec(Config.GATE_MAX_LEFT_POSITION + (Math.random() * ((Config.GATE_MAX_RIGHT_POSITION - Config.GATE_MAX_LEFT_POSITION) * 0.3)), Config.GATE_FIRST_DISTANCE);
         } else {
             const isNextLeft = gateNumber % 2 > 0;
             const nextHorizontalDistance = Config.GATE_MIN_HORIZONTAL_DISTANCE + (Math.random() * (Config.GATE_MAX_HORIZONTAL_DISTANCE - Config.GATE_MAX_HORIZONTAL_DISTANCE));
