@@ -38,6 +38,32 @@ html body {
             height: 600px;
         }
 
+        #result {
+            position: absolute;
+            top: 100px;
+            left: 0;
+            width: 100%;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            background-color: #17548a9d;
+
+            #position {
+                font-size: 4rem;
+                color: white;
+            }
+
+            #timing {
+                font-size: 2rem;
+                font-style: italic;
+                color: white;
+            }
+
+        }
+
         #speedometer,
         #timer {
             display: flex;

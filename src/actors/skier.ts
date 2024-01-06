@@ -26,7 +26,7 @@ export class Skier extends Actor {
         this.graphics.add(this.skierSprite);
         this.scene.camera.strategy.camera;
         this.scene.camera.pos = vec(0, -200);
-        this.scene.camera.zoom = 1;
+        this.scene.camera.zoom = 0.7;
 
     }
 
