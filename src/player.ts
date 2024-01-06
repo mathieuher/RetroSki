@@ -1,36 +1,36 @@
-import { Actor, Color, Engine, Keys, Text, vec } from "excalibur";
+import { Actor, CollisionType, Color, Engine, Text, TextAlign, vec } from "excalibur";
 import { Config } from "./config";
 import { Resources } from "./resources";
 
 export class Player extends Actor {
     public speed = 0;
-    public velocityLabel = new Text(
-        {
-            text: `${this.vel.x}`
-        }
-    );
 
     private skierSprite = Resources.Skier.toSprite();
     private skierCarvingSprite = Resources.SkierCarving.toSprite();
     private skierSlidingSprite = Resources.SkierSliding.toSprite();
+    private skierBrakingSprite = Resources.SkierBraking.toSprite();
+    private speedLabel = new Text({
+        text: '0 km/h',
+        color: Color.Red,
+        origin: vec(0, 100)
+    });
 
     constructor(engine: Engine) {
         super({
-            pos: engine.worldToScreenCoordinates(vec(0, 0)),
+            pos: engine.worldToScreenCoordinates(vec(0, 200)),
             width: 50,
             height: 50,
-            anchor: vec(0.5, 0.5)
+            z: 10,
+            anchor: vec(0.5, 0.5),
+            collisionType: CollisionType.Fixed
         });
     }
 
     onInitialize() {
-        this.graphics.add(Resources.Skier.toSprite());
-        // this.graphics.offset = vec(0, 25);
-        //this.graphics.add(this.velocityLabel);
+        this.graphics.add(this.skierSprite);
     }
 
     update(engine: Engine, delta: number): void {
-        // Position
         if (this.hasTurningIntention(engine)) {
             this.graphics.use(this.hasSlidingIntention(engine) ? this.skierSlidingSprite : this.skierCarvingSprite);
             this.graphics.flipHorizontal = this.hasLeftSlidingIntention(engine) || this.hasLeftCarvingIntention(engine);
@@ -44,11 +44,19 @@ export class Player extends Actor {
                 this.carving('right');
             }
         } else {
-            this.graphics.use(this.skierSprite);
+            if (this.hasBreakingIntention(engine)) {
+                this.updateSpeed('braking');
+                this.graphics.use(this.skierBrakingSprite);
+            } else {
+                this.updateSpeed('standard');
+                this.graphics.use(this.skierSprite);
+            }
             this.reduceTurning();
         }
 
-        this.velocityLabel.text = `Angle : ${this.getVelocityAngle(this.vel.x)}`;
+        this.speedLabel.text = `${Math.floor(this.speed)} km/h`;
+        this.graphics.add(this.speedLabel)
+
         this.updateDirection(engine);
     }
 
@@ -56,9 +64,31 @@ export class Player extends Actor {
         if (this.hasSlidingIntention(engine)) {
             const slidingAngle = Config.SLIDING_MAX_VISUAL_ANGLE / 360;
             this.rotation = this.hasLeftSlidingIntention(engine) ? -slidingAngle : slidingAngle;
-            console.log(this.rotation);
         } else {
             this.rotation = this.getVelocityAngle(this.vel.x) / 360;;
+        }
+    }
+
+    private isSlowSpeeding(): boolean {
+        return this.speed < Config.SLOW_SPEED_LIMIT;
+    }
+
+    private updateSpeed(action: 'standard' | 'braking' | 'sliding' | 'carving'): void {
+        switch (action) {
+            case 'standard':
+                this.speed = Math.min(Config.MAX_SPEED, this.speed + (this.isSlowSpeeding() ? Config.ACCELERATION_RATE_WHEN_SLOW_SPEEDING * Config.ACCELERATION_RATE_ON_STANDARD_SLOPE : Config.ACCELERATION_RATE_ON_STANDARD_SLOPE));
+                break;
+            case 'braking':
+                this.speed = Math.max(0, this.speed + Config.BRAKING_ACCELERATION_RATE);
+                break;
+            case 'sliding':
+                this.speed = Math.max(0, this.speed + Config.SLIDING_ACCELERATION_RATE);
+                break;
+            case 'carving':
+                this.speed = Math.min(Config.MAX_SPEED, this.speed + (this.isSlowSpeeding() ? Config.ACCELERATION_RATE_WHEN_SLOW_SPEEDING * Config.CARVING_ACCELERATION_RATE : Config.CARVING_ACCELERATION_RATE));
+                break;
+            default:
+                this.speed = this.speed;
         }
     }
 
@@ -72,6 +102,8 @@ export class Player extends Actor {
         } else if (orientation === 'right' && this.canIncreaseTurningRight()) {
             this.vel.x += this.isMovingLeft() ? Config.CARVING_INVERTER_VELOCITY : Config.CARVING_LATERAL_VELOCITY;
         }
+
+        this.updateSpeed('carving');
     }
 
     private sliding(orientation: 'left' | 'right'): void {
@@ -80,6 +112,8 @@ export class Player extends Actor {
         } else if (orientation === 'right' && this.canIncreaseTurningRight()) {
             this.vel.x += this.isMovingLeft() ? Config.SLIDING_INVERTER_VELOCITY : Config.SLIDING_LATERAL_VELOCITY;
         }
+
+        this.updateSpeed('sliding');
     }
 
     private canIncreaseTurningLeft(): boolean {
@@ -110,6 +144,10 @@ export class Player extends Actor {
         return this.vel.x === 0;
     }
 
+    private hasBreakingIntention(engine: Engine): boolean {
+        return engine.input.keyboard.isHeld(Config.CONTROL_BRAKE);
+    }
+
     private hasCarvingIntention(engine: Engine): boolean {
         return this.hasLeftCarvingIntention(engine) || this.hasRightCarvingIntention(engine);
     }
@@ -119,19 +157,19 @@ export class Player extends Actor {
     }
 
     private hasLeftSlidingIntention(engine: Engine): boolean {
-        return this.hasLeftCarvingIntention(engine) && engine.input.keyboard.isHeld(Keys.Space);
+        return this.hasLeftCarvingIntention(engine) && engine.input.keyboard.isHeld(Config.CONTROL_BRAKE);
     }
 
     private hasRightSlidingIntention(engine: Engine): boolean {
-        return this.hasRightCarvingIntention(engine) && engine.input.keyboard.isHeld(Keys.Space);
+        return this.hasRightCarvingIntention(engine) && engine.input.keyboard.isHeld(Config.CONTROL_BRAKE);
     }
 
     private hasLeftCarvingIntention(engine: Engine): boolean {
-        return engine.input.keyboard.isHeld(Keys.ArrowLeft);
+        return engine.input.keyboard.isHeld(Config.CONTROL_CARVE_LEFT);
     }
 
     private hasRightCarvingIntention(engine: Engine): boolean {
-        return engine.input.keyboard.isHeld(Keys.ArrowRight);
+        return engine.input.keyboard.isHeld(Config.CONTROL_CARVE_RIGHT);
     }
 
     private hasTurningIntention(engine: Engine): boolean {
