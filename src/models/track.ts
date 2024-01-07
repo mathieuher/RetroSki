@@ -8,11 +8,11 @@ export class Track {
     public gates: Gate[];
     public records: StockableRecord[];
 
-    constructor(name: string, date: Date, gates: Gate[], records: StockableRecord[]) {
-        this.name = name;
-        this.date = date;
-        this.gates = gates;
-        this.records = records;
+    constructor(name?: string, date?: Date, gates?: Gate[], records?: StockableRecord[]) {
+        this.name = name!;
+        this.date = date!;
+        this.gates = gates!;
+        this.records = records!;
     }
 
     public toStockable(): StockableTrack {

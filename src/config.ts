@@ -32,7 +32,7 @@ export class Config {
     static BRAKING_ACCELERATION_RATE = -0.8;
 
     // TRACKS
-    static DEFAULT_TRACK_NAME = 'davos';
+    static DEFAULT_TRACK_NAME = 'adelboden'; // davos
 
     // GATES
     static GATE_MAX_WIDTH = 200;
@@ -52,8 +52,8 @@ export class Config {
     static POLE_WIDTH = 20;
     static POLE_HEIGHT = 40;
     static POLE_DETECTOR_MARGIN = 50;
-    static FINAL_POLE_WIDTH = 25;
-    static FINAL_POLE_HEIGHT = 70;
+    static FINAL_POLE_WIDTH = 30;
+    static FINAL_POLE_HEIGHT = 80;
 
     // CARVING
     static CARVING_ACCELERATION_RATE = 0.01;

@@ -30,21 +30,7 @@ export class Gate extends Actor {
     }
 
     onInitialize() {
-        this.on('passed', () => {
-            this.gatePassed = true;
-            if (this.isFinalGate) {
-                (this.scene as Race).stopRace();
-            } else {
-                this.children.forEach(child => {
-                    const sprite = this.polesColor === 'red' ? Resources.PolePassedRed.toSprite() : Resources.PolePassedBlue.toSprite();
-                    if (child instanceof Pole) {
-                        child.graphics.use(sprite);
-                    }
-                });
-            }
-        })
-
-
+        this.on('passed', () => this.onGatePassed());
     }
 
     update(): void {
@@ -54,7 +40,7 @@ export class Gate extends Actor {
 
         if (this.canBeDestroy()) {
             if (!this.gatePassed && !this.isFinalGate) {
-                (this.scene as Race).addPenalty();
+                (this.scene as Race).addPenalty(this.gateNumber);
             }
             this.kill();
         }
@@ -89,5 +75,23 @@ export class Gate extends Actor {
         this.addChild(this.leftPole!);
         this.addChild(this.gateDetector!);
         this.addChild(this.rightPole!);
+    }
+
+    private onGatePassed(): void {
+        this.gatePassed = true;
+        if (this.isFinalGate) {
+            (this.scene as Race).stopRace();
+        } else {
+            this.updatePassedPolesGraphics();
+        }
+    }
+
+    private updatePassedPolesGraphics(): void {
+        this.children.forEach(child => {
+            const sprite = this.polesColor === 'red' ? Resources.PolePassedRed.toSprite() : Resources.PolePassedBlue.toSprite();
+            if (child instanceof Pole) {
+                child.graphics.use(sprite);
+            }
+        });
     }
 }

@@ -12,7 +12,11 @@ export class Pole extends Actor {
             collisionType: CollisionType.Active
         });
 
-        this.graphics.use(color === 'red' ? Resources.PoleRed.toSprite() : Resources.PoleBlue.toSprite());
+        if (isFinalPole) {
+            this.graphics.use(Resources.FinalPole.toSprite());
+        } else {
+            this.graphics.use(color === 'red' ? Resources.PoleRed.toSprite() : Resources.PoleBlue.toSprite());
+        }
     }
 
     onInitialize() {

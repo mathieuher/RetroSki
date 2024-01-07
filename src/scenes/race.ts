@@ -25,8 +25,8 @@ export class Race extends Scene {
         this.engine = engine;
     }
 
-
-    onActivate(_context: SceneActivationContext<{ trackName: string }>): void {
+    onActivate(_context: SceneActivationContext<{ test: string }>): void {
+        console.log('activate scene ', _context.data);
         this.prepareRace(Config.DEFAULT_TRACK_NAME);
     }
 
@@ -39,17 +39,16 @@ export class Race extends Scene {
         this.skier!.racing = false;
         this.uiTimer.stop();
         const timing = this.endTime - this.startTime!;
-        (this.engine as Game).trackManager.saveRecord(Config.DEFAULT_TRACK_NAME, new StockableRecord('mathieu', new Date(), timing));
 
-        const position = (this.engine as Game).trackManager.getRecords(Config.DEFAULT_TRACK_NAME).filter(record => record.timing < timing).length + 1;
+        const position = (this.engine as Game).trackManager.saveRecord(Config.DEFAULT_TRACK_NAME, new StockableRecord('mathieu', new Date(), timing));
         this.uiManager.updateUiState('result');
         this.uiManager.updateUi(this.skier?.speed || 0, timing, position);
 
     }
 
-    public addPenalty(): void {
-        console.log('penalty on gate');
-        this.camera.shake(4, 4, 500);
+    public addPenalty(gateNumber?: number): void {
+        console.warn('Missed the gate n°', gateNumber, ' (+ 2s.)');
+        this.camera.shake(5, 5, 500);
         this.startTime! -= 2000;
     }
 

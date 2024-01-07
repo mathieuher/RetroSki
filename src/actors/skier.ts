@@ -159,11 +159,11 @@ export class Skier extends Actor {
     }
 
     private hasLeftSlidingIntention(engine: Engine): boolean {
-        return this.hasLeftCarvingIntention(engine) && engine.input.keyboard.isHeld(Config.CONTROL_BRAKE);
+        return this.hasLeftCarvingIntention(engine) && this.hasBreakingIntention(engine);
     }
 
     private hasRightSlidingIntention(engine: Engine): boolean {
-        return this.hasRightCarvingIntention(engine) && engine.input.keyboard.isHeld(Config.CONTROL_BRAKE);
+        return this.hasRightCarvingIntention(engine) && this.hasBreakingIntention(engine);
     }
 
     private hasLeftCarvingIntention(engine: Engine): boolean {

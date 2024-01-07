@@ -17,7 +17,8 @@ export class Game extends Engine {
         Resources.PoleTouchedRed,
         Resources.PoleTouchedBlue,
         Resources.PolePassedRed,
-        Resources.PolePassedBlue
+        Resources.PolePassedBlue,
+        Resources.FinalPole
     ];
 
     public trackManager = new TrackManager();
@@ -28,7 +29,6 @@ export class Game extends Engine {
 
     initialize() {
         this.addScene('race', new Race(this));
-
         const loader = new Loader(this.resourcesToLoad);
         this.start(loader);
 

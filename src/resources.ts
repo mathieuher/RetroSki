@@ -10,6 +10,7 @@ import poleTouchedRed from "./images/pole_touched_red.png";
 import poleTouchedBlue from "./images/pole_touched_blue.png";
 import polePassedRed from "./images/pole_passed_red.png";
 import polePassedBlue from "./images/pole_passed_blue.png";
+import finalPole from "./images/final_pole.png";
 
 const Resources = {
     Skier: new ImageSource(skier),
@@ -22,7 +23,9 @@ const Resources = {
     PoleTouchedRed: new ImageSource(poleTouchedRed),
     PoleTouchedBlue: new ImageSource(poleTouchedBlue),
     PolePassedRed: new ImageSource(polePassedRed),
-    PolePassedBlue: new ImageSource(polePassedBlue)
+    PolePassedBlue: new ImageSource(polePassedBlue),
+    FinalPole: new ImageSource(finalPole),
+
 };
 
 export { Resources };

@@ -8,7 +8,7 @@ export class GateDetector extends Actor {
             pos: position,
             width: width,
             height: isFinalDetection ? Config.FINAL_POLE_HEIGHT : Config.POLE_HEIGHT / 2,
-            anchor: vec(0, isFinalDetection ? 0.5 : -1),
+            anchor: vec(0, isFinalDetection ? 0.5 : -0.5),
             collisionType: CollisionType.Passive,
         });
     }
