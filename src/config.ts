@@ -32,7 +32,7 @@ export class Config {
     static BRAKING_ACCELERATION_RATE = -0.8;
 
     // TRACKS
-    static DEFAULT_TRACK_NAME = 'adelboden'; // davos
+    static DEFAULT_TRACK_NAME = 'davos'; // davos, adelboden
 
     // GATES
     static GATE_MAX_WIDTH = 200;
@@ -58,6 +58,7 @@ export class Config {
     // CARVING
     static CARVING_ACCELERATION_RATE = 0.01;
     static CARVING_LATERAL_VELOCITY = 15;
+    static CARVING_VISUAL_VELOCITY_ANGLE_MULTIPLIER = 2;
     static CARVING_INVERTER_RATE = 1.5;
     static CARVING_INVERTER_VELOCITY = Config.CARVING_INVERTER_RATE * Config.CARVING_LATERAL_VELOCITY;
     static CARVING_MAX_LATERAL_VELOCITY = 1000;

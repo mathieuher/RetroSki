@@ -99,7 +99,7 @@ export class Skier extends Actor {
     }
 
     private getVelocityAngle(lateralVelocity: number): number {
-        return Math.floor(lateralVelocity / Math.PI);
+        return Math.floor(lateralVelocity / Math.PI) * Config.CARVING_VISUAL_VELOCITY_ANGLE_MULTIPLIER;
     }
 
     private carving(orientation: 'left' | 'right'): void {
