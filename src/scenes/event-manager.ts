@@ -14,6 +14,7 @@ export class EventManager extends Scene {
     private skier1Label = document.getElementById('skier-1-label')!;
     private skier2Label = document.getElementById('skier-2-label')!;
     private lastResultsContainer = document.getElementById('last-results-container')!;
+    private actualRankingContainer = document.getElementById('actual-ranking-container')!;
     private nextRacesContainer = document.getElementById('next-races-container')!;
     private startRaceButton = document.getElementById('start-race-button')! as HTMLButtonElement;
 
@@ -45,7 +46,8 @@ export class EventManager extends Scene {
         this.skier1Label.innerText = eventConfig.skier1Name;
         this.skier2Label.innerText = eventConfig.skier2Name;
         this.lastResultsContainer.innerHTML = this.prepareLastResultsTable(eventConfig) || '<div class="placeholder">No result for the moment</div>';
-        this.nextRacesContainer.innerHTML = this.prepareNextRacesTable(eventConfig) || '<div class="placeholder">No races to come</div>';
+        this.actualRankingContainer.innerHTML = this.prepareActualRankingTable(eventConfig) || '<div class="placeholder">No ranking for the moment</div>';
+        this.nextRacesContainer.innerHTML = this.prepareNextRacesTable(eventConfig) || '<div class="placeholder">No race to come</div>';
         this.startRaceButton.addEventListener('click', () => {
             this.startRace();
         });
@@ -71,6 +73,21 @@ export class EventManager extends Scene {
                 <div>${raceResult.isCompleted() ? '(' + format(Math.abs(raceResult.skier1Timing! - raceResult.skier2Timing!), Config.FORMAT_TIMING) + ')' : ''}</div>
                 <div class="${raceResult.getWinner() === raceResult.skier2Name ? 'winner' : ''}">${raceResult.skier2Timing ? format(raceResult.skier2Timing, Config.FORMAT_TIMING) : ''}${skier2RecordPosition}</div>
             </div>`
+        }).join('');
+    }
+
+    private prepareActualRankingTable(eventConfig: EventConfig): string {
+        const rankings = eventConfig.getActualRankings();
+        return rankings.filter(ranking => ranking.time > 0).map((ranking, index) => {
+            return `
+                <div class="result-line ${index < 1 ? 'first' : ''}">
+                    <div>${index + 1}</div>
+                    <div>${ranking.skierName}</div>
+                    <div>${ranking.victories}</div>
+                    <div>${format(ranking.time, Config.FORMAT_TIMING)}</div>
+                    <div>${index > 0 ? '(' + format(Math.abs(ranking.time - rankings[0].time), Config.FORMAT_TIMING) + ')' : ''}</div>
+                </div>
+            `;
         }).join('');
     }
 

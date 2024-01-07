@@ -35,9 +35,6 @@ export class Config {
     // BRAKING
     static BRAKING_ACCELERATION_RATE = -0.8;
 
-    // TRACKS
-    static DEFAULT_TRACK_NAME = 'davos'; // davos, adelboden
-
     // GATES
     static GATE_MAX_WIDTH = 200;
     static GATE_MIN_WIDTH = 160;

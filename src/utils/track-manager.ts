@@ -5,65 +5,59 @@ import { TrackBuilder } from "./track-builder";
 import { format } from 'date-fns';
 
 export class TrackManager {
-    private tracks: StockableTrack[] = [];
-
     constructor() {
-        this.loadTracksFromLocalStorage(['davos']);
     }
 
     public loadTrack(name: string): Track {
-        const requestedTrack = this.tracks.find(track => track.name === name);
+        const requestedTrack = this.getTrackFromLocalStorage(name);
         if (requestedTrack) { return requestedTrack.toTrack() };
 
         const newTrack = TrackBuilder.designTrack(name);
         const stockableTrack = newTrack.toStockable();
-        this.tracks.push(stockableTrack);
         this.saveTrackToLocalStorage(stockableTrack);
         return newTrack;
     }
 
     public saveRecord(trackName: string, record: StockableRecord): number {
-        this.tracks = this.tracks.map(track => {
-            if (track.name === trackName) {
-                track.records.push(record);
-                track.records.sort((r1, r2) => r1.timing - r2.timing);
-                track.records = track.records.filter((record, index) => index < 30);
-            }
+        const track = this.getTrackFromLocalStorage(trackName);
+        if (track) {
+            track.records.push(record);
+            track.records.sort((r1, r2) => r1.timing - r2.timing);
             this.saveTrackToLocalStorage(track);
-            return track;
-        });
+        }
         this.displayCurrentRecords(trackName);
-        return this.tracks.find(track => track.name === trackName)!.records.filter(r => r.timing < record.timing).length + 1;
+        return track!.records.filter(r => r.timing < record.timing).length + 1;
     }
 
     public getRecordPosition(trackName: string, timing: number): number {
-        return this.tracks.find(track => track.name === trackName)!.records.findIndex(record => record.timing === timing) + 1;
+        return this.getTrackFromLocalStorage(trackName)!.records.findIndex(record => record.timing === timing) + 1;
     }
 
     public getRecord(trackName: string): number | null {
         const records = this.getRecords(trackName);
+        console.log(records);
         return records.length ? records[0].timing : null;
     }
 
     public getRecords(trackName: string): StockableRecord[] {
-        return this.tracks.find(track => track.name === trackName)?.records || [];
-    }
-
-    public loadTracksFromLocalStorage(tracks: string[]): void {
-        tracks.forEach(track => {
-            let item = localStorage.getItem('track_' + track);
-            if (item) {
-                this.tracks.push(Object.assign(new StockableTrack(), JSON.parse(item)));
-            }
-        });
+        return this.getTrackFromLocalStorage(trackName)?.records || [];
     }
 
     public saveTrackToLocalStorage(track: StockableTrack): void {
         localStorage.setItem(`track_${track.name}`, JSON.stringify(track));
     }
 
+    private getTrackFromLocalStorage(trackName: string): StockableTrack | null {
+        let item = localStorage.getItem('track_' + trackName);
+        if (item) {
+            const tempTrack = Object.assign(new StockableTrack(), JSON.parse(item));
+            return new StockableTrack(tempTrack.name, tempTrack.date, tempTrack.gates, tempTrack.records);
+        }
+        return null;
+    }
+
     private displayCurrentRecords(trackName: string) {
-        const records = this.tracks.find(track => track.name === trackName)?.records;
+        const records = this.getTrackFromLocalStorage(trackName)!.records;
         console.table(records?.map((record, index) => {
             return {
                 position: index + 1,

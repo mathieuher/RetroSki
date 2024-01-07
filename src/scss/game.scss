@@ -102,6 +102,8 @@ html body {
             justify-content: center;
 
             .dialog {
+                display: flex;
+                flex-direction: column;
                 width: calc(90% - 4rem);
                 height: calc(90% - 2rem);
                 padding: 1rem 2rem;
@@ -111,27 +113,29 @@ html body {
                 color: white;
 
                 .title {
-                    margin-bottom: 1rem;
+                    margin-bottom: 0.5rem;
                 }
 
                 .dialog-content {
                     display: flex;
+                    flex: 1 1 auto;
                     flex-direction: column;
-                    gap: 0.3rem;
-                    padding: 0 1rem;
+                    justify-content: space-between;
+                    padding: 0 0.5rem;
 
                     .section-title {
-                        font-size: 1.2rem;
-                        margin-top: 1rem;
+                        font-size: 0.9rem;
+                        margin-top: 0.5rem;
                     }
 
                     #last-results-container,
-                    #next-races-container {
+                    #next-races-container,
+                    #actual-ranking-container {
                         display: flex;
                         flex-direction: column;
-                        gap: 0.3rem;
                         max-height: 120px;
                         overflow: auto;
+                        border-radius: 5px;
                     }
 
                     .placeholder {
@@ -149,19 +153,19 @@ html body {
                             display: flex;
                             justify-content: space-between;
                             padding: 0.3rem 1rem;
-                            font-size: 0.8rem;
-                            color: white;
+                            font-size: 0.75rem;
+                            color: rgba(255, 255, 255, 0.644);
                         }
 
                         &.result-line {
                             display: flex;
                             justify-content: space-between;
                             padding: 0.3rem 1rem;
-                            font-size: 0.8rem;
+                            font-size: 0.75rem;
                             background-color: #ffffff29;
-                            border-radius: 10px;
 
-                            &.next {
+                            &.next,
+                            &.first {
                                 background-color: #2ae75991;
                             }
                         }
