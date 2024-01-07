@@ -1,23 +1,13 @@
-import { Actor, Color, Line, Vector } from "excalibur";
+import { Actor, Color, Line, Vector, vec } from "excalibur";
 
 export class Lines extends Actor {
-    constructor(position: Vector) {
+    constructor(endPosition: Vector) {
+        console.log(endPosition.y);
         super({
-            pos: position
+            pos: vec(0, 0),
+            width: 40,
+            height: -endPosition.y,
+            color: Color.Red
         });
-    }
-
-    onInitialize() {
-    }
-
-    public movePosition(startPosition: Vector, endPosition: Vector): void {
-        const line = new Line({
-            start: startPosition,
-            end: endPosition,
-            color: Color.Red,
-            thickness: 50
-        });
-
-        this.graphics.add(line);
     }
 }

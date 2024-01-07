@@ -5,6 +5,7 @@ export class Config {
     static DISPLAY_WIDTH = 800;
     static DISPLAY_HEIGHT = 600;
     static HORIZONTAL_CAMERA_POINT = 0;
+    static CAMERA_ZOOM = 0.7;
     static DISPLAY_MIN_MARGIN = 50;
     static DISPLAY_MAX_RIGHT_POSITION = (Config.DISPLAY_WIDTH / 2) - Config.DISPLAY_MIN_MARGIN;
     static DISPLAY_MAX_LEFT_POSITION = -Config.DISPLAY_MAX_RIGHT_POSITION;

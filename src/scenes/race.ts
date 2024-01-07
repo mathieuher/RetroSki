@@ -1,4 +1,4 @@
-import { Engine, Scene, SceneActivationContext, Timer } from "excalibur";
+import { Engine, Scene, SceneActivationContext, Timer, vec } from "excalibur";
 import { Skier } from "../actors/skier";
 import { Gate } from "../actors/gate";
 import { UiManager } from "../utils/ui-manager";
@@ -26,7 +26,6 @@ export class Race extends Scene {
     }
 
     onActivate(_context: SceneActivationContext<{ test: string }>): void {
-        console.log('activate scene ', _context.data);
         this.prepareRace(Config.DEFAULT_TRACK_NAME);
     }
 
@@ -50,6 +49,12 @@ export class Race extends Scene {
         console.warn('Missed the gate n°', gateNumber, ' (+ 2s.)');
         this.camera.shake(5, 5, 500);
         this.startTime! -= 2000;
+    }
+
+    public setupCamera(): void {
+        this.camera.strategy.camera;
+        this.camera.pos = vec(0, -200);
+        this.camera.zoom = Config.CAMERA_ZOOM;
     }
 
     private prepareRace(trackName: string): void {

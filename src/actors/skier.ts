@@ -1,6 +1,7 @@
 import { Actor, CollisionType, Engine, vec } from "excalibur";
 import { Config } from "../config";
 import { Resources } from "../resources";
+import { Race } from "../scenes/race";
 
 export class Skier extends Actor {
     public speed = 0;
@@ -24,10 +25,7 @@ export class Skier extends Actor {
 
     onInitialize() {
         this.graphics.add(this.skierSprite);
-        this.scene.camera.strategy.camera;
-        this.scene.camera.pos = vec(0, -200);
-        this.scene.camera.zoom = 0.7;
-
+        (this.scene as Race).setupCamera();
     }
 
     update(engine: Engine): void {
@@ -56,6 +54,7 @@ export class Skier extends Actor {
             }
 
             this.updateDirection(engine);
+
         } else {
             this.updateSpeed('braking');
             this.graphics.use(this.skierBrakingSprite);
