@@ -36,8 +36,17 @@ export class TrackManager {
         return this.tracks.find(track => track.name === trackName)!.records.filter(r => r.timing < record.timing).length + 1;
     }
 
+    public getRecordPosition(trackName: string, timing: number): number {
+        return this.tracks.find(track => track.name === trackName)!.records.findIndex(record => record.timing === timing) + 1;
+    }
+
+    public getRecord(trackName: string): number | null {
+        const records = this.getRecords(trackName);
+        return records.length ? records[0].timing : null;
+    }
+
     public getRecords(trackName: string): StockableRecord[] {
-        return this.tracks.find(track => track.name = trackName)?.records || [];
+        return this.tracks.find(track => track.name === trackName)?.records || [];
     }
 
     public loadTracksFromLocalStorage(tracks: string[]): void {

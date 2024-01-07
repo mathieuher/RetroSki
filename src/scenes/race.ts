@@ -5,6 +5,8 @@ import { UiManager } from "../utils/ui-manager";
 import { Game } from "../game";
 import { Config } from "../config";
 import { StockableRecord } from "../models/stockable-record";
+import { EventRaceResult } from "../models/event-race-result";
+import { RaceResult } from "../models/race-result";
 
 export class Race extends Scene {
 
@@ -15,6 +17,7 @@ export class Race extends Scene {
         fcn: () => this.updateUi()
     });
 
+    private raceConfig?: EventRaceResult;
     private skier?: Skier;
     private gates?: Gate[];
     private startTime?: number;
@@ -25,8 +28,13 @@ export class Race extends Scene {
         this.engine = engine;
     }
 
-    onActivate(_context: SceneActivationContext<{ test: string }>): void {
-        this.prepareRace(Config.DEFAULT_TRACK_NAME);
+    onActivate(_context: SceneActivationContext<{ raceConfig: EventRaceResult }>): void {
+        if (_context.data?.raceConfig) {
+            this.raceConfig = _context.data?.raceConfig;
+            this.prepareRace(this.raceConfig.trackName, this.raceConfig.getNextSkierName()!);
+        } else {
+            this.returnToEventManager();
+        }
     }
 
     onDeactivate(_context: SceneActivationContext<undefined>): void {
@@ -39,10 +47,11 @@ export class Race extends Scene {
         this.uiTimer.stop();
         const timing = this.endTime - this.startTime!;
 
-        const position = (this.engine as Game).trackManager.saveRecord(Config.DEFAULT_TRACK_NAME, new StockableRecord('mathieu', new Date(), timing));
+        const result = new RaceResult(this.raceConfig?.raceNumber!, this.skier?.skierName!, new Date(), timing);
+        const position = (this.engine as Game).trackManager.saveRecord(this.raceConfig!.trackName, new StockableRecord(result));
         this.uiManager.updateUiState('result');
         this.uiManager.updateUi(this.skier?.speed || 0, timing, position);
-
+        this.uiManager.backToManagerButton.addEventListener('click', () => this.returnToEventManager(result));
     }
 
     public addPenalty(gateNumber?: number): void {
@@ -57,8 +66,12 @@ export class Race extends Scene {
         this.camera.zoom = Config.CAMERA_ZOOM;
     }
 
-    private prepareRace(trackName: string): void {
-        this.skier = new Skier();
+    private returnToEventManager(raceResult?: RaceResult): void {
+        this.engine.goToScene('eventManager', raceResult ? { raceResult: raceResult } : {});
+    }
+
+    private prepareRace(trackName: string, skierName: string): void {
+        this.skier = new Skier(skierName);
         this.add(this.skier);
 
         this.buildTrack(trackName);
@@ -73,6 +86,7 @@ export class Race extends Scene {
         this.endTime = undefined;
         this.uiManager.updateUiState('menu');
         this.gates = [];
+        this.raceConfig = undefined;
         this.clear();
     }
 

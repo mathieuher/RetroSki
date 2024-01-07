@@ -10,6 +10,9 @@ export class Config {
     static DISPLAY_MAX_RIGHT_POSITION = (Config.DISPLAY_WIDTH / 2) - Config.DISPLAY_MIN_MARGIN;
     static DISPLAY_MAX_LEFT_POSITION = -Config.DISPLAY_MAX_RIGHT_POSITION;
 
+    // FORMAT
+    static FORMAT_TIMING = 'mm:ss:SS';
+
     // CONTROLS
     static CONTROL_CARVE_RIGHT = Keys.ArrowRight;
     static CONTROL_CARVE_LEFT = Keys.ArrowLeft;

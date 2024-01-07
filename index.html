@@ -15,12 +15,67 @@
             Retro ski
         </div>
         <div class="hud-container">
-            <div id="race-setup">
-                <div class="dialog"></div>
+            <div id="event-setup">
+                <div class="dialog">
+                    <div class="title">Event setup</div>
+                    <div class="dialog-content">
+                        <div class="form-line">
+                            <div class="label">Track</div>
+                            <div class="input">
+                                <input type="text" id="track-input" placeholder="davos, adelboden, etc." />
+                            </div>
+                        </div>
+                        <div class="form-line">
+                            <div class="label">Skier 1</div>
+                            <div class="input">
+                                <input type="text" id="skier-1-input" />
+                            </div>
+                        </div>
+                        <div class="form-line">
+                            <div class="label">Skier 2</div>
+                            <div class="input">
+                                <input type="text" id="skier-2-input" />
+                            </div>
+                        </div>
+                        <div class="form-line">
+                            <div class="label">Number of races</div>
+                            <div class="input">
+                                <input type="number" id="races-number-input" min="1" max="10" placeholder="1 to 10" />
+                            </div>
+                        </div>
+                        <button id="setup-completed-button">Start</button>
+                    </div>
+                </div>
+            </div>
+            <div id="event-manager">
+                <div class="dialog">
+                    <div class="title">Event manager</div>
+                    <div class="dialog-content">
+                        <div class="section-title">Last results</div>
+                        <div class="header-line">
+                            <div class="number">Race</div>
+                            <div>Track</div>
+                            <div id="skier-1-label"></div>
+                            <div>Gap</div>
+                            <div id="skier-2-label"></div>
+                        </div>
+                        <div id="last-results-container"></div>
+                        <div class="section-title">Next races</div>
+                        <div class="header-line">
+                            <div class="number">Race</div>
+                            <div>Track</div>
+                            <div>Skier</div>
+                            <div>Actual record</div>
+                        </div>
+                        <div id="next-races-container"></div>
+                        <button id="start-race-button">Start</button>
+                    </div>
+                </div>
             </div>
             <div id="result">
                 <div id="position"></div>
                 <div id="timing"></div>
+                <button id="back-to-manager">Continue</button>
             </div>
             <div class="game-container">
                 <canvas id="game"></canvas>

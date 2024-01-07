@@ -1,9 +1,10 @@
-import { Color, DisplayMode, Engine, Loader } from "excalibur";
+import { Color, DisplayMode, Engine, Keys, Loader } from "excalibur";
 import { Resources } from "./resources";
 import { Config } from "./config";
 import { Race } from "./scenes/race";
 import { TrackManager } from "./utils/track-manager";
-import { RaceSetup } from "./scenes/race-setup";
+import { EventSetup } from "./scenes/event-setup";
+import { EventManager } from "./scenes/event-manager";
 
 export class Game extends Engine {
 
@@ -29,12 +30,14 @@ export class Game extends Engine {
     }
 
     initialize() {
-        this.addScene('raceSetup', new RaceSetup(this));
+        this.addScene('eventSetup', new EventSetup(this));
+        this.addScene('eventManager', new EventManager(this));
         this.addScene('race', new Race(this));
+
         const loader = new Loader(this.resourcesToLoad);
         this.start(loader);
 
-        this.goToScene('raceSetup');
+        this.goToScene('eventSetup');
     }
 
     onPreUpdate(_engine: Engine, _delta: number): void {
@@ -42,8 +45,12 @@ export class Game extends Engine {
             _engine.showDebug(!_engine.isDebug);
         }
 
+        if (_engine.input.keyboard.wasPressed(Keys.Escape)) {
+            this.goToScene('eventSetup');
+        }
+
         if (_engine.input.keyboard.wasPressed(Config.RESTART_KEY)) {
-            this.goToScene('race');
+            // this.goToScene('race');
         }
     }
 }

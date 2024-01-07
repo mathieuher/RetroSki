@@ -6,6 +6,7 @@ import { ParticlesBuilder } from "../utils/particles-builder";
 
 export class Skier extends Actor {
     public speed = 0;
+    public skierName: string;
 
     public racing = true;
     private skierSprite = Resources.Skier.toSprite();
@@ -14,7 +15,7 @@ export class Skier extends Actor {
     private skierBrakingSprite = Resources.SkierBraking.toSprite();
     private particlesEmitter!: ParticleEmitter;
 
-    constructor() {
+    constructor(skierName: string) {
         super({
             pos: vec(0, 0),
             width: 50,
@@ -23,6 +24,8 @@ export class Skier extends Actor {
             anchor: vec(0.5, 0.5),
             collisionType: CollisionType.Fixed
         });
+
+        this.skierName = skierName;
     }
 
     onInitialize() {

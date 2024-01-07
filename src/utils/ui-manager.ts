@@ -10,6 +10,7 @@ export class UiManager {
     private resultTimingUi = document.getElementById('timing')!;
     private speedometerUi = document.getElementById('speedometer')!;
     private timerUi = document.getElementById('timer')!;
+    public backToManagerButton = document.getElementById('back-to-manager')!;
 
     constructor() {
         this.updateUiState(this.state);

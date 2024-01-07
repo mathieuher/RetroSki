@@ -32,20 +32,172 @@ html body {
         border-radius: 20px;
         overflow: hidden;
 
-        #race-setup {
-            display: flex;
+        #event-setup {
+            display: none;
             position: absolute;
-            width : 800px;
-            height: 600px;
+            width: 100%;
+            height: 100%;
             align-items: center;
             justify-content: center;
 
             .dialog {
-                width: 90%;
-                height: 90%;
+                width: calc(90% - 4rem);
+                height: calc(90% - 2rem);
+                padding: 1rem 2rem;
+                border-radius: 20px;
                 background-color: #17548a;
+                font-size: 1.3rem;
+                color: white;
+
+                .title {
+                    margin-bottom: 2rem;
+                }
+
+                .dialog-content {
+                    font-size: 1.7rem;
+                    justify-content: center;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
+                    padding: 1rem 3rem;
+
+                    .form-line {
+                        display: flex;
+                        gap: 1rem;
+                        justify-content: space-between;
+                        align-items: center;
+                        overflow: hidden;
+
+                        .input {
+                            display: flex;
+                            overflow: hidden;
+                        }
+
+                    }
+                }
             }
 
+            select,
+            input,
+            input:active,
+            input:focus {
+                max-width: 300px;
+                font-size: 1.5rem;
+                padding: 0.5rem 1rem;
+                color: white;
+                background-color: transparent;
+                border: 2px solid white;
+                border-radius: 10px;
+                outline: none;
+            }
+
+        }
+
+        #event-manager {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+
+            .dialog {
+                width: calc(90% - 4rem);
+                height: calc(90% - 2rem);
+                padding: 1rem 2rem;
+                border-radius: 20px;
+                background-color: #17548a;
+                font-size: 1.3rem;
+                color: white;
+
+                .title {
+                    margin-bottom: 1rem;
+                }
+
+                .dialog-content {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.3rem;
+                    padding: 0 1rem;
+
+                    .section-title {
+                        font-size: 1.2rem;
+                        margin-top: 1rem;
+                    }
+
+                    #last-results-container,
+                    #next-races-container {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.3rem;
+                        max-height: 120px;
+                        overflow: auto;
+                    }
+
+                    .placeholder {
+                        display: flex;
+                        font-size: 0.8rem;
+                        justify-content: center;
+                        padding: 0.5rem;
+                        color: #ffffff69;
+                    }
+
+
+                    .header-line,
+                    .result-line {
+                        &.header-line {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 0.3rem 1rem;
+                            font-size: 0.8rem;
+                            color: white;
+                        }
+
+                        &.result-line {
+                            display: flex;
+                            justify-content: space-between;
+                            padding: 0.3rem 1rem;
+                            font-size: 0.8rem;
+                            background-color: #ffffff29;
+                            border-radius: 10px;
+
+                            &.next {
+                                background-color: #2ae75991;
+                            }
+                        }
+
+                        div {
+                            min-width: 100px;
+                            max-width: 100px;
+                            overflow: hidden;
+
+                            &.winner {
+                                font-weight: bold;
+                                color: #68fb8db3;
+                            }
+                        }
+                    }
+
+                    button {
+                        margin-top: 1rem;
+                    }
+
+
+                }
+            }
+        }
+
+        button {
+            cursor: pointer;
+            font-size: 2rem;
+            font-weight: bold;
+            border-radius: 10px;
+            width: 100%;
+            padding: 1rem;
+            border: 4px solid #0440759d;
+            color: white;
+            outline: none;
+            background-color: #0440759d !important;
         }
 
         .game-container {
@@ -75,6 +227,12 @@ html body {
                 font-size: 2rem;
                 font-style: italic;
                 color: white;
+            }
+
+            button#back-to-manager {
+                margin-top: 1rem;
+                font-size: 1.8rem;
+                width: 200px;
             }
 
         }
@@ -109,4 +267,8 @@ html body {
         align-items: center;
         flex: 1 1 auto;
     }
+}
+
+::-webkit-scrollbar {
+    width: 0px;
 }
