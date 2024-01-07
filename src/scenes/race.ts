@@ -86,7 +86,7 @@ export class Race extends Scene {
         }
 
         this.startTime = this.startTime || this.engine.clock.now();
-        this.uiManager.updateUi(this.skier!.speed, (this.endTime || this.engine.clock.now()) - this.startTime);
+        this.uiManager.updateUi(this.skier?.speed || 0, (this.endTime || this.engine.clock.now()) - this.startTime);
     }
 
     private buildTrack(trackName: string): void {

@@ -24,7 +24,7 @@ export class Game extends Engine {
     public trackManager = new TrackManager();
 
     constructor() {
-        super({ displayMode: DisplayMode.FitContainer, backgroundColor: Color.White, fixedUpdateFps: 60, canvasElementId: 'game' });
+        super({ displayMode: DisplayMode.FitContainer, backgroundColor: Color.White, fixedUpdateFps: 60, maxFps: 60, canvasElementId: 'game' });
     }
 
     initialize() {
