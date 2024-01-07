@@ -32,8 +32,23 @@ html body {
         border-radius: 20px;
         overflow: hidden;
 
-        .game-container {
+        #race-setup {
+            display: flex;
+            position: absolute;
+            width : 800px;
+            height: 600px;
+            align-items: center;
+            justify-content: center;
 
+            .dialog {
+                width: 90%;
+                height: 90%;
+                background-color: #17548a;
+            }
+
+        }
+
+        .game-container {
             width: 800px;
             height: 600px;
         }

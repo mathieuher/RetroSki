@@ -3,6 +3,7 @@ import { Resources } from "./resources";
 import { Config } from "./config";
 import { Race } from "./scenes/race";
 import { TrackManager } from "./utils/track-manager";
+import { RaceSetup } from "./scenes/race-setup";
 
 export class Game extends Engine {
 
@@ -28,11 +29,12 @@ export class Game extends Engine {
     }
 
     initialize() {
+        this.addScene('raceSetup', new RaceSetup(this));
         this.addScene('race', new Race(this));
         const loader = new Loader(this.resourcesToLoad);
         this.start(loader);
 
-        this.goToScene('race');
+        this.goToScene('raceSetup');
     }
 
     onPreUpdate(_engine: Engine, _delta: number): void {
