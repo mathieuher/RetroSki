@@ -1,7 +1,6 @@
 import { Color, DisplayMode, Engine, Keys, Loader } from "excalibur";
 import { Resources } from "./resources";
 import { Config } from "./config";
-import { Race } from "./scenes/race";
 import { TrackManager } from "./utils/track-manager";
 import { EventSetup } from "./scenes/event-setup";
 import { EventManager } from "./scenes/event-manager";
@@ -32,7 +31,6 @@ export class Game extends Engine {
     initialize() {
         this.addScene('eventSetup', new EventSetup(this));
         this.addScene('eventManager', new EventManager(this));
-        this.addScene('race', new Race(this));
 
         const loader = new Loader(this.resourcesToLoad);
         this.start(loader);
@@ -46,12 +44,17 @@ export class Game extends Engine {
         }
 
         if (_engine.input.keyboard.wasPressed(Keys.Escape)) {
-            this.goToScene('eventSetup');
+            this.restartGame();
         }
 
         if (_engine.input.keyboard.wasPressed(Config.RESTART_KEY)) {
             // this.goToScene('race');
         }
+    }
+
+    private restartGame(): void {
+        this.removeScene('race');
+        this.goToScene('eventSetup');
     }
 }
 
