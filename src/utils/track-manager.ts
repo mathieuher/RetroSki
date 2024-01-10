@@ -35,7 +35,6 @@ export class TrackManager {
 
     public getRecord(trackName: string): number | null {
         const records = this.getRecords(trackName);
-        console.log(records);
         return records.length ? records[0].timing : null;
     }
 

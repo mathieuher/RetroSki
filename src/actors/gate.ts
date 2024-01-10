@@ -69,7 +69,6 @@ export class Gate extends Actor {
         const gatePoleWidth = (this.isFinalGate ? Config.FINAL_POLE_WIDTH : Config.POLE_WIDTH);
 
         this.leftPole = new Pole(vec(0, 0), this.polesColor, this.isFinalGate);
-        console.log(gatePoleWidth + Config.POLE_DETECTOR_MARGIN);
         this.gateDetector = new GateDetector(vec(gatePoleWidth + Config.POLE_DETECTOR_MARGIN, 0), this.width - (2 * (gatePoleWidth + Config.POLE_DETECTOR_MARGIN)), this.isFinalGate);
         this.rightPole = new Pole(vec(this.width - gatePoleWidth, 0), this.polesColor, this.isFinalGate);
 

@@ -27,7 +27,7 @@ export class TrackBuilder {
     }
 
     public static buildTrack(stockableTrack: StockableTrack): Track {
-        console.log('building from an existing track');
+        console.log('TrackBuilder - Rebuilding an existing track');
         const gates: Gate[] = [];
         stockableTrack.gates.forEach(stockableGate => {
             gates.push(new Gate(vec(stockableGate.x, stockableGate.y), stockableGate.width, stockableGate.color, stockableGate.gateNumber, stockableGate.isFinal));
