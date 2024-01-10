@@ -51,7 +51,7 @@ export class Race extends Scene {
         const position = (this.engine as Game).trackManager.saveRecord(this.raceConfig!.trackName, new StockableRecord(result));
         this.uiManager.updateUiState('result');
         this.uiManager.updateUi(this.skier?.speed || 0, timing, position);
-        this.uiManager.backToManagerButton.addEventListener('click', () => this.returnToEventManager(result));
+        this.uiManager.backToManagerButton.addEventListener('click', () => this.returnToEventManager(result), { once: true });
     }
 
     public addPenalty(gateNumber?: number): void {
@@ -68,6 +68,7 @@ export class Race extends Scene {
 
     private returnToEventManager(raceResult?: RaceResult): void {
         this.engine.goToScene('eventManager', raceResult ? { raceResult: raceResult } : {});
+        this.engine.removeScene('race');
     }
 
     private prepareRace(trackName: string, skierName: string): void {

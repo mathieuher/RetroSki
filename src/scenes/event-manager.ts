@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { Config } from "../config";
 import { TrackManager } from "../utils/track-manager";
 import { Game } from "../game";
+import { Race } from "./race";
 
 export class EventManager extends Scene {
     private eventConfig!: EventConfig;
@@ -21,12 +22,21 @@ export class EventManager extends Scene {
     constructor(engine: Engine) {
         super();
         this.engine = engine;
+
+        this.startRaceButton.addEventListener('click', () => {
+            if (this.eventConfig.getNextRace()) {
+                this.startRace();
+            } else {
+                this.backToMenu();
+            }
+        });
     }
 
     onActivate(_context: SceneActivationContext<{ eventConfig?: EventConfig, raceResult?: RaceResult }>): void {
         this.trackManager = (this.engine as Game).trackManager;
         if (_context.data?.eventConfig) {
             this.eventConfig = _context.data?.eventConfig!;
+            this.startRaceButton
         }
 
         if (_context.data?.raceResult) {
@@ -42,22 +52,22 @@ export class EventManager extends Scene {
 
     public prepareManager(eventConfig: EventConfig): void {
         this.eventConfig = eventConfig;
+        this.startRaceButton.innerText = this.eventConfig.getNextRace() ? "Race" : "Back to menu";
         this.eventManagerUi.style.display = 'flex';
         this.skier1Label.innerText = eventConfig.skier1Name;
         this.skier2Label.innerText = eventConfig.skier2Name;
         this.lastResultsContainer.innerHTML = this.prepareLastResultsTable(eventConfig) || '<div class="placeholder">No result for the moment</div>';
         this.actualRankingContainer.innerHTML = this.prepareActualRankingTable(eventConfig) || '<div class="placeholder">No ranking for the moment</div>';
         this.nextRacesContainer.innerHTML = this.prepareNextRacesTable(eventConfig) || '<div class="placeholder">No race to come</div>';
-        this.startRaceButton.addEventListener('click', () => {
-            this.startRace();
-        });
     }
 
     public cleanManager(): void {
         this.eventManagerUi.style.display = 'none';
+        this.startRaceButton.removeEventListener('click', () => { });
     }
 
     private startRace(): void {
+        this.engine.addScene('race', new Race(this.engine));
         this.engine.goToScene('race', { raceConfig: this.eventConfig.getNextRace() });
     }
 
@@ -116,5 +126,9 @@ export class EventManager extends Scene {
             }
             return result;
         }).join('');
+    }
+
+    private backToMenu(): void {
+        this.engine.goToScene('eventSetup');
     }
 }

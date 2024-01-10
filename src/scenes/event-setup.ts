@@ -13,6 +13,7 @@ export class EventSetup extends Scene {
     constructor(engine: Engine) {
         super();
         this.engine = engine;
+        this.listenSetupCompleted();
     }
 
     onActivate(_context: SceneActivationContext<unknown>): void {
@@ -25,8 +26,6 @@ export class EventSetup extends Scene {
 
     private prepareRaceSetup(): void {
         this.raceSetupUi.style.display = 'flex';
-        this.listenSetupCompleted();
-
     }
 
     private cleanRaceSetup(): void {
