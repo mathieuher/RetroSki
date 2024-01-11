@@ -43,12 +43,8 @@ export class Game extends Engine {
             _engine.showDebug(!_engine.isDebug);
         }
 
-        if (_engine.input.keyboard.wasPressed(Keys.Escape)) {
+        if (_engine.input.keyboard.wasPressed(Config.EXIT_KEY)) {
             this.restartGame();
-        }
-
-        if (_engine.input.keyboard.wasPressed(Config.RESTART_KEY)) {
-            // this.goToScene('race');
         }
     }
 
