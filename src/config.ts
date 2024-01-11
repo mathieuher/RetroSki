@@ -22,18 +22,19 @@ export class Config {
 
     // SPEED
     static MAX_SPEED = 145;
-    static SPEED_VISUAL_RATE = 4;
+    static VELOCITY_MULTIPLIER_RATE = 7;
+    static HORIZONTAL_VELOCITY_MULTIPLIER_RATE = 2;
     static SLOW_SPEED_LIMIT = 60;
+    static WIND_FRICTION_RATE = 0.0015;
 
     // SLOPE
-    static STANDARD_SLOPE = 10;
+    static INITIAL_SLOPE = 0.1;
 
     // ACCELERATION
-    static ACCELERATION_RATE_ON_STANDARD_SLOPE = 0.05;
-    static ACCELERATION_RATE_WHEN_SLOW_SPEEDING = 5;
+    static ACCELERATION_RATE = 3;
 
     // BRAKING
-    static BRAKING_ACCELERATION_RATE = -0.8;
+    static BRAKING_RATE = 3;
 
     // GATES
     static GATE_MAX_WIDTH = 200;
@@ -56,7 +57,16 @@ export class Config {
     static FINAL_POLE_WIDTH = 30;
     static FINAL_POLE_HEIGHT = 80;
 
+    // ROTATION
+    static MAX_RIGHT_ROTATION_ANGLE = Math.PI / 2;
+    static MAX_LEFT_ROTATION_ANGLE = 3 * Math.PI / 2;
+
     // CARVING
+    static CARVING_ROTATION_RATE = 3;
+    static CARVING_ROTATION_OPTIMAL_SPEED = 30;
+    static CARVING_ADHERENCE_RATE = 0.95;
+    static CARVING_BRAKING_RATE = 0.01;
+
     static CARVING_ACCELERATION_RATE = 0.01;
     static CARVING_LATERAL_VELOCITY = 15;
     static CARVING_VISUAL_VELOCITY_ANGLE_MULTIPLIER = 2;
@@ -65,6 +75,11 @@ export class Config {
     static CARVING_MAX_LATERAL_VELOCITY = 1000;
 
     // SLIDING
+    static SLIDING_ROTATION_RATE = 3.5;
+    static SLIDING_ROTATION_OPTIMAL_SPEED = 20;
+    static SLIDING_ADHERENCE_RATE = 0.9;
+    static SLIDING_BRAKING_RATE = 0.8;
+
     static SLIDING_ACCELERATION_RATE = -0.8;
     static SLIDING_LATERAL_VELOCITY = 25;
     static SLIDING_INVERTER_RATE = 1.5;
