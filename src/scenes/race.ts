@@ -18,7 +18,7 @@ export class Race extends Scene {
     });
 
     private raceConfig?: EventRaceResult;
-    private skier?: Skier;
+    public skier?: Skier;
     private skierGhost?: Actor;
     private gates?: Gate[];
     private startTime?: number;
@@ -64,7 +64,7 @@ export class Race extends Scene {
     public addPenalty(gateNumber?: number): void {
         console.warn('Missed the gate n°', gateNumber, ' (+ 2s.)');
         this.camera.shake(5, 5, 500);
-        this.startTime! -= 2000;
+        this.startTime! -= 3000;
     }
 
     public updateGhost(yPosition: number): void {
@@ -90,7 +90,7 @@ export class Race extends Scene {
     private prepareRace(trackName: string, skierName: string): void {
         this.skier = new Skier(skierName);
         this.add(this.skier);
-        this.skierGhost = new Actor({ color: Color.Red, width: 10, height: 10, pos: vec(this.skier.pos.x, this.skier.pos.y + Config.FRONT_GHOST_DISTANCE) });
+        this.skierGhost = new Actor({ width: 1, height: 1, pos: vec(this.skier.pos.x, this.skier.pos.y + Config.FRONT_GHOST_DISTANCE) });
         this.setupCamera();
 
         this.buildTrack(trackName);

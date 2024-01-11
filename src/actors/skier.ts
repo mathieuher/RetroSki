@@ -69,14 +69,27 @@ export class Skier extends Actor {
 
     private updateRotation(engine: Engine): void {
         let rotationRate = 0;
+        let futurRotation = 0;
 
-        if (this.hasSlidingIntention(engine)) {
-            rotationRate = Config.SLIDING_ROTATION_RATE / (180 / Math.PI);
-        } else if (this.hasCarvingIntention(engine)) {
-            rotationRate = Config.CARVING_ROTATION_RATE / (180 / Math.PI);
+        if (this.hasTurningIntention(engine)) {
+            if (this.hasSlidingIntention(engine)) {
+                const rotationSpeedMultiplier = this.speed < Config.SLIDING_ROTATION_OPTIMAL_SPEED ? Math.max(this.speed, 1) / Config.SLIDING_ROTATION_OPTIMAL_SPEED : 1;
+                rotationRate = Config.SLIDING_ROTATION_RATE / (180 / Math.PI) * rotationSpeedMultiplier;
+            } else if (this.hasCarvingIntention(engine)) {
+                const rotationSpeedMultiplier = this.speed < Config.CARVING_ROTATION_OPTIMAL_SPEED ? Math.max(this.speed, 1) / Config.CARVING_ROTATION_OPTIMAL_SPEED : 1;
+                rotationRate = Config.CARVING_ROTATION_RATE / (180 / Math.PI) * rotationSpeedMultiplier;
+            }
+            futurRotation = this.hasLeftTurningIntention(engine) ? this.rotation - rotationRate : this.rotation + rotationRate;
+        } else {
+            const rotationCenterRate = Config.ROTATION_RECENTER_RATE / (180 / Math.PI);
+            const angularRotation = this.rotation * (180 / Math.PI);
+            if (angularRotation !== 0) {
+                futurRotation = angularRotation >= 270 ? this.rotation + rotationCenterRate : this.rotation - rotationCenterRate;
+            }
+
         }
 
-        const futurRotation = this.hasLeftTurningIntention(engine) ? this.rotation - rotationRate : this.rotation + rotationRate;
+
         const normalizedRotation = futurRotation * (180 / Math.PI);
 
         if (normalizedRotation > 180 && normalizedRotation < 270) {
@@ -128,11 +141,11 @@ export class Skier extends Actor {
             yVelocity = this.speed;
         } else if (normalizedRotation <= 90) {
             const lateralVelocity = (normalizedRotation / 90) * this.speed;
-            xVelocity = lateralVelocity * Config.LATERAL_VELOCITY_ROTATION_RATE;
+            xVelocity = lateralVelocity * Config.LATERAL_VELOCITY_ROTATION_RATE * adherenceRate;
             yVelocity = Math.max(0, this.speed - (adherenceRate * lateralVelocity));
         } else {
             const lateralVelocity = ((360 - normalizedRotation) / 90) * this.speed;
-            xVelocity = -lateralVelocity * Config.LATERAL_VELOCITY_ROTATION_RATE;
+            xVelocity = -lateralVelocity * Config.LATERAL_VELOCITY_ROTATION_RATE * adherenceRate;
             yVelocity = Math.max(0, this.speed - (adherenceRate * lateralVelocity));
         }
         this.vel = vec(xVelocity * Config.VELOCITY_MULTIPLIER_RATE, -yVelocity * Config.VELOCITY_MULTIPLIER_RATE);
