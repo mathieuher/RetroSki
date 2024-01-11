@@ -9,6 +9,7 @@ import { Resources } from "../resources";
 export class Gate extends Actor {
 
     public isFinalGate!: boolean
+
     private leftPole?: Pole;
     private rightPole?: Pole;
     private gateDetector?: GateDetector;
@@ -38,10 +39,12 @@ export class Gate extends Actor {
             this.buildComponents();
         }
 
+        if (!this.isFinalGate && !this.gatePassed && this.shouldBePassed()) {
+            (this.scene as Race).addPenalty(this.gateNumber);
+            this.gatePassed = true;
+        }
+
         if (this.canBeDestroy()) {
-            if (!this.gatePassed && !this.isFinalGate) {
-                (this.scene as Race).addPenalty(this.gateNumber);
-            }
             this.kill();
         }
     }
@@ -59,6 +62,14 @@ export class Gate extends Actor {
 
     private isOnScreen(): boolean {
         return Math.abs(this.scene.camera.y - this.pos.y) < Config.DISPLAY_HEIGHT;
+    }
+
+    private shouldBePassed(): boolean {
+        if ((this.scene as Race).skier?.racing && this.pos.y + Config.FRONT_GHOST_DISTANCE > this.scene.camera.pos.y) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private canBeDestroy(): boolean {
