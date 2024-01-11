@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Engine, ParticleEmitter, vec } from "excalibur";
+import { Actor, CollisionType, Color, Engine, Keys, ParticleEmitter, vec } from "excalibur";
 import { Config } from "../config";
 import { Resources } from "../resources";
 import { Race } from "../scenes/race";
@@ -8,7 +8,9 @@ export class Skier extends Actor {
     public speed = 0;
     public skierName: string;
 
-    public racing = true;
+    public racing = false;
+    public finish = false;
+
     private skierSprite = Resources.Skier.toSprite();
     private skierCarvingSprite = Resources.SkierCarving.toSprite();
     private skierSlidingSprite = Resources.SkierSliding.toSprite();
@@ -24,16 +26,11 @@ export class Skier extends Actor {
             anchor: vec(0.5, 0.5),
             collisionType: CollisionType.Fixed
         });
-
-
-        this.vel = vec(0, -30);
-
         this.skierName = skierName;
     }
 
     onInitialize() {
         this.graphics.add(this.skierSprite);
-        (this.scene as Race).setupCamera();
 
         this.particlesEmitter = ParticlesBuilder.getParticlesEmitter();
         this.addChild(this.particlesEmitter);
@@ -42,12 +39,32 @@ export class Skier extends Actor {
     update(engine: Engine): void {
         if (this.racing) {
             this.updateRotation(engine);
-            this.updateSpeed(engine);
+            this.updateSpeed(engine, false);
             this.updateVelocity(engine);
             this.updateGraphics(engine);
             this.updateCameraPosition();
             this.emitParticles(engine);
+        } else if (this.finish) {
+            this.updateSpeed(engine, true);
+            this.updateVelocity(engine);
+            this.graphics.use(this.skierBrakingSprite);
+            this.emitBreakingParticles();
+        } else {
+            if (engine.input.keyboard.isHeld(Config.START_KEY)) {
+                (this.scene as Race).startRace();
+            }
         }
+    }
+
+    public finishRace(): void {
+        this.racing = false;
+        this.finish = true;
+        this.graphics.use(this.skierBrakingSprite);
+        this.emitBreakingParticles();
+    }
+
+    public startRace(): void {
+        this.racing = true;
     }
 
     private updateRotation(engine: Engine): void {
@@ -71,7 +88,7 @@ export class Skier extends Actor {
         }
     }
 
-    private updateSpeed(engine: Engine): void {
+    private updateSpeed(engine: Engine, forceBreaking: boolean): void {
         let angleOfSkier = this.rotation * (180 / Math.PI);
         if (angleOfSkier >= 270) {
             angleOfSkier = 360 - angleOfSkier;
@@ -81,7 +98,9 @@ export class Skier extends Actor {
         let acceleration = (Config.ACCELERATION_RATE * Config.INITIAL_SLOPE);
         acceleration -= acceleration * angleOfSkier / 90;
         acceleration -= (Config.WIND_FRICTION_RATE * this.speed);
-        if (this.hasSlidingIntention(engine)) {
+        if (forceBreaking) {
+            acceleration -= Config.BRAKING_RATE;
+        } else if (this.hasSlidingIntention(engine)) {
             acceleration -= Config.SLIDING_BRAKING_RATE;
         } else if (this.hasCarvingIntention(engine)) {
             acceleration -= Config.CARVING_BRAKING_RATE;
@@ -110,18 +129,18 @@ export class Skier extends Actor {
             yVelocity = this.speed;
         } else if (normalizedRotation <= 90) {
             const lateralVelocity = (normalizedRotation / 90) * this.speed;
-            xVelocity = lateralVelocity * 1.15;
+            xVelocity = lateralVelocity * Config.LATERAL_VELOCITY_ROTATION_RATE;
             yVelocity = Math.max(0, this.speed - (adherenceRate * lateralVelocity));
         } else {
             const lateralVelocity = ((360 - normalizedRotation) / 90) * this.speed;
-            xVelocity = -lateralVelocity * 1.15;
+            xVelocity = -lateralVelocity * Config.LATERAL_VELOCITY_ROTATION_RATE;
             yVelocity = Math.max(0, this.speed - (adherenceRate * lateralVelocity));
         }
         this.vel = vec(xVelocity * Config.VELOCITY_MULTIPLIER_RATE, -yVelocity * Config.VELOCITY_MULTIPLIER_RATE);
     }
 
     private updateCameraPosition(): void {
-        this.scene.camera.pos.y = this.pos.y - 200;
+        (this.scene as Race).updateGhost(this.pos.y);
     }
 
     private getAdherenceRate(engine: Engine): number {
@@ -171,14 +190,8 @@ export class Skier extends Actor {
                 this.particlesEmitter.minAngle = 4.6;
                 this.particlesEmitter.pos.x = this.hasLeftCarvingIntention(engine) ? 12 : -12;
                 this.particlesEmitter.emitParticles(speedPercentage * 15);
-            } else if (this.hasBreakingIntention(engine) || (!this.racing && this.speed > 0)) {
-                this.particlesEmitter.pos.y = -20;
-                this.particlesEmitter.radius = 6;
-                this.particlesEmitter.particleLife = 1500;
-                this.particlesEmitter.maxAngle = 6;
-                this.particlesEmitter.minAngle = 3.4;
-                this.particlesEmitter.pos.x = 0
-                this.particlesEmitter.emitParticles(speedPercentage * 50);
+            } else if (this.hasBreakingIntention(engine)) {
+                this.emitBreakingParticles();
             } else if (this.speed > 0) {
                 this.particlesEmitter.pos.y = 0;
                 this.particlesEmitter.radius = 3;
@@ -190,6 +203,16 @@ export class Skier extends Actor {
             }
         }
 
+    }
+
+    private emitBreakingParticles(): void {
+        this.particlesEmitter.pos.y = -20;
+        this.particlesEmitter.radius = 6;
+        this.particlesEmitter.particleLife = 1500;
+        this.particlesEmitter.maxAngle = 6;
+        this.particlesEmitter.minAngle = 3.4;
+        this.particlesEmitter.pos.x = 0
+        this.particlesEmitter.emitParticles((this.speed / Config.MAX_SPEED) * 50);
     }
 
     private isMovingRight(): boolean {
