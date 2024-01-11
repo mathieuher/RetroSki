@@ -123,7 +123,6 @@ export class Skier extends Actor {
         let yVelocity = 0;
         const adherenceRate = this.getAdherenceRate(engine);
         const normalizedRotation = this.rotation * (180 / Math.PI);
-        console.log(normalizedRotation);
         if (normalizedRotation === 0) {
             xVelocity = 0;
             yVelocity = this.speed;
