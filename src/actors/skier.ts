@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Color, Engine, Keys, ParticleEmitter, vec } from "excalibur";
+import { Actor, CollisionType, Engine, ParticleEmitter, vec } from "excalibur";
 import { Config } from "../config";
 import { Resources } from "../resources";
 import { Race } from "../scenes/race";
@@ -227,10 +227,6 @@ export class Skier extends Actor {
         this.particlesEmitter.emitParticles((this.speed / Config.MAX_SPEED) * 50);
     }
 
-    private isMovingRight(): boolean {
-        return this.vel.x > 0;
-    }
-
     private hasBreakingIntention(engine: Engine): boolean {
         return engine.input.keyboard.isHeld(Config.CONTROL_BRAKE);
     }
@@ -245,10 +241,6 @@ export class Skier extends Actor {
 
     private hasLeftTurningIntention(engine: Engine): boolean {
         return this.hasLeftCarvingIntention(engine) || this.hasLeftSlidingIntention(engine);
-    }
-
-    private hasRightTurningIntention(engine: Engine): boolean {
-        return this.hasRightCarvingIntention(engine) || this.hasRightSlidingIntention(engine);
     }
 
     private hasLeftSlidingIntention(engine: Engine): boolean {
