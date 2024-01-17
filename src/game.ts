@@ -1,4 +1,4 @@
-import { Color, DisplayMode, Engine, Keys, Loader } from "excalibur";
+import { Color, DisplayMode, Engine, Loader } from "excalibur";
 import { Resources } from "./resources";
 import { Config } from "./config";
 import { TrackManager } from "./utils/track-manager";
