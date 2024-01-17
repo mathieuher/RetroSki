@@ -7,7 +7,9 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "serve": "vite preview",
-        "test": "npm run build && ex-test -d ./dist -t ./test/test.js"
+        "test": "npm run build && ex-test -d ./dist -t ./test/test.js",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d dist"
     },
     "repository": {
         "type": "git",
@@ -18,9 +20,10 @@
     ],
     "author": "Mathieu H.",
     "license": "",
-    "homepage": "",
+    "homepage": "https://mathieuher.github.io/restroski",
     "devDependencies": {
         "excalibur": "0.28.6",
+        "gh-pages": "^6.1.1",
         "sass": "^1.69.7",
         "typescript": "5.3.3",
         "vite": "5.0.11"
