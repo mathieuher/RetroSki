@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Engine, ParticleEmitter, vec } from "excalibur";
+import { Actor, CollisionType, Color, Engine, Keys, ParticleEmitter, vec } from "excalibur";
 import { Config } from "../config";
 import { Resources } from "../resources";
 import { Race } from "../scenes/race";
@@ -8,7 +8,9 @@ export class Skier extends Actor {
     public speed = 0;
     public skierName: string;
 
-    public racing = true;
+    public racing = false;
+    public finish = false;
+
     private skierSprite = Resources.Skier.toSprite();
     private skierCarvingSprite = Resources.SkierCarving.toSprite();
     private skierSlidingSprite = Resources.SkierSliding.toSprite();
@@ -18,19 +20,17 @@ export class Skier extends Actor {
     constructor(skierName: string) {
         super({
             pos: vec(0, 0),
-            width: 50,
+            width: 30,
             height: 50,
             z: 10,
             anchor: vec(0.5, 0.5),
             collisionType: CollisionType.Fixed
         });
-
         this.skierName = skierName;
     }
 
     onInitialize() {
         this.graphics.add(this.skierSprite);
-        (this.scene as Race).setupCamera();
 
         this.particlesEmitter = ParticlesBuilder.getParticlesEmitter();
         this.addChild(this.particlesEmitter);
@@ -38,38 +38,143 @@ export class Skier extends Actor {
 
     update(engine: Engine): void {
         if (this.racing) {
-            if (this.hasTurningIntention(engine)) {
-                this.graphics.use(this.hasSlidingIntention(engine) ? this.skierSlidingSprite : this.skierCarvingSprite);
-                this.graphics.flipHorizontal = this.hasLeftSlidingIntention(engine) || this.hasLeftCarvingIntention(engine);
-                if (this.hasLeftSlidingIntention(engine)) {
-                    this.sliding('left');
-                } else if (this.hasRightSlidingIntention(engine)) {
-                    this.sliding('right');
-                } else if (this.hasLeftCarvingIntention(engine)) {
-                    this.carving('left');
-                } else if (this.hasRightCarvingIntention(engine)) {
-                    this.carving('right');
-                }
-            } else {
-                if (this.hasBreakingIntention(engine)) {
-                    this.updateSpeed('braking');
-                    this.graphics.use(this.skierBrakingSprite);
-                } else {
-                    this.updateSpeed('standard');
-                    this.graphics.use(this.skierSprite);
-                }
-                this.reduceTurning();
+            this.updateRotation(engine);
+            this.updateSpeed(engine, false);
+            this.updateVelocity(engine);
+            this.updateGraphics(engine);
+            this.updateCameraPosition();
+            this.emitParticles(engine);
+        } else if (this.finish) {
+            this.updateSpeed(engine, true);
+            this.updateVelocity(engine);
+            this.graphics.use(this.skierBrakingSprite);
+            this.emitBreakingParticles();
+        } else {
+            if (engine.input.keyboard.isHeld(Config.START_KEY)) {
+                (this.scene as Race).startRace();
+            }
+        }
+    }
+
+    public finishRace(): void {
+        this.racing = false;
+        this.finish = true;
+        this.graphics.use(this.skierBrakingSprite);
+        this.emitBreakingParticles();
+    }
+
+    public startRace(): void {
+        this.racing = true;
+    }
+
+    private updateRotation(engine: Engine): void {
+        let rotationRate = 0;
+        let futurRotation = 0;
+
+        if (this.hasTurningIntention(engine)) {
+            if (this.hasSlidingIntention(engine)) {
+                const rotationSpeedMultiplier = this.speed < Config.SLIDING_ROTATION_OPTIMAL_SPEED ? Math.max(this.speed, 1) / Config.SLIDING_ROTATION_OPTIMAL_SPEED : 1;
+                rotationRate = Config.SLIDING_ROTATION_RATE / (180 / Math.PI) * rotationSpeedMultiplier;
+            } else if (this.hasCarvingIntention(engine)) {
+                const rotationSpeedMultiplier = this.speed < Config.CARVING_ROTATION_OPTIMAL_SPEED ? Math.max(this.speed, 1) / Config.CARVING_ROTATION_OPTIMAL_SPEED : 1;
+                rotationRate = Config.CARVING_ROTATION_RATE / (180 / Math.PI) * rotationSpeedMultiplier;
+            }
+            futurRotation = this.hasLeftTurningIntention(engine) ? this.rotation - rotationRate : this.rotation + rotationRate;
+        } else {
+            const rotationCenterRate = Config.ROTATION_RECENTER_RATE / (180 / Math.PI);
+            const angularRotation = this.rotation * (180 / Math.PI);
+            if (angularRotation !== 0) {
+                futurRotation = angularRotation >= 270 ? this.rotation + rotationCenterRate : this.rotation - rotationCenterRate;
             }
 
-            this.updateDirection(engine);
-
-        } else {
-            this.updateSpeed('braking');
-            this.graphics.use(this.skierBrakingSprite);
-            this.reduceTurning();
         }
 
-        this.emitParticles(engine);
+
+        const normalizedRotation = futurRotation * (180 / Math.PI);
+
+        if (normalizedRotation > 180 && normalizedRotation < 270) {
+            this.rotation = Config.MAX_LEFT_ROTATION_ANGLE;
+        } else if (normalizedRotation < 180 && normalizedRotation > 90) {
+            this.rotation = Config.MAX_RIGHT_ROTATION_ANGLE;
+        } else {
+            this.rotation = futurRotation;
+        }
+    }
+
+    private updateSpeed(engine: Engine, forceBreaking: boolean): void {
+        let angleOfSkier = this.rotation * (180 / Math.PI);
+        if (angleOfSkier >= 270) {
+            angleOfSkier = 360 - angleOfSkier;
+        }
+
+
+        let acceleration = (Config.ACCELERATION_RATE * Config.INITIAL_SLOPE);
+        acceleration -= acceleration * angleOfSkier / 90;
+        acceleration -= (Config.WIND_FRICTION_RATE * this.speed);
+        if (forceBreaking) {
+            acceleration -= Config.BRAKING_RATE;
+        } else if (this.hasSlidingIntention(engine)) {
+            acceleration -= Config.SLIDING_BRAKING_RATE;
+        } else if (this.hasCarvingIntention(engine)) {
+            acceleration -= Config.CARVING_BRAKING_RATE;
+        } else if (this.hasBreakingIntention(engine)) {
+            acceleration -= Config.BRAKING_RATE;
+        }
+
+        const projectedSpeed = this.speed + acceleration;
+
+        if (projectedSpeed < 0) {
+            this.speed = 0;
+        } else {
+            this.speed = projectedSpeed;
+        }
+    }
+
+
+    private updateVelocity(engine: Engine): void {
+        let xVelocity = 0;
+        let yVelocity = 0;
+        const adherenceRate = this.getAdherenceRate(engine);
+        const normalizedRotation = this.rotation * (180 / Math.PI);
+        if (normalizedRotation === 0) {
+            xVelocity = 0;
+            yVelocity = this.speed;
+        } else if (normalizedRotation <= 90) {
+            const lateralVelocity = (normalizedRotation / 90) * this.speed;
+            xVelocity = lateralVelocity * Config.LATERAL_VELOCITY_ROTATION_RATE * adherenceRate;
+            yVelocity = Math.max(0, this.speed - (adherenceRate * lateralVelocity));
+        } else {
+            const lateralVelocity = ((360 - normalizedRotation) / 90) * this.speed;
+            xVelocity = -lateralVelocity * Config.LATERAL_VELOCITY_ROTATION_RATE * adherenceRate;
+            yVelocity = Math.max(0, this.speed - (adherenceRate * lateralVelocity));
+        }
+        this.vel = vec(xVelocity * Config.VELOCITY_MULTIPLIER_RATE, -yVelocity * Config.VELOCITY_MULTIPLIER_RATE);
+    }
+
+    private updateCameraPosition(): void {
+        (this.scene as Race).updateGhost(this.pos.y);
+    }
+
+    private getAdherenceRate(engine: Engine): number {
+        let adherenceRate = 1;
+        if (this.hasTurningIntention(engine)) {
+            adherenceRate = this.hasSlidingIntention(engine) ? Config.SLIDING_ADHERENCE_RATE : Config.CARVING_ADHERENCE_RATE;
+        }
+        return adherenceRate;
+    }
+
+    private updateGraphics(engine: Engine): void {
+        if (this.hasSlidingIntention(engine)) {
+            this.graphics.use(this.skierSlidingSprite);
+            this.graphics.flipHorizontal = this.hasLeftSlidingIntention(engine);
+        } else if (this.hasBreakingIntention(engine)) {
+            this.graphics.use(this.skierBrakingSprite);
+        } else if (this.hasCarvingIntention(engine)) {
+            this.graphics.use(this.skierCarvingSprite);
+            this.graphics.flipHorizontal = this.hasLeftCarvingIntention(engine);
+        } else {
+            this.graphics.use(this.skierSprite);
+        }
     }
 
     private emitParticles(engine: Engine): void {
@@ -82,11 +187,11 @@ export class Skier extends Actor {
                 if (this.hasLeftSlidingIntention(engine)) {
                     this.particlesEmitter.maxAngle = 1.6;
                     this.particlesEmitter.minAngle = 0.5;
-                    this.particlesEmitter.pos.x = 10;
+                    this.particlesEmitter.pos.x = 12;
                 } else {
                     this.particlesEmitter.maxAngle = 2.6;
                     this.particlesEmitter.minAngle = 1.6;
-                    this.particlesEmitter.pos.x = -10;
+                    this.particlesEmitter.pos.x = -12;
                 }
                 this.particlesEmitter.emitParticles(speedPercentage * 30);
             } else if (this.hasCarvingIntention(engine)) {
@@ -95,16 +200,10 @@ export class Skier extends Actor {
                 this.particlesEmitter.particleLife = 450;
                 this.particlesEmitter.maxAngle = 4.8;
                 this.particlesEmitter.minAngle = 4.6;
-                this.particlesEmitter.pos.x = this.hasLeftCarvingIntention(engine) ? 10 : -10;
-                this.particlesEmitter.emitParticles(speedPercentage * 12);
-            } else if (this.hasBreakingIntention(engine) || (!this.racing && this.speed > 0)) {
-                this.particlesEmitter.pos.y = -20;
-                this.particlesEmitter.radius = 6;
-                this.particlesEmitter.particleLife = 1500;
-                this.particlesEmitter.maxAngle = 6;
-                this.particlesEmitter.minAngle = 3.4;
-                this.particlesEmitter.pos.x = 0
-                this.particlesEmitter.emitParticles(speedPercentage * 50);
+                this.particlesEmitter.pos.x = this.hasLeftCarvingIntention(engine) ? 12 : -12;
+                this.particlesEmitter.emitParticles(speedPercentage * 15);
+            } else if (this.hasBreakingIntention(engine)) {
+                this.emitBreakingParticles();
             } else if (this.speed > 0) {
                 this.particlesEmitter.pos.y = 0;
                 this.particlesEmitter.radius = 3;
@@ -118,83 +217,14 @@ export class Skier extends Actor {
 
     }
 
-    private updateDirection(engine: Engine): void {
-        if (this.hasSlidingIntention(engine)) {
-            const slidingAngle = Config.SLIDING_MAX_VISUAL_ANGLE / 360;
-            this.rotation = this.hasLeftSlidingIntention(engine) ? -slidingAngle : slidingAngle;
-        } else {
-            this.rotation = this.getVelocityAngle(this.vel.x) / 360;;
-        }
-    }
-
-    private isSlowSpeeding(): boolean {
-        return this.speed < Config.SLOW_SPEED_LIMIT;
-    }
-
-    private updateSpeed(action: 'standard' | 'braking' | 'sliding' | 'carving'): void {
-        switch (action) {
-            case 'standard':
-                this.speed = Math.min(Config.MAX_SPEED, this.speed + (this.isSlowSpeeding() ? Config.ACCELERATION_RATE_WHEN_SLOW_SPEEDING * Config.ACCELERATION_RATE_ON_STANDARD_SLOPE : Config.ACCELERATION_RATE_ON_STANDARD_SLOPE));
-                break;
-            case 'braking':
-                this.speed = Math.max(0, this.speed + Config.BRAKING_ACCELERATION_RATE);
-                break;
-            case 'sliding':
-                this.speed = Math.max(0, this.speed + Config.SLIDING_ACCELERATION_RATE);
-                break;
-            case 'carving':
-                this.speed = Math.min(Config.MAX_SPEED, this.speed + (this.isSlowSpeeding() ? Config.ACCELERATION_RATE_WHEN_SLOW_SPEEDING * Config.CARVING_ACCELERATION_RATE : Config.CARVING_ACCELERATION_RATE));
-                break;
-            default:
-                this.speed = this.speed;
-        }
-
-        this.vel.y = -this.speed * Config.SPEED_VISUAL_RATE;
-        this.scene.camera.pos.y = this.pos.y - 200;
-    }
-
-    private getVelocityAngle(lateralVelocity: number): number {
-        return Math.floor(lateralVelocity / Math.PI) * Config.CARVING_VISUAL_VELOCITY_ANGLE_MULTIPLIER;
-    }
-
-    private carving(orientation: 'left' | 'right'): void {
-        if (orientation === 'left' && this.canIncreaseTurningLeft()) {
-            this.vel.x -= this.isMovingRight() ? Config.CARVING_INVERTER_VELOCITY : Config.CARVING_LATERAL_VELOCITY;
-        } else if (orientation === 'right' && this.canIncreaseTurningRight()) {
-            this.vel.x += this.isMovingLeft() ? Config.CARVING_INVERTER_VELOCITY : Config.CARVING_LATERAL_VELOCITY;
-        }
-
-        this.updateSpeed('carving');
-    }
-
-    private sliding(orientation: 'left' | 'right'): void {
-        if (orientation === 'left' && this.canIncreaseTurningLeft()) {
-            this.vel.x -= this.isMovingRight() ? Config.SLIDING_INVERTER_VELOCITY : Config.SLIDING_LATERAL_VELOCITY;
-        } else if (orientation === 'right' && this.canIncreaseTurningRight()) {
-            this.vel.x += this.isMovingLeft() ? Config.SLIDING_INVERTER_VELOCITY : Config.SLIDING_LATERAL_VELOCITY;
-        }
-
-        this.updateSpeed('sliding');
-    }
-
-    private canIncreaseTurningLeft(): boolean {
-        return this.vel.x > -Config.CARVING_MAX_LATERAL_VELOCITY;
-    }
-
-    private canIncreaseTurningRight(): boolean {
-        return this.vel.x < Config.CARVING_MAX_LATERAL_VELOCITY;
-    }
-
-    private reduceTurning(): void {
-        if (this.vel.x > -Config.CARVING_INVERTER_VELOCITY && this.vel.x < Config.CARVING_INVERTER_VELOCITY) {
-            this.vel.x = 0;
-        } else {
-            this.vel.x = this.isMovingRight() ? this.vel.x - Config.CARVING_INVERTER_VELOCITY : this.vel.x + Config.CARVING_INVERTER_VELOCITY;
-        }
-    }
-
-    private isMovingLeft(): boolean {
-        return this.vel.x < 0;
+    private emitBreakingParticles(): void {
+        this.particlesEmitter.pos.y = -20;
+        this.particlesEmitter.radius = 6;
+        this.particlesEmitter.particleLife = 1500;
+        this.particlesEmitter.maxAngle = 6;
+        this.particlesEmitter.minAngle = 3.4;
+        this.particlesEmitter.pos.x = 0
+        this.particlesEmitter.emitParticles((this.speed / Config.MAX_SPEED) * 50);
     }
 
     private isMovingRight(): boolean {
@@ -211,6 +241,14 @@ export class Skier extends Actor {
 
     private hasSlidingIntention(engine: Engine): boolean {
         return this.hasLeftSlidingIntention(engine) || this.hasRightSlidingIntention(engine);
+    }
+
+    private hasLeftTurningIntention(engine: Engine): boolean {
+        return this.hasLeftCarvingIntention(engine) || this.hasLeftSlidingIntention(engine);
+    }
+
+    private hasRightTurningIntention(engine: Engine): boolean {
+        return this.hasRightCarvingIntention(engine) || this.hasRightSlidingIntention(engine);
     }
 
     private hasLeftSlidingIntention(engine: Engine): boolean {

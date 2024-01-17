@@ -20,7 +20,7 @@
     "license": "",
     "homepage": "",
     "devDependencies": {
-        "excalibur": "0.28.4",
+        "excalibur": "0.28.6",
         "sass": "^1.69.7",
         "typescript": "5.3.3",
         "vite": "5.0.11"

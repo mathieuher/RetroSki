@@ -9,6 +9,7 @@ import { Resources } from "../resources";
 export class Gate extends Actor {
 
     public isFinalGate!: boolean
+
     private leftPole?: Pole;
     private rightPole?: Pole;
     private gateDetector?: GateDetector;
@@ -38,10 +39,12 @@ export class Gate extends Actor {
             this.buildComponents();
         }
 
+        if (!this.isFinalGate && !this.gatePassed && this.shouldBePassed()) {
+            (this.scene as Race).addPenalty(this.gateNumber);
+            this.gatePassed = true;
+        }
+
         if (this.canBeDestroy()) {
-            if (!this.gatePassed && !this.isFinalGate) {
-                (this.scene as Race).addPenalty(this.gateNumber);
-            }
             this.kill();
         }
     }
@@ -61,6 +64,14 @@ export class Gate extends Actor {
         return Math.abs(this.scene.camera.y - this.pos.y) < Config.DISPLAY_HEIGHT;
     }
 
+    private shouldBePassed(): boolean {
+        if ((this.scene as Race).skier?.racing && this.pos.y + Config.FRONT_GHOST_DISTANCE > this.scene.camera.pos.y) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private canBeDestroy(): boolean {
         return this.scene.camera.y - this.pos.y < - Config.DISPLAY_HEIGHT;
     }
@@ -69,7 +80,6 @@ export class Gate extends Actor {
         const gatePoleWidth = (this.isFinalGate ? Config.FINAL_POLE_WIDTH : Config.POLE_WIDTH);
 
         this.leftPole = new Pole(vec(0, 0), this.polesColor, this.isFinalGate);
-        console.log(gatePoleWidth + Config.POLE_DETECTOR_MARGIN);
         this.gateDetector = new GateDetector(vec(gatePoleWidth + Config.POLE_DETECTOR_MARGIN, 0), this.width - (2 * (gatePoleWidth + Config.POLE_DETECTOR_MARGIN)), this.isFinalGate);
         this.rightPole = new Pole(vec(this.width - gatePoleWidth, 0), this.polesColor, this.isFinalGate);
 
