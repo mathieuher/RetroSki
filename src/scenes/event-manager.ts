@@ -95,7 +95,7 @@ export class EventManager extends Scene {
                     <div>${ranking.skierName}</div>
                     <div>${ranking.victories}</div>
                     <div>${format(ranking.time, Config.FORMAT_TIMING)}</div>
-                    <div>${index > 0 ? '(' + format(Math.abs(ranking.time - rankings[0].time), Config.FORMAT_TIMING) + ')' : ''}</div>
+                    <div>${index > 0 ? '+ ' + format(Math.abs(ranking.time - rankings[0].time), Config.FORMAT_TIMING) : ''}</div>
                 </div>
             `;
         }).join('');

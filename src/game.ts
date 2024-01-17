@@ -1,4 +1,4 @@
-import { Color, DisplayMode, Engine, Keys, Loader } from "excalibur";
+import { Color, DisplayMode, Engine, Loader } from "excalibur";
 import { Resources } from "./resources";
 import { Config } from "./config";
 import { TrackManager } from "./utils/track-manager";
@@ -43,12 +43,8 @@ export class Game extends Engine {
             _engine.showDebug(!_engine.isDebug);
         }
 
-        if (_engine.input.keyboard.wasPressed(Keys.Escape)) {
+        if (_engine.input.keyboard.wasPressed(Config.EXIT_KEY)) {
             this.restartGame();
-        }
-
-        if (_engine.input.keyboard.wasPressed(Config.RESTART_KEY)) {
-            // this.goToScene('race');
         }
     }
 
