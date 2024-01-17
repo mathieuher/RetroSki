@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon-DrQSsmaJ.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retro Ski</title>
+  <script type="module" crossorigin src="/assets/index-Uohsabmt.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-ufHf_1V0.css">
+</head>
+
+<body>
+    <div class="ui-container">
+        <div class="header">
+            Retro ski
+        </div>
+        <div class="hud-container">
+            <div id="event-setup">
+                <div class="dialog">
+                    <div class="title">Event setup</div>
+                    <div class="dialog-content">
+                        <div class="form-line">
+                            <div class="label">Track</div>
+                            <div class="input">
+                                <input type="text" id="track-input" value="davos" placeholder="davos, adelboden, etc." />
+                            </div>
+                        </div>
+                        <div class="form-line">
+                            <div class="label">Skier 1</div>
+                            <div class="input">
+                                <input type="text" id="skier-1-input" value="Mathieu" />
+                            </div>
+                        </div>
+                        <div class="form-line">
+                            <div class="label">Skier 2</div>
+                            <div class="input">
+                                <input type="text" id="skier-2-input" value="Emilie" />
+                            </div>
+                        </div>
+                        <div class="form-line">
+                            <div class="label">Number of races</div>
+                            <div class="input">
+                                <input type="number" id="races-number-input" value="2" min="1" max="10" placeholder="1 to 10" />
+                            </div>
+                        </div>
+                        <button id="setup-completed-button">Start</button>
+                    </div>
+                </div>
+            </div>
+            <div id="event-manager">
+                <div class="dialog">
+                    <div class="title">Event manager</div>
+                    <div class="dialog-content">
+                        <div class="info-tables">
+                            <div class="section-title">Last results</div>
+                            <div class="header-line">
+                                <div class="number">Race</div>
+                                <div>Track</div>
+                                <div id="skier-1-label"></div>
+                                <div>Gap</div>
+                                <div id="skier-2-label"></div>
+                            </div>
+                            <div id="last-results-container"></div>
+                            <div class="section-title">Actual ranking</div>
+                            <div class="header-line">
+                                <div>Position</div>
+                                <div>Skier</div>
+                                <div>Win(s)</div>
+                                <div>Time</div>
+                                <div>Difference</div>
+                            </div>
+                            <div id="actual-ranking-container"></div>
+                            <div class="section-title">Next races</div>
+                            <div class="header-line">
+                                <div class="number">Race</div>
+                                <div>Track</div>
+                                <div>Skier</div>
+                                <div>Actual record</div>
+                            </div>
+                            <div id="next-races-container"></div>
+                        </div>
+                        <button id="start-race-button">Start</button>
+                    </div>
+                </div>
+            </div>
+            <div id="result">
+                <div id="position"></div>
+                <div id="timing"></div>
+                <button id="back-to-manager">Continue</button>
+            </div>
+            <div class="game-container">
+                <canvas id="game"></canvas>
+            </div>
+            <div id="speedometer"></div>
+            <div id="timer"></div> 
+        </div>
+        <div class="footer">Imaginated, concepted and executed by une-descente.ch</div>
+    </div>
+</body>
+
+</html>

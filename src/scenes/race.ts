@@ -1,4 +1,4 @@
-import { Actor, Color, Engine, Keys, Scene, SceneActivationContext, Timer, vec } from "excalibur";
+import { Actor, Engine, Scene, SceneActivationContext, Timer, vec } from "excalibur";
 import { Skier } from "../actors/skier";
 import { Gate } from "../actors/gate";
 import { UiManager } from "../utils/ui-manager";
