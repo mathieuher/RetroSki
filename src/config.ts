@@ -21,6 +21,7 @@ export class Config {
     static RESTART_KEY = Keys.R;
     static EXIT_KEY = Keys.Escape;
     static START_KEY = Keys.ArrowUp;
+    static SOUND_KEY = Keys.S;
 
     // SPEED
     static MAX_SPEED = 145;
