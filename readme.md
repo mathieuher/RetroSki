@@ -25,17 +25,9 @@ Here you have to provide few informations before starting to ride :
 2. Name of the first player
 3. Name of the second player (must be different than the first player)
 4. Number of races (1 to 10 is recommended)
-
 ### Event manager
 This screen is the home place before and after each race.<br>
 It provides informations about the current event :
-#### Last results
-Take a look on your previous races with the time, ranking and difference with your friends
-#### Actual ranking
-The ranking is based on the time cumulated on each of your races, be careful, time is running out pretty fast when you missed a gate
-#### Next races
-Prepare yourself before jumping in the race, time is moving fast !<br>
-When you're ready, press the <b>Start</b> button to join the mountain and have fun :)
 ### Race
 You made it to the top of the hill !<br>
 Now it's time to have fun and enjoy some nice carving !<br><br>
