@@ -2,6 +2,9 @@
 Welcome on a small game dev project.<br>
 Put your skis and let's race some randomly generated giant slalom tracks against with friends.
 
+## Demo
+https://mathieuher.github.io/RetroSki
+
 ## Controls
 ### During the downhill
 * <b>Arrow up</b> (1x) -> Start skiing
