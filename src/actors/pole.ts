@@ -2,7 +2,7 @@ import { Actor, CollisionStartEvent, CollisionType, Vector, vec } from "excalibu
 import { Config } from "../config";
 import { Resources } from "../resources";
 import { Skier } from "./skier";
-import { Game } from "src/game";
+import { Game } from "../game";
 
 export class Pole extends Actor {
     constructor(position: Vector, color: 'red' | 'blue', isFinalPole = false) {

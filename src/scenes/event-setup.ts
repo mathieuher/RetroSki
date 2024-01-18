@@ -1,6 +1,6 @@
 import { Engine, Scene, SceneActivationContext } from "excalibur";
 import { EventConfig } from "../models/event-config";
-import { Game } from "src/game";
+import { Game } from "../game";
 
 export class EventSetup extends Scene {
 

@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { RecordResult } from "src/models/record-result";
+import { RecordResult } from "../models/record-result";
 
 export class UiManager {
     public state: 'menu' | 'racing' | 'result' = 'menu';

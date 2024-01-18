@@ -1,3 +1,4 @@
+import { Config } from "../config";
 import { RecordResult } from "../models/record-result";
 import { StockableRecord } from "../models/stockable-record";
 import { StockableTrack } from "../models/stockable-track";
@@ -17,6 +18,16 @@ export class TrackManager {
         const stockableTrack = newTrack.toStockable();
         this.saveTrackToLocalStorage(stockableTrack);
         return newTrack;
+    }
+
+    public importDefaultTracks(): void {
+        Config.DEFAULT_TRACKS.forEach(track => {
+            if (!localStorage.getItem(`track_${track}`)) {
+                fetch(`tracks/${track}.json`).then(res => res.json()).then(res => {
+                    localStorage.setItem(`track_${track}`, JSON.stringify(res));
+                });
+            }
+        })
     }
 
     public saveRecord(trackName: string, record: StockableRecord): { position: number, records: RecordResult[] } {
