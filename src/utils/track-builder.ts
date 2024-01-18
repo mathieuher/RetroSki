@@ -4,22 +4,24 @@ import { Config } from "../config";
 import { Track } from "../models/track";
 import { StockableTrack } from "../models/stockable-track";
 import { TrackStyles } from "../models/track-styles.enum";
+import { GatesConfig } from "../models/gates-config";
 
 export class TrackBuilder {
 
     public static designTrack(name: string, trackStyle: TrackStyles): Track {
         const gates = [];
-        const numberOfGates = Math.floor(Config.GATE_MIN_NUMBER + (Math.random() * (Config.GATE_MAX_NUMBER - Config.GATE_MIN_NUMBER)));
+        const gatesConfig = TrackBuilder.getGatesConfig(trackStyle);
+        const numberOfGates = this.getRandomGatesNumber(gatesConfig);
         console.log('TrackBuilder - Designing a new track of ', numberOfGates, ' gates');
 
-        let nextGateWidth = TrackBuilder.getRandomGateWidth();
-        let nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, trackStyle);
+        let nextGateWidth = TrackBuilder.getRandomGateWidth(gatesConfig);
+        let nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, gatesConfig);
 
         for (let index = 0; index < numberOfGates; index++) {
             const gate = new Gate(nextGatePosition, nextGateWidth, index % 2 > 0 ? 'red' : 'blue', index + 1);
             gates.push(gate);
-            nextGateWidth = TrackBuilder.getRandomGateWidth();
-            nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, trackStyle, nextGatePosition);
+            nextGateWidth = TrackBuilder.getRandomGateWidth(gatesConfig);
+            nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, gatesConfig, nextGatePosition);
         }
 
         gates.push(TrackBuilder.generateFinalGate(nextGatePosition.y));
@@ -36,55 +38,58 @@ export class TrackBuilder {
         return new Track(stockableTrack.name, stockableTrack.style, stockableTrack.date, gates, stockableTrack.records);
     }
 
-    private static getRandomGateWidth(): number {
-        return Config.GATE_MIN_WIDTH + (Math.random() * (Config.GATE_MAX_WIDTH - Config.GATE_MIN_WIDTH));
+    private static getRandomGatesNumber(gatesConfig: GatesConfig): number {
+        return Math.floor(gatesConfig.minNumber + (Math.random() * (gatesConfig.maxNumber - gatesConfig.minNumber)));
+    }
+
+    private static getRandomGateWidth(gatesConfig: GatesConfig): number {
+        return gatesConfig.minWidth + (Math.random() * (gatesConfig.maxWidth - gatesConfig.minWidth));
     }
 
     private static generateFinalGate(verticalPosition: number): Gate {
         return new Gate(vec(Config.FINAL_GATE_POSITION, verticalPosition), Config.FINAL_GATE_WIDTH, 'red', undefined, true);
     }
 
-    private static getNextGatePosition(gateWidth: number, trackStyle: TrackStyles, currentGatePosition?: Vector): Vector {
+    private static getNextGatePosition(gateWidth: number, gatesConfig: GatesConfig, currentGatePosition?: Vector): Vector {
         const randomizedValue = Math.random();
-        const gateDistance = TrackBuilder.getGateDistance(trackStyle);
         const maxRightPosition = Config.GATE_MAX_RIGHT_POSITION - gateWidth;
         if (!currentGatePosition) {
             const isLeftGate = randomizedValue > 0.5;
             const xPosition = maxRightPosition * Math.random();
-            return vec(isLeftGate ? -xPosition : xPosition, -((gateDistance.maxVertical + gateDistance.minVertical) / 2));
+            return vec(isLeftGate ? -xPosition : xPosition, -((gatesConfig.maxVerticalDistance + gatesConfig.minVerticalDistance) / 2));
         } else {
             const currentGateSide = this.getGateSide(currentGatePosition);
             const isLeftGate = currentGateSide === 'left' ? randomizedValue >= Config.GATE_OTHER_SIDE_PROBABILITY : randomizedValue < Config.GATE_OTHER_SIDE_PROBABILITY;
             const xProjectedPosition = isLeftGate ? Config.GATE_MAX_LEFT_POSITION * Math.random() : maxRightPosition * Math.random();
             const xDistance = TrackBuilder.getDistance(xProjectedPosition, currentGatePosition.x);
             let xRestrictedPosition: number;
-            if (xDistance > Config.GATE_MAX_HORIZONTAL_DISTANCE) {
-                xRestrictedPosition = TrackBuilder.furtherAutorizedXPosition(currentGatePosition.x, isLeftGate ? 'left' : 'right', maxRightPosition);
+            if (xDistance > gatesConfig.maxHorizontalDistance) {
+                xRestrictedPosition = TrackBuilder.furtherAutorizedXPosition(currentGatePosition.x, isLeftGate ? 'left' : 'right', maxRightPosition, gatesConfig);
             } else {
                 xRestrictedPosition = xProjectedPosition;
             }
-            const yPosition = currentGatePosition.y - (gateDistance.minVertical + (Math.random() * (gateDistance.maxVertical - gateDistance.minVertical)));
+            const yPosition = currentGatePosition.y - (gatesConfig.minVerticalDistance + (Math.random() * (gatesConfig.maxVerticalDistance - gatesConfig.minVerticalDistance)));
             return vec(xRestrictedPosition, yPosition);
         }
     }
 
-    private static getGateDistance(trackStyle: TrackStyles): { minVertical: number, maxVertical: number } {
+    private static getGatesConfig(trackStyle: TrackStyles): GatesConfig {
         if (trackStyle === TrackStyles.SL) {
-            return { minVertical: Config.SL_MIN_VERTICAL_DISTANCE, maxVertical: Config.SL_MAX_VERTICAL_DISTANCE };
+            return Config.SL_GATES_CONFIG;
         } else if (trackStyle === TrackStyles.GS) {
-            return { minVertical: Config.GS_MIN_VERTICAL_DISTANCE, maxVertical: Config.GS_MAX_VERTICAL_DISTANCE };
+            return Config.GS_GATES_CONFIG;
         } else if (trackStyle === TrackStyles.SG) {
-            return { minVertical: Config.SG_MIN_VERTICAL_DISTANCE, maxVertical: Config.SG_MAX_VERTICAL_DISTANCE };
+            return Config.SG_GATES_CONFIG;
         } else {
-            return { minVertical: Config.DH_MIN_VERTICAL_DISTANCE, maxVertical: Config.DH_MAX_VERTICAL_DISTANCE };
+            return Config.DH_GATES_CONFIG;
         }
     }
 
-    private static furtherAutorizedXPosition(reference: number, direction: 'left' | 'right', maxRightPosition: number): number {
+    private static furtherAutorizedXPosition(reference: number, direction: 'left' | 'right', maxRightPosition: number, gatesConfig: GatesConfig): number {
         if (direction === 'left') {
-            return Math.max(reference - Config.GATE_MAX_HORIZONTAL_DISTANCE, Config.GATE_MAX_LEFT_POSITION);
+            return Math.max(reference - gatesConfig.maxHorizontalDistance, Config.GATE_MAX_LEFT_POSITION);
         } else {
-            return Math.min(reference + Config.GATE_MAX_HORIZONTAL_DISTANCE, maxRightPosition);
+            return Math.min(reference + gatesConfig.maxHorizontalDistance, maxRightPosition);
         }
     }
 
