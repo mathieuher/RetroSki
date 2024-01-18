@@ -14,7 +14,8 @@ export class Config {
     static FORMAT_TIMING = 'mm:ss:SS';
 
     // TRACKS
-    static DEFAULT_TRACKS = ['soelden', 'davos'];
+    static TRACK_STYLES: 'SL' | 'GS' | 'SG' | 'DH';
+    static DEFAULT_TRACKS = ['soelden', 'davos', 'wengen', 'adelboden', 'zermatt'];
 
     // CONTROLS
     static CONTROL_CARVE_RIGHT = Keys.ArrowRight;
@@ -44,8 +45,6 @@ export class Config {
     // GATES
     static GATE_MAX_WIDTH = 200;
     static GATE_MIN_WIDTH = 160;
-    static GATE_MIN_VERTICAL_DISTANCE = 220;
-    static GATE_MAX_VERTICAL_DISTANCE = 400;
     static GATE_MAX_HORIZONTAL_DISTANCE = 320;
     static GATE_MAX_LEFT_POSITION = Config.DISPLAY_MAX_LEFT_POSITION;
     static GATE_MAX_RIGHT_POSITION = Config.DISPLAY_MAX_RIGHT_POSITION;
@@ -54,6 +53,15 @@ export class Config {
     static FINAL_GATE_WIDTH = Config.DISPLAY_WIDTH - (2 * Config.DISPLAY_MIN_MARGIN);
     static FINAL_GATE_POSITION = Config.DISPLAY_MAX_LEFT_POSITION;
     static GATE_OTHER_SIDE_PROBABILITY = 0.95;
+    // SPECIFIC TRACK TYPE PARAMS
+    static SL_MIN_VERTICAL_DISTANCE = 170;
+    static SL_MAX_VERTICAL_DISTANCE = 270;
+    static GS_MIN_VERTICAL_DISTANCE = 200;
+    static GS_MAX_VERTICAL_DISTANCE = 350;
+    static SG_MIN_VERTICAL_DISTANCE = 320;
+    static SG_MAX_VERTICAL_DISTANCE = 500;
+    static DH_MIN_VERTICAL_DISTANCE = 370;
+    static DH_MAX_VERTICAL_DISTANCE = 550;
 
     // POLES
     static POLE_WIDTH = 20;

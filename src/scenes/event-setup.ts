@@ -1,11 +1,13 @@
 import { Engine, Scene, SceneActivationContext } from "excalibur";
 import { EventConfig } from "../models/event-config";
 import { Game } from "../game";
+import { TrackStyles } from "../models/track-styles.enum";
 
 export class EventSetup extends Scene {
 
     private raceSetupUi = document.getElementById('event-setup')!;
     private trackInput = document.getElementById('track-input')! as HTMLInputElement;
+    private trackStyleSelect = document.getElementById('track-style-select')! as HTMLInputElement;
     private skier1Input = document.getElementById('skier-1-input')! as HTMLInputElement;
     private skier2Input = document.getElementById('skier-2-input')! as HTMLInputElement;
     private racesNumberInput = document.getElementById('races-number-input')! as HTMLInputElement;
@@ -42,12 +44,13 @@ export class EventSetup extends Scene {
 
     private completeSetup(): void {
         const trackName = this.trackInput.value;
+        const trackStyle = this.trackStyleSelect.value as TrackStyles;
         const skier1Name = this.skier1Input.value;
         const skier2Name = this.skier2Input.value;
         const numberOfRaces = +this.racesNumberInput.value;
 
         if (trackName && skier1Name && skier2Name && numberOfRaces) {
-            const eventConfig = new EventConfig(trackName, skier1Name, skier2Name, numberOfRaces);
+            const eventConfig = new EventConfig(trackName, trackStyle, skier1Name, skier2Name, numberOfRaces);
             this.engine.goToScene('eventManager', { eventConfig: eventConfig });
         }
 
