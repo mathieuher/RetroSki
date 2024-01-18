@@ -49,9 +49,10 @@ By default the game provides 5 tracks, so you can use the same track as your fri
 ### Different track styles
 Each track style follow is own rule when generating a new track.<br>
 The dynamic of the skier is also impacted by the style of the track to mimic real world differences.
+<b>Note: For your first rides, Giant slalom is a good style to start gaining some experience</b>
 
 ### Keep your records
-RetroSki use localStorage of the browser to persist generated tracks and records.<br> 
+RetroSki use localStorage to persist generated tracks and records.<br> 
 You can easily export them and share them with friends by using the browser developper tools.
 
 ## Developer guide
