@@ -3,6 +3,7 @@ import { RecordResult } from "../models/record-result";
 import { StockableRecord } from "../models/stockable-record";
 import { StockableTrack } from "../models/stockable-track";
 import { Track } from "../models/track";
+import { TrackStyles } from "../models/track-styles.enum";
 import { TrackBuilder } from "./track-builder";
 import { format } from 'date-fns';
 
@@ -10,11 +11,11 @@ export class TrackManager {
     constructor() {
     }
 
-    public loadTrack(name: string): Track {
+    public loadTrack(name: string, trackStyle: TrackStyles): Track {
         const requestedTrack = this.getTrackFromLocalStorage(name);
         if (requestedTrack) { return requestedTrack.toTrack() };
 
-        const newTrack = TrackBuilder.designTrack(name);
+        const newTrack = TrackBuilder.designTrack(name, trackStyle);
         const stockableTrack = newTrack.toStockable();
         this.saveTrackToLocalStorage(stockableTrack);
         return newTrack;
@@ -61,7 +62,7 @@ export class TrackManager {
         let item = localStorage.getItem('track_' + trackName);
         if (item) {
             const tempTrack = Object.assign(new StockableTrack(), JSON.parse(item));
-            return new StockableTrack(tempTrack.name, tempTrack.date, tempTrack.gates, tempTrack.records);
+            return new StockableTrack(tempTrack.name, tempTrack.style, tempTrack.date, tempTrack.gates, tempTrack.records);
         }
         return null;
     }

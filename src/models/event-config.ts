@@ -1,16 +1,19 @@
 import { EventRaceResult } from "./event-race-result";
 import { EventRanking } from "./event-ranking";
 import { RaceResult } from "./race-result";
+import { TrackStyles } from "./track-styles.enum";
 
 export class EventConfig {
     public trackName: string;
+    public trackStyle: TrackStyles;
     public skier1Name: string;
     public skier2Name: string;
     public numberOfRaces: number;
     public racesResults!: EventRaceResult[];
 
-    constructor(trackName: string, skier1Name: string, skier2Name: string, numberOfRaces: number) {
+    constructor(trackName: string, trackStyle: TrackStyles, skier1Name: string, skier2Name: string, numberOfRaces: number) {
         this.trackName = trackName;
+        this.trackStyle = trackStyle;
         this.skier1Name = skier1Name;
         this.skier2Name = skier2Name;
         this.numberOfRaces = numberOfRaces;
@@ -57,7 +60,7 @@ export class EventConfig {
     private initRacesResults(numberOfRaces: number): void {
         this.racesResults = [];
         for (let i = 1; i <= numberOfRaces; i++) {
-            this.racesResults.push(new EventRaceResult(i, this.trackName, this.skier1Name, this.skier2Name));
+            this.racesResults.push(new EventRaceResult(i, this.trackName, this.trackStyle, this.skier1Name, this.skier2Name));
         }
     }
 }

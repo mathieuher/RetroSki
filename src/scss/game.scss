@@ -131,12 +131,21 @@ html body {
             input:focus {
                 max-width: 300px;
                 font-size: 1.5rem;
-                padding: 0.5rem 1rem;
+                padding: 0.5rem 1rem !important;
                 color: $text;
                 background-color: transparent;
                 border: 2px solid $text;
                 border-radius: 4px;
                 outline: none;
+
+
+            }
+
+            select {
+                max-width: 500px !important;
+                width: calc(300px + 2rem) !important;
+                appearance: none;
+                background-color: $primary;
             }
 
         }

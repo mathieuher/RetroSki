@@ -3,27 +3,28 @@ import { Gate } from "../actors/gate";
 import { Config } from "../config";
 import { Track } from "../models/track";
 import { StockableTrack } from "../models/stockable-track";
+import { TrackStyles } from "../models/track-styles.enum";
 
 export class TrackBuilder {
 
-    public static designTrack(name: string): Track {
+    public static designTrack(name: string, trackStyle: TrackStyles): Track {
         const gates = [];
         const numberOfGates = Math.floor(Config.GATE_MIN_NUMBER + (Math.random() * (Config.GATE_MAX_NUMBER - Config.GATE_MIN_NUMBER)));
         console.log('TrackBuilder - Designing a new track of ', numberOfGates, ' gates');
 
         let nextGateWidth = TrackBuilder.getRandomGateWidth();
-        let nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth);
+        let nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, trackStyle);
 
         for (let index = 0; index < numberOfGates; index++) {
             const gate = new Gate(nextGatePosition, nextGateWidth, index % 2 > 0 ? 'red' : 'blue', index + 1);
             gates.push(gate);
             nextGateWidth = TrackBuilder.getRandomGateWidth();
-            nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, nextGatePosition);
+            nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, trackStyle, nextGatePosition);
         }
 
         gates.push(TrackBuilder.generateFinalGate(nextGatePosition.y));
 
-        return new Track(name, new Date(), gates, []);
+        return new Track(name, trackStyle, new Date(), gates, []);
     }
 
     public static buildTrack(stockableTrack: StockableTrack): Track {
@@ -32,7 +33,7 @@ export class TrackBuilder {
         stockableTrack.gates.forEach(stockableGate => {
             gates.push(new Gate(vec(stockableGate.x, stockableGate.y), stockableGate.width, stockableGate.color, stockableGate.gateNumber, stockableGate.isFinal));
         });
-        return new Track(stockableTrack.name, stockableTrack.date, gates, stockableTrack.records);
+        return new Track(stockableTrack.name, stockableTrack.style, stockableTrack.date, gates, stockableTrack.records);
     }
 
     private static getRandomGateWidth(): number {
@@ -43,17 +44,16 @@ export class TrackBuilder {
         return new Gate(vec(Config.FINAL_GATE_POSITION, verticalPosition), Config.FINAL_GATE_WIDTH, 'red', undefined, true);
     }
 
-    private static getNextGatePosition(gateWidth: number, currentGatePosition?: Vector): Vector {
+    private static getNextGatePosition(gateWidth: number, trackStyle: TrackStyles, currentGatePosition?: Vector): Vector {
         const randomizedValue = Math.random();
+        const gateDistance = TrackBuilder.getGateDistance(trackStyle);
         const maxRightPosition = Config.GATE_MAX_RIGHT_POSITION - gateWidth;
         if (!currentGatePosition) {
-            // TODO : Randomly positioning first gate
             const isLeftGate = randomizedValue > 0.5;
             const xPosition = maxRightPosition * Math.random();
-            return vec(isLeftGate ? -xPosition : xPosition, -Config.GATE_MAX_VERTICAL_DISTANCE);
+            return vec(isLeftGate ? -xPosition : xPosition, -((gateDistance.maxVertical + gateDistance.minVertical) / 2));
         } else {
             const currentGateSide = this.getGateSide(currentGatePosition);
-            // TODO : Randomly positioning gate favorising the other side of the track
             const isLeftGate = currentGateSide === 'left' ? randomizedValue >= Config.GATE_OTHER_SIDE_PROBABILITY : randomizedValue < Config.GATE_OTHER_SIDE_PROBABILITY;
             const xProjectedPosition = isLeftGate ? Config.GATE_MAX_LEFT_POSITION * Math.random() : maxRightPosition * Math.random();
             const xDistance = TrackBuilder.getDistance(xProjectedPosition, currentGatePosition.x);
@@ -63,8 +63,20 @@ export class TrackBuilder {
             } else {
                 xRestrictedPosition = xProjectedPosition;
             }
-            const yPosition = currentGatePosition.y - (Config.GATE_MIN_VERTICAL_DISTANCE + (Math.random() * (Config.GATE_MAX_VERTICAL_DISTANCE - Config.GATE_MIN_VERTICAL_DISTANCE)));
+            const yPosition = currentGatePosition.y - (gateDistance.minVertical + (Math.random() * (gateDistance.maxVertical - gateDistance.minVertical)));
             return vec(xRestrictedPosition, yPosition);
+        }
+    }
+
+    private static getGateDistance(trackStyle: TrackStyles): { minVertical: number, maxVertical: number } {
+        if (trackStyle === TrackStyles.SL) {
+            return { minVertical: Config.SL_MIN_VERTICAL_DISTANCE, maxVertical: Config.SL_MAX_VERTICAL_DISTANCE };
+        } else if (trackStyle === TrackStyles.GS) {
+            return { minVertical: Config.GS_MIN_VERTICAL_DISTANCE, maxVertical: Config.GS_MAX_VERTICAL_DISTANCE };
+        } else if (trackStyle === TrackStyles.SG) {
+            return { minVertical: Config.SG_MIN_VERTICAL_DISTANCE, maxVertical: Config.SG_MAX_VERTICAL_DISTANCE };
+        } else {
+            return { minVertical: Config.DH_MIN_VERTICAL_DISTANCE, maxVertical: Config.DH_MAX_VERTICAL_DISTANCE };
         }
     }
 
