@@ -138,12 +138,16 @@ html body {
                 border-radius: 4px;
                 outline: none;
 
+                &input:not([type="number"]) {
+                    width: 300px;
+                }
+
 
             }
 
             select {
-                max-width: 500px !important;
-                width: calc(300px + 2rem) !important;
+                max-width: 500px;
+                width: calc(300px + 2rem);
                 appearance: none;
                 background-color: $primary;
             }
