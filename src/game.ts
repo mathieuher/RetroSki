@@ -70,7 +70,7 @@ export class Game extends Engine {
         loader.startButtonFactory = () => {
             let myButton = document.createElement('button');
             myButton.classList.add('start-button');
-            myButton.textContent = 'Start RetroSKi';
+            myButton.textContent = 'Play';
             return myButton;
         };
         return loader;
