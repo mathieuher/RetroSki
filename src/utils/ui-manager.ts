@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { RecordResult } from "src/models/record-result";
 
 export class UiManager {
     public state: 'menu' | 'racing' | 'result' = 'menu';
@@ -6,8 +7,7 @@ export class UiManager {
     private _isDisplayed = false;
 
     private resultUi = document.getElementById('result')!;
-    private resultPositionUi = document.getElementById('position')!;
-    private resultTimingUi = document.getElementById('timing')!;
+    private resultsContainerUi = document.getElementById('results-container')!;
     private speedometerUi = document.getElementById('speedometer')!;
     private timerUi = document.getElementById('timer')!;
     public backToManagerButton = document.getElementById('back-to-manager')!;
@@ -22,17 +22,19 @@ export class UiManager {
 
     public hideUi(): void {
         this.resultUi.style.display = 'none';
+        this.resultsContainerUi.innerHTML = '';
         this.speedometerUi.style.visibility = 'hidden';
         this.timerUi.style.visibility = 'hidden';
         this._isDisplayed = false;
     }
 
-    public updateUi(currentSpeed: number, currentTiming: number, position?: number): void {
+    public updateUi(currentSpeed: number, currentTiming: number, globalResult?: { position: number, records: RecordResult[] }): void {
         const formatedTiming = `${format(currentTiming, 'mm:ss:SS')}`;
 
         if (this.state === 'result') {
-            this.resultPositionUi.innerText = `${position}`;
-            this.resultTimingUi.innerText = formatedTiming;
+            location.hash = '';
+            this.resultsContainerUi.innerHTML = this.prepareResultsTable(globalResult!);
+            location.hash = 'startPosition';
         }
         this.speedometerUi.innerText = `${Math.floor(currentSpeed)} km/h`;
         this.timerUi.innerText = formatedTiming;
@@ -66,5 +68,19 @@ export class UiManager {
 
     private showResultUi(): void {
         this.resultUi.style.display = 'flex';
+    }
+
+    private prepareResultsTable(globalResult: { position: number, records: RecordResult[] }): string {
+        return globalResult.records.map(result => {
+            const currentResult = result.position === globalResult.position;
+            const startPosition = result.position === (globalResult.position - 4 || 1);
+            return `<div ${startPosition ? 'id="startPosition"' : ''} class="result-line ${currentResult ? 'current' : ''}">
+                <div>${result.position}</div>
+                <div>${result.player}</div>
+                <div>${result.date}</div>
+                <div class="time">${result.time}</div>
+                <div class="time">${result.difference ? '+ ' + result.difference : ''}</div>
+            </div>`
+        }).join('');
     }
 }

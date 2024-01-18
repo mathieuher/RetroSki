@@ -1,3 +1,4 @@
+import { RecordResult } from "../models/record-result";
 import { StockableRecord } from "../models/stockable-record";
 import { StockableTrack } from "../models/stockable-track";
 import { Track } from "../models/track";
@@ -18,15 +19,14 @@ export class TrackManager {
         return newTrack;
     }
 
-    public saveRecord(trackName: string, record: StockableRecord): number {
+    public saveRecord(trackName: string, record: StockableRecord): { position: number, records: RecordResult[] } {
         const track = this.getTrackFromLocalStorage(trackName);
         if (track) {
             track.records.push(record);
             track.records.sort((r1, r2) => r1.timing - r2.timing);
             this.saveTrackToLocalStorage(track);
         }
-        this.displayCurrentRecords(trackName);
-        return track!.records.filter(r => r.timing < record.timing).length + 1;
+        return { position: track!.records.filter(r => r.timing < record.timing).length + 1, records: this.getCurrentRecords(trackName) };
     }
 
     public getRecordPosition(trackName: string, timing: number): number {
@@ -55,17 +55,12 @@ export class TrackManager {
         return null;
     }
 
-    private displayCurrentRecords(trackName: string) {
+    private getCurrentRecords(trackName: string): RecordResult[] {
         const records = this.getTrackFromLocalStorage(trackName)!.records;
-        console.table(records?.map((record, index) => {
-            return {
-                position: index + 1,
-                player: record.player,
-                date: format(record.date, 'd MMM yyyy HH:mm'),
-                time: format(record.timing, 'mm:ss:SS'),
-                difference: format(record.timing - records[0].timing, 'ss:SS')
-            };
-        }));
+        return records?.map((record, index) => {
+            const difference = record.timing - records[0].timing;
+            return new RecordResult(index + 1, record.player, format(record.date, 'd MMM yyyy HH:mm'), format(record.timing, 'mm:ss:SS'), difference ? format(difference, 'ss:SS') : '');
+        });
     }
 
 }
