@@ -1,6 +1,5 @@
 import { format } from "date-fns";
 import { RecordResult } from "../models/record-result";
-import { EventRaceResult } from "../models/event-race-result";
 import { Track } from "../models/track";
 
 export class UiManager {
