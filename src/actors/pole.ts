@@ -1,4 +1,4 @@
-import { Actor, CollisionStartEvent, CollisionType, Engine, PreCollisionEvent, Vector, vec } from "excalibur";
+import { Actor, CollisionStartEvent, CollisionType, Vector, vec } from "excalibur";
 import { Config } from "../config";
 import { Resources } from "../resources";
 import { Skier } from "./skier";
