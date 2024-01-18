@@ -17,7 +17,7 @@ html body {
 .ui-container {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
     height: 100vh;
     width: 100vw;
@@ -31,7 +31,6 @@ html body {
         }
 
         display: flex;
-        height: 200px;
         width: calc(100% - 4rem);
         align-items: center;
         justify-content: center;
@@ -313,7 +312,8 @@ html body {
         display: flex;
         justify-content: center;
         align-items: center;
-        flex: 1 1 auto;
+        padding: 2rem;
+        // flex: 1 1 auto;
     }
 }
 
