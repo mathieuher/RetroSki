@@ -23,7 +23,7 @@ Welcome to your event setup.<br>
 Here you have to provide few informations before starting to ride :
 1. Name of the track (if the track doesn't exist it generates a new one)
 2. Style of the track (Slalom, Giant slalom, Super-G or Downhill)<br>
-<b>Note: This param is only applied when generating a new track.
+<b>Note: This param is only applied when generating a new track.</b>
 3. Name of the first player
 4. Name of the second player (must be different than the first player)
 5. Number of races (1 to 10 is recommended)
