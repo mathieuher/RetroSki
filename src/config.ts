@@ -13,6 +13,9 @@ export class Config {
     // FORMAT
     static FORMAT_TIMING = 'mm:ss:SS';
 
+    // TRACKS
+    static DEFAULT_TRACKS = ['soelden', 'davos'];
+
     // CONTROLS
     static CONTROL_CARVE_RIGHT = Keys.ArrowRight;
     static CONTROL_CARVE_LEFT = Keys.ArrowLeft;
@@ -46,8 +49,8 @@ export class Config {
     static GATE_MAX_HORIZONTAL_DISTANCE = 320;
     static GATE_MAX_LEFT_POSITION = Config.DISPLAY_MAX_LEFT_POSITION;
     static GATE_MAX_RIGHT_POSITION = Config.DISPLAY_MAX_RIGHT_POSITION;
-    static GATE_MAX_NUMBER = 45;
-    static GATE_MIN_NUMBER = 30;
+    static GATE_MAX_NUMBER = 56;
+    static GATE_MIN_NUMBER = 41;
     static FINAL_GATE_WIDTH = Config.DISPLAY_WIDTH - (2 * Config.DISPLAY_MIN_MARGIN);
     static FINAL_GATE_POSITION = Config.DISPLAY_MAX_LEFT_POSITION;
     static GATE_OTHER_SIDE_PROBABILITY = 0.95;

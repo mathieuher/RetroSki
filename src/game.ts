@@ -40,6 +40,7 @@ export class Game extends Engine {
         this.addScene('eventSetup', new EventSetup(this));
         this.addScene('eventManager', new EventManager(this));
 
+        this.trackManager.importDefaultTracks();
 
         this.start(this.getLoader());
 
