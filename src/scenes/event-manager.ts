@@ -37,7 +37,6 @@ export class EventManager extends Scene {
         if (_context.data?.eventConfig) {
 
             this.eventConfig = _context.data?.eventConfig!;
-            console.log(this.eventConfig);
             this.startRaceButton
         }
 
