@@ -59,6 +59,7 @@ export class EventManager extends Scene {
         this.lastResultsContainer.innerHTML = this.prepareLastResultsTable(eventConfig) || '<div class="placeholder">No result for the moment</div>';
         this.actualRankingContainer.innerHTML = this.prepareActualRankingTable(eventConfig) || '<div class="placeholder">No ranking for the moment</div>';
         this.nextRacesContainer.innerHTML = this.prepareNextRacesTable(eventConfig) || '<div class="placeholder">No race to come</div>';
+        (this.engine as Game).soundPlayer.showButton();
     }
 
     public cleanManager(): void {
@@ -67,6 +68,7 @@ export class EventManager extends Scene {
     }
 
     private startRace(): void {
+        (this.engine as Game).soundPlayer.hideButton();
         this.engine.addScene('race', new Race(this.engine));
         this.engine.goToScene('race', { raceConfig: this.eventConfig.getNextRace() });
     }

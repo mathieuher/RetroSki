@@ -1,10 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+$background: #b0d4dd;
+$primary: #4a8291;
+$primarySemi: #4c829087;
+$accent: #3d3378;
+$text: white;
+$secondary-text: #cecece;
+
 html body {
     padding: 0;
     margin: 0;
     font-family: 'Inter', sans-serif;
-    color: #4a8291;
+    color: $primary;
 }
 
 .ui-container {
@@ -14,16 +21,17 @@ html body {
     align-items: center;
     height: 100vh;
     width: 100vw;
-    background-color: #b0d4dd;
+    background-color: $background;
     overflow: hidden;
 
     .header {
         img {
-            width: 150px;
-            height: 150px;
+            width: 80px;
+            height: 80px;
         }
 
         display: flex;
+        height: 200px;
         width: calc(100% - 4rem);
         align-items: center;
         justify-content: center;
@@ -31,9 +39,48 @@ html body {
 
     .hud-container {
         position: relative;
-        border: 5px solid #4a8291;
         border-radius: 10px;
         overflow: hidden;
+
+        .actions-toolbar {
+            position: absolute;
+            right: 0;
+            width: 200px;
+            padding: 1rem 2rem;
+            gap: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            color: $text;
+            z-index: 10;
+
+            #sound-button,
+            #sound-mute-button {
+                cursor: pointer;
+                display: none;
+            }
+        }
+
+        .dialog {
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 1rem;
+            width: calc(100% - 4rem);
+            height: calc(100% - 2rem);
+            padding: 1rem 2rem;
+            border: none;
+            color: $text;
+            background-color: $primary;
+
+            .dialog-content {
+                flex: 1 1 auto;
+                padding: 1rem;
+            }
+
+            .dialog-actions {
+                padding: 1rem;
+            }
+        }
 
         #event-setup {
             display: none;
@@ -44,13 +91,8 @@ html body {
             justify-content: center;
 
             .dialog {
-                width: calc(90% - 4rem);
-                height: calc(90% - 2rem);
-                padding: 1rem 2rem;
-                border-radius: 20px;
-                background-color: #17548a;
                 font-size: 1.3rem;
-                color: white;
+
 
                 .title {
                     margin-bottom: 2rem;
@@ -62,7 +104,6 @@ html body {
                     display: flex;
                     flex-direction: column;
                     gap: 2rem;
-                    padding: 1rem 3rem;
 
                     .form-line {
                         display: flex;
@@ -87,10 +128,10 @@ html body {
                 max-width: 300px;
                 font-size: 1.5rem;
                 padding: 0.5rem 1rem;
-                color: white;
+                color: $text;
                 background-color: transparent;
-                border: 2px solid white;
-                border-radius: 10px;
+                border: 2px solid $text;
+                border-radius: 4px;
                 outline: none;
             }
 
@@ -105,15 +146,7 @@ html body {
             justify-content: center;
 
             .dialog {
-                display: flex;
-                flex-direction: column;
-                width: calc(90% - 4rem);
-                height: calc(90% - 2rem);
-                padding: 1rem 2rem;
-                border-radius: 20px;
-                background-color: #17548a;
                 font-size: 1.3rem;
-                color: white;
 
                 .title {
                     margin-bottom: 0.5rem;
@@ -124,7 +157,6 @@ html body {
                     flex: 1 1 auto;
                     flex-direction: column;
                     justify-content: space-between;
-                    padding: 0 0.5rem;
 
                     .section-title {
                         font-size: 0.9rem;
@@ -146,7 +178,7 @@ html body {
                         font-size: 0.8rem;
                         justify-content: center;
                         padding: 0.5rem;
-                        color: #ffffff69;
+                        color: $secondary-text;
                     }
 
 
@@ -157,7 +189,7 @@ html body {
                             justify-content: space-between;
                             padding: 0.3rem 1rem;
                             font-size: 0.75rem;
-                            color: rgba(255, 255, 255, 0.644);
+                            color: $secondary-text;
                         }
 
                         &.result-line {
@@ -169,7 +201,7 @@ html body {
 
                             &.next,
                             &.first {
-                                background-color: #2ae75991;
+                                background-color: #6aff9091;
                             }
                         }
 
@@ -180,7 +212,7 @@ html body {
 
                             &.winner {
                                 font-weight: bold;
-                                color: #68fb8db3;
+                                color: #6aff9091;
                             }
                         }
                     }
@@ -196,25 +228,26 @@ html body {
 
         button {
             cursor: pointer;
-            font-size: 2rem;
-            font-weight: bold;
+            font-size: 1.8rem;
+            font-weight: 400;
             border-radius: 10px;
             width: 100%;
             padding: 1rem;
-            border: 4px solid #0440759d;
-            color: white;
-            outline: none;
-            background-color: #0440759d !important;
+            color: $text;
+            border: 0;
+            background-color: $accent !important;
         }
 
         .game-container {
             width: 800px;
+            max-width: 100vw;
             height: 600px;
+            max-height: 100vh;
 
             .start-button {
                 font-weight: 200;
                 border: none;
-                background-color: #4a8291 !important;
+                background-color: $accent !important;
                 font-size: 1.5rem;
                 width: 300px;
             }
@@ -231,17 +264,17 @@ html body {
             align-items: center;
             justify-content: center;
             gap: 1rem;
-            background-color: #17548a9d;
+            background-color: $primarySemi;
 
             #position {
                 font-size: 4rem;
-                color: white;
+                color: $text;
             }
 
             #timing {
                 font-size: 2rem;
                 font-style: italic;
-                color: white;
+                color: $text;
             }
 
             button#back-to-manager {
@@ -260,7 +293,7 @@ html body {
             justify-content: end;
             position: absolute;
             bottom: 0;
-            color: #17548a9d;
+            color: $primarySemi;
             font-size: 1.1rem;
             padding: 0.25rem 0.5rem;
             height: 40px;
@@ -282,6 +315,10 @@ html body {
         align-items: center;
         flex: 1 1 auto;
     }
+}
+
+i.fa-solid {
+    font-size: 1.2rem;
 }
 
 ::-webkit-scrollbar {

@@ -6,6 +6,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/scss/game.scss">
+    <script src="https://kit.fontawesome.com/202f92be3c.js" crossorigin="anonymous"></script>
     <title>Retro Ski</title>
 </head>
 
@@ -15,6 +16,10 @@
             <img src="./src/images/logo.png">
         </div>
         <div class="hud-container">
+            <div class="actions-toolbar">
+                <i id="sound-mute-button" class="fa-solid fa-volume-high" title="Disable sound during the race"></i>
+                <i id="sound-button" class="fa-solid fa-volume-xmark" title="Enable sound during the race"></i>
+            </div>
             <div id="event-setup">
                 <div class="dialog">
                     <div class="title">Event setup</div>
@@ -45,7 +50,9 @@
                                     placeholder="1 to 10" />
                             </div>
                         </div>
-                        <button id="setup-completed-button">Start</button>
+                    </div>
+                    <div class="dialog-actions">
+                        <button id="setup-completed-button">Start the event</button>
                     </div>
                 </div>
             </div>
