@@ -43,7 +43,7 @@ export class EventSetup extends Scene {
     }
 
     private completeSetup(): void {
-        const trackName = this.trackInput.value;
+        const trackName = this.trackInput.value.toLowerCase();
         const trackStyle = this.trackStyleSelect.value as TrackStyles;
         const skier1Name = this.skier1Input.value;
         const skier2Name = this.skier2Input.value;

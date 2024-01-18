@@ -27,20 +27,56 @@ export class Config {
     static START_KEY = Keys.ArrowUp;
     static SOUND_KEY = Keys.S;
 
-    // SPEED
+
+
+    // DYNAMIC
     static MAX_SPEED = 145;
     static VELOCITY_MULTIPLIER_RATE = 7;
     static LATERAL_VELOCITY_ROTATION_RATE = 1.15;
-    static WIND_FRICTION_RATE = 0.002;
+    // ROTATION
+    static MAX_RIGHT_ROTATION_ANGLE = Math.PI / 2;
+    static MAX_LEFT_ROTATION_ANGLE = 3 * Math.PI / 2;
+    static ROTATION_RECENTER_RATE = 0.2;
 
     // SLOPE
     static INITIAL_SLOPE = 0.1;
 
-    // ACCELERATION
+    // SKIER
     static ACCELERATION_RATE = 3;
-
-    // BRAKING
     static BRAKING_RATE = 1;
+    static CARVING_ADHERENCE_RATE = 0.9;
+    static CARVING_BRAKING_RATE = 0.01;
+    static SLIDING_ADHERENCE_RATE = 0.6;
+    static SLIDING_BRAKING_RATE = 0.9;
+    // SKIER SPECIFIC STYLE DYNAMIC
+    static SL_SKIER_CONFIG = {
+        windFrictionRate: 0.0025,
+        carvingRotationRate: 3.2,
+        carvingOptimalSpeed: 50,
+        slidingRotationRate: 4.2,
+        slidingOptimalSpeed: 35
+    }
+    static GS_SKIER_CONFIG = {
+        windFrictionRate: 0.0022,
+        carvingRotationRate: 3.1,
+        carvingOptimalSpeed: 60,
+        slidingRotationRate: 4.1,
+        slidingOptimalSpeed: 45
+    }
+    static SG_SKIER_CONFIG = {
+        windFrictionRate: 0.002,
+        carvingRotationRate: 2.6,
+        carvingOptimalSpeed: 70,
+        slidingRotationRate: 3.2,
+        slidingOptimalSpeed: 50
+    }
+    static DH_SKIER_CONFIG = {
+        windFrictionRate: 0.0018,
+        carvingRotationRate: 2.2,
+        carvingOptimalSpeed: 75,
+        slidingRotationRate: 3.1,
+        slidingOptimalSpeed: 60
+    }
 
     // GATES
     static GATE_MAX_LEFT_POSITION = Config.DISPLAY_MAX_LEFT_POSITION;
@@ -50,13 +86,13 @@ export class Config {
     static GATE_OTHER_SIDE_PROBABILITY = 0.95;
     // SPECIFIC TRACK STYLE CONFIG
     static SL_GATES_CONFIG = {
-        maxWidth: 200,
-        minWidth: 160,
+        maxWidth: 190,
+        minWidth: 150,
         maxHorizontalDistance: 320,
         minVerticalDistance: 170,
         maxVerticalDistance: 270,
         minNumber: 41,
-        maxNumber: 56
+        maxNumber: 51
     }
     static GS_GATES_CONFIG = {
         maxWidth: 200,
@@ -64,26 +100,26 @@ export class Config {
         maxHorizontalDistance: 320,
         minVerticalDistance: 200,
         maxVerticalDistance: 350,
-        minNumber: 41,
-        maxNumber: 56
+        minNumber: 44,
+        maxNumber: 54
     }
     static SG_GATES_CONFIG = {
-        maxWidth: 200,
-        minWidth: 160,
-        maxHorizontalDistance: 320,
+        maxWidth: 240,
+        minWidth: 190,
+        maxHorizontalDistance: 350,
         minVerticalDistance: 320,
         maxVerticalDistance: 500,
-        minNumber: 41,
+        minNumber: 46,
         maxNumber: 56
     }
     static DH_GATES_CONFIG = {
-        maxWidth: 200,
-        minWidth: 160,
-        maxHorizontalDistance: 320,
-        minVerticalDistance: 370,
-        maxVerticalDistance: 550,
-        minNumber: 41,
-        maxNumber: 56
+        maxWidth: 250,
+        minWidth: 200,
+        maxHorizontalDistance: 300,
+        minVerticalDistance: 420,
+        maxVerticalDistance: 530,
+        minNumber: 48,
+        maxNumber: 58
     }
 
     // POLES
@@ -93,20 +129,5 @@ export class Config {
     static FINAL_POLE_WIDTH = 30;
     static FINAL_POLE_HEIGHT = 80;
 
-    // ROTATION
-    static MAX_RIGHT_ROTATION_ANGLE = Math.PI / 2;
-    static MAX_LEFT_ROTATION_ANGLE = 3 * Math.PI / 2;
-    static ROTATION_RECENTER_RATE = 0.2;
 
-    // CARVING
-    static CARVING_ROTATION_RATE = 3.1;
-    static CARVING_ROTATION_OPTIMAL_SPEED = 60;
-    static CARVING_ADHERENCE_RATE = 0.9;
-    static CARVING_BRAKING_RATE = 0.01;
-
-    // SLIDING
-    static SLIDING_ROTATION_RATE = 4.1;
-    static SLIDING_ROTATION_OPTIMAL_SPEED = 45;
-    static SLIDING_ADHERENCE_RATE = 0.6;
-    static SLIDING_BRAKING_RATE = 0.9;
 }
