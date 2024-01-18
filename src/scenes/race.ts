@@ -7,6 +7,7 @@ import { Config } from "../config";
 import { StockableRecord } from "../models/stockable-record";
 import { EventRaceResult } from "../models/event-race-result";
 import { RaceResult } from "../models/race-result";
+import { Resources } from "../resources";
 
 export class Race extends Scene {
 
@@ -59,12 +60,14 @@ export class Race extends Scene {
         this.uiManager.updateUiState('result');
         this.uiManager.updateUi(this.skier?.speed || 0, timing, position);
         this.uiManager.backToManagerButton.addEventListener('click', () => this.returnToEventManager(result), { once: true });
+        (this.engine as Game).soundPlayer.playSound(Resources.FinishRaceSound, 0.3);
     }
 
     public addPenalty(gateNumber?: number): void {
-        console.warn('Missed the gate n°', gateNumber, ' (+ 2s.)');
+        console.warn('Missed the gate n°', gateNumber, ' (+ 3s.)');
         this.camera.shake(5, 5, 500);
         this.startTime! -= 3000;
+        (this.engine as Game).soundPlayer.playSound(Resources.GateMissedSound, 0.3);
     }
 
     public updateGhost(yPosition: number): void {
@@ -80,9 +83,11 @@ export class Race extends Scene {
         this.uiTimer.start();
         this.listenStopRaceEvent();
         this.skier!.startRace();
+        (this.engine as Game).soundPlayer.playSound(Resources.StartRaceSound, 0.3);
     }
 
     private returnToEventManager(raceResult?: RaceResult): void {
+        Resources.FinishRaceSound.stop();
         this.engine.goToScene('eventManager', raceResult ? { raceResult: raceResult } : {});
         this.engine.removeScene('race');
     }
@@ -96,6 +101,7 @@ export class Race extends Scene {
         this.buildTrack(trackName);
         this.add(this.skierGhost);
         this.addTimer(this.uiTimer);
+        (this.engine as Game).soundPlayer.playSound(Resources.WinterSound, 0.1, true);
     }
 
     private cleanRace(): void {
@@ -104,6 +110,7 @@ export class Race extends Scene {
         this.uiManager.updateUiState('menu');
         this.gates = [];
         this.raceConfig = undefined;
+        (this.engine as Game).soundPlayer.stopSound(Resources.WinterSound);
         this.clear();
     }
 

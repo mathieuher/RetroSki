@@ -1,6 +1,8 @@
-import { Actor, CollisionType, Vector, vec } from "excalibur";
+import { Actor, CollisionStartEvent, CollisionType, Engine, PreCollisionEvent, Vector, vec } from "excalibur";
 import { Config } from "../config";
 import { Resources } from "../resources";
+import { Skier } from "./skier";
+import { Game } from "src/game";
 
 export class Pole extends Actor {
     constructor(position: Vector, color: 'red' | 'blue', isFinalPole = false) {
@@ -17,8 +19,18 @@ export class Pole extends Actor {
         } else {
             this.graphics.use(color === 'red' ? Resources.PoleRed.toSprite() : Resources.PoleBlue.toSprite());
         }
+
+
     }
 
     onInitialize() {
+        this.on('collisionstart', (evt) => this.onPreCollision(evt));
+    }
+
+    private onPreCollision(evt: CollisionStartEvent): void {
+        if (evt.other instanceof Skier) {
+            (this.scene.engine as Game).soundPlayer.playSound(Resources.PoleHittingSound, 0.2);
+        }
+
     }
 }

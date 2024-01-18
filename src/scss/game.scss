@@ -4,7 +4,7 @@ html body {
     padding: 0;
     margin: 0;
     font-family: 'Inter', sans-serif;
-    color: #033968;
+    color: #4a8291;
 }
 
 .ui-container {
@@ -14,12 +14,15 @@ html body {
     align-items: center;
     height: 100vh;
     width: 100vw;
-    background-color: #428bca;
+    background-color: #b0d4dd;
     overflow: hidden;
 
     .header {
-        font-size: 3rem;
-        padding: 2rem;
+        img {
+            width: 150px;
+            height: 150px;
+        }
+
         display: flex;
         width: calc(100% - 4rem);
         align-items: center;
@@ -28,8 +31,8 @@ html body {
 
     .hud-container {
         position: relative;
-        border: 5px solid #17548a;
-        border-radius: 20px;
+        border: 5px solid #4a8291;
+        border-radius: 10px;
         overflow: hidden;
 
         #event-setup {
@@ -207,6 +210,14 @@ html body {
         .game-container {
             width: 800px;
             height: 600px;
+
+            .start-button {
+                font-weight: 200;
+                border: none;
+                background-color: #4a8291 !important;
+                font-size: 1.5rem;
+                width: 300px;
+            }
         }
 
         #result {
