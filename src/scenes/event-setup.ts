@@ -1,5 +1,6 @@
 import { Engine, Scene, SceneActivationContext } from "excalibur";
 import { EventConfig } from "../models/event-config";
+import { Game } from "src/game";
 
 export class EventSetup extends Scene {
 
@@ -26,6 +27,7 @@ export class EventSetup extends Scene {
 
     private prepareRaceSetup(): void {
         this.raceSetupUi.style.display = 'flex';
+        (this.engine as Game).soundPlayer.showButton();
     }
 
     private cleanRaceSetup(): void {
