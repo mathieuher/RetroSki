@@ -350,9 +350,10 @@ html body {
 
         }
 
+        #track-name,
         #speedometer,
         #timer {
-            display: flex;
+            display: none;
             width: 90px;
             align-items: center;
             justify-content: end;
@@ -362,7 +363,13 @@ html body {
             font-size: 1.1rem;
             padding: 0.25rem 0.5rem;
             height: 40px;
-            visibility: hidden;
+            font-family: monospace;
+
+            &#track-name {
+                right: 0;
+                top: 0;
+                width: 150px;
+            }
 
             &#speedometer {
                 left: 0;

@@ -1,5 +1,7 @@
 import { format } from "date-fns";
 import { RecordResult } from "../models/record-result";
+import { EventRaceResult } from "../models/event-race-result";
+import { Track } from "../models/track";
 
 export class UiManager {
     public state: 'menu' | 'racing' | 'result' = 'menu';
@@ -8,6 +10,7 @@ export class UiManager {
 
     private resultUi = document.getElementById('result')!;
     private resultsContainerUi = document.getElementById('results-container')!;
+    private trackNameUi = document.getElementById('track-name')!;
     private speedometerUi = document.getElementById('speedometer')!;
     private timerUi = document.getElementById('timer')!;
     public backToManagerButton = document.getElementById('back-to-manager')!;
@@ -23,12 +26,14 @@ export class UiManager {
     public hideUi(): void {
         this.resultUi.style.display = 'none';
         this.resultsContainerUi.innerHTML = '';
-        this.speedometerUi.style.visibility = 'hidden';
-        this.timerUi.style.visibility = 'hidden';
+        this.trackNameUi.style.display = 'none';
+        this.trackNameUi.innerText = '';
+        this.speedometerUi.style.display = 'none';
+        this.timerUi.style.display = 'none';
         this._isDisplayed = false;
     }
 
-    public updateUi(currentSpeed: number, currentTiming: number, globalResult?: { position: number, records: RecordResult[] }): void {
+    public updateUi(currentSpeed: number, currentTiming: number, track?: Track, globalResult?: { position: number, records: RecordResult[] },): void {
         const formatedTiming = `${format(currentTiming, 'mm:ss:SS')}`;
 
         if (this.state === 'result') {
@@ -36,6 +41,10 @@ export class UiManager {
             this.resultsContainerUi.innerHTML = this.prepareResultsTable(globalResult!);
             location.hash = 'startPosition';
         }
+        if (!this.trackNameUi.innerText && track) {
+            this.trackNameUi.innerText = `${track.style} - ${track.name}`;
+        }
+
         this.speedometerUi.innerText = `${Math.floor(currentSpeed)} km/h`;
         this.timerUi.innerText = formatedTiming;
     }
@@ -62,8 +71,9 @@ export class UiManager {
 
     private showRacingUi(): void {
         this.resultUi.style.display = 'none';
-        this.speedometerUi.style.visibility = 'visible';
-        this.timerUi.style.visibility = 'visible';
+        this.trackNameUi.style.display = 'flex';
+        this.speedometerUi.style.display = 'flex';
+        this.timerUi.style.display = 'flex';
     }
 
     private showResultUi(): void {

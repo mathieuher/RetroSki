@@ -3,10 +3,12 @@ import { Config } from "../config";
 import { Resources } from "../resources";
 import { Race } from "../scenes/race";
 import { ParticlesBuilder } from "../utils/particles-builder";
+import { SkierConfig } from "../models/skier-config";
 
 export class Skier extends Actor {
     public speed = 0;
     public skierName: string;
+    public skierConfig: SkierConfig;
 
     public racing = false;
     public finish = false;
@@ -17,7 +19,7 @@ export class Skier extends Actor {
     private skierBrakingSprite = Resources.SkierBraking.toSprite();
     private particlesEmitter!: ParticleEmitter;
 
-    constructor(skierName: string) {
+    constructor(skierName: string, skierConfig: SkierConfig) {
         super({
             pos: vec(0, 0),
             width: 30,
@@ -27,6 +29,8 @@ export class Skier extends Actor {
             collisionType: CollisionType.Fixed
         });
         this.skierName = skierName;
+        this.skierConfig = skierConfig;
+        console.log(skierConfig);
     }
 
     onInitialize() {
@@ -73,11 +77,11 @@ export class Skier extends Actor {
 
         if (this.hasTurningIntention(engine)) {
             if (this.hasSlidingIntention(engine)) {
-                const rotationSpeedMultiplier = this.speed < Config.SLIDING_ROTATION_OPTIMAL_SPEED ? Math.max(this.speed, 1) / Config.SLIDING_ROTATION_OPTIMAL_SPEED : 1;
-                rotationRate = Config.SLIDING_ROTATION_RATE / (180 / Math.PI) * rotationSpeedMultiplier;
+                const rotationSpeedMultiplier = this.speed < this.skierConfig.slidingOptimalSpeed ? Math.max(this.speed, 1) / this.skierConfig.slidingOptimalSpeed : 1;
+                rotationRate = this.skierConfig.slidingRotationRate / (180 / Math.PI) * rotationSpeedMultiplier;
             } else if (this.hasCarvingIntention(engine)) {
-                const rotationSpeedMultiplier = this.speed < Config.CARVING_ROTATION_OPTIMAL_SPEED ? Math.max(this.speed, 1) / Config.CARVING_ROTATION_OPTIMAL_SPEED : 1;
-                rotationRate = Config.CARVING_ROTATION_RATE / (180 / Math.PI) * rotationSpeedMultiplier;
+                const rotationSpeedMultiplier = this.speed < this.skierConfig.carvingOptimalSpeed ? Math.max(this.speed, 1) / this.skierConfig.carvingOptimalSpeed : 1;
+                rotationRate = this.skierConfig.carvingRotationRate / (180 / Math.PI) * rotationSpeedMultiplier;
             }
             futurRotation = this.hasLeftTurningIntention(engine) ? this.rotation - rotationRate : this.rotation + rotationRate;
         } else {
@@ -110,7 +114,7 @@ export class Skier extends Actor {
 
         let acceleration = (Config.ACCELERATION_RATE * Config.INITIAL_SLOPE);
         acceleration -= acceleration * angleOfSkier / 90;
-        acceleration -= (Config.WIND_FRICTION_RATE * this.speed);
+        acceleration -= (this.skierConfig.windFrictionRate * this.speed);
         if (forceBreaking) {
             acceleration -= Config.BRAKING_RATE;
         } else if (this.hasSlidingIntention(engine)) {

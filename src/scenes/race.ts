@@ -9,6 +9,8 @@ import { EventRaceResult } from "../models/event-race-result";
 import { RaceResult } from "../models/race-result";
 import { Resources } from "../resources";
 import { TrackStyles } from "../models/track-styles.enum";
+import { SkierConfig } from "../models/skier-config";
+import { Track } from "../models/track";
 
 export class Race extends Scene {
 
@@ -20,6 +22,7 @@ export class Race extends Scene {
     });
 
     private raceConfig?: EventRaceResult;
+    private track?: Track;
     public skier?: Skier;
     private skierGhost?: Actor;
     private gates?: Gate[];
@@ -59,7 +62,7 @@ export class Race extends Scene {
         const result = new RaceResult(this.raceConfig?.raceNumber!, this.skier?.skierName!, new Date(), timing);
         const globalResult = (this.engine as Game).trackManager.saveRecord(this.raceConfig!.trackName, new StockableRecord(result));
         this.uiManager.updateUiState('result');
-        this.uiManager.updateUi(this.skier?.speed || 0, timing, globalResult);
+        this.uiManager.updateUi(this.skier?.speed || 0, timing, this.track, globalResult);
         this.uiManager.backToManagerButton.addEventListener('click', () => this.returnToEventManager(result), { once: true });
         (this.engine as Game).soundPlayer.playSound(Resources.FinishRaceSound, 0.3);
     }
@@ -93,13 +96,14 @@ export class Race extends Scene {
         this.engine.removeScene('race');
     }
 
-    private prepareRace(trackName: string, trackStyle: TrackStyles, skierName: string): void {
-        this.skier = new Skier(skierName);
+    private prepareRace(trackName: string, askedTrackStyle: TrackStyles, skierName: string): void {
+        this.track = this.buildTrack(trackName, askedTrackStyle);
+
+        this.skier = new Skier(skierName, this.getSkierConfig(this.track.style));
         this.add(this.skier);
         this.skierGhost = new Actor({ width: 1, height: 1, pos: vec(this.skier.pos.x, this.skier.pos.y + Config.FRONT_GHOST_DISTANCE) });
         this.setupCamera();
 
-        this.buildTrack(trackName, trackStyle);
         this.add(this.skierGhost);
         this.addTimer(this.uiTimer);
         (this.engine as Game).soundPlayer.playSound(Resources.WinterSound, 0.1, true);
@@ -111,6 +115,7 @@ export class Race extends Scene {
         this.uiManager.updateUiState('menu');
         this.gates = [];
         this.raceConfig = undefined;
+        this.track = undefined;
         (this.engine as Game).soundPlayer.stopSound(Resources.WinterSound);
         this.clear();
     }
@@ -125,14 +130,28 @@ export class Race extends Scene {
         }
 
         this.startTime = this.startTime || this.engine.clock.now();
-        this.uiManager.updateUi(this.skier?.speed || 0, (this.endTime || this.engine.clock.now()) - this.startTime);
+        this.uiManager.updateUi(this.skier?.speed || 0, (this.endTime || this.engine.clock.now()) - this.startTime, this.track);
     }
 
-    private buildTrack(trackName: string, trackStyle: TrackStyles): void {
-        (this.engine as Game).trackManager.loadTrack(trackName, trackStyle).gates.forEach(gate => {
+    private buildTrack(trackName: string, trackStyle: TrackStyles): Track {
+        const track = (this.engine as Game).trackManager.loadTrack(trackName, trackStyle);
+        track.gates.forEach(gate => {
             this.gates?.push(gate);
             this.add(gate);
         });
+        return track;
+    }
+
+    private getSkierConfig(trackStyle: TrackStyles): SkierConfig {
+        if (trackStyle === TrackStyles.SL) {
+            return Config.SL_SKIER_CONFIG;
+        } else if (trackStyle === TrackStyles.GS) {
+            return Config.GS_SKIER_CONFIG;
+        } else if (trackStyle === TrackStyles.SG) {
+            return Config.SG_SKIER_CONFIG;
+        } else {
+            return Config.DH_SKIER_CONFIG;
+        }
     }
 
 }
