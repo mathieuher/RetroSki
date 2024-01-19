@@ -2,14 +2,14 @@
   <img src="src/images/small_logo.png"/>
 </p>
 
-# Retro Ski game
+# :snowflake: Retro Ski game
 Welcome on a small game dev project.<br>
 Put your skis and let's race some randomly generated alpine ski tracks with your friends.
 
-## Demo
+## :computer: Demo
 https://mathieuher.github.io/RetroSki
 
-## Controls
+##  Controls
 ### During the downhill
 * <b>Arrow up</b> (1x) -> Start skiing
 * <b>Arrow left</b> -> Left carving
@@ -21,7 +21,7 @@ https://mathieuher.github.io/RetroSki
 * <b>Escape</b> -> Quit and go back to event setup
 * <b>D</b> -> Toggle debug mode
 
-## Gamer guide
+## :blue_book: Gamer guide
 ### Event setup
 Welcome to your event setup.<br>
 Here you have to provide few informations before starting to ride :
@@ -41,7 +41,7 @@ Now it's time to have fun and enjoy some nice carving !<br><br>
 Press <b>Arrow UP</b> (1x) to start skiing and see you at the finish line !<br>
 Don't miss a gate or you'll receive a penalty of <b>3 seconds</b>
 
-## Tips
+## :bulb: Tips
 ### Preloaded tracks
 By default the game provides 5 tracks, so you can use the same track as your friends even on a different setup.
 1. Davos (Giant slalom)
@@ -59,7 +59,7 @@ The dynamic of the skier is also impacted by the style of the track to mimic rea
 RetroSki use localStorage to persist generated tracks and records.<br> 
 You can easily export them and share them with friends by using the browser developper tools.
 
-## Developer guide
+## :black_circle: Developer guide
 1. Run `npm install` to install dependencies
 2. Run `npm run dev` to start the Vite server!
 3. Have fun!
