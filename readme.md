@@ -10,7 +10,7 @@ Put your skis and let's race some randomly generated alpine ski tracks with your
 https://mathieuher.github.io/RetroSki
 
 ## 🎮 Controls
-### During the downhill
+### During the race
 * <b>Arrow up</b> (1x) -> Start skiing
 * <b>Arrow left</b> -> Left carving
 * <b>Arrow right</b> -> Right carving
