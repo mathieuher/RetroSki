@@ -1,4 +1,6 @@
-![alt text](src/images/small_logo.png)
+<p align="center">
+  <img src="src/images/small_logo.png"/>
+</p>
 
 # Retro Ski game
 Welcome on a small game dev project.<br>
