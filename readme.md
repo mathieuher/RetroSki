@@ -44,11 +44,11 @@ Don't miss a gate or you'll receive a penalty of <b>3 seconds</b>
 ## 💡 Tips
 ### Preloaded tracks
 By default the game provides 5 tracks, so you can use the same track as your friends even on a different setup.
-1. Davos (Giant slalom)
-2. Adelboden (Slalom)
-3. Soelden (Giant slalom)
-4. Wengen (Super-G)
-5. Zermatt (Downhill)
+1. 🇨🇭 Davos (Giant slalom)
+2. 🇨🇭 Adelboden (Slalom)
+3. 🇦🇹 Soelden (Giant slalom)
+4. 🇨🇭 Wengen (Super-G)
+5. 🇨🇭 Zermatt (Downhill)
 
 ### Different track styles
 Each track style follow is own rule when generating a new track.<br>
