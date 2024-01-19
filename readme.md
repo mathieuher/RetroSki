@@ -1,3 +1,5 @@
+![alt text](src/images/small_logo.png)
+
 # Retro Ski game
 Welcome on a small game dev project.<br>
 Put your skis and let's race some randomly generated alpine ski tracks with your friends.
