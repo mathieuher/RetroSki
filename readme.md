@@ -15,11 +15,12 @@ https://mathieuher.github.io/RetroSki
 * <b>Arrow left</b> -> Left carving
 * <b>Arrow right</b> -> Right carving
 * <b>Space bar</b> -> Braking/Side sliding
+
 * <b>R</b> -> Go back to event menu (allow to restart the race)
+* <b>D</b> -> Toggle debug mode
 
 ### Anytime
 * <b>Escape</b> -> Quit and go back to event setup
-* <b>D</b> -> Toggle debug mode
 
 ## 📘 Gamer guide
 ### Event setup
