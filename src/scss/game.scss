@@ -329,6 +329,7 @@ html body {
                 .header-line,
                 .result-line {
                     display: flex;
+                    justify-content: space-between;
                     gap: .5rem;
                     padding: .5rem;
                     display: flex;
