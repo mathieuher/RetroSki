@@ -48,13 +48,13 @@ export class Game extends Engine {
     }
 
     onPreUpdate(_engine: Engine, _delta: number): void {
-        if (_engine.input.keyboard.wasPressed(Config.DEBUG_KEY)) {
+        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_DEBUG_KEY)) {
             if (_engine.scenes['race']?.isCurrentScene()) {
                 _engine.showDebug(!_engine.isDebug);
             }
         }
 
-        if (_engine.input.keyboard.wasPressed(Config.EXIT_KEY)) {
+        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_EXIT_KEY)) {
             this.restartGame();
         }
     }

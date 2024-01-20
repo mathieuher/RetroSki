@@ -15,23 +15,21 @@ export class Config {
     static FORMAT_TIMING = 'mm:ss:SS';
 
     // TRACKS
-    static TRACK_STYLES: 'SL' | 'GS' | 'SG' | 'DH';
     static DEFAULT_TRACKS = ['soelden', 'davos', 'wengen', 'adelboden', 'zermatt'];
 
     // CONTROLS
-    static CONTROL_CARVE_RIGHT = Keys.ArrowRight;
-    static CONTROL_CARVE_LEFT = Keys.ArrowLeft;
-    static CONTROL_BRAKE = Keys.Space;
-    static DEBUG_KEY = Keys.D;
-    static RESTART_KEY = Keys.R;
-    static EXIT_KEY = Keys.Escape;
-    static START_KEY = Keys.ArrowUp;
-    static SOUND_KEY = Keys.S;
+    static KEYBOARD_CONTROL_CARVE_RIGHT = Keys.ArrowRight;
+    static KEYBOARD_CONTROL_CARVE_LEFT = Keys.ArrowLeft;
+    static KEYBOARD_CONTROL_BRAKE = Keys.Space;
+    static KEYBOARD_DEBUG_KEY = Keys.D;
+    static KEYBOARD_RESTART_KEY = Keys.R;
+    static KEYBOARD_EXIT_KEY = Keys.Escape;
+    static KEYBOARD_START_KEY = Keys.ArrowUp;
 
 
 
     // DYNAMIC
-    static MAX_SPEED = 145;
+    static MAX_SPEED = 150;
     static VELOCITY_MULTIPLIER_RATE = 7;
     static LATERAL_VELOCITY_ROTATION_RATE = 1.15;
     // ROTATION
