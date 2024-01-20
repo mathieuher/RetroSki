@@ -1,7 +1,7 @@
 import { Actor, Engine, Scene, SceneActivationContext, Timer, vec } from "excalibur";
 import { Skier } from "../actors/skier";
 import { Gate } from "../actors/gate";
-import { UiManager } from "../utils/ui-manager";
+import { RaceUiManager } from "../utils/race-ui-manager";
 import { Game } from "../game";
 import { Config } from "../config";
 import { StockableRecord } from "../models/stockable-record";
@@ -14,11 +14,11 @@ import { Track } from "../models/track";
 
 export class Race extends Scene {
 
-    private uiManager = new UiManager();
+    private uiManager = new RaceUiManager();
     private uiTimer = new Timer({
-        interval: 10,
+        interval: 50,
         repeats: true,
-        fcn: () => this.updateUi()
+        fcn: () => this.updateRacingUi()
     });
 
     private raceConfig?: EventRaceResult;
@@ -43,6 +43,7 @@ export class Race extends Scene {
     onActivate(_context: SceneActivationContext<{ raceConfig: EventRaceResult }>): void {
         if (_context.data?.raceConfig) {
             this.raceConfig = _context.data?.raceConfig;
+            this.uiManager.buildUi(this.raceConfig.getFullTrackName());
             this.prepareRace(this.raceConfig.trackName, this.raceConfig.trackStyle, this.raceConfig.getNextSkierName()!);
         } else {
             this.returnToEventManager();
@@ -53,6 +54,20 @@ export class Race extends Scene {
         this.cleanRace();
     }
 
+    public setupCamera(): void {
+        this.camera.strategy.elasticToActor(this.skierGhost!, 0.12, 0.2);
+        this.camera.zoom = Config.CAMERA_ZOOM;
+    }
+
+    public startRace(): void {
+        this.uiManager.displayRacingUi();
+        this.startTime = this.engine.clock.now();
+        this.uiTimer.start();
+        this.listenStopRaceEvent();
+        this.skier!.startRace();
+        (this.engine as Game).soundPlayer.playSound(Resources.StartRaceSound, 0.2);
+    }
+
     public stopRace(): void {
         this.endTime = this.engine.clock.now();
         this.skier!.finishRace();
@@ -61,8 +76,7 @@ export class Race extends Scene {
 
         const result = new RaceResult(this.raceConfig?.raceNumber!, this.skier?.skierName!, new Date(), timing);
         const globalResult = (this.engine as Game).trackManager.saveRecord(this.raceConfig!.trackName, new StockableRecord(result));
-        this.uiManager.updateUiState('result');
-        this.uiManager.updateUi(this.skier?.speed || 0, timing, this.track, globalResult);
+        this.uiManager.displayResultUi(globalResult);
         this.uiManager.backToManagerButton.addEventListener('click', () => this.returnToEventManager(result), { once: true });
         (this.engine as Game).soundPlayer.playSound(Resources.FinishRaceSound, 0.3);
     }
@@ -76,18 +90,6 @@ export class Race extends Scene {
 
     public updateGhost(yPosition: number): void {
         this.skierGhost!.pos = vec(0, yPosition + Config.FRONT_GHOST_DISTANCE);
-    }
-
-    public setupCamera(): void {
-        this.camera.strategy.elasticToActor(this.skierGhost!, 0.12, 0.2);
-        this.camera.zoom = Config.CAMERA_ZOOM;
-    }
-
-    public startRace(): void {
-        this.uiTimer.start();
-        this.listenStopRaceEvent();
-        this.skier!.startRace();
-        (this.engine as Game).soundPlayer.playSound(Resources.StartRaceSound, 0.3);
     }
 
     private returnToEventManager(raceResult?: RaceResult): void {
@@ -112,7 +114,7 @@ export class Race extends Scene {
     private cleanRace(): void {
         this.startTime = undefined;
         this.endTime = undefined;
-        this.uiManager.updateUiState('menu');
+        this.uiManager.hideUi();
         this.gates = [];
         this.raceConfig = undefined;
         this.track = undefined;
@@ -124,13 +126,8 @@ export class Race extends Scene {
         this.gates?.find(gate => gate.isFinalGate)!.on('stoprace', () => this.stopRace())
     }
 
-    private updateUi(): void {
-        if (this.uiManager.state === 'menu') {
-            this.uiManager.updateUiState('racing');
-        }
-
-        this.startTime = this.startTime || this.engine.clock.now();
-        this.uiManager.updateUi(this.skier?.speed || 0, (this.endTime || this.engine.clock.now()) - this.startTime, this.track);
+    private updateRacingUi(): void {
+        this.uiManager.updateRacingUi(this.skier!.speed, this.engine.clock.now() - this.startTime!);
     }
 
     private buildTrack(trackName: string, trackStyle: TrackStyles): Track {
