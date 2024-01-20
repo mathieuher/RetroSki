@@ -11,7 +11,7 @@ import poleTouchedBlue from "./images/pole_touched_blue.png";
 import polePassedRed from "./images/pole_passed_red.png";
 import polePassedBlue from "./images/pole_passed_blue.png";
 import finalPole from "./images/final_pole.png";
-import winterSound from "./sounds/winter.wav";
+import winterSound from "./sounds/winter.mp3";
 import startRaceSound from "./sounds/start_race.mp3";
 import finishRaceSound from "./sounds/finish_race.mp3";
 import gateMissedSound from "./sounds/gate_missed.mp3";
