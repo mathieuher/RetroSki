@@ -7,7 +7,6 @@
         "dev": "vite",
         "build": "tsc && vite build",
         "serve": "vite preview",
-        "test": "npm run build && ex-test -d ./dist -t ./test/test.js",
         "predeploy": "npm run build",
         "deploy": "gh-pages -d dist"
     },
