@@ -30,7 +30,6 @@ export class Skier extends Actor {
         });
         this.skierName = skierName;
         this.skierConfig = skierConfig;
-        console.log(skierConfig);
     }
 
     onInitialize() {
