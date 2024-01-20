@@ -35,7 +35,7 @@ export class Race extends Scene {
     }
 
     onPreUpdate(_engine: Engine, _delta: number): void {
-        if (_engine.input.keyboard.wasPressed(Config.RESTART_KEY)) {
+        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_RESTART_KEY)) {
             this.returnToEventManager();
         }
     }

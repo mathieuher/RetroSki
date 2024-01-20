@@ -53,7 +53,7 @@ export class Skier extends Actor {
             this.graphics.use(this.skierBrakingSprite);
             this.emitBreakingParticles();
         } else {
-            if (engine.input.keyboard.isHeld(Config.START_KEY)) {
+            if (engine.input.keyboard.isHeld(Config.KEYBOARD_START_KEY)) {
                 (this.scene as Race).startRace();
             }
         }
@@ -231,7 +231,7 @@ export class Skier extends Actor {
     }
 
     private hasBreakingIntention(engine: Engine): boolean {
-        return engine.input.keyboard.isHeld(Config.CONTROL_BRAKE);
+        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE);
     }
 
     private hasCarvingIntention(engine: Engine): boolean {
@@ -255,11 +255,11 @@ export class Skier extends Actor {
     }
 
     private hasLeftCarvingIntention(engine: Engine): boolean {
-        return engine.input.keyboard.isHeld(Config.CONTROL_CARVE_LEFT);
+        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_LEFT);
     }
 
     private hasRightCarvingIntention(engine: Engine): boolean {
-        return engine.input.keyboard.isHeld(Config.CONTROL_CARVE_RIGHT);
+        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_RIGHT);
     }
 
     private hasTurningIntention(engine: Engine): boolean {
