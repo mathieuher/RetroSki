@@ -65,7 +65,7 @@ export class Race extends Scene {
         this.uiTimer.start();
         this.listenStopRaceEvent();
         this.skier!.startRace();
-        (this.engine as Game).soundPlayer.playSound(Resources.StartRaceSound, 0.2);
+        (this.engine as Game).soundPlayer.playSound(Resources.StartRaceSound, 0.3);
     }
 
     public stopRace(): void {

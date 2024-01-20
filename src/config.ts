@@ -11,6 +11,10 @@ export class Config {
     static DISPLAY_MAX_LEFT_POSITION = -Config.DISPLAY_MAX_RIGHT_POSITION;
     static FRONT_GHOST_DISTANCE = - this.DISPLAY_HEIGHT / 2;
 
+    // SOUND
+    static BRAKING_SOUND_VOLUME = 0.25;
+    static CARVING_SOUND_VOLUME = 0.4;
+
     // RACE
     static MISSED_GATE_PENALTY_TIME = 3000;
 

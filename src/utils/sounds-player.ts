@@ -31,10 +31,12 @@ export class SoundPlayer {
         this.soundButton.style.display = 'none';
     }
 
-    public playSound(sound: Sound, volume: number, loop = false): void {
-        if (this.sound) {
+    public playSound(sound: Sound, volume: number, loop = false, playMultiple = true): void {
+        if (this.sound && (!sound.isPlaying() || playMultiple)) {
             sound.loop = loop;
             sound.play(volume);
+        } else if (this.sound && sound.isPlaying() && volume !== sound.volume) {
+            sound.volume = volume;
         }
     }
 
