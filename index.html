@@ -17,8 +17,8 @@
         </div>
         <div class="hud-container">
             <div class="actions-toolbar">
-                <i id="sound-mute-button" class="fa-solid fa-volume-high" title="Disable sound during the race"></i>
-                <i id="sound-button" class="fa-solid fa-volume-xmark" title="Enable sound during the race"></i>
+                <i id="sound-mute-button" class="fa-solid fa-volume-high"></i>
+                <i id="sound-button" class="fa-solid fa-volume-xmark"></i>
             </div>
             <div id="event-setup">
                 <div class="dialog">
@@ -26,39 +26,29 @@
                     <div class="dialog-content">
                         <div class="form-line">
                             <div class="label">Track</div>
-                            <div class="input">
-                                <input type="text" id="track-input"
-                                    placeholder="Soelden, Davos, Wengen, Adelboden, Zermatt..." />
-                            </div>
+                            <input type="text" id="track-input"
+                                placeholder="Soelden, Davos, Wengen, Adelboden, Zermatt..." />
                         </div>
                         <div class="form-line">
                             <div class="label">Style <small>(only used when generating a new track)</small></div>
-                            <div class="input">
-                                <select id="track-style-select">
-                                    <option value="SL">Slalom</option>
-                                    <option selected value="GS">Giant slalom</option>
-                                    <option value="SG">Super-G</option>
-                                    <option value="DH">Downhill</option>
-                                </select>
-                            </div>
+                            <select id="track-style-select">
+                                <option value="SL">Slalom</option>
+                                <option selected value="GS">Giant slalom</option>
+                                <option value="SG">Super-G</option>
+                                <option value="DH">Downhill</option>
+                            </select>
                         </div>
                         <div class="form-line">
                             <div class="label">Skier 1</div>
-                            <div class="input">
-                                <input type="text" id="skier-1-input" placeholder="Skier 1 name" />
-                            </div>
+                            <input type="text" id="skier-1-input" placeholder="Skier 1 name" />
                         </div>
                         <div class="form-line">
                             <div class="label">Skier 2</div>
-                            <div class="input">
-                                <input type="text" id="skier-2-input" placeholder="Skier 2 name" />
-                            </div>
+                            <input type="text" id="skier-2-input" placeholder="Skier 2 name" />
                         </div>
                         <div class="form-line">
                             <div class="label">Number of races</div>
-                            <div class="input">
-                                <input type="number" id="races-number-input" value="1" min="1" max="10" />
-                            </div>
+                            <input type="number" id="races-number-input" value="1" min="1" max="10" />
                         </div>
                     </div>
                     <div class="dialog-actions">

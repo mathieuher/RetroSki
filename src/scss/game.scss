@@ -110,7 +110,7 @@ html body {
                     font-size: 1.7rem;
                     display: flex;
                     flex-direction: column;
-                    gap: 2rem;
+                    gap: 1rem;
 
                     .form-line {
                         display: flex;
@@ -121,10 +121,11 @@ html body {
                         align-items: center;
                         overflow: hidden;
 
-                        .input {
-                            display: flex;
-                            overflow: hidden;
+                        .label {
+                            min-width: 350px;
                         }
+
+
 
                     }
                 }
@@ -134,6 +135,8 @@ html body {
             input,
             input:active,
             input:focus {
+                display: flex;
+                flex: 1 1 auto;
                 font-size: 1.3rem;
                 padding: 0.5rem 1rem !important;
                 color: $text;
@@ -141,18 +144,17 @@ html body {
                 border: 2px solid $text;
                 border-radius: 4px;
                 outline: none;
-                max-width: calc(100% - 4rem);
+                min-width: 0;
 
-                &:not([type="number"]) {
-                    width: calc(300px - 2rem);
+
+                &[type="number"] {
+                    max-width: 100px;
                 }
 
 
             }
 
             select {
-                width: calc(300px + 4px) !important;
-                max-width: calc(100% - 2rem) !important;
                 appearance: none;
                 background-color: $primary;
             }
