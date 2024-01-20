@@ -78,8 +78,10 @@ html body {
             background-color: $primary;
 
             .dialog-content {
+                overflow: hidden;
                 flex: 1 1 auto;
                 padding: 1rem;
+                overflow-y: auto;
             }
 
             .dialog-actions {
@@ -105,14 +107,15 @@ html body {
 
                 .dialog-content {
                     font-size: 1.7rem;
-                    justify-content: center;
                     display: flex;
                     flex-direction: column;
                     gap: 2rem;
 
                     .form-line {
                         display: flex;
+                        flex-shrink: 0;
                         gap: 1rem;
+                        flex-wrap: wrap;
                         justify-content: space-between;
                         align-items: center;
                         overflow: hidden;
@@ -137,6 +140,7 @@ html body {
                 border: 2px solid $text;
                 border-radius: 4px;
                 outline: none;
+                max-width: calc(100% - 4rem);
 
                 &:not([type="number"]) {
                     width: calc(300px - 2rem);
@@ -147,6 +151,7 @@ html body {
 
             select {
                 width: calc(300px + 4px) !important;
+                max-width: calc(100% - 2rem) !important;
                 appearance: none;
                 background-color: $primary;
             }
@@ -257,7 +262,7 @@ html body {
         .game-container {
             width: 800px;
             max-width: 100vw;
-            height: 600px;
+            height: 800px;
             max-height: 100vh;
 
             .start-button {
@@ -301,6 +306,7 @@ html body {
                 align-items: center;
                 justify-content: center;
                 overflow: hidden;
+                overflow-x: auto;
                 font-family: monospace;
 
                 #results-container {
