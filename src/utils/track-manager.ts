@@ -8,8 +8,7 @@ import { TrackBuilder } from "./track-builder";
 import { format } from 'date-fns';
 
 export class TrackManager {
-    constructor() {
-    }
+    constructor() { }
 
     public loadTrack(name: string, trackStyle: TrackStyles): Track {
         const requestedTrack = this.getTrackFromLocalStorage(name);
@@ -56,6 +55,10 @@ export class TrackManager {
 
     public saveTrackToLocalStorage(track: StockableTrack): void {
         localStorage.setItem(`track_${track.name}`, JSON.stringify(track));
+    }
+
+    public getTrackStyle(trackName: string): TrackStyles | undefined {
+        return this.getTrackFromLocalStorage(trackName)?.style;
     }
 
     private getTrackFromLocalStorage(trackName: string): StockableTrack | null {

@@ -35,9 +35,7 @@ export class EventManager extends Scene {
     onActivate(_context: SceneActivationContext<{ eventConfig?: EventConfig, raceResult?: RaceResult }>): void {
         this.trackManager = (this.engine as Game).trackManager;
         if (_context.data?.eventConfig) {
-
             this.eventConfig = _context.data?.eventConfig!;
-            this.startRaceButton
         }
 
         if (_context.data?.raceResult) {
