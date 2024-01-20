@@ -30,9 +30,10 @@ html body {
     overflow: hidden;
 
     .header {
-        img {
+        #header-logo {
             width: 80px;
             height: 80px;
+            display: none;
         }
 
         display: flex;
@@ -129,8 +130,7 @@ html body {
             input,
             input:active,
             input:focus {
-                max-width: 300px;
-                font-size: 1.5rem;
+                font-size: 1.3rem;
                 padding: 0.5rem 1rem !important;
                 color: $text;
                 background-color: transparent;
@@ -138,16 +138,15 @@ html body {
                 border-radius: 4px;
                 outline: none;
 
-                &input:not([type="number"]) {
-                    width: 300px;
+                &:not([type="number"]) {
+                    width: calc(300px - 2rem);
                 }
 
 
             }
 
             select {
-                max-width: 500px;
-                width: calc(300px + 2rem);
+                width: calc(300px + 4px) !important;
                 appearance: none;
                 background-color: $primary;
             }
@@ -388,6 +387,15 @@ html body {
         padding: 2rem;
     }
 }
+
+small {
+    font-size: small;
+}
+
+::placeholder {
+    color: $secondary-text;
+}
+
 
 i.fa-solid {
     font-size: 1.2rem;

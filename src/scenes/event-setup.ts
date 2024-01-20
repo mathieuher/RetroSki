@@ -2,9 +2,11 @@ import { Engine, Scene, SceneActivationContext } from "excalibur";
 import { EventConfig } from "../models/event-config";
 import { Game } from "../game";
 import { TrackStyles } from "../models/track-styles.enum";
+import { Config } from "../config";
 
 export class EventSetup extends Scene {
 
+    private headerLogoUi = document.getElementById('header-logo')!;
     private raceSetupUi = document.getElementById('event-setup')!;
     private trackInput = document.getElementById('track-input')! as HTMLInputElement;
     private trackStyleSelect = document.getElementById('track-style-select')! as HTMLInputElement;
@@ -20,6 +22,7 @@ export class EventSetup extends Scene {
     }
 
     onActivate(_context: SceneActivationContext<unknown>): void {
+        this.showHeaderLogoUi();
         this.prepareRaceSetup();
     }
 
@@ -43,16 +46,18 @@ export class EventSetup extends Scene {
     }
 
     private completeSetup(): void {
-        const trackName = this.trackInput.value.toLowerCase();
+        const trackName = this.trackInput.value.toLowerCase() || Config.DEFAULT_TRACKS[0];
         const trackStyle = this.trackStyleSelect.value as TrackStyles;
-        const skier1Name = this.skier1Input.value;
-        const skier2Name = this.skier2Input.value;
-        const numberOfRaces = +this.racesNumberInput.value;
+        const skier1Name = this.skier1Input.value || 'Skier 1';
+        const skier2Name = this.skier2Input.value || 'Skier 2';
+        const numberOfRaces = +this.racesNumberInput.value || 1;
 
-        if (trackName && skier1Name && skier2Name && numberOfRaces) {
-            const eventConfig = new EventConfig(trackName, trackStyle, skier1Name, skier2Name, numberOfRaces);
-            this.engine.goToScene('eventManager', { eventConfig: eventConfig });
-        }
+        const eventConfig = new EventConfig(trackName, trackStyle, skier1Name, skier2Name !== skier1Name ? skier2Name : `${skier2Name} 2`, numberOfRaces);
+        this.engine.goToScene('eventManager', { eventConfig: eventConfig });
 
+    }
+
+    private showHeaderLogoUi(): void {
+        this.headerLogoUi.style.display = 'inline';
     }
 }

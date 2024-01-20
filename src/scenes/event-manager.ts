@@ -81,7 +81,7 @@ export class EventManager extends Scene {
 
             return `<div class="result-line">
                 <div class="number">Race ${raceResult.raceNumber}</div>
-                <div>${raceResult.trackName}</div>
+                <div>${raceResult.getFullTrackName()}</div>
                 <div class="${raceResult.getWinner() === raceResult.skier1Name ? 'winner' : ''}">${raceResult.skier1Timing ? format(raceResult.skier1Timing, Config.FORMAT_TIMING) : ''}${skier1RecordPosition}</div>
                 <div>${raceResult.isCompleted() ? '(' + format(Math.abs(raceResult.skier1Timing! - raceResult.skier2Timing!), Config.FORMAT_TIMING) + ')' : ''}</div>
                 <div class="${raceResult.getWinner() === raceResult.skier2Name ? 'winner' : ''}">${raceResult.skier2Timing ? format(raceResult.skier2Timing, Config.FORMAT_TIMING) : ''}${skier2RecordPosition}</div>
@@ -113,7 +113,7 @@ export class EventManager extends Scene {
                 result += `
                     <div class="result-line ${index < 1 ? 'next' : ''}">
                         <div class="number">Race ${raceResult.raceNumber}</div>
-                        <div>${raceResult.trackName}</div>
+                        <div>${raceResult.getFullTrackName()}</div>
                         <div>${raceResult.skier1Name}</div>
                         <div>${trackRecord}</div>
                     </div>`;
@@ -122,7 +122,7 @@ export class EventManager extends Scene {
                 result += `
                     <div class="result-line ${index < 1 && raceResult.skier1Timing ? 'next' : ''}">
                         <div class="number">Race ${raceResult.raceNumber}</div>
-                        <div>${raceResult.trackName}</div>
+                        <div>${raceResult.getFullTrackName()}</div>
                         <div>${raceResult.skier2Name}</div>
                         <div>${trackRecord}</div>
                     </div>`
