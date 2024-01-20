@@ -11,6 +11,9 @@ export class Config {
     static DISPLAY_MAX_LEFT_POSITION = -Config.DISPLAY_MAX_RIGHT_POSITION;
     static FRONT_GHOST_DISTANCE = - this.DISPLAY_HEIGHT / 2;
 
+    // RACE
+    static MISSED_GATE_PENALTY_TIME = 3000;
+
     // FORMAT
     static FORMAT_TIMING = 'mm:ss:SS';
 
@@ -25,8 +28,6 @@ export class Config {
     static KEYBOARD_RESTART_KEY = Keys.R;
     static KEYBOARD_EXIT_KEY = Keys.Escape;
     static KEYBOARD_START_KEY = Keys.ArrowUp;
-
-
 
     // DYNAMIC
     static MAX_SPEED = 150;

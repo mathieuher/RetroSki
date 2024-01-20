@@ -9,13 +9,15 @@ import { Resources } from "../resources";
 export class Gate extends Actor {
 
     public isFinalGate!: boolean
+    public passed = false;
 
     private leftPole?: Pole;
     private rightPole?: Pole;
     private gateDetector?: GateDetector;
     private gateNumber?: number;
     private polesColor: 'red' | 'blue';
-    private gatePassed = false;
+    private missed = false;
+
 
     constructor(position: Vector, width: number, color: 'red' | 'blue', gateNumber?: number, isFinalGate = false) {
         super({
@@ -39,9 +41,9 @@ export class Gate extends Actor {
             this.buildComponents();
         }
 
-        if (!this.isFinalGate && !this.gatePassed && this.shouldBePassed()) {
-            (this.scene as Race).addPenalty(this.gateNumber);
-            this.gatePassed = true;
+        if (!this.isFinalGate && !this.passed && !this.missed && this.shouldBePassed()) {
+            (this.scene as Race).addPenalty();
+            this.missed = true;
         }
 
         if (this.canBeDestroy()) {
@@ -89,7 +91,7 @@ export class Gate extends Actor {
     }
 
     private onGatePassed(): void {
-        this.gatePassed = true;
+        this.passed = true;
         if (this.isFinalGate) {
             (this.scene as Race).stopRace();
         } else {
