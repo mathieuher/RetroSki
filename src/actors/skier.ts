@@ -4,6 +4,7 @@ import { Resources } from "../resources";
 import { Race } from "../scenes/race";
 import { ParticlesBuilder } from "../utils/particles-builder";
 import { SkierConfig } from "../models/skier-config";
+import { Game } from "../game";
 
 export class Skier extends Actor {
     public speed = 0;
@@ -57,6 +58,7 @@ export class Skier extends Actor {
                 (this.scene as Race).startRace();
             }
         }
+        this.emitSounds(engine as Game, this.finish);
     }
 
     public finishRace(): void {
@@ -177,6 +179,19 @@ export class Skier extends Actor {
             this.graphics.flipHorizontal = this.hasLeftCarvingIntention(engine);
         } else {
             this.graphics.use(this.skierSprite);
+        }
+    }
+
+    private emitSounds(engine: Game, forceBreaking: boolean): void {
+        if (this.hasBreakingIntention(engine) || forceBreaking && this.speed) {
+            const soundIntensity = Math.min(Config.BRAKING_SOUND_VOLUME, (this.speed / Config.MAX_SPEED) * Config.BRAKING_SOUND_VOLUME);
+            engine.soundPlayer.playSound(Resources.SlidingSound, soundIntensity, true, false);
+        } else if (this.hasCarvingIntention(engine) && this.speed) {
+            const soundIntensity = Math.min(Config.CARVING_SOUND_VOLUME, (this.speed / Config.MAX_SPEED) * Config.CARVING_SOUND_VOLUME);
+            engine.soundPlayer.playSound(Resources.CarvingSound, soundIntensity, true, false);
+        } else {
+            engine.soundPlayer.stopSound(Resources.SlidingSound);
+            engine.soundPlayer.stopSound(Resources.CarvingSound);
         }
     }
 
