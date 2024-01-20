@@ -61,7 +61,7 @@ export class Gate extends Actor {
     }
 
     private isOnScreen(): boolean {
-        return Math.abs(this.scene.camera.y - this.pos.y) < Config.DISPLAY_HEIGHT;
+        return Math.abs(this.scene.camera.y - this.pos.y) < Config.DISPLAY_HEIGHT * Config.VISIBLE_ON_SCREEN_MARGIN_FACTOR;
     }
 
     private shouldBePassed(): boolean {
@@ -73,7 +73,7 @@ export class Gate extends Actor {
     }
 
     private canBeDestroy(): boolean {
-        return this.scene.camera.y - this.pos.y < - Config.DISPLAY_HEIGHT;
+        return this.scene.camera.y - this.pos.y < - Config.DISPLAY_HEIGHT * Config.VISIBLE_ON_SCREEN_MARGIN_FACTOR;
     }
 
     private buildComponents(): void {

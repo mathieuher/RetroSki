@@ -33,7 +33,7 @@ export class Game extends Engine {
     public soundPlayer = new SoundPlayer();
 
     constructor() {
-        super({ displayMode: DisplayMode.FitContainer, backgroundColor: Color.White, fixedUpdateFps: 60, maxFps: 60, canvasElementId: 'game' });
+        super({ displayMode: DisplayMode.FitContainerAndFill, width: 800, height: 800, backgroundColor: Color.White, fixedUpdateFps: 60, maxFps: 60, canvasElementId: 'game' });
     }
 
     initialize() {
