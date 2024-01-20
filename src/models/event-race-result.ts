@@ -35,6 +35,10 @@ export class EventRaceResult {
         return this.isCompleted();
     }
 
+    public getFullTrackName(): string {
+        return `${this.trackStyle} - ${this.trackName}`;
+    }
+
     public isStarted(): boolean {
         return !!this.skier1Timing || !!this.skier2Timing;
     }
