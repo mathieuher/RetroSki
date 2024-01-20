@@ -8,7 +8,7 @@
 - Add starting gate
 - Add spectator and objects
 - Improve sounds
-- ~~Add a counter for missed gates and display it in the results~~
+- ✔️ ~~Add a counter for missed gates and display it in the results~~
 
 ## :bulb: Further ideas
 - Implement ghost record
