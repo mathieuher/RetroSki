@@ -52,7 +52,8 @@ export class EventSetup extends Scene {
         const skier2Name = this.skier2Input.value || 'Skier 2';
         const numberOfRaces = +this.racesNumberInput.value || 1;
 
-        const eventConfig = new EventConfig(trackName, trackStyle, skier1Name, skier2Name !== skier1Name ? skier2Name : `${skier2Name} 2`, numberOfRaces);
+
+        const eventConfig = new EventConfig(trackName, (this.engine as Game).trackManager.getTrackStyle(trackName) || trackStyle, skier1Name, skier2Name !== skier1Name ? skier2Name : `${skier2Name} 2`, numberOfRaces);
         this.engine.goToScene('eventManager', { eventConfig: eventConfig });
 
     }
