@@ -46,6 +46,7 @@ html body {
         position: relative;
         border-radius: 10px;
         overflow: hidden;
+        max-width: 100%;
 
         .actions-toolbar {
             position: absolute;
@@ -261,9 +262,9 @@ html body {
 
         .game-container {
             width: 800px;
-            max-width: 100vw;
+            max-width: 100%;
             height: 800px;
-            max-height: 100vh;
+            max-height: 100%;
 
             .start-button {
                 font-weight: 200;
@@ -279,7 +280,7 @@ html body {
             top: 50px;
             left: 0;
             width: calc(100% - 2rem);
-            max-height: 500px;
+            max-height: 60%;
             padding: 1rem;
             display: none;
             flex-direction: column;
