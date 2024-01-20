@@ -165,19 +165,36 @@ html body {
                     flex-direction: column;
                     justify-content: space-between;
 
+                    .info-tables {
+                        display: flex;
+                        flex-direction: column;
+                        flex: 1 1 auto;
+                        overflow: hidden;
+                    }
+
                     .section-title {
                         font-size: 0.9rem;
                         margin-top: 0.5rem;
                     }
 
-                    #last-results-container,
-                    #next-races-container,
-                    #actual-ranking-container {
+                    .races-table {
                         display: flex;
                         flex-direction: column;
-                        max-height: 120px;
-                        overflow: auto;
-                        border-radius: 5px;
+                        min-height: 100px;
+                        max-height: 40%;
+                        overflow-x: auto;
+                        overflow-y: hidden;
+
+                        #last-results-container,
+                        #next-races-container,
+                        #actual-ranking-container {
+                            display: flex;
+                            flex-direction: column;
+                            max-height: 100%;
+                            overflow-y: auto;
+                            overflow-x: hidden;
+                            border-radius: 5px;
+                        }
                     }
 
                     .placeholder {
@@ -191,6 +208,11 @@ html body {
 
                     .header-line,
                     .result-line {
+
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 0.5rem;
+
                         &.header-line {
                             display: flex;
                             justify-content: space-between;
@@ -213,8 +235,11 @@ html body {
                         }
 
                         div {
-                            min-width: 100px;
-                            max-width: 100px;
+                            &.number {
+                                width: 60px;
+                            }
+
+                            width: 150px;
                             overflow: hidden;
 
                             &.winner {
@@ -289,9 +314,8 @@ html body {
                 display: flex;
                 flex-direction: column;
                 width: 100%;
-                align-items: center;
                 justify-content: center;
-                overflow: hidden;
+                overflow-y: hidden;
                 overflow-x: auto;
                 font-family: monospace;
 
@@ -304,7 +328,9 @@ html body {
 
                 .header-line,
                 .result-line {
-                    padding: 0.5rem;
+                    display: flex;
+                    gap: .5rem;
+                    padding: .5rem;
                     display: flex;
                     font-size: 0.75rem;
                     color: $textA100;
