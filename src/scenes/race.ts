@@ -25,7 +25,7 @@ export class Race extends Scene {
     private track?: Track;
     public skier?: Skier;
     private skierGhost?: Actor;
-    private gates?: Gate[];
+    private gates: Gate[] = [];
     private startTime?: number;
     private endTime?: number;
 
@@ -74,17 +74,17 @@ export class Race extends Scene {
         this.uiTimer.stop();
         const timing = this.endTime - this.startTime!;
 
+        const missedGates = this.gates.filter(gate => !gate.passed).length
         const result = new RaceResult(this.raceConfig?.raceNumber!, this.skier?.skierName!, new Date(), timing);
         const globalResult = (this.engine as Game).trackManager.saveRecord(this.raceConfig!.trackName, new StockableRecord(result));
-        this.uiManager.displayResultUi(globalResult);
+        this.uiManager.displayResultUi(globalResult, missedGates);
         this.uiManager.backToManagerButton.addEventListener('click', () => this.returnToEventManager(result), { once: true });
         (this.engine as Game).soundPlayer.playSound(Resources.FinishRaceSound, 0.3);
     }
 
-    public addPenalty(gateNumber?: number): void {
-        console.warn('Missed the gate n°', gateNumber, ' (+ 3s.)');
+    public addPenalty(): void {
         this.camera.shake(3, 3, 250);
-        this.startTime! -= 3000;
+        this.startTime! -= Config.MISSED_GATE_PENALTY_TIME;
         (this.engine as Game).soundPlayer.playSound(Resources.GateMissedSound, 0.3);
     }
 
@@ -136,6 +136,7 @@ export class Race extends Scene {
             this.gates?.push(gate);
             this.add(gate);
         });
+        console.log(this.gates);
         return track;
     }
 
