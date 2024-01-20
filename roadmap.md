@@ -7,7 +7,7 @@
 - Different skier sprite and size regarding the track style
 - Add starting gate
 - Add spectator and objects
-- Improve sounds
+- ✔️ ~~Improve sounds~~
 - ✔️ ~~Add a counter for missed gates and display it in the results~~
 
 ## :bulb: Further ideas
