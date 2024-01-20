@@ -59,6 +59,9 @@ The dynamic of the skier is also impacted by the style of the track to mimic rea
 RetroSki use localStorage to persist generated tracks and records.<br> 
 You can easily export them and share them with friends by using the browser developper tools.
 
+## 👷‍♂️ What's next ?
+<a href="roadmap.md">Draft of a roadmap</a>
+
 ## ⚫ Developer guide
 1. Run `npm install` to install dependencies
 2. Run `npm run dev` to start the Vite server!
