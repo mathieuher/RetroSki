@@ -11,7 +11,6 @@ $textA100: #ffffffce;
 $secondary-text: #cecece;
 $lineBackground: #ffffff29;
 
-
 html body {
     padding: 0;
     margin: 0;
@@ -28,19 +27,6 @@ html body {
     width: 100vw;
     background-color: $background;
     overflow: hidden;
-
-    .header {
-        #header-logo {
-            width: 80px;
-            height: 80px;
-            display: none;
-        }
-
-        display: flex;
-        width: calc(100% - 4rem);
-        align-items: center;
-        justify-content: center;
-    }
 
     .hud-container {
         position: relative;
@@ -124,9 +110,6 @@ html body {
                         .label {
                             min-width: 350px;
                         }
-
-
-
                     }
                 }
             }
@@ -408,7 +391,6 @@ small {
 ::placeholder {
     color: $secondary-text;
 }
-
 
 i.fa-solid {
     font-size: 1.2rem;
