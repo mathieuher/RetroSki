@@ -36,7 +36,7 @@ export class EventRaceResult {
     }
 
     public getFullTrackName(): string {
-        return `${this.trackStyle} - ${this.trackName}`;
+        return `${this.trackStyle} - ${this.trackName[0].toUpperCase()}${this.trackName.slice(1).toLowerCase()}`;
     }
 
     public isStarted(): boolean {
