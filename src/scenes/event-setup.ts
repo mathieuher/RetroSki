@@ -6,7 +6,6 @@ import { Config } from "../config";
 
 export class EventSetup extends Scene {
 
-    private headerLogoUi = document.getElementById('header-logo')!;
     private raceSetupUi = document.getElementById('event-setup')!;
     private trackInput = document.getElementById('track-input')! as HTMLInputElement;
     private trackStyleSelect = document.getElementById('track-style-select')! as HTMLInputElement;
@@ -22,7 +21,6 @@ export class EventSetup extends Scene {
     }
 
     onActivate(_context: SceneActivationContext<unknown>): void {
-        this.showHeaderLogoUi();
         this.prepareRaceSetup();
     }
 
@@ -56,9 +54,5 @@ export class EventSetup extends Scene {
         const eventConfig = new EventConfig(trackName, (this.engine as Game).trackManager.getTrackStyle(trackName) || trackStyle, skier1Name, skier2Name !== skier1Name ? skier2Name : `${skier2Name} 2`, numberOfRaces);
         this.engine.goToScene('eventManager', { eventConfig: eventConfig });
 
-    }
-
-    private showHeaderLogoUi(): void {
-        this.headerLogoUi.style.display = 'inline';
     }
 }
