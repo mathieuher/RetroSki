@@ -136,7 +136,6 @@ export class Race extends Scene {
             this.gates?.push(gate);
             this.add(gate);
         });
-        console.log(this.gates);
         return track;
     }
 
