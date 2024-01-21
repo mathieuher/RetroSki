@@ -8,18 +8,19 @@ import { Resources } from "../resources";
 
 export class Gate extends Actor {
 
-    public isFinalGate!: boolean
+    public isFinalGate!: boolean;
+    public isSectorGate!: boolean;
     public passed = false;
 
     private leftPole?: Pole;
     private rightPole?: Pole;
     private gateDetector?: GateDetector;
-    private gateNumber?: number;
+    private gateNumber: number;
     private polesColor: 'red' | 'blue';
     private missed = false;
 
 
-    constructor(position: Vector, width: number, color: 'red' | 'blue', gateNumber?: number, isFinalGate = false) {
+    constructor(position: Vector, width: number, color: 'red' | 'blue', gateNumber: number, isFinalGate = false, isSectorGate = false) {
         super({
             pos: position,
             width: width,
@@ -28,6 +29,7 @@ export class Gate extends Actor {
         });
 
         this.isFinalGate = isFinalGate;
+        this.isSectorGate = isSectorGate;
         this.polesColor = color;
         this.gateNumber = gateNumber;
     }
@@ -52,14 +54,7 @@ export class Gate extends Actor {
     }
 
     public getStockableGate(): StockableGate {
-        return {
-            x: this.pos.x,
-            y: this.pos.y,
-            color: this.polesColor,
-            width: this.width,
-            gateNumber: this.gateNumber,
-            isFinal: this.isFinalGate
-        };
+        return new StockableGate(this.pos.x, this.pos.y, this.polesColor, this.width, this.gateNumber, this.isFinalGate, this.isSectorGate);
     }
 
     private isOnScreen(): boolean {
