@@ -18,9 +18,9 @@ https://mathieuher.github.io/RetroSki
     <th>🎮 Gamepad</th>
   </tr>
   <tr>
-    <td>Start skiing</td>
+    <td>Start skiing (1x)</td>
     <td><img src="src/images/icons/keyboard_arrow_up.png" valign="bottom"/></td>
-    <td><img src="src/images/icons/gamepad_start.png" valign="bottom"/></td>
+    <td><img src="src/images/icons/gamepad_a.png" valign="bottom"/></td>
   </tr>
   <tr>
     <td>Carving</td>
