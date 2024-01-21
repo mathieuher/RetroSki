@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Engine, ParticleEmitter, Scene, vec } from "excalibur";
+import { Actor, CollisionType, Engine, ParticleEmitter, vec } from "excalibur";
 import { Config } from "../config";
 import { Resources } from "../resources";
 import { Race } from "../scenes/race";
