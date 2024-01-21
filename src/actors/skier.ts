@@ -59,7 +59,7 @@ export class Skier extends Actor {
 
     public startRace(): void {
         this.racing = true;
-        (this.scene.engine as Game).soundPlayer.playSound(Resources.TurningSound, 0, true);
+        (this.scene.engine as Game).soundPlayer.playSound(Resources.TurningSound, 0, true, false);
     }
 
     public getSkierCurrentAction(engine: Engine): SkierActions {
