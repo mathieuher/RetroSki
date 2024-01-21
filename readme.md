@@ -16,7 +16,7 @@ https://mathieuher.github.io/RetroSki
 * <b>Arrow right</b> -> Right carving
 * <b>Space bar</b> -> Braking/Side sliding
 
-* <b>G</b> -> Show/Hide global record ghost (best time)
+* <b>G</b> -> Show/Hide global/event record ghost (best time)
 
 * <b>R</b> -> Go back to event menu (allow to restart the race)
 * <b>D</b> -> Toggle debug mode
@@ -61,6 +61,13 @@ The dynamic of the skier is also impacted by the style of the track to mimic rea
 ### Keep your records
 RetroSki use localStorage to persist generated tracks and records.<br> 
 You can easily export them and share them with friends by using the browser developper tools.
+
+### Follow your path
+By default ghost mode is activated and you can see your best times while racing<br>
+1. Global record ghost (Fuchsia) -> The all time best registered on the track
+2. Event record ghost (Green) -> The best time registered on the track during this event<br>
+
+Press the letter <b>G</b> during the race to show/hide the ghosts
 
 ## 👷‍♂️ What's next ?
 <a href="roadmap.md">Draft of a roadmap</a>
