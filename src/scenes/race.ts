@@ -134,6 +134,8 @@ export class Race extends Scene {
 
     public returnToEventManager(raceResult?: RaceResult): void {
         Resources.FinishRaceSound.stop();
+        Resources.CarvingSound.stop();
+        Resources.SlidingSound.stop();
         this.engine.goToScene('eventManager', raceResult ? { raceResult: raceResult } : {});
         this.engine.removeScene('race');
     }
