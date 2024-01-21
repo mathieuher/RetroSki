@@ -44,7 +44,7 @@ export class Skier extends Actor {
             this.updateSpeed(skierAction);
             this.updateVelocity(engine);
         } else {
-            if (engine.input.keyboard.isHeld(Config.KEYBOARD_START_KEY) || (engine as Game).gamepadsManager.isButtonPressed(Config.GAMEPAD_RACE_BUTTON)) {
+            if (engine.input.keyboard.wasPressed(Config.KEYBOARD_START_KEY) || (engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_RACE_BUTTON)) {
                 (this.scene as Race).startRace();
             }
         }
@@ -249,7 +249,7 @@ export class Skier extends Actor {
     }
 
     private hasBreakingIntention(engine: Engine): boolean {
-        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE) || (engine as Game).gamepadsManager.isButtonPressed(Config.GAMEPAD_CONTROL_BRAKE);
+        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE) || (engine as Game).gamepadsManager.isButtonHeld(Config.GAMEPAD_CONTROL_BRAKE);
     }
 
     private carvingIntention(engine: Engine): number {

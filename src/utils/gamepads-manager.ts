@@ -17,7 +17,12 @@ export class GamepadsManager {
         return this.engine.input.gamepads.at(0);
     }
 
-    public isButtonPressed(button: Buttons, gamepad?: Gamepad): boolean {
+    public isButtonHeld(button: Buttons, gamepad?: Gamepad): boolean {
+        gamepad = gamepad || this.getFirstGamepad();
+        return gamepad.isButtonHeld(button);
+    }
+
+    public wasButtonPressed(button: Buttons, gamepad?: Gamepad): boolean {
         gamepad = gamepad || this.getFirstGamepad();
         return gamepad.wasButtonPressed(button);
     }

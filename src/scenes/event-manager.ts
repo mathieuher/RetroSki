@@ -43,7 +43,7 @@ export class EventManager extends Scene {
     }
 
     onPreUpdate(engine: Engine): void {
-        if ((engine as Game).gamepadsManager.isButtonPressed(Config.GAMEPAD_START_BUTTON) && this.eventConfig?.getNextRace()) {
+        if ((engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_START_BUTTON) && this.eventConfig?.getNextRace()) {
             this.startRace();
         }
     }

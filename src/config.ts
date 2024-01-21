@@ -40,7 +40,7 @@ export class Config {
     static GAMEPAD_EXIT_BUTTON = Buttons.Select;
     static GAMEPAD_RACE_BUTTON = Buttons.Face1;
     static GAMEPAD_START_BUTTON = Buttons.Start;
-    static GAMEPAD_GHOST_BUTTON = Buttons.LeftTrigger;
+    static GAMEPAD_GHOST_BUTTON = Buttons.LeftBumper;
 
     // DYNAMIC
     static MAX_SPEED = 150;

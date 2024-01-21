@@ -48,7 +48,7 @@ export class Race extends Scene {
     }
 
     onPreUpdate(_engine: Engine, _delta: number): void {
-        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_RESTART_KEY) || (_engine as Game).gamepadsManager.isButtonPressed(Config.GAMEPAD_EXIT_BUTTON)) {
+        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_RESTART_KEY) || (_engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_EXIT_BUTTON)) {
             this.returnToEventManager();
         }
 
