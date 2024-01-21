@@ -22,6 +22,7 @@ export class EventManager extends Scene {
     constructor(engine: Engine) {
         super();
         this.engine = engine;
+        this.listenAction();
     }
 
     onActivate(_context: SceneActivationContext<{ eventConfig?: EventConfig, raceResult?: RaceResult }>): void {
@@ -132,7 +133,7 @@ export class EventManager extends Scene {
 
     private listenAction(): void {
         this.startRaceButton.addEventListener('click', () => {
-            if (this.eventConfig.getNextRace()) {
+            if (this.eventConfig?.getNextRace()) {
                 this.startRace();
             } else {
                 this.backToMenu();
@@ -140,7 +141,7 @@ export class EventManager extends Scene {
         });
 
         (this.engine as Game).gamepadsManager.getFirstGamepad().on('button', (buttonEvent) => {
-            if (buttonEvent.button === Config.GAMEPAD_START_BUTTON && this.eventConfig.getNextRace()) {
+            if (buttonEvent.button === Config.GAMEPAD_START_BUTTON && this.eventConfig?.getNextRace()) {
                 console.log('will start race from gamepad');
                 this.startRace();
             }
