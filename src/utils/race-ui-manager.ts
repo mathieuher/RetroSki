@@ -1,5 +1,7 @@
 import { format } from "date-fns";
 import { RecordResult } from "../models/record-result";
+import { delay } from "excalibur/build/dist/Util/Util";
+import { Engine } from "excalibur";
 
 export class RaceUiManager {
 
@@ -29,6 +31,13 @@ export class RaceUiManager {
     public displayResultUi(globalResult: { position: number, records: RecordResult[] }, missedGates: number): void {
         this.resultUi.style.display = 'flex';
         this.updateResultUi(globalResult, missedGates);
+    }
+
+    public flashTimer(engine: Engine): void {
+        this.timerUi.style.color = '#f5090987';
+        delay(750, engine.clock).then(() => {
+            this.timerUi.style.color = '#4c829087';
+        })
     }
 
     public hideUi(): void {

@@ -29,7 +29,7 @@ export class Pole extends Actor {
 
     private onPreCollision(evt: CollisionStartEvent): void {
         if (evt.other instanceof Skier) {
-            (this.scene.engine as Game).soundPlayer.playSound(Resources.PoleHittingSound, 0.2);
+            (this.scene.engine as Game).soundPlayer.playSound(Resources.PoleHittingSound, Config.POLE_HIT_SOUND_VOLUME);
         }
 
     }

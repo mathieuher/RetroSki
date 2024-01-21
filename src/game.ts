@@ -41,8 +41,7 @@ export class Game extends Engine {
         Resources.FinishRaceSound,
         Resources.GateMissedSound,
         Resources.PoleHittingSound,
-        Resources.SlidingSound,
-        Resources.CarvingSound
+        Resources.TurningSound
     ];
 
     public trackManager = new TrackManager();

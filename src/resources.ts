@@ -28,8 +28,7 @@ import startRaceSound from "./sounds/start_race.mp3";
 import finishRaceSound from "./sounds/finish_race.mp3";
 import gateMissedSound from "./sounds/gate_missed.mp3";
 import poleHittingSound from "./sounds/pole_hitting.mp3";
-import slidingSound from "./sounds/sliding.mp3";
-import carvingSound from "./sounds/carving.mp3";
+import turningSound from "./sounds/turning.mp3";
 
 const Resources = {
     Skier: new ImageSource(skier),
@@ -61,8 +60,7 @@ const Resources = {
     StartRaceSound: new Sound(startRaceSound),
     GateMissedSound: new Sound(gateMissedSound),
     PoleHittingSound: new Sound(poleHittingSound),
-    SlidingSound: new Sound(slidingSound),
-    CarvingSound: new Sound(carvingSound)
+    TurningSound: new Sound(turningSound)
 
 };
 

@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Engine, ParticleEmitter, vec } from "excalibur";
+import { Actor, CollisionType, Engine, ParticleEmitter, Scene, vec } from "excalibur";
 import { Config } from "../config";
 import { Resources } from "../resources";
 import { Race } from "../scenes/race";
@@ -59,6 +59,7 @@ export class Skier extends Actor {
 
     public startRace(): void {
         this.racing = true;
+        (this.scene.engine as Game).soundPlayer.playSound(Resources.TurningSound, 0, true);
     }
 
     public getSkierCurrentAction(engine: Engine): SkierActions {
@@ -174,15 +175,12 @@ export class Skier extends Actor {
     }
 
     private emitSounds(engine: Game, forceBreaking: boolean): void {
-        if (this.hasBreakingIntention(engine) || forceBreaking && this.speed) {
-            const soundIntensity = Math.min(Config.BRAKING_SOUND_VOLUME, (this.speed / Config.MAX_SPEED) * Config.BRAKING_SOUND_VOLUME);
-            engine.soundPlayer.playSound(Resources.SlidingSound, soundIntensity, true, false);
+        if ((this.hasBreakingIntention(engine) || forceBreaking) && this.speed) {
+            Resources.TurningSound.volume = Math.min(Config.BRAKING_SOUND_VOLUME, (this.speed / Config.MAX_SPEED) * Config.BRAKING_SOUND_VOLUME);
         } else if (this.carvingIntention(engine) && this.speed) {
-            const soundIntensity = Math.min(Config.CARVING_SOUND_VOLUME, (this.speed / Config.MAX_SPEED) * Config.CARVING_SOUND_VOLUME * this.carvingIntention(engine));
-            engine.soundPlayer.playSound(Resources.CarvingSound, soundIntensity, true, false);
+            Resources.TurningSound.volume = Math.min(Config.CARVING_SOUND_VOLUME, (this.speed / Config.MAX_SPEED) * Config.CARVING_SOUND_VOLUME * this.carvingIntention(engine));
         } else {
-            engine.soundPlayer.stopSound(Resources.SlidingSound);
-            engine.soundPlayer.stopSound(Resources.CarvingSound);
+            Resources.TurningSound.volume = 0;
         }
     }
 
