@@ -7,11 +7,12 @@
 - Different skier sprite and size regarding the track style
 - Add starting gate
 - Add spectator and objects
+- ✔️ ~~Add global record ghost~~
+- Add event record ghost
 - ✔️ ~~Improve sounds~~
 - ✔️ ~~Add a counter for missed gates and display it in the results~~
 
 ## :bulb: Further ideas
-- Implement ghost record
 - Implement local multiplayer (same game or dual game)
 - Provide API for tracks and records sharing
 - Playable on mobile/touch device

@@ -64,7 +64,7 @@ export class RaceUiManager {
     private prepareResultsTable(globalResult: { position: number, records: RecordResult[] }, missedGates: number): string {
         return globalResult.records.map(result => {
             const currentResult = result.position === globalResult.position;
-            const startPosition = result.position === (globalResult.position - 4 || 1);
+            const startPosition = result.position === (globalResult.position > 4 ? (globalResult.position - 4) : 1);
             const timeHtml = currentResult && missedGates ? `${result.time}<br><i class="fa-solid fa-triangle-exclamation"></i> missed ${missedGates} gate${missedGates > 1 ? 's' : ''}` : `${result.time}`;
             return `<div ${startPosition ? 'id="startPosition"' : ''} class="result-line ${currentResult ? 'current' : ''}">
                 <div>${result.position}</div>

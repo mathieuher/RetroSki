@@ -16,6 +16,8 @@ https://mathieuher.github.io/RetroSki
 * <b>Arrow right</b> -> Right carving
 * <b>Space bar</b> -> Braking/Side sliding
 
+* <b>G</b> -> Show/Hide global record ghost (best time)
+
 * <b>R</b> -> Go back to event menu (allow to restart the race)
 * <b>D</b> -> Toggle debug mode
 
