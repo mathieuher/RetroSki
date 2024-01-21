@@ -35,6 +35,7 @@ export class EventSetup extends Scene {
     }
 
     private prepareRaceSetup(): void {
+        this.loadSetup();
         this.raceSetupUi.style.display = 'flex';
         (this.engine as Game).soundPlayer.showButton();
     }
@@ -58,7 +59,19 @@ export class EventSetup extends Scene {
 
 
         const eventConfig = new EventConfig(trackName, (this.engine as Game).trackManager.getTrackStyle(trackName) || trackStyle, skier1Name, skier2Name !== skier1Name ? skier2Name : `${skier2Name} 2`, numberOfRaces);
+        this.persistSetup(skier1Name, skier2Name);
         this.engine.goToScene('eventManager', { eventConfig: eventConfig });
+    }
 
+    private loadSetup(): void {
+        const skier1 = localStorage.getItem('setup_skier1');
+        const skier2 = localStorage.getItem('setup_skier2');
+        this.skier1Input.value = skier1 || '';
+        this.skier2Input.value = skier2 || '';
+    }
+
+    private persistSetup(skier1: string, skier2: string) {
+        localStorage.setItem('setup_skier1', skier1);
+        localStorage.setItem('setup_skier2', skier2);
     }
 }
