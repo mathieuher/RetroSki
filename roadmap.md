@@ -3,7 +3,7 @@
 ## :calendar: Planning for the 1.0.0
 - Clean code and improve performance
 - Add intro/help page to provide basic informations in-game
-- Support controller (joystick + 3 buttons)
+- ✔️ ~~Support controller (joystick + 3 buttons)~~
 - Different skier sprite and size regarding the track style
 - Add starting gate
 - Add spectator and objects
