@@ -50,13 +50,12 @@ export class Race extends Scene {
     }
 
     onPreUpdate(_engine: Engine, _delta: number): void {
-        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_RESTART_KEY) || (_engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_EXIT_BUTTON)) {
-            this.returnToEventManager();
-        }
-
         if (this.skier?.racing) {
-            this.updateSkierCameraGhost();
+            if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_RESTART_KEY) || (_engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_EXIT_BUTTON)) {
+                this.returnToEventManager();
+            }
 
+            this.updateSkierCameraGhost();
             this.saveSkierPosition();
             this.updateGhostsPosition();
         } else if (this.skier?.finish && this.result) {
