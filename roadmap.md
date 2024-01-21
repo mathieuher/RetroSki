@@ -7,9 +7,10 @@
 - Different skier sprite and size regarding the track style
 - Add starting gate
 - Add spectator and objects
+- Add sector time and metadata on ghosts to display during the race
 - Provide by default one ghost with each default track
 - ✔️ ~~Add global record ghost~~
-- Add event record ghost
+- ✔️ ~~Add event record ghost~~
 - ✔️ ~~Improve sounds~~
 - ✔️ ~~Add a counter for missed gates and display it in the results~~
 
@@ -17,7 +18,6 @@
 - Implement local multiplayer (same game or dual game)
 - Provide API for tracks and records sharing
 - Playable on mobile/touch device
-- Implement timed sectors
 - Build more advanced track with variable slopes
 - Implement jumping mechanic when playing with slopes
 - Reproduce real world downhill tracks
