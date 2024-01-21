@@ -7,6 +7,7 @@
 - Different skier sprite and size regarding the track style
 - Add starting gate
 - Add spectator and objects
+- Provide by default one ghost with each default track
 - ✔️ ~~Add global record ghost~~
 - Add event record ghost
 - ✔️ ~~Improve sounds~~
