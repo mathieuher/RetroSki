@@ -72,7 +72,7 @@ Here you have to provide few informations before starting to ride :
 2. Style of the track (Slalom, Giant slalom, Super-G or Downhill)<br>
 <b>Note: This param is only applied when generating a new track.</b>
 3. Name of the first player
-4. Name of the second player (must be different than the first player)
+4. Name of the second player
 5. Number of races (1 to 10 is recommended)
 ### Event manager
 This screen is the home place before and after each race.<br>
@@ -81,7 +81,7 @@ It provides informations about the current event.
 You made it to the top of the hill !<br>
 Now it's time to have fun and enjoy some nice carving !<br><br>
 Press (1x) ⌨️<img src="src/images/icons/keyboard_arrow_up.png" valign="bottom"/> or 🎮<img src="src/images/icons/gamepad_a.png" valign="bottom"/> to start skiing and see you at the finish line !<br>
-Don't miss a gate or you'll receive a penalty of <b>3 seconds</b>
+⚠️ Don't miss a gate or you'll receive a penalty of <b>3 seconds</b>
 
 ## 💡 Tips
 ### Preloaded tracks
