@@ -10,6 +10,12 @@ $text: white;
 $textA100: #ffffffce;
 $secondary-text: #cecece;
 $lineBackground: #ffffff29;
+$errorSemi: #f5090987;
+
+$globalGhostA100: #EA19D540;
+$globalGhost: #65005b;
+$eventGhostA100: #43EA1940;
+$eventGhost: #128f00;
 
 html body {
     padding: 0;
@@ -373,6 +379,8 @@ html body {
         }
 
         #track-name,
+        #global-ghost-timing-container,
+        #event-ghost-timing-container,
         #speedometer,
         #timer {
             display: none;
@@ -391,6 +399,42 @@ html body {
                 right: 0;
                 top: 0;
                 width: 150px;
+            }
+
+            &#global-ghost-timing-container,
+            &#event-ghost-timing-container {
+                height: 40px;
+                width: 140px;
+                font-size: 1rem;
+                padding: 0rem 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-radius: 5px 0px 0px 5px;
+                position: absolute;
+                right: calc(-140px - 2rem);
+
+                transition: 200ms ease-in-out right;
+
+                overflow: hidden;
+
+                >span {
+                    display: flex;
+                    align-items: center;
+                    gap: .1rem;
+                }
+
+                &#global-ghost-timing-container {
+                    background-color: $globalGhostA100;
+                    color: $globalGhost;
+                    bottom: 100px;
+                }
+
+                &#event-ghost-timing-container {
+                    background-color: $eventGhostA100;
+                    color: $eventGhost;
+                    bottom: 50px;
+                }
             }
 
             &#speedometer {

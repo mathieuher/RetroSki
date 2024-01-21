@@ -76,6 +76,7 @@ export class Race extends Scene {
     }
 
     onDeactivate(_context: SceneActivationContext<undefined>): void {
+        console.log('ici');
         this.cleanRace();
     }
 
@@ -85,6 +86,7 @@ export class Race extends Scene {
     }
 
     public startRace(): void {
+        this.uiManager.hideGhostsUi();
         this.uiManager.displayRacingUi();
         this.startTime = this.engine.clock.now();
         this.uiTimer.start();
@@ -197,6 +199,7 @@ export class Race extends Scene {
             }
         }
 
+        this.uiManager.displayGhostsTiming(this.globalRecordGhostDatas?.totalTime, this.eventRecordGhostDatas?.totalTime);
         (this.engine as Game).soundPlayer.playSound(Resources.WinterSound, Config.RACE_AMBIANCE_SOUND_VOLUME, true);
     }
 

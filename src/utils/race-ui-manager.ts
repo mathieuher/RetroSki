@@ -2,12 +2,17 @@ import { format } from "date-fns";
 import { RecordResult } from "../models/record-result";
 import { delay } from "excalibur/build/dist/Util/Util";
 import { Engine } from "excalibur";
+import { Config } from "../config";
 
 export class RaceUiManager {
 
     private resultUi = document.getElementById('result')!;
     private resultsContainerUi = document.getElementById('results-container')!;
     private trackNameUi = document.getElementById('track-name')!;
+    private globalGhostTimingContainerUi = document.getElementById('global-ghost-timing-container')!;
+    private globalGhostTimingUi = document.getElementById('global-ghost-timing')!;
+    private eventGhostTimingContainerUi = document.getElementById('event-ghost-timing-container')!;
+    private eventGhostTimingUi = document.getElementById('event-ghost-timing')!;
     private speedometerUi = document.getElementById('speedometer')!;
     private timerUi = document.getElementById('timer')!;
     public backToManagerButton = document.getElementById('back-to-manager')!;
@@ -41,9 +46,27 @@ export class RaceUiManager {
     }
 
     public hideUi(): void {
+        this.hideGhostsUi();
         this.hideTrackName();
         this.hideRacingUi();
         this.hideResultUi();
+    }
+
+    public displayGhostsTiming(globalGhostTiming?: number, eventGhostTiming?: number): void {
+        if (globalGhostTiming) {
+            this.globalGhostTimingUi.innerText = format(globalGhostTiming, Config.FORMAT_TIMING);
+            this.globalGhostTimingContainerUi.style.right = '0';
+        }
+
+        if (eventGhostTiming) {
+            this.eventGhostTimingUi.innerText = format(eventGhostTiming, Config.FORMAT_TIMING);
+            this.eventGhostTimingContainerUi.style.right = '0';
+        }
+    }
+
+    public hideGhostsUi(): void {
+        this.globalGhostTimingContainerUi.style.right = 'calc(-140px - 2rem)';
+        this.eventGhostTimingContainerUi.style.right = 'calc(-140px - 2rem)';
     }
 
     private hideRacingUi(): void {
