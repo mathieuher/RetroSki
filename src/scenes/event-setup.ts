@@ -28,6 +28,12 @@ export class EventSetup extends Scene {
         this.cleanRaceSetup();
     }
 
+    onPreUpdate(engine: Engine): void {
+        if ((engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_START_BUTTON)) {
+            this.completeSetup();
+        }
+    }
+
     private prepareRaceSetup(): void {
         this.raceSetupUi.style.display = 'flex';
         (this.engine as Game).soundPlayer.showButton();

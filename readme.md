@@ -11,18 +11,57 @@ https://mathieuher.github.io/RetroSki
 
 ## 🎮 Controls
 ### During the race
-* <b>Arrow up</b> (1x) -> Start skiing
-* <b>Arrow left</b> -> Left carving
-* <b>Arrow right</b> -> Right carving
-* <b>Space bar</b> -> Braking/Side sliding
-
-* <b>G</b> -> Enable/Disable Ghost mode (best times)
-
-* <b>R</b>/<b>Escape</b> -> Go back to event menu (allow to restart the race)
-* <b>D</b> -> Toggle debug mode
+<table>
+  <tr>
+    <th>Action</th>
+    <th>⌨️ Keyboard</th>
+    <th>🎮 Gamepad</th>
+  </tr>
+  <tr>
+    <td>Start skiing (1x)</td>
+    <td><img src="src/images/icons/keyboard_arrow_up.png" valign="bottom"/></td>
+    <td><img src="src/images/icons/gamepad_a.png" valign="bottom"/></td>
+  </tr>
+  <tr>
+    <td>Carving</td>
+    <td><img src="src/images/icons/keyboard_arrow_left.png" valign="bottom"/><img src="src/images/icons/keyboard_arrow_right.png" valign="bottom"/></td>
+    <td><img src="src/images/icons/gamepad_left_stick.png" valign="bottom"/></td>
+  </tr>
+  <tr>
+    <td>Braking/Sliding</td>
+    <td><img src="src/images/icons/keyboard_space.png" valign="bottom"/></td>
+    <td><img src="src/images/icons/gamepad_b.png" valign="bottom"/></td>
+  </tr>
+  <tr>
+    <td>Show/hide ghosts</td>
+    <td><img src="src/images/icons/keyboard_g.png" valign="bottom"/></td>
+    <td><img src="src/images/icons/gamepad_left_bumper.png" valign="bottom"/></td>
+  </tr>
+  <tr>
+    <td>Return to the event manager (restart the race)</td>
+    <td><img src="src/images/icons/keyboard_exit.png" valign="bottom"/></td>
+    <td><img src="src/images/icons/gamepad_select.png" valign="bottom"/></td>
+  </tr>
+  <tr>
+    <td>Toggle debug mode</td>
+    <td><img src="src/images/icons/keyboard_d.png" valign="bottom"/></td>
+    <td></td>
+  </tr>
+</table>
 
 ### Event manager
-* <b>Escape</b> -> Leave the event and go back to event setup
+<table>
+  <tr>
+    <th>Action</th>
+    <th>⌨️ Keyboard</th>
+    <th>🎮 Gamepad</th>
+  </tr>
+  <tr>
+    <td>Leave the event and go back to event setup</td>
+    <td><img src="src/images/icons/keyboard_exit.png" valign="bottom"/></td>
+    <td><img src="src/images/icons/gamepad_select.png" valign="bottom"/></td>
+  </tr>
+</table>
 
 ## 📘 Gamer guide
 ### Event setup
@@ -64,10 +103,20 @@ You can easily export them and share them with friends by using the browser deve
 
 ### Follow your path
 By default ghost mode is activated and you can see your best times while racing<br>
-1. 👻 Global record ghost (Fuchsia) -> The all time best registered on the track
-2. 👻 Event record ghost (Green) -> The best time registered on the track during this event<br>
-
-Press the letter <b>G</b> during the race to show/hide the ghosts
+<table>
+  <tr>
+    <th>Ghost</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><img src="src/images/icons/global_record_ghost.png" valign="bottom"/></td>
+    <td>Absolute best time on the track</td>
+  </tr>
+  <tr>
+    <td><img src="src/images/icons/event_record_ghost.png" valign="bottom"/></td>
+    <td>Current event best time on the track</td>
+  </tr>
+</table>
 
 ## 👷‍♂️ What's next ?
 <a href="roadmap.md">Draft of a roadmap</a>

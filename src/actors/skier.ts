@@ -44,7 +44,7 @@ export class Skier extends Actor {
             this.updateSpeed(skierAction);
             this.updateVelocity(engine);
         } else {
-            if (engine.input.keyboard.isHeld(Config.KEYBOARD_START_KEY)) {
+            if (engine.input.keyboard.wasPressed(Config.KEYBOARD_START_KEY) || (engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_RACE_BUTTON)) {
                 (this.scene as Race).startRace();
             }
         }
@@ -63,12 +63,12 @@ export class Skier extends Actor {
 
     public getSkierCurrentAction(engine: Engine): SkierActions {
         if (this.racing) {
-            if (this.hasSlidingIntention(engine)) {
-                return this.hasLeftSlidingIntention(engine) ? SkierActions.SLIDE_LEFT : SkierActions.SLIDE_RIGHT;
+            if (this.slidingIntention(engine)) {
+                return this.leftSlidingIntention(engine) ? SkierActions.SLIDE_LEFT : SkierActions.SLIDE_RIGHT;
             } else if (this.hasBreakingIntention(engine)) {
                 return SkierActions.BRAKE;
-            } else if (this.hasCarvingIntention(engine)) {
-                return this.hasLeftCarvingIntention(engine) ? SkierActions.CARVE_LEFT : SkierActions.CARVE_RIGHT;
+            } else if (this.carvingIntention(engine)) {
+                return this.leftCarvingIntention(engine) ? SkierActions.CARVE_LEFT : SkierActions.CARVE_RIGHT;
             } else {
                 return SkierActions.NOTHING;
             }
@@ -82,12 +82,12 @@ export class Skier extends Actor {
         let futurRotation = 0;
 
         if (this.hasTurningIntention(engine)) {
-            if (this.hasSlidingIntention(engine)) {
+            if (this.slidingIntention(engine)) {
                 const rotationSpeedMultiplier = this.speed < this.skierConfig.slidingOptimalSpeed ? Math.max(this.speed, 1) / this.skierConfig.slidingOptimalSpeed : 1;
-                rotationRate = this.skierConfig.slidingRotationRate / (180 / Math.PI) * rotationSpeedMultiplier;
-            } else if (this.hasCarvingIntention(engine)) {
+                rotationRate = this.skierConfig.slidingRotationRate / (180 / Math.PI) * rotationSpeedMultiplier * this.slidingIntention(engine);
+            } else if (this.carvingIntention(engine)) {
                 const rotationSpeedMultiplier = this.speed < this.skierConfig.carvingOptimalSpeed ? Math.max(this.speed, 1) / this.skierConfig.carvingOptimalSpeed : 1;
-                rotationRate = this.skierConfig.carvingRotationRate / (180 / Math.PI) * rotationSpeedMultiplier;
+                rotationRate = this.skierConfig.carvingRotationRate / (180 / Math.PI) * rotationSpeedMultiplier * this.carvingIntention(engine);
             }
             futurRotation = this.hasLeftTurningIntention(engine) ? this.rotation - rotationRate : this.rotation + rotationRate;
         } else {
@@ -162,7 +162,7 @@ export class Skier extends Actor {
     private getAdherenceRate(engine: Engine): number {
         let adherenceRate = 1;
         if (this.hasTurningIntention(engine)) {
-            adherenceRate = this.hasSlidingIntention(engine) ? Config.SLIDING_ADHERENCE_RATE : Config.CARVING_ADHERENCE_RATE;
+            adherenceRate = this.slidingIntention(engine) ? Config.SLIDING_ADHERENCE_RATE : Config.CARVING_ADHERENCE_RATE;
         }
         return adherenceRate;
     }
@@ -177,8 +177,8 @@ export class Skier extends Actor {
         if (this.hasBreakingIntention(engine) || forceBreaking && this.speed) {
             const soundIntensity = Math.min(Config.BRAKING_SOUND_VOLUME, (this.speed / Config.MAX_SPEED) * Config.BRAKING_SOUND_VOLUME);
             engine.soundPlayer.playSound(Resources.SlidingSound, soundIntensity, true, false);
-        } else if (this.hasCarvingIntention(engine) && this.speed) {
-            const soundIntensity = Math.min(Config.CARVING_SOUND_VOLUME, (this.speed / Config.MAX_SPEED) * Config.CARVING_SOUND_VOLUME);
+        } else if (this.carvingIntention(engine) && this.speed) {
+            const soundIntensity = Math.min(Config.CARVING_SOUND_VOLUME, (this.speed / Config.MAX_SPEED) * Config.CARVING_SOUND_VOLUME * this.carvingIntention(engine));
             engine.soundPlayer.playSound(Resources.CarvingSound, soundIntensity, true, false);
         } else {
             engine.soundPlayer.stopSound(Resources.SlidingSound);
@@ -249,38 +249,50 @@ export class Skier extends Actor {
     }
 
     private hasBreakingIntention(engine: Engine): boolean {
-        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE);
+        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE) || (engine as Game).gamepadsManager.isButtonHeld(Config.GAMEPAD_CONTROL_BRAKE);
     }
 
-    private hasCarvingIntention(engine: Engine): boolean {
-        return this.hasLeftCarvingIntention(engine) || this.hasRightCarvingIntention(engine);
+    private carvingIntention(engine: Engine): number {
+        return this.leftCarvingIntention(engine) + this.rightCarvingIntention(engine);
     }
 
-    private hasSlidingIntention(engine: Engine): boolean {
-        return this.hasLeftSlidingIntention(engine) || this.hasRightSlidingIntention(engine);
+    private slidingIntention(engine: Engine): number {
+        return this.leftSlidingIntention(engine) + this.rightSlidingIntention(engine);
     }
 
     private hasLeftTurningIntention(engine: Engine): boolean {
-        return this.hasLeftCarvingIntention(engine) || this.hasLeftSlidingIntention(engine);
+        return this.leftCarvingIntention(engine) + this.leftSlidingIntention(engine) > 0;
     }
 
-    private hasLeftSlidingIntention(engine: Engine): boolean {
-        return this.hasLeftCarvingIntention(engine) && this.hasBreakingIntention(engine);
+    private leftSlidingIntention(engine: Engine): number {
+        return this.hasBreakingIntention(engine) && this.leftCarvingIntention(engine) > 0 ? this.leftCarvingIntention(engine) : 0;
     }
 
-    private hasRightSlidingIntention(engine: Engine): boolean {
-        return this.hasRightCarvingIntention(engine) && this.hasBreakingIntention(engine);
+    private rightSlidingIntention(engine: Engine): number {
+        return this.hasBreakingIntention(engine) && this.rightCarvingIntention(engine) > 0 ? this.rightCarvingIntention(engine) : 0;
     }
 
-    private hasLeftCarvingIntention(engine: Engine): boolean {
-        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_LEFT);
+    private leftCarvingIntention(engine: Engine): number {
+        if (engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_LEFT)) {
+            return 1;
+        } else if ((engine as Game).gamepadsManager.getAxes(Config.GAMEPAD_CONTROL_CARVE) < 0) {
+            return Math.abs((engine as Game).gamepadsManager.getAxes(Config.GAMEPAD_CONTROL_CARVE));
+        } else {
+            return 0;
+        }
     }
 
-    private hasRightCarvingIntention(engine: Engine): boolean {
-        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_RIGHT);
+    private rightCarvingIntention(engine: Engine): number {
+        if (engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_RIGHT)) {
+            return 1;
+        } else if ((engine as Game).gamepadsManager.getAxes(Config.GAMEPAD_CONTROL_CARVE) > 0) {
+            return (engine as Game).gamepadsManager.getAxes(Config.GAMEPAD_CONTROL_CARVE);
+        } else {
+            return 0;
+        }
     }
 
     private hasTurningIntention(engine: Engine): boolean {
-        return this.hasSlidingIntention(engine) || this.hasCarvingIntention(engine);
+        return this.carvingIntention(engine) > 0 || this.slidingIntention(engine) > 0;
     }
 }

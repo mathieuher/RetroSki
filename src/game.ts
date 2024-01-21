@@ -7,6 +7,7 @@ import { EventManager } from "./scenes/event-manager";
 import { SoundPlayer } from "./utils/sounds-player";
 import { LogoManager } from "./utils/logo-manager";
 import { Race } from "./scenes/race";
+import { GamepadsManager } from "./utils/gamepads-manager";
 
 export class Game extends Engine {
 
@@ -46,6 +47,8 @@ export class Game extends Engine {
 
     public trackManager = new TrackManager();
     public soundPlayer = new SoundPlayer();
+    public gamepadsManager = new GamepadsManager(this);
+
     public ghostsEnabled = true;
 
 
@@ -60,7 +63,6 @@ export class Game extends Engine {
         this.trackManager.importDefaultTracks();
 
         this.start(this.getLoader());
-
         this.goToScene('eventSetup');
     }
 
@@ -68,14 +70,13 @@ export class Game extends Engine {
         if (_engine.scenes['race']?.isCurrentScene()) {
             if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_DEBUG_KEY)) {
                 _engine.showDebug(!_engine.isDebug);
-            } else if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_GHOST_KEY)) {
+            } else if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_GHOST_KEY) || this.gamepadsManager.wasButtonPressed(Config.GAMEPAD_GHOST_BUTTON)) {
                 this.ghostsEnabled = !this.ghostsEnabled;
             }
 
         }
 
-
-        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_EXIT_KEY)) {
+        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_EXIT_KEY) || this.gamepadsManager.wasButtonPressed(Config.GAMEPAD_EXIT_BUTTON)) {
             if (_engine.scenes['eventManager']?.isCurrentScene()) {
                 (_engine.currentScene as EventManager).cleanEventRecord();
                 this.goToScene('eventSetup');
@@ -91,7 +92,7 @@ export class Game extends Engine {
         loader.logo = LogoManager.base64Image;
         loader.logoHeight = 250;
         loader.logoWidth = 250;
-        loader.loadingBarColor = Color.fromHex("4a8291");
+        loader.loadingBarColor = Color.fromHex("#4a8291");
 
         loader.startButtonFactory = () => {
             let myButton = document.createElement('button');

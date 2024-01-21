@@ -22,14 +22,7 @@ export class EventManager extends Scene {
     constructor(engine: Engine) {
         super();
         this.engine = engine;
-
-        this.startRaceButton.addEventListener('click', () => {
-            if (this.eventConfig.getNextRace()) {
-                this.startRace();
-            } else {
-                this.backToMenu();
-            }
-        });
+        this.listenAction();
     }
 
     onActivate(_context: SceneActivationContext<{ eventConfig?: EventConfig, raceResult?: RaceResult }>): void {
@@ -47,6 +40,12 @@ export class EventManager extends Scene {
 
     onDeactivate(_context: SceneActivationContext<undefined>): void {
         this.cleanManager();
+    }
+
+    onPreUpdate(engine: Engine): void {
+        if ((engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_START_BUTTON) && this.eventConfig?.getNextRace()) {
+            this.startRace();
+        }
     }
 
     public prepareManager(eventConfig: EventConfig): void {
@@ -136,5 +135,15 @@ export class EventManager extends Scene {
     private backToMenu(): void {
         this.cleanEventRecord();
         this.engine.goToScene('eventSetup');
+    }
+
+    private listenAction(): void {
+        this.startRaceButton.addEventListener('click', () => {
+            if (this.eventConfig?.getNextRace()) {
+                this.startRace();
+            } else {
+                this.backToMenu();
+            }
+        });
     }
 }

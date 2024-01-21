@@ -1,4 +1,4 @@
-import { Keys } from "excalibur";
+import { Axes, Buttons, Keys } from "excalibur";
 
 export class Config {
     // DISPLAY
@@ -33,6 +33,14 @@ export class Config {
     static KEYBOARD_EXIT_KEY = Keys.Escape;
     static KEYBOARD_START_KEY = Keys.ArrowUp;
     static KEYBOARD_GHOST_KEY = Keys.G;
+
+    static GAMEPAD_AXES_FILTER_RATE = 0.1;
+    static GAMEPAD_CONTROL_CARVE = Axes.LeftStickX;
+    static GAMEPAD_CONTROL_BRAKE = Buttons.Face2;
+    static GAMEPAD_EXIT_BUTTON = Buttons.Select;
+    static GAMEPAD_RACE_BUTTON = Buttons.Face1;
+    static GAMEPAD_START_BUTTON = Buttons.Start;
+    static GAMEPAD_GHOST_BUTTON = Buttons.LeftBumper;
 
     // DYNAMIC
     static MAX_SPEED = 150;
