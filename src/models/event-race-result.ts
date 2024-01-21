@@ -1,6 +1,7 @@
 import { TrackStyles } from "./track-styles.enum";
 
 export class EventRaceResult {
+    public eventId: string;
     public raceNumber: number;
     public trackName: string;
     public trackStyle: TrackStyles;
@@ -9,7 +10,8 @@ export class EventRaceResult {
     public skier1Timing?: number;
     public skier2Timing?: number;
 
-    constructor(raceNumber: number, trackName: string, trackStyle: TrackStyles, skier1Name: string, skier2Name: string) {
+    constructor(eventId: string, raceNumber: number, trackName: string, trackStyle: TrackStyles, skier1Name: string, skier2Name: string) {
+        this.eventId = eventId;
         this.raceNumber = raceNumber;
         this.trackName = trackName;
         this.trackStyle = trackStyle;

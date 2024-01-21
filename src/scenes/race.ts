@@ -38,6 +38,9 @@ export class Race extends Scene {
     // Ghost
     private globalRecordGhostPosition?: SkierPositioning[];
     private globalRecordGhost?: Actor;
+    private eventRecordGhostPosition?: SkierPositioning[];
+    private eventRecordGhost?: Actor;
+    private eventRecordGhostSize?: number;
 
     constructor(engine: Engine) {
         super();
@@ -53,15 +56,15 @@ export class Race extends Scene {
             this.updateSkierCameraGhost();
 
             this.saveSkierPosition();
-            this.updateGhostPosition();
+            this.updateGhostsPosition();
         }
     }
 
-    onActivate(_context: SceneActivationContext<{ raceConfig: EventRaceResult }>): void {
+    onActivate(_context: SceneActivationContext<{ eventId: string, raceConfig: EventRaceResult }>): void {
         if (_context.data?.raceConfig) {
-            this.raceConfig = _context.data?.raceConfig;
+            this.raceConfig = _context.data.raceConfig;
             this.uiManager.buildUi(this.raceConfig.getFullTrackName());
-            this.prepareRace(this.raceConfig.trackName, this.raceConfig.trackStyle, this.raceConfig.getNextSkierName()!);
+            this.prepareRace(_context.data.eventId, this.raceConfig.trackName, this.raceConfig.trackStyle, this.raceConfig.getNextSkierName()!);
         } else {
             this.returnToEventManager();
         }
@@ -92,6 +95,7 @@ export class Race extends Scene {
         const timing = this.endTime - this.startTime!;
 
         this.globalRecordGhost?.kill();
+        this.eventRecordGhost?.kill();
 
         const missedGates = this.gates.filter(gate => !gate.passed).length
         const result = new RaceResult(this.raceConfig?.raceNumber!, this.skier?.skierName!, new Date(), timing);
@@ -99,6 +103,10 @@ export class Race extends Scene {
 
         if (globalResult.position === 1) {
             this.updateGlobalRecordGhost(this.raceConfig!.trackName, this.skierPositions);
+        }
+
+        if (!this.eventRecordGhostSize || this.skierPositions?.length < this.eventRecordGhostSize) {
+            this.updateEventRecordGhost(this.raceConfig!.eventId, this.raceConfig!.trackName, this.skierPositions);
         }
 
         this.uiManager.displayResultUi(globalResult, missedGates);
@@ -116,39 +124,46 @@ export class Race extends Scene {
         this.skierCameraGhost!.pos = vec(0, this.skier!.pos.y + Config.FRONT_GHOST_DISTANCE);
     }
 
-    private saveSkierPosition(): void {
-        this.skierPositions?.push(new SkierPositioning(this.skier!.pos.x, this.skier!.pos.y, this.skier!.rotation, this.skier!.getSkierCurrentAction(this.engine)));
-    }
-
-    private updateGhostPosition(): void {
-        if (this.globalRecordGhost && this.globalRecordGhostPosition?.length) {
-            const position = this.globalRecordGhostPosition.splice(0, 1)[0];
-            if ((this.engine as Game).ghostsEnabled) {
-                this.globalRecordGhost.pos = vec(position.x, position.y);
-                this.globalRecordGhost.rotation = position.rotation;
-                this.updateGhostGraphics(this.globalRecordGhost, position.action);
-            } else {
-                this.globalRecordGhost.graphics.visible = false;
-            }
-        }
-    }
-
-    private updateGhostGraphics(ghost: Actor, action: SkierActions): void {
-        if (!ghost.graphics.visible) {
-            ghost.graphics.visible = true;
-        }
-        const graphic = SkierGraphics.getSpriteForAction('globalRecordGhost', action);
-        ghost.graphics.use(graphic.sprite);
-        ghost.graphics.flipHorizontal = !!graphic.flipHorizontal;
-    }
-
-    private returnToEventManager(raceResult?: RaceResult): void {
+    public returnToEventManager(raceResult?: RaceResult): void {
         Resources.FinishRaceSound.stop();
         this.engine.goToScene('eventManager', raceResult ? { raceResult: raceResult } : {});
         this.engine.removeScene('race');
     }
 
-    private prepareRace(trackName: string, askedTrackStyle: TrackStyles, skierName: string): void {
+    private saveSkierPosition(): void {
+        this.skierPositions?.push(new SkierPositioning(this.skier!.pos.x, this.skier!.pos.y, this.skier!.rotation, this.skier!.getSkierCurrentAction(this.engine)));
+    }
+
+    private updateGhostsPosition(): void {
+        if (this.globalRecordGhost && this.globalRecordGhostPosition?.length) {
+            this.updateGhostPosition(this.globalRecordGhost, this.globalRecordGhostPosition, 'global');
+        }
+        if (this.eventRecordGhost && this.eventRecordGhostPosition?.length) {
+            this.updateGhostPosition(this.eventRecordGhost, this.eventRecordGhostPosition, 'event');
+        }
+    }
+
+    private updateGhostPosition(ghost: Actor, positions: SkierPositioning[], type: 'global' | 'event'): void {
+        const position = positions.splice(0, 1)[0];
+        if ((this.engine as Game).ghostsEnabled) {
+            ghost.pos = vec(position.x, position.y);
+            ghost.rotation = position.rotation;
+            this.updateGhostGraphics(ghost, position.action, type);
+        } else {
+            ghost.graphics.visible = false;
+        }
+    }
+
+    private updateGhostGraphics(ghost: Actor, action: SkierActions, type: 'global' | 'event'): void {
+        if (!ghost.graphics.visible) {
+            ghost.graphics.visible = true;
+        }
+        const graphic = SkierGraphics.getSpriteForAction(type === 'global' ? 'globalRecordGhost' : 'eventRecordGhost', action);
+        ghost.graphics.use(graphic.sprite);
+        ghost.graphics.flipHorizontal = !!graphic.flipHorizontal;
+    }
+
+    private prepareRace(eventId: string, trackName: string, askedTrackStyle: TrackStyles, skierName: string): void {
         this.addTimer(this.uiTimer);
         this.track = this.buildTrack(trackName, askedTrackStyle);
         this.skier = new Skier(skierName, this.getSkierConfig(this.track.style));
@@ -162,8 +177,14 @@ export class Race extends Scene {
         if (globalRecordGhostPosition) {
             this.globalRecordGhostPosition = JSON.parse(globalRecordGhostPosition);
             this.globalRecordGhost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
-            this.globalRecordGhost.graphics.use(Resources.GlobalGhostSkier.toSprite());
             this.add(this.globalRecordGhost);
+        }
+        const eventRecordGhostPosition = localStorage.getItem(`ghost_${this.track.name}_${eventId}`);
+        if (eventRecordGhostPosition) {
+            this.eventRecordGhostPosition = JSON.parse(eventRecordGhostPosition);
+            this.eventRecordGhostSize = this.eventRecordGhostPosition?.length;
+            this.eventRecordGhost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
+            this.add(this.eventRecordGhost);
         }
 
         (this.engine as Game).soundPlayer.playSound(Resources.WinterSound, 0.1, true);
@@ -184,6 +205,10 @@ export class Race extends Scene {
 
     private updateGlobalRecordGhost(trackName: string, positions: SkierPositioning[]): void {
         localStorage.setItem(`ghost_${trackName}`, JSON.stringify(positions));
+    }
+
+    private updateEventRecordGhost(eventId: string, trackName: string, positions: SkierPositioning[]): void {
+        localStorage.setItem(`ghost_${trackName}_${eventId}`, JSON.stringify(positions));
     }
 
     private listenStopRaceEvent(): void {

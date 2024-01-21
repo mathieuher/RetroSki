@@ -36,7 +36,7 @@ export class SkierGraphics {
             } else if (type === 'globalRecordGhost') {
                 return { sprite: Resources.GlobalGhostSkier.toSprite() };
             } else {
-                return { sprite: Resources.GlobalGhostSkier.toSprite() };
+                return { sprite: Resources.EventRecordGhost.toSprite() };
             }
         }
     }
