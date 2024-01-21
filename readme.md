@@ -11,6 +11,9 @@ https://mathieuher.github.io/RetroSki
 
 ## 🎮 Controls
 ### During the race
+  <img src="src/images/icons/keyboard_exit.png" valign="bottom"/> text
+  <img src="src/images/icons/keyboard_exit.png" valign="bottom"/> text
+  <img src="src/images/icons/keyboard_exit.png" valign="bottom"/> text
 * <b>Arrow up</b> (1x) -> Start skiing
 * <b>Arrow left</b> -> Left carving
 * <b>Arrow right</b> -> Right carving
