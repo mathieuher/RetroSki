@@ -26,7 +26,7 @@ export class TrackBuilder {
 
         gates.push(TrackBuilder.generateFinalGate(nextGatePosition.y, numberOfGates + 1));
 
-        return new Track(name, trackStyle, new Date(), gates, []);
+        return new Track(Config.CURRENT_BUILDER_VERSION, name, trackStyle, new Date(), gates, []);
     }
 
     public static buildTrack(stockableTrack: StockableTrack): Track {
@@ -35,7 +35,7 @@ export class TrackBuilder {
         stockableTrack.gates.forEach(stockableGate => {
             gates.push(new Gate(vec(stockableGate.x, stockableGate.y), stockableGate.width, stockableGate.color, stockableGate.gateNumber, stockableGate.isFinal));
         });
-        return new Track(stockableTrack.name, stockableTrack.style, stockableTrack.date, gates, stockableTrack.records);
+        return new Track(stockableTrack.builderVersion, stockableTrack.name, stockableTrack.style, stockableTrack.date, gates, stockableTrack.records);
     }
 
     private static getRandomGatesNumber(gatesConfig: GatesConfig): number {
