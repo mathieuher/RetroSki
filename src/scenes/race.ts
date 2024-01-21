@@ -177,6 +177,8 @@ export class Race extends Scene {
         this.raceConfig = undefined;
         this.track = undefined;
         (this.engine as Game).soundPlayer.stopSound(Resources.WinterSound);
+        (this.engine as Game).soundPlayer.stopSound(Resources.SlidingSound);
+        (this.engine as Game).soundPlayer.stopSound(Resources.CarvingSound);
         this.clear();
     }
 
