@@ -12,7 +12,7 @@
 - ✔️ ~~Prefilled interface with data from localStorage (player 1, player 2)~~
 - ✔️ ~~Add global record ghost~~
 - ✔️ ~~Add event record ghost~~
-- Improve sounds
+- ✔️ ~~Improve sounds~~
 - ✔️ ~~Add a counter for missed gates and display it in the results~~
 
 ## :bulb: Further ideas
