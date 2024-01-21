@@ -19,7 +19,7 @@ export class GamepadsManager {
 
     public isButtonPressed(button: Buttons, gamepad?: Gamepad): boolean {
         gamepad = gamepad || this.getFirstGamepad();
-        return gamepad.isButtonHeld(button);
+        return gamepad.wasButtonPressed(button);
     }
 
     public isAxesUsed(axes: Axes, gamepad?: Gamepad): boolean {
