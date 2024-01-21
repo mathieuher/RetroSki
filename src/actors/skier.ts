@@ -41,7 +41,7 @@ export class Skier extends Actor {
         this.updateGraphics(skierAction);
         if (this.racing || this.finish) {
             this.updateRotation(engine);
-            this.updateSpeed(skierAction);
+            this.updateSpeed(skierAction, engine);
             this.updateVelocity(engine);
         } else {
             if (engine.input.keyboard.wasPressed(Config.KEYBOARD_START_KEY) || (engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_RACE_BUTTON)) {
@@ -112,7 +112,7 @@ export class Skier extends Actor {
         }
     }
 
-    private updateSpeed(skierAction: SkierActions): void {
+    private updateSpeed(skierAction: SkierActions, engine: Engine): void {
         let angleOfSkier = this.rotation * (180 / Math.PI);
         if (angleOfSkier >= 270) {
             angleOfSkier = 360 - angleOfSkier;
@@ -123,9 +123,9 @@ export class Skier extends Actor {
         acceleration -= acceleration * angleOfSkier / 90;
         acceleration -= (this.skierConfig.windFrictionRate * this.speed);
         if (skierAction === SkierActions.SLIDE_LEFT || skierAction === SkierActions.SLIDE_RIGHT) {
-            acceleration -= Config.SLIDING_BRAKING_RATE;
+            acceleration -= Config.SLIDING_BRAKING_RATE * this.slidingIntention(engine);
         } else if (skierAction === SkierActions.CARVE_LEFT || skierAction === SkierActions.CARVE_RIGHT) {
-            acceleration -= Config.CARVING_BRAKING_RATE;
+            acceleration -= Config.CARVING_BRAKING_RATE * this.carvingIntention(engine);
         } else if (skierAction === SkierActions.BRAKE) {
             acceleration -= Config.BRAKING_RATE;
         }
