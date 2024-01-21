@@ -7,6 +7,7 @@ import { EventManager } from "./scenes/event-manager";
 import { SoundPlayer } from "./utils/sounds-player";
 import { LogoManager } from "./utils/logo-manager";
 import { Race } from "./scenes/race";
+import { GamepadsManager } from "./utils/gamepads-manager";
 
 export class Game extends Engine {
 
@@ -46,6 +47,8 @@ export class Game extends Engine {
 
     public trackManager = new TrackManager();
     public soundPlayer = new SoundPlayer();
+    public gamepadsManager = new GamepadsManager(this);
+
     public ghostsEnabled = true;
 
 
@@ -58,7 +61,6 @@ export class Game extends Engine {
         this.addScene('eventManager', new EventManager(this));
 
         this.trackManager.importDefaultTracks();
-        this.initGamepads();
 
         this.start(this.getLoader());
         this.goToScene('eventSetup');
@@ -99,10 +101,6 @@ export class Game extends Engine {
             return myButton;
         };
         return loader;
-    }
-
-    private initGamepads(): void {
-        console.log(this.input.gamepads.count());
     }
 }
 

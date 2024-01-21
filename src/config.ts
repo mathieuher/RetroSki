@@ -34,6 +34,8 @@ export class Config {
     static KEYBOARD_START_KEY = Keys.ArrowUp;
     static KEYBOARD_GHOST_KEY = Keys.G;
 
+    static GAMEPAD_AXES_FILTER_RATE = 0.1;
+
     // DYNAMIC
     static MAX_SPEED = 150;
     static VELOCITY_MULTIPLIER_RATE = 7;
