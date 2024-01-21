@@ -16,13 +16,13 @@ https://mathieuher.github.io/RetroSki
 * <b>Arrow right</b> -> Right carving
 * <b>Space bar</b> -> Braking/Side sliding
 
-* <b>G</b> -> Show/Hide global/event record ghost (best time)
+* <b>G</b> -> Enable/Disable Ghost mode (best times)
 
-* <b>R</b> -> Go back to event menu (allow to restart the race)
+* <b>R</b>/<b>Escape</b> -> Go back to event menu (allow to restart the race)
 * <b>D</b> -> Toggle debug mode
 
-### Anytime
-* <b>Escape</b> -> Quit and go back to event setup
+### Event manager
+* <b>Escape</b> -> Leave the event and go back to event setup
 
 ## 📘 Gamer guide
 ### Event setup
@@ -64,8 +64,8 @@ You can easily export them and share them with friends by using the browser deve
 
 ### Follow your path
 By default ghost mode is activated and you can see your best times while racing<br>
-1. Global record ghost (Fuchsia) -> The all time best registered on the track
-2. Event record ghost (Green) -> The best time registered on the track during this event<br>
+1. 👻 Global record ghost (Fuchsia) -> The all time best registered on the track
+2. 👻 Event record ghost (Green) -> The best time registered on the track during this event<br>
 
 Press the letter <b>G</b> during the race to show/hide the ghosts
 
