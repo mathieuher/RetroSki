@@ -6,6 +6,7 @@ import { EventSetup } from "./scenes/event-setup";
 import { EventManager } from "./scenes/event-manager";
 import { SoundPlayer } from "./utils/sounds-player";
 import { LogoManager } from "./utils/logo-manager";
+import { Race } from "./scenes/race";
 
 export class Game extends Engine {
 
@@ -75,7 +76,12 @@ export class Game extends Engine {
 
 
         if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_EXIT_KEY)) {
-            this.restartGame();
+            if (_engine.scenes['eventManager']?.isCurrentScene()) {
+                (_engine.currentScene as EventManager).cleanEventRecord();
+                this.goToScene('eventSetup');
+            } else if (_engine.scenes['race']?.isCurrentScene()) {
+                (_engine.currentScene as Race).returnToEventManager();
+            }
         }
     }
 

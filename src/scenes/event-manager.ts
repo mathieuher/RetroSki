@@ -66,10 +66,14 @@ export class EventManager extends Scene {
         this.startRaceButton.removeEventListener('click', () => { });
     }
 
+    public cleanEventRecord(): void {
+        localStorage.removeItem(`ghost_${this.eventConfig.trackName}_${this.eventConfig.eventId}`);
+    }
+
     private startRace(): void {
         (this.engine as Game).soundPlayer.hideButton();
         this.engine.addScene('race', new Race(this.engine));
-        this.engine.goToScene('race', { raceConfig: this.eventConfig.getNextRace() });
+        this.engine.goToScene('race', { eventId: this.eventConfig.eventId, raceConfig: this.eventConfig.getNextRace() });
     }
 
     private prepareLastResultsTable(eventConfig: EventConfig): string {
@@ -130,6 +134,7 @@ export class EventManager extends Scene {
     }
 
     private backToMenu(): void {
+        this.cleanEventRecord();
         this.engine.goToScene('eventSetup');
     }
 }

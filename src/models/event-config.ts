@@ -4,6 +4,7 @@ import { RaceResult } from "./race-result";
 import { TrackStyles } from "./track-styles.enum";
 
 export class EventConfig {
+    public eventId: string;
     public trackName: string;
     public trackStyle: TrackStyles;
     public skier1Name: string;
@@ -12,6 +13,7 @@ export class EventConfig {
     public racesResults!: EventRaceResult[];
 
     constructor(trackName: string, trackStyle: TrackStyles, skier1Name: string, skier2Name: string, numberOfRaces: number) {
+        this.eventId = `event${new Date().getTime()}`;
         this.trackName = trackName;
         this.trackStyle = trackStyle;
         this.skier1Name = skier1Name;
@@ -60,7 +62,7 @@ export class EventConfig {
     private initRacesResults(numberOfRaces: number): void {
         this.racesResults = [];
         for (let i = 1; i <= numberOfRaces; i++) {
-            this.racesResults.push(new EventRaceResult(i, this.trackName, this.trackStyle, this.skier1Name, this.skier2Name));
+            this.racesResults.push(new EventRaceResult(this.eventId, i, this.trackName, this.trackStyle, this.skier1Name, this.skier2Name));
         }
     }
 }
