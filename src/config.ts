@@ -32,6 +32,7 @@ export class Config {
     static KEYBOARD_RESTART_KEY = Keys.R;
     static KEYBOARD_EXIT_KEY = Keys.Escape;
     static KEYBOARD_START_KEY = Keys.ArrowUp;
+    static KEYBOARD_GHOST_KEY = Keys.G;
 
     // DYNAMIC
     static MAX_SPEED = 150;

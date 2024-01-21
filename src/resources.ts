@@ -4,6 +4,17 @@ import skierCarving from "./images/sprites/skier_carving.png";
 import skierSliding from "./images/sprites/skier_sliding.png";
 import skierBraking from "./images/sprites/skier_braking.png";
 import skierJumping from "./images/sprites/skier_jumping.png";
+
+import globalRecordGhost from "./images/sprites/globalRecordGhost.png";
+import globalRecordGhostCarving from "./images/sprites/globalRecordGhost_carving.png";
+import globalRecordGhostSliding from "./images/sprites/globalRecordGhost_sliding.png";
+import globalRecordGhostBraking from "./images/sprites/globalRecordGhost_braking.png";
+
+import eventRecordGhost from "./images/sprites/eventRecordGhost.png";
+import eventRecordGhostCarving from "./images/sprites/eventRecordGhost_carving.png";
+import eventRecordGhostSliding from "./images/sprites/eventRecordGhost_sliding.png";
+import eventRecordGhostBraking from "./images/sprites/eventRecordGhost_braking.png";
+
 import poleRed from "./images/sprites/pole_red.png";
 import poleBlue from "./images/sprites/pole_blue.png";
 import poleTouchedRed from "./images/sprites/pole_touched_red.png";
@@ -11,6 +22,7 @@ import poleTouchedBlue from "./images/sprites/pole_touched_blue.png";
 import polePassedRed from "./images/sprites/pole_passed_red.png";
 import polePassedBlue from "./images/sprites/pole_passed_blue.png";
 import finalPole from "./images/sprites/final_pole.png";
+
 import winterSound from "./sounds/winter.mp3";
 import startRaceSound from "./sounds/start_race.mp3";
 import finishRaceSound from "./sounds/finish_race.mp3";
@@ -25,6 +37,17 @@ const Resources = {
     SkierSliding: new ImageSource(skierSliding),
     SkierBraking: new ImageSource(skierBraking),
     SkierJumping: new ImageSource(skierJumping),
+
+    GlobalGhostSkier: new ImageSource(globalRecordGhost),
+    GlobalGhostSkierCarving: new ImageSource(globalRecordGhostCarving),
+    GlobalGhostSkierSliding: new ImageSource(globalRecordGhostSliding),
+    GlobalGhostSkierBraking: new ImageSource(globalRecordGhostBraking),
+
+    EventRecordGhost: new ImageSource(eventRecordGhost),
+    EventRecordGhostCarving: new ImageSource(eventRecordGhostCarving),
+    EventRecordGhostSliding: new ImageSource(eventRecordGhostSliding),
+    EventRecordGhostBraking: new ImageSource(eventRecordGhostBraking),
+
     PoleRed: new ImageSource(poleRed),
     PoleBlue: new ImageSource(poleBlue),
     PoleTouchedRed: new ImageSource(poleTouchedRed),

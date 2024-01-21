@@ -15,6 +15,17 @@ export class Game extends Engine {
         Resources.SkierSliding,
         Resources.SkierBraking,
         Resources.SkierJumping,
+
+        Resources.GlobalGhostSkier,
+        Resources.GlobalGhostSkierCarving,
+        Resources.GlobalGhostSkierSliding,
+        Resources.GlobalGhostSkierBraking,
+
+        Resources.EventRecordGhost,
+        Resources.EventRecordGhostCarving,
+        Resources.EventRecordGhostSliding,
+        Resources.EventRecordGhostBraking,
+
         Resources.PoleRed,
         Resources.PoleBlue,
         Resources.PoleTouchedRed,
@@ -22,6 +33,7 @@ export class Game extends Engine {
         Resources.PolePassedRed,
         Resources.PolePassedBlue,
         Resources.FinalPole,
+
         Resources.WinterSound,
         Resources.StartRaceSound,
         Resources.FinishRaceSound,
@@ -33,6 +45,8 @@ export class Game extends Engine {
 
     public trackManager = new TrackManager();
     public soundPlayer = new SoundPlayer();
+    public ghostsEnabled = true;
+
 
     constructor() {
         super({ displayMode: DisplayMode.FitContainerAndFill, width: 800, height: 800, backgroundColor: Color.White, fixedUpdateFps: 60, maxFps: 60, canvasElementId: 'game' });
@@ -50,11 +64,15 @@ export class Game extends Engine {
     }
 
     onPreUpdate(_engine: Engine, _delta: number): void {
-        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_DEBUG_KEY)) {
-            if (_engine.scenes['race']?.isCurrentScene()) {
+        if (_engine.scenes['race']?.isCurrentScene()) {
+            if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_DEBUG_KEY)) {
                 _engine.showDebug(!_engine.isDebug);
+            } else if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_GHOST_KEY)) {
+                this.ghostsEnabled = !this.ghostsEnabled;
             }
+
         }
+
 
         if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_EXIT_KEY)) {
             this.restartGame();
