@@ -91,6 +91,8 @@ export class Race extends Scene {
         this.uiTimer.stop();
         const timing = this.endTime - this.startTime!;
 
+        this.globalRecordGhost?.kill();
+
         const missedGates = this.gates.filter(gate => !gate.passed).length
         const result = new RaceResult(this.raceConfig?.raceNumber!, this.skier?.skierName!, new Date(), timing);
         const globalResult = (this.engine as Game).trackManager.saveRecord(this.raceConfig!.trackName, new StockableRecord(result));
