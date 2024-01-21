@@ -192,9 +192,9 @@ export class Skier extends Actor {
             if (skierAction === SkierActions.SLIDE_LEFT || skierAction === SkierActions.SLIDE_RIGHT) {
                 this.emitSlidingParticles(speedPercentage, skierAction);
             } else if (skierAction === SkierActions.CARVE_LEFT || skierAction === SkierActions.CARVE_RIGHT) {
-                this.emitCarvingParticles(speedPercentage, skierAction);
+                this.emitCarvingParticles(speedPercentage, this.carvingIntention(this.scene.engine), skierAction);
             } else if (skierAction === SkierActions.BRAKE) {
-                this.emitBreakingParticles();
+                this.emitBreakingParticles(speedPercentage);
             } else if (this.speed > 0) {
                 this.emitRidingParticles(speedPercentage);
             }
@@ -215,27 +215,27 @@ export class Skier extends Actor {
             this.particlesEmitter.minAngle = 1.6;
             this.particlesEmitter.pos.x = -12;
         }
-        this.particlesEmitter.emitParticles(speedPercentage * 30);
+        this.particlesEmitter.emitParticles(speedPercentage * 20);
     }
 
-    private emitCarvingParticles(speedPercentage: number, skierAction: SkierActions): void {
+    private emitCarvingParticles(speedPercentage: number, carvingIntensity: number, skierAction: SkierActions): void {
         this.particlesEmitter.pos.y = 5;
         this.particlesEmitter.radius = 1;
         this.particlesEmitter.particleLife = 450;
         this.particlesEmitter.maxAngle = 4.8;
         this.particlesEmitter.minAngle = 4.6;
         this.particlesEmitter.pos.x = skierAction === SkierActions.CARVE_LEFT ? 12 : -12;
-        this.particlesEmitter.emitParticles(speedPercentage * 15);
+        this.particlesEmitter.emitParticles(speedPercentage * carvingIntensity * 15);
     }
 
-    private emitBreakingParticles(): void {
+    private emitBreakingParticles(speedPercentage: number): void {
         this.particlesEmitter.pos.y = -20;
         this.particlesEmitter.radius = 6;
         this.particlesEmitter.particleLife = 1500;
         this.particlesEmitter.maxAngle = 6;
         this.particlesEmitter.minAngle = 3.4;
         this.particlesEmitter.pos.x = 0
-        this.particlesEmitter.emitParticles((this.speed / Config.MAX_SPEED) * 50);
+        this.particlesEmitter.emitParticles(speedPercentage * 30);
     }
 
     private emitRidingParticles(speedPercentage: number): void {
