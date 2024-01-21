@@ -14,6 +14,7 @@ import { Track } from "../models/track";
 import { SkierPositioning } from "../models/skier-positioning";
 import { SkierActions } from "../models/skier-actions.enum";
 import { SkierGraphics } from "../utils/skier-graphics";
+import { StockableGhost } from "../models/stockable-ghost";
 
 export class Race extends Scene {
 
@@ -38,11 +39,10 @@ export class Race extends Scene {
     private result?: RaceResult;
 
     // Ghost
-    private globalRecordGhostPosition?: SkierPositioning[];
+    private globalRecordGhostDatas?: StockableGhost;
     private globalRecordGhost?: Actor;
-    private eventRecordGhostPosition?: SkierPositioning[];
+    private eventRecordGhostDatas?: StockableGhost;
     private eventRecordGhost?: Actor;
-    private eventRecordGhostSize?: number;
 
     constructor(engine: Engine) {
         super();
@@ -107,11 +107,13 @@ export class Race extends Scene {
         const globalResult = (this.engine as Game).trackManager.saveRecord(this.raceConfig!.trackName, new StockableRecord(this.result));
 
         if (globalResult.position === 1) {
-            this.updateGlobalRecordGhost(this.raceConfig!.trackName, this.skierPositions);
+            const eventRecordGhostDatas = new StockableGhost(new Date(), this.raceConfig!.eventId, this.raceConfig!.trackName, this.raceConfig!.trackStyle, this.skier!.skierName, timing, [], this.skierPositions);
+            this.updateGlobalRecordGhost(eventRecordGhostDatas);
         }
 
-        if (!this.eventRecordGhostSize || this.skierPositions?.length < this.eventRecordGhostSize) {
-            this.updateEventRecordGhost(this.raceConfig!.eventId, this.raceConfig!.trackName, this.skierPositions);
+        if (!this.eventRecordGhostDatas || timing < this.eventRecordGhostDatas.totalTime) {
+            const eventRecordGhostDatas = new StockableGhost(new Date(), this.raceConfig!.eventId, this.raceConfig!.trackName, this.raceConfig!.trackStyle, this.skier!.skierName, timing, [], this.skierPositions);
+            this.updateEventRecordGhost(eventRecordGhostDatas);
         }
 
         this.uiManager.displayResultUi(globalResult, missedGates);
@@ -142,11 +144,11 @@ export class Race extends Scene {
     }
 
     private updateGhostsPosition(): void {
-        if (this.globalRecordGhost && this.globalRecordGhostPosition?.length) {
-            this.updateGhostPosition(this.globalRecordGhost, this.globalRecordGhostPosition, 'global');
+        if (this.globalRecordGhost && this.globalRecordGhostDatas?.positions?.length) {
+            this.updateGhostPosition(this.globalRecordGhost, this.globalRecordGhostDatas.positions, 'global');
         }
-        if (this.eventRecordGhost && this.eventRecordGhostPosition?.length) {
-            this.updateGhostPosition(this.eventRecordGhost, this.eventRecordGhostPosition, 'event');
+        if (this.eventRecordGhost && this.eventRecordGhostDatas?.positions?.length) {
+            this.updateGhostPosition(this.eventRecordGhost, this.eventRecordGhostDatas.positions, 'event');
         }
     }
 
@@ -180,18 +182,19 @@ export class Race extends Scene {
         this.setupCamera();
         this.add(this.skierCameraGhost);
 
-        const globalRecordGhostPosition = localStorage.getItem(`ghost_${this.track.name}`);
-        if (globalRecordGhostPosition) {
-            this.globalRecordGhostPosition = JSON.parse(globalRecordGhostPosition);
+        const globalRecordGhostDatas = localStorage.getItem(`ghost_${this.track.name}`);
+        if (globalRecordGhostDatas) {
+            this.globalRecordGhostDatas = JSON.parse(globalRecordGhostDatas);
             this.globalRecordGhost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
             this.add(this.globalRecordGhost);
         }
-        const eventRecordGhostPosition = localStorage.getItem(`ghost_${this.track.name}_${eventId}`);
-        if (eventRecordGhostPosition) {
-            this.eventRecordGhostPosition = JSON.parse(eventRecordGhostPosition);
-            this.eventRecordGhostSize = this.eventRecordGhostPosition?.length;
-            this.eventRecordGhost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
-            this.add(this.eventRecordGhost);
+        const eventRecordGhostDatas = localStorage.getItem(`ghost_${this.track.name}_${eventId}`);
+        if (eventRecordGhostDatas) {
+            this.eventRecordGhostDatas = JSON.parse(eventRecordGhostDatas);
+            if (this.eventRecordGhostDatas?.totalTime !== this.globalRecordGhostDatas?.totalTime) {
+                this.eventRecordGhost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
+                this.add(this.eventRecordGhost);
+            }
         }
 
         (this.engine as Game).soundPlayer.playSound(Resources.WinterSound, Config.RACE_AMBIANCE_SOUND_VOLUME, true);
@@ -209,12 +212,12 @@ export class Race extends Scene {
         this.clear();
     }
 
-    private updateGlobalRecordGhost(trackName: string, positions: SkierPositioning[]): void {
-        localStorage.setItem(`ghost_${trackName}`, JSON.stringify(positions));
+    private updateGlobalRecordGhost(ghostDatas: StockableGhost): void {
+        localStorage.setItem(`ghost_${ghostDatas.trackName}`, JSON.stringify(ghostDatas));
     }
 
-    private updateEventRecordGhost(eventId: string, trackName: string, positions: SkierPositioning[]): void {
-        localStorage.setItem(`ghost_${trackName}_${eventId}`, JSON.stringify(positions));
+    private updateEventRecordGhost(ghostDatas: StockableGhost): void {
+        localStorage.setItem(`ghost_${ghostDatas.trackName}_${ghostDatas.eventId}`, JSON.stringify(ghostDatas));
     }
 
     private listenStopRaceEvent(): void {
