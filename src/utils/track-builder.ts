@@ -24,7 +24,7 @@ export class TrackBuilder {
             nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, gatesConfig, nextGatePosition);
         }
 
-        gates.push(TrackBuilder.generateFinalGate(nextGatePosition.y));
+        gates.push(TrackBuilder.generateFinalGate(nextGatePosition.y, numberOfGates + 1));
 
         return new Track(name, trackStyle, new Date(), gates, []);
     }
@@ -46,8 +46,8 @@ export class TrackBuilder {
         return gatesConfig.minWidth + (Math.random() * (gatesConfig.maxWidth - gatesConfig.minWidth));
     }
 
-    private static generateFinalGate(verticalPosition: number): Gate {
-        return new Gate(vec(Config.FINAL_GATE_POSITION, verticalPosition), Config.FINAL_GATE_WIDTH, 'red', undefined, true);
+    private static generateFinalGate(verticalPosition: number, gateNumber: number): Gate {
+        return new Gate(vec(Config.FINAL_GATE_POSITION, verticalPosition), Config.FINAL_GATE_WIDTH, 'red', gateNumber, true);
     }
 
     private static getNextGatePosition(gateWidth: number, gatesConfig: GatesConfig, currentGatePosition?: Vector): Vector {
