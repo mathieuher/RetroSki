@@ -38,7 +38,8 @@ export class Config {
     static GAMEPAD_CONTROL_CARVE = Axes.LeftStickX;
     static GAMEPAD_CONTROL_BRAKE = Buttons.Face2;
     static GAMEPAD_EXIT_BUTTON = Buttons.Select;
-    static GAMEPAD_START_BUTTON = Buttons.Face1;
+    static GAMEPAD_RACE_BUTTON = Buttons.Face1;
+    static GAMEPAD_START_BUTTON = Buttons.Start;
     static GAMEPAD_GHOST_BUTTON = Buttons.LeftTrigger;
 
     // DYNAMIC

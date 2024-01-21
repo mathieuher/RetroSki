@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Engine, ParticleEmitter, vec } from "excalibur";
+import { Actor, Buttons, CollisionType, Engine, ParticleEmitter, vec } from "excalibur";
 import { Config } from "../config";
 import { Resources } from "../resources";
 import { Race } from "../scenes/race";
@@ -44,7 +44,7 @@ export class Skier extends Actor {
             this.updateSpeed(skierAction);
             this.updateVelocity(engine);
         } else {
-            if (engine.input.keyboard.isHeld(Config.KEYBOARD_START_KEY)) {
+            if (engine.input.keyboard.isHeld(Config.KEYBOARD_START_KEY) || (engine as Game).gamepadsManager.isButtonPressed(Config.GAMEPAD_RACE_BUTTON)) {
                 (this.scene as Race).startRace();
             }
         }

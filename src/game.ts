@@ -70,13 +70,13 @@ export class Game extends Engine {
         if (_engine.scenes['race']?.isCurrentScene()) {
             if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_DEBUG_KEY)) {
                 _engine.showDebug(!_engine.isDebug);
-            } else if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_GHOST_KEY)) {
+            } else if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_GHOST_KEY) || this.gamepadsManager.isButtonPressed(Config.GAMEPAD_GHOST_BUTTON)) {
                 this.ghostsEnabled = !this.ghostsEnabled;
             }
 
         }
 
-        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_EXIT_KEY)) {
+        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_EXIT_KEY) || this.gamepadsManager.isButtonPressed(Config.GAMEPAD_EXIT_BUTTON)) {
             if (_engine.scenes['eventManager']?.isCurrentScene()) {
                 (_engine.currentScene as EventManager).cleanEventRecord();
                 this.goToScene('eventSetup');
