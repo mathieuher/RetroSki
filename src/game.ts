@@ -58,9 +58,9 @@ export class Game extends Engine {
         this.addScene('eventManager', new EventManager(this));
 
         this.trackManager.importDefaultTracks();
+        this.initGamepads();
 
         this.start(this.getLoader());
-
         this.goToScene('eventSetup');
     }
 
@@ -73,7 +73,6 @@ export class Game extends Engine {
             }
 
         }
-
 
         if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_EXIT_KEY)) {
             if (_engine.scenes['eventManager']?.isCurrentScene()) {
@@ -91,7 +90,7 @@ export class Game extends Engine {
         loader.logo = LogoManager.base64Image;
         loader.logoHeight = 250;
         loader.logoWidth = 250;
-        loader.loadingBarColor = Color.fromHex("4a8291");
+        loader.loadingBarColor = Color.fromHex("#4a8291");
 
         loader.startButtonFactory = () => {
             let myButton = document.createElement('button');
@@ -100,6 +99,10 @@ export class Game extends Engine {
             return myButton;
         };
         return loader;
+    }
+
+    private initGamepads(): void {
+        console.log(this.input.gamepads.count());
     }
 }
 
