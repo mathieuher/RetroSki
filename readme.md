@@ -18,11 +18,11 @@ https://mathieuher.github.io/RetroSki
 
 * <b>G</b> -> Enable/Disable Ghost mode (best times)
 
-* <b>R</b> -> Go back to event menu (allow to restart the race)
+* <b>R</b>/<b>Escape</b> -> Go back to event menu (allow to restart the race)
 * <b>D</b> -> Toggle debug mode
 
-### Anytime
-* <b>Escape</b> -> Quit and go back to event setup
+### Event manager
+* <b>Escape</b> -> Leave the event and go back to event setup
 
 ## 📘 Gamer guide
 ### Event setup
