@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/scss/game.scss">
     <link rel="icon" type="image/x-icon" href="./src/images/icons/favicon.ico" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script src="https://kit.fontawesome.com/202f92be3c.js" crossorigin="anonymous"></script>
     <title>Retro Ski</title>
 </head>
@@ -112,6 +114,18 @@
             <div id="track-name"></div>
             <div class="game-container">
                 <canvas id="game"></canvas>
+            </div>
+            <div id="global-ghost-timing-container">
+                <span>
+                    <span class="material-symbols-outlined">timer</span>GR
+                </span>
+                <span id="global-ghost-timing"></span>
+            </div>
+            <div id="event-ghost-timing-container">
+                <span>
+                    <span class="material-symbols-outlined">timer</span>ER
+                </span>
+                <span id="event-ghost-timing"></span>
             </div>
             <div id="speedometer"></div>
             <div id="timer"></div>
