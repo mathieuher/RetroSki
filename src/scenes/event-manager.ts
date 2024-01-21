@@ -42,6 +42,12 @@ export class EventManager extends Scene {
         this.cleanManager();
     }
 
+    onPreUpdate(engine: Engine): void {
+        if ((engine as Game).gamepadsManager.isButtonPressed(Config.GAMEPAD_START_BUTTON) && this.eventConfig?.getNextRace()) {
+            this.startRace();
+        }
+    }
+
     public prepareManager(eventConfig: EventConfig): void {
         this.eventConfig = eventConfig;
         this.startRaceButton.innerText = this.eventConfig.getNextRace() ? "Race" : "Back to menu";
@@ -139,13 +145,5 @@ export class EventManager extends Scene {
                 this.backToMenu();
             }
         });
-
-        (this.engine as Game).gamepadsManager.getFirstGamepad().on('button', (buttonEvent) => {
-            if (buttonEvent.button === Config.GAMEPAD_START_BUTTON && this.eventConfig?.getNextRace()) {
-                console.log('will start race from gamepad');
-                this.startRace();
-            }
-        })
-
     }
 }
