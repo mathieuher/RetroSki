@@ -77,7 +77,6 @@ export class Game extends Engine {
         }
 
         if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_EXIT_KEY) || this.gamepadsManager.wasButtonPressed(Config.GAMEPAD_EXIT_BUTTON)) {
-            console.log('button');
             if (_engine.scenes['eventManager']?.isCurrentScene()) {
                 (_engine.currentScene as EventManager).cleanEventRecord();
                 this.goToScene('eventSetup');
