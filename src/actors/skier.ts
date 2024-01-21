@@ -48,7 +48,7 @@ export class Skier extends Actor {
                 (this.scene as Race).startRace();
             }
         }
-        this.emitParticles(skierAction);
+        this.emitParticles(engine, skierAction);
         this.emitSounds(engine as Game, this.finish);
     }
 
@@ -186,13 +186,13 @@ export class Skier extends Actor {
         }
     }
 
-    private emitParticles(skierAction: SkierActions): void {
+    private emitParticles(engine: Engine, skierAction: SkierActions): void {
         if (this.particlesEmitter) {
             const speedPercentage = this.speed / Config.MAX_SPEED;
             if (skierAction === SkierActions.SLIDE_LEFT || skierAction === SkierActions.SLIDE_RIGHT) {
-                this.emitSlidingParticles(speedPercentage, skierAction);
+                this.emitSlidingParticles(speedPercentage, this.slidingIntention(engine), skierAction);
             } else if (skierAction === SkierActions.CARVE_LEFT || skierAction === SkierActions.CARVE_RIGHT) {
-                this.emitCarvingParticles(speedPercentage, this.carvingIntention(this.scene.engine), skierAction);
+                this.emitCarvingParticles(speedPercentage, this.carvingIntention(engine), skierAction);
             } else if (skierAction === SkierActions.BRAKE) {
                 this.emitBreakingParticles(speedPercentage);
             } else if (this.speed > 0) {
@@ -202,7 +202,7 @@ export class Skier extends Actor {
 
     }
 
-    private emitSlidingParticles(speedPercentage: number, skierAction: SkierActions): void {
+    private emitSlidingParticles(speedPercentage: number, slidingIntensity: number, skierAction: SkierActions): void {
         this.particlesEmitter.pos.y = 5;
         this.particlesEmitter.radius = 6;
         this.particlesEmitter.particleLife = 1500;
@@ -215,7 +215,7 @@ export class Skier extends Actor {
             this.particlesEmitter.minAngle = 1.6;
             this.particlesEmitter.pos.x = -12;
         }
-        this.particlesEmitter.emitParticles(speedPercentage * 20);
+        this.particlesEmitter.emitParticles(speedPercentage * slidingIntensity * 20);
     }
 
     private emitCarvingParticles(speedPercentage: number, carvingIntensity: number, skierAction: SkierActions): void {
