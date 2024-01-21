@@ -249,7 +249,7 @@ export class Skier extends Actor {
     }
 
     private hasBreakingIntention(engine: Engine): boolean {
-        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE);
+        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE) || (engine as Game).gamepadsManager.isButtonPressed(Config.GAMEPAD_CONTROL_BRAKE);
     }
 
     private hasCarvingIntention(engine: Engine): boolean {
@@ -273,11 +273,11 @@ export class Skier extends Actor {
     }
 
     private hasLeftCarvingIntention(engine: Engine): boolean {
-        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_LEFT);
+        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_LEFT) || (engine as Game).gamepadsManager.getAxes(Config.GAMEPAD_CONTROL_CARVE) < 0;
     }
 
     private hasRightCarvingIntention(engine: Engine): boolean {
-        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_RIGHT);
+        return engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_RIGHT) || (engine as Game).gamepadsManager.getAxes(Config.GAMEPAD_CONTROL_CARVE) > 0;
     }
 
     private hasTurningIntention(engine: Engine): boolean {
