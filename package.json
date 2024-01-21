@@ -25,7 +25,8 @@
         "gh-pages": "^6.1.1",
         "sass": "^1.69.7",
         "typescript": "5.3.3",
-        "vite": "5.0.12"
+        "vite": "5.0.12",
+        "rxjs": "7.8.1"
     },
     "dependencies": {
         "@excaliburjs/testing": "^0.25.0",

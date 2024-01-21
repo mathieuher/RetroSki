@@ -118,13 +118,13 @@ export class Race extends Scene {
 
         this.uiManager.backToManagerButton.addEventListener('click', () => this.returnToEventManager(this.result), { once: true });
 
-        (this.engine as Game).soundPlayer.playSound(Resources.FinishRaceSound, 0.3);
+        (this.engine as Game).soundPlayer.playSound(Resources.FinishRaceSound, Config.FINISH_SOUND_VOLUME);
     }
 
     public addPenalty(): void {
-        this.camera.shake(3, 3, 250);
         this.startTime! -= Config.MISSED_GATE_PENALTY_TIME;
-        (this.engine as Game).soundPlayer.playSound(Resources.GateMissedSound, 0.3);
+        (this.engine as Game).soundPlayer.playSound(Resources.GateMissedSound, Config.GATE_MISSED_SOUND_VOLUME);
+        this.uiManager.flashTimer(this.engine);
     }
 
     public updateSkierCameraGhost(): void {
@@ -133,8 +133,6 @@ export class Race extends Scene {
 
     public returnToEventManager(raceResult?: RaceResult): void {
         Resources.FinishRaceSound.stop();
-        Resources.CarvingSound.stop();
-        Resources.SlidingSound.stop();
         this.engine.goToScene('eventManager', raceResult ? { raceResult: raceResult } : {});
         this.engine.removeScene('race');
     }
@@ -196,7 +194,7 @@ export class Race extends Scene {
             this.add(this.eventRecordGhost);
         }
 
-        (this.engine as Game).soundPlayer.playSound(Resources.WinterSound, 0.1, true);
+        (this.engine as Game).soundPlayer.playSound(Resources.WinterSound, Config.RACE_AMBIANCE_SOUND_VOLUME, true);
     }
 
     private cleanRace(): void {
@@ -207,8 +205,7 @@ export class Race extends Scene {
         this.raceConfig = undefined;
         this.track = undefined;
         (this.engine as Game).soundPlayer.stopSound(Resources.WinterSound);
-        (this.engine as Game).soundPlayer.stopSound(Resources.SlidingSound);
-        (this.engine as Game).soundPlayer.stopSound(Resources.CarvingSound);
+        (this.engine as Game).soundPlayer.stopSound(Resources.TurningSound);
         this.clear();
     }
 

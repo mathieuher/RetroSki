@@ -12,8 +12,12 @@ export class Config {
     static FRONT_GHOST_DISTANCE = - this.DISPLAY_HEIGHT / 2;
 
     // SOUND
-    static BRAKING_SOUND_VOLUME = 0.05;
-    static CARVING_SOUND_VOLUME = 0.05;
+    static RACE_AMBIANCE_SOUND_VOLUME = 0.1;
+    static BRAKING_SOUND_VOLUME = 0.3;
+    static CARVING_SOUND_VOLUME = 0.15;
+    static FINISH_SOUND_VOLUME = 0.2;
+    static GATE_MISSED_SOUND_VOLUME = 0.25;
+    static POLE_HIT_SOUND_VOLUME = 0.08;
 
     // RACE
     static MISSED_GATE_PENALTY_TIME = 3000;
