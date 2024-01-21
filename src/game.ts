@@ -101,11 +101,6 @@ export class Game extends Engine {
         };
         return loader;
     }
-
-    private restartGame(): void {
-        this.removeScene('race');
-        this.goToScene('eventSetup');
-    }
 }
 
 export const game = new Game();
