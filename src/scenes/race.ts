@@ -17,6 +17,8 @@ import { SkierGraphics } from "../utils/skier-graphics";
 
 export class Race extends Scene {
 
+    public skier?: Skier;
+
     private uiManager = new RaceUiManager();
     private uiTimer = new Timer({
         interval: 50,
@@ -28,12 +30,12 @@ export class Race extends Scene {
 
     private raceConfig?: EventRaceResult;
     private track?: Track;
-    public skier?: Skier;
     private skierCameraGhost?: Actor;
     private skierPositions: SkierPositioning[] = [];
     private gates: Gate[] = [];
     private startTime?: number;
     private endTime?: number;
+    private result?: RaceResult;
 
     // Ghost
     private globalRecordGhostPosition?: SkierPositioning[];
@@ -57,6 +59,10 @@ export class Race extends Scene {
 
             this.saveSkierPosition();
             this.updateGhostsPosition();
+        } else if (this.skier?.finish && this.result) {
+            if ((_engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_START_BUTTON)) {
+                this.returnToEventManager(this.result);
+            }
         }
     }
 
@@ -98,8 +104,8 @@ export class Race extends Scene {
         this.eventRecordGhost?.kill();
 
         const missedGates = this.gates.filter(gate => !gate.passed).length
-        const result = new RaceResult(this.raceConfig?.raceNumber!, this.skier?.skierName!, new Date(), timing);
-        const globalResult = (this.engine as Game).trackManager.saveRecord(this.raceConfig!.trackName, new StockableRecord(result));
+        this.result = new RaceResult(this.raceConfig?.raceNumber!, this.skier?.skierName!, new Date(), timing);
+        const globalResult = (this.engine as Game).trackManager.saveRecord(this.raceConfig!.trackName, new StockableRecord(this.result));
 
         if (globalResult.position === 1) {
             this.updateGlobalRecordGhost(this.raceConfig!.trackName, this.skierPositions);
@@ -110,7 +116,9 @@ export class Race extends Scene {
         }
 
         this.uiManager.displayResultUi(globalResult, missedGates);
-        this.uiManager.backToManagerButton.addEventListener('click', () => this.returnToEventManager(result), { once: true });
+
+        this.uiManager.backToManagerButton.addEventListener('click', () => this.returnToEventManager(this.result), { once: true });
+
         (this.engine as Game).soundPlayer.playSound(Resources.FinishRaceSound, 0.3);
     }
 
