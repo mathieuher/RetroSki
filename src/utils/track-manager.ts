@@ -36,7 +36,7 @@ export class TrackManager {
             fetch(`tracks/${track}.json`)?.then(trackJson => trackJson.json())?.then((track: StockableTrack) => {
                 if (!storedTrack?.builderVersion || track.builderVersion! > storedTrack.builderVersion)
                     localStorage.setItem(`track_${track.name}`, JSON.stringify(track));
-            });
+            }).catch(() => console.warn('Unable to load default track from the assets : ', track));
         })
     }
 
@@ -84,7 +84,7 @@ export class TrackManager {
         const records = this.getTrackFromLocalStorage(trackName)!.records;
         return records?.map((record, index) => {
             const difference = record.timing - records[0].timing;
-            return new RecordResult(index + 1, record.player, format(record.date, 'd MMM yyyy HH:mm'), format(record.timing, 'mm:ss:SS'), difference ? format(difference, 'ss:SS') : '');
+            return new RecordResult(index + 1, record.player, format(record.date, 'd MMM yyyy HH:mm'), format(record.timing, 'mm:ss:SS'), difference ? format(difference, difference >= 60000 ? 'mm:ss:SS' : 'ss:SS') : '');
         });
     }
 
