@@ -15,6 +15,7 @@ import { SkierPositioning } from "../models/skier-positioning";
 import { SkierActions } from "../models/skier-actions.enum";
 import { SkierGraphics } from "../utils/skier-graphics";
 import { StockableGhost } from "../models/stockable-ghost";
+import { TimedSector } from "../models/timed-sector";
 
 export class Race extends Scene {
 
@@ -36,6 +37,7 @@ export class Race extends Scene {
     private gates: Gate[] = [];
     private startTime?: number;
     private endTime?: number;
+    private timedSectors: TimedSector[] = [];
     private result?: RaceResult;
 
     // Ghost
@@ -76,7 +78,6 @@ export class Race extends Scene {
     }
 
     onDeactivate(_context: SceneActivationContext<undefined>): void {
-        console.log('ici');
         this.cleanRace();
     }
 
@@ -109,12 +110,12 @@ export class Race extends Scene {
         const globalResult = (this.engine as Game).trackManager.saveRecord(this.raceConfig!.trackName, new StockableRecord(this.result));
 
         if (globalResult.position === 1) {
-            const eventRecordGhostDatas = new StockableGhost(new Date(), this.raceConfig!.eventId, this.raceConfig!.trackName, this.raceConfig!.trackStyle, this.skier!.skierName, timing, [], this.skierPositions);
+            const eventRecordGhostDatas = new StockableGhost(new Date(), this.raceConfig!.eventId, this.raceConfig!.trackName, this.raceConfig!.trackStyle, this.skier!.skierName, timing, this.timedSectors, this.skierPositions);
             this.updateGlobalRecordGhost(eventRecordGhostDatas);
         }
 
         if (!this.eventRecordGhostDatas || timing < this.eventRecordGhostDatas.totalTime) {
-            const eventRecordGhostDatas = new StockableGhost(new Date(), this.raceConfig!.eventId, this.raceConfig!.trackName, this.raceConfig!.trackStyle, this.skier!.skierName, timing, [], this.skierPositions);
+            const eventRecordGhostDatas = new StockableGhost(new Date(), this.raceConfig!.eventId, this.raceConfig!.trackName, this.raceConfig!.trackStyle, this.skier!.skierName, timing, this.timedSectors, this.skierPositions);
             this.updateEventRecordGhost(eventRecordGhostDatas);
         }
 
@@ -131,6 +132,12 @@ export class Race extends Scene {
         this.uiManager.flashTimer(this.engine);
     }
 
+    public setSector(gateNumber: number): void {
+        const timeSector = new TimedSector(gateNumber, this.engine.clock.now() - this.startTime!);
+        this.timedSectors.push(timeSector);
+        this.displaySectorDifference(timeSector);
+    }
+
     public updateSkierCameraGhost(): void {
         this.skierCameraGhost!.pos = vec(0, this.skier!.pos.y + Config.FRONT_GHOST_DISTANCE);
     }
@@ -139,6 +146,19 @@ export class Race extends Scene {
         Resources.FinishRaceSound.stop();
         this.engine.goToScene('eventManager', raceResult ? { raceResult: raceResult } : {});
         this.engine.removeScene('race');
+    }
+
+    private displaySectorDifference(timedSector: TimedSector): void {
+        const skierSectorTime = timedSector.time;
+        const globalRecordSectorTime = this.globalRecordGhostDatas?.timedSectors?.find(sector => sector.gateNumber === timedSector.gateNumber)?.time;
+        const eventRecordSectorTime = this.eventRecordGhostDatas?.timedSectors?.find(sector => sector.gateNumber === timedSector.gateNumber)?.time;
+
+        console.log('Sectors : ', skierSectorTime, globalRecordSectorTime, eventRecordSectorTime);
+
+        if (globalRecordSectorTime || eventRecordSectorTime) {
+            this.uiManager.displayGhostSectorTiming(this.engine, skierSectorTime, globalRecordSectorTime, eventRecordSectorTime);
+        }
+
     }
 
     private saveSkierPosition(): void {

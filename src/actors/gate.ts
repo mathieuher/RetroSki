@@ -87,9 +87,14 @@ export class Gate extends Actor {
 
     private onGatePassed(): void {
         this.passed = true;
+        if (this.isSectorGate) {
+            (this.scene as Race).setSector(this.gateNumber);
+        }
+
         if (this.isFinalGate) {
             (this.scene as Race).stopRace();
         } else {
+
             this.updatePassedPolesGraphics();
         }
     }

@@ -55,18 +55,40 @@ export class RaceUiManager {
     public displayGhostsTiming(globalGhostTiming?: number, eventGhostTiming?: number): void {
         if (globalGhostTiming) {
             this.globalGhostTimingUi.innerText = format(globalGhostTiming, Config.FORMAT_TIMING);
-            this.globalGhostTimingContainerUi.style.right = '0';
+            this.globalGhostTimingContainerUi.classList.add('visible');
         }
 
         if (eventGhostTiming) {
             this.eventGhostTimingUi.innerText = format(eventGhostTiming, Config.FORMAT_TIMING);
-            this.eventGhostTimingContainerUi.style.right = '0';
+            this.eventGhostTimingContainerUi.classList.add('visible');
         }
     }
 
+    public displayGhostSectorTiming(engine: Engine, skierTime: number, globalGhostTime?: number, eventGhostTime?: number): void {
+        if (globalGhostTime) {
+            this.displaySector(skierTime, globalGhostTime, this.globalGhostTimingUi, this.globalGhostTimingContainerUi);
+        }
+        if (eventGhostTime) {
+            this.displaySector(skierTime, eventGhostTime, this.eventGhostTimingUi, this.eventGhostTimingContainerUi);
+        }
+
+        delay(Config.SECTOR_DISPLAY_TIME, engine.clock).then(() => this.hideGhostsUi());
+    }
+
+    private displaySector(skierTime: number, referenceTime: number, textUi: HTMLElement, containerUi: HTMLElement): void {
+        const isSkierFaster = skierTime < referenceTime;
+        textUi.innerText = isSkierFaster ? `- ${format(referenceTime - skierTime, 'ss:SS')}` : `+ ${format(skierTime - referenceTime, 'ss:SS')}`;
+        containerUi.classList.add(isSkierFaster ? 'fast-sector' : 'slow-sector');
+        containerUi.classList.add('visible');
+    }
+
     public hideGhostsUi(): void {
-        this.globalGhostTimingContainerUi.style.right = 'calc(-140px - 2rem)';
-        this.eventGhostTimingContainerUi.style.right = 'calc(-140px - 2rem)';
+        this.globalGhostTimingContainerUi.classList.remove('visible');
+        this.eventGhostTimingContainerUi.classList.remove('visible');
+        this.globalGhostTimingContainerUi.classList.remove('slow-sector');
+        this.globalGhostTimingContainerUi.classList.remove('fast-sector');
+        this.eventGhostTimingContainerUi.classList.remove('slow-sector');
+        this.eventGhostTimingContainerUi.classList.remove('fast-sector');
     }
 
     private hideRacingUi(): void {

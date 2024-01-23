@@ -10,6 +10,12 @@ import { format } from 'date-fns';
 export class TrackManager {
     constructor() { }
 
+    /**
+     * Load an already existing track by its name or generate a new one (if not existing)
+     * @param name name of the track to load/build
+     * @param trackStyle style of the track to build (only used when building a new track)
+     * @returns the track
+     */
     public loadTrack(name: string, trackStyle: TrackStyles): Track {
         const requestedTrack = this.getTrackFromLocalStorage(name);
         if (requestedTrack) { return requestedTrack.toTrack() };
@@ -20,13 +26,17 @@ export class TrackManager {
         return newTrack;
     }
 
+    /**
+     * Import default track from the assets
+     * Override existing persisted track if the default track version from the assets use a more recent builder version
+     */
     public importDefaultTracks(): void {
         Config.DEFAULT_TRACKS.forEach(track => {
-            if (!localStorage.getItem(`track_${track}`)) {
-                fetch(`tracks/${track}.json`).then(res => res.json()).then(res => {
-                    localStorage.setItem(`track_${track}`, JSON.stringify(res));
-                });
-            }
+            const storedTrack: StockableTrack = localStorage.getItem(`track_${track}`) ? JSON.parse(localStorage.getItem(`track_${track}`)!) : null;
+            fetch(`tracks/${track}.json`)?.then(trackJson => trackJson.json())?.then((track: StockableTrack) => {
+                if (!storedTrack?.builderVersion || track.builderVersion! > storedTrack.builderVersion)
+                    localStorage.setItem(`track_${track.name}`, JSON.stringify(track));
+            });
         })
     }
 
@@ -65,7 +75,7 @@ export class TrackManager {
         let item = localStorage.getItem('track_' + trackName);
         if (item) {
             const tempTrack = Object.assign(new StockableTrack(), JSON.parse(item));
-            return new StockableTrack(tempTrack.name, tempTrack.style, tempTrack.date, tempTrack.gates, tempTrack.records);
+            return new StockableTrack(tempTrack.builderVersion, tempTrack.name, tempTrack.style, tempTrack.date, tempTrack.gates, tempTrack.records);
         }
         return null;
     }
