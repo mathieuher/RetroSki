@@ -6,16 +6,18 @@ export class StockableGhost {
     public date: Date;
     public eventId: string;
     public trackName: string;
+    public trackVersion?: number;
     public trackStyle: TrackStyles;
     public skier: string;
     public totalTime: number;
     public timedSectors: TimedSector[];
     public positions: SkierPositioning[];
 
-    constructor(date: Date, eventId: string, trackName: string, trackStyle: TrackStyles, skier: string, totalTime: number, timedSectors: TimedSector[], positions: SkierPositioning[]) {
+    constructor(date: Date, eventId: string, trackName: string, trackVersion: number | undefined, trackStyle: TrackStyles, skier: string, totalTime: number, timedSectors: TimedSector[], positions: SkierPositioning[]) {
         this.date = date;
         this.eventId = eventId;
         this.trackName = trackName;
+        this.trackVersion = trackVersion;
         this.trackStyle = trackStyle;
         this.skier = skier;
         this.totalTime = totalTime;

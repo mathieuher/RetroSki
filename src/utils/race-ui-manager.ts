@@ -77,7 +77,8 @@ export class RaceUiManager {
 
     private displaySector(skierTime: number, referenceTime: number, textUi: HTMLElement, containerUi: HTMLElement): void {
         const isSkierFaster = skierTime < referenceTime;
-        textUi.innerText = isSkierFaster ? `- ${format(referenceTime - skierTime, 'ss:SS')}` : `+ ${format(skierTime - referenceTime, 'ss:SS')}`;
+        const timeDifference = Math.abs(referenceTime - skierTime);
+        textUi.innerText = isSkierFaster ? `- ${format(timeDifference, timeDifference >= 60000 ? 'mm:ss:SS' : 'mm:SS')}` : `+ ${format(timeDifference, timeDifference >= 60000 ? 'mm:ss:SS' : 'mm:SS')}`;
         containerUi.classList.add(isSkierFaster ? 'fast-sector' : 'slow-sector');
         containerUi.classList.add('visible');
     }
