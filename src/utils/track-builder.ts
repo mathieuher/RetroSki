@@ -8,17 +8,24 @@ import { GatesConfig } from "../models/gates-config";
 
 export class TrackBuilder {
 
+    /**
+     * Design a new track
+     * @param name name of the track
+     * @param trackStyle style of the track
+     * @returns new track
+     */
     public static designTrack(name: string, trackStyle: TrackStyles): Track {
         const gates = [];
         const gatesConfig = TrackBuilder.getGatesConfig(trackStyle);
         const numberOfGates = this.getRandomGatesNumber(gatesConfig);
+        const sectorGateNumbers = this.getSectorGateNumbers(numberOfGates);
         console.log('TrackBuilder - Designing a new track of ', numberOfGates, ' gates');
 
         let nextGateWidth = TrackBuilder.getRandomGateWidth(gatesConfig);
         let nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, gatesConfig);
 
-        for (let index = 0; index < numberOfGates; index++) {
-            const gate = new Gate(nextGatePosition, nextGateWidth, index % 2 > 0 ? 'red' : 'blue', index + 1);
+        for (let index = 1; index < numberOfGates; index++) {
+            const gate = new Gate(nextGatePosition, nextGateWidth, index % 2 > 0 ? 'red' : 'blue', index, false, sectorGateNumbers.includes(index));
             gates.push(gate);
             nextGateWidth = TrackBuilder.getRandomGateWidth(gatesConfig);
             nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, gatesConfig, nextGatePosition);
@@ -29,11 +36,16 @@ export class TrackBuilder {
         return new Track(Config.CURRENT_BUILDER_VERSION, name, trackStyle, new Date(), gates, []);
     }
 
+    /**
+     * Rebuild an existing track from the storage format
+     * @param stockableTrack stockable version of the track
+     * @returns the track
+     */
     public static buildTrack(stockableTrack: StockableTrack): Track {
         console.log('TrackBuilder - Rebuilding an existing track');
         const gates: Gate[] = [];
         stockableTrack.gates.forEach(stockableGate => {
-            gates.push(new Gate(vec(stockableGate.x, stockableGate.y), stockableGate.width, stockableGate.color, stockableGate.gateNumber, stockableGate.isFinal));
+            gates.push(new Gate(vec(stockableGate.x, stockableGate.y), stockableGate.width, stockableGate.color, stockableGate.gateNumber, stockableGate.isFinal, stockableGate.isSector));
         });
         return new Track(stockableTrack.builderVersion, stockableTrack.name, stockableTrack.style, stockableTrack.date, gates, stockableTrack.records);
     }
@@ -47,7 +59,7 @@ export class TrackBuilder {
     }
 
     private static generateFinalGate(verticalPosition: number, gateNumber: number): Gate {
-        return new Gate(vec(Config.FINAL_GATE_POSITION, verticalPosition), Config.FINAL_GATE_WIDTH, 'red', gateNumber, true);
+        return new Gate(vec(Config.FINAL_GATE_POSITION, verticalPosition), Config.FINAL_GATE_WIDTH, 'red', gateNumber, true, true);
     }
 
     private static getNextGatePosition(gateWidth: number, gatesConfig: GatesConfig, currentGatePosition?: Vector): Vector {
@@ -71,6 +83,15 @@ export class TrackBuilder {
             const yPosition = currentGatePosition.y - (gatesConfig.minVerticalDistance + (Math.random() * (gatesConfig.maxVerticalDistance - gatesConfig.minVerticalDistance)));
             return vec(xRestrictedPosition, yPosition);
         }
+    }
+
+    private static getSectorGateNumbers(gatesNumber: number): number[] {
+        const numbers: number[] = [];
+        const firstGateNumber = Math.floor(gatesNumber / (Config.SECTORS_PER_RACE + 1));
+        for (let i = 1; i <= Config.SECTORS_PER_RACE; i++) {
+            numbers.push(firstGateNumber * i);
+        }
+        return numbers;
     }
 
     private static getGatesConfig(trackStyle: TrackStyles): GatesConfig {

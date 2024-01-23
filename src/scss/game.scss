@@ -14,8 +14,13 @@ $errorSemi: #f5090987;
 
 $globalGhostA100: #EA19D540;
 $globalGhost: #65005b;
-$eventGhostA100: #43EA1940;
-$eventGhost: #128f00;
+$eventGhostA100: #1951ea40;
+$eventGhost: #201d9c;
+
+$greenSectorA100: #43EA1940;
+$greenSector: #128f00;
+$redSectorA100: #bb0f0f40;
+$redSector: #960909;
 
 html body {
     padding: 0;
@@ -404,36 +409,75 @@ html body {
             &#global-ghost-timing-container,
             &#event-ghost-timing-container {
                 height: 40px;
-                width: 140px;
+                width: 160px;
                 font-size: 1rem;
-                padding: 0rem 1rem;
+                padding: 0;
                 display: flex;
-                align-items: center;
-                justify-content: space-between;
                 border-radius: 5px 0px 0px 5px;
                 position: absolute;
-                right: calc(-140px - 2rem);
+                right: -160px;
 
                 transition: 200ms ease-in-out right;
 
                 overflow: hidden;
 
                 >span {
-                    display: flex;
-                    align-items: center;
-                    gap: .1rem;
+                    &.timer-header {
+                        display: flex;
+                        flex: 0 0 auto;
+                        align-items: center;
+                        justify-content: center;
+                        height: 40px;
+                        width: 60px;
+                        gap: .1rem;
+                    }
+
+                    &.timer-value {
+                        display: flex;
+                        flex: 0 0 auto;
+                        width: 100px;
+                        height: 40px;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+
+                &.visible {
+                    right: 0;
+                }
+
+                &.slow-sector {
+                    .timer-value {
+                        background-color: $redSectorA100 !important;
+                        color: $redSector !important;
+                    }
+                }
+
+                &.fast-sector {
+                    .timer-value {
+                        background-color: $greenSectorA100 !important;
+                        color: $greenSector !important;
+                    }
                 }
 
                 &#global-ghost-timing-container {
-                    background-color: $globalGhostA100;
-                    color: $globalGhost;
                     bottom: 100px;
+
+                    .timer-header,
+                    .timer-value {
+                        background-color: $globalGhostA100;
+                        color: $globalGhost;
+                    }
                 }
 
                 &#event-ghost-timing-container {
-                    background-color: $eventGhostA100;
-                    color: $eventGhost;
                     bottom: 50px;
+
+                    .timer-header,
+                    .timer-value {
+                        background-color: $eventGhostA100;
+                        color: $eventGhost;
+                    }
                 }
             }
 
