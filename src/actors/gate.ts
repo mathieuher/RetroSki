@@ -9,7 +9,7 @@ import { Resources } from "../resources";
 export class Gate extends Actor {
 
     public isFinalGate!: boolean;
-    public isSectorGate!: boolean;
+    public sectorNumber?: number;
     public passed = false;
 
     private leftPole?: Pole;
@@ -20,7 +20,7 @@ export class Gate extends Actor {
     private missed = false;
 
 
-    constructor(position: Vector, width: number, color: 'red' | 'blue', gateNumber: number, isFinalGate = false, isSectorGate = false) {
+    constructor(position: Vector, width: number, color: 'red' | 'blue', gateNumber: number, isFinalGate = false, sectorNumber?: number) {
         super({
             pos: position,
             width: width,
@@ -29,7 +29,7 @@ export class Gate extends Actor {
         });
 
         this.isFinalGate = isFinalGate;
-        this.isSectorGate = isSectorGate;
+        this.sectorNumber = sectorNumber;
         this.polesColor = color;
         this.gateNumber = gateNumber;
     }
@@ -54,7 +54,7 @@ export class Gate extends Actor {
     }
 
     public getStockableGate(): StockableGate {
-        return new StockableGate(this.pos.x, this.pos.y, this.polesColor, this.width, this.gateNumber, this.isFinalGate, this.isSectorGate);
+        return new StockableGate(this.pos.x, this.pos.y, this.polesColor, this.width, this.gateNumber, this.isFinalGate, this.sectorNumber);
     }
 
     private isOnScreen(): boolean {
@@ -87,14 +87,12 @@ export class Gate extends Actor {
 
     private onGatePassed(): void {
         this.passed = true;
-        if (this.isSectorGate) {
-            (this.scene as Race).setSector(this.gateNumber);
+        if (this.sectorNumber) {
+            (this.scene as Race).setSector(this.sectorNumber);
         }
-
         if (this.isFinalGate) {
             (this.scene as Race).stopRace();
         } else {
-
             this.updatePassedPolesGraphics();
         }
     }

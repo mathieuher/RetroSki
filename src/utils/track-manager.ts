@@ -1,5 +1,6 @@
 import { Config } from "../config";
 import { RecordResult } from "../models/record-result";
+import { StockableGhost } from "../models/stockable-ghost";
 import { StockableRecord } from "../models/stockable-record";
 import { StockableTrack } from "../models/stockable-track";
 import { Track } from "../models/track";
@@ -27,7 +28,7 @@ export class TrackManager {
     }
 
     /**
-     * Import default track from the assets
+     * Import default tracks from the assets
      * Override existing persisted track if the default track version from the assets use a more recent builder version
      */
     public importDefaultTracks(): void {
@@ -37,7 +38,23 @@ export class TrackManager {
                 if (!storedTrack?.builderVersion || track.builderVersion! > storedTrack.builderVersion)
                     localStorage.setItem(`track_${track.name}`, JSON.stringify(track));
             }).catch(() => console.warn('Unable to load default track from the assets : ', track));
-        })
+        });
+    }
+
+    /**
+     * Import default ghosts from the assets
+     * Override existing persisted ghosts if the ghost from the asset is using a more recent track version
+     */
+    public importDefaultGhosts(): void {
+        Config.DEFAULT_TRACKS.forEach(track => {
+            const ghostPersistedJson = localStorage.getItem(`ghost_${track}`);
+            const ghostPersistedData: StockableGhost = ghostPersistedJson ? JSON.parse(ghostPersistedJson) : null;
+            fetch(`ghosts/${track}.json`)?.then(ghostJson => ghostJson.json())?.then((defaultGhost: StockableGhost) => {
+                if (!ghostPersistedData?.trackVersion || defaultGhost.trackVersion! > ghostPersistedData.trackVersion) {
+                    localStorage.setItem(`ghost_${track}`, JSON.stringify(defaultGhost));
+                }
+            }).catch(() => console.warn('Unable to load default ghost from the assets : ', track));
+        });
     }
 
     public saveRecord(trackName: string, record: StockableRecord): { position: number, records: RecordResult[] } {
