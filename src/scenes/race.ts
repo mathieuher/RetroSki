@@ -23,7 +23,7 @@ export class Race extends Scene {
 
     private uiManager = new RaceUiManager();
     private uiTimer = new Timer({
-        interval: 50,
+        interval: 60,
         repeats: true,
         fcn: () => {
             this.updateRacingUi();
