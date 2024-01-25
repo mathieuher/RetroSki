@@ -1,4 +1,4 @@
-import { Actor, Vector, vec } from "excalibur";
+import { Actor, Color, Line, Vector, vec } from "excalibur";
 import { Config } from "../config";
 import { Pole } from "./pole";
 import { GateDetector } from "./gate-detector";
@@ -8,18 +8,20 @@ import { Resources } from "../resources";
 
 export class Gate extends Actor {
 
-    public isFinalGate!: boolean
+    public isFinalGate!: boolean;
+    public sectorNumber?: number;
     public passed = false;
 
     private leftPole?: Pole;
     private rightPole?: Pole;
     private gateDetector?: GateDetector;
-    private gateNumber?: number;
+    private sectorLine?: Actor;
+    private gateNumber: number;
     private polesColor: 'red' | 'blue';
     private missed = false;
 
 
-    constructor(position: Vector, width: number, color: 'red' | 'blue', gateNumber?: number, isFinalGate = false) {
+    constructor(position: Vector, width: number, color: 'red' | 'blue', gateNumber: number, isFinalGate = false, sectorNumber?: number) {
         super({
             pos: position,
             width: width,
@@ -28,6 +30,7 @@ export class Gate extends Actor {
         });
 
         this.isFinalGate = isFinalGate;
+        this.sectorNumber = sectorNumber;
         this.polesColor = color;
         this.gateNumber = gateNumber;
     }
@@ -41,9 +44,17 @@ export class Gate extends Actor {
             this.buildComponents();
         }
 
-        if (!this.isFinalGate && !this.passed && !this.missed && this.shouldBePassed()) {
+        if (!this.passed && !this.missed && this.shouldBePassed()) {
             (this.scene as Race).addPenalty();
             this.missed = true;
+
+            if (this.sectorNumber) {
+                (this.scene as Race).setSector(this.sectorNumber);
+            }
+
+            if (this.isFinalGate) {
+                (this.scene as Race).stopRace();
+            }
         }
 
         if (this.canBeDestroy()) {
@@ -52,14 +63,7 @@ export class Gate extends Actor {
     }
 
     public getStockableGate(): StockableGate {
-        return {
-            x: this.pos.x,
-            y: this.pos.y,
-            color: this.polesColor,
-            width: this.width,
-            gateNumber: this.gateNumber,
-            isFinal: this.isFinalGate
-        };
+        return new StockableGate(this.pos.x, this.pos.y, this.polesColor, this.width, this.gateNumber, this.isFinalGate, this.sectorNumber);
     }
 
     private isOnScreen(): boolean {
@@ -79,7 +83,8 @@ export class Gate extends Actor {
     }
 
     private buildComponents(): void {
-        const gatePoleWidth = (this.isFinalGate ? Config.FINAL_POLE_WIDTH : Config.POLE_WIDTH);
+        const gatePoleWidth = this.isFinalGate ? Config.FINAL_POLE_WIDTH : Config.POLE_WIDTH;
+        const gatePoleHeight = this.isFinalGate ? Config.FINAL_POLE_HEIGHT : Config.POLE_HEIGHT
 
         this.leftPole = new Pole(vec(0, 0), this.polesColor, this.isFinalGate);
         this.gateDetector = new GateDetector(vec(gatePoleWidth + Config.POLE_DETECTOR_MARGIN, 0), this.width - (2 * (gatePoleWidth + Config.POLE_DETECTOR_MARGIN)), this.isFinalGate);
@@ -88,10 +93,20 @@ export class Gate extends Actor {
         this.addChild(this.leftPole!);
         this.addChild(this.gateDetector!);
         this.addChild(this.rightPole!);
+
+        if (this.sectorNumber) {
+            this.sectorLine = new Actor({ anchor: vec(0, 0), z: 0 });
+            this.sectorLine.graphics.use(new Line({ start: vec(gatePoleWidth - 5, gatePoleHeight / 2), end: vec(this.width - gatePoleWidth + 5, gatePoleHeight / 2), color: Color.Red, thickness: 6 }));
+            this.sectorLine.graphics.opacity = 0.3;
+            this.addChild(this.sectorLine);
+        }
     }
 
     private onGatePassed(): void {
         this.passed = true;
+        if (this.sectorNumber) {
+            (this.scene as Race).setSector(this.sectorNumber);
+        }
         if (this.isFinalGate) {
             (this.scene as Race).stopRace();
         } else {
