@@ -5,15 +5,15 @@ export class StockableGate {
     public width: number;
     public gateNumber: number;
     public isFinal: boolean;
-    public isSector: boolean;
+    public sectorNumber?: number;
 
-    constructor(x: number, y: number, color: 'red' | 'blue', width: number, gateNumber: number, isFinal: boolean, isSector: boolean) {
+    constructor(x: number, y: number, color: 'red' | 'blue', width: number, gateNumber: number, isFinal: boolean, sectorNumber?: number) {
         this.x = x;
         this.y = y;
         this.color = color;
         this.width = width;
         this.gateNumber = gateNumber;
         this.isFinal = isFinal;
-        this.isSector = isSector;
+        this.sectorNumber = sectorNumber;
     }
 }

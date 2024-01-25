@@ -114,7 +114,7 @@ export class Race extends Scene {
             this.updateGlobalRecordGhost(eventRecordGhostDatas);
         }
 
-        if (!this.eventRecordGhostDatas || timing < this.eventRecordGhostDatas.totalTime) {
+        if (!this.eventRecordGhostDatas || timing < this.eventRecordGhostDatas.totalTime!) {
             const eventRecordGhostDatas = new StockableGhost(new Date(), this.raceConfig!.eventId, this.raceConfig!.trackName, this.track!.builderVersion, this.raceConfig!.trackStyle, this.skier!.skierName, timing, this.timedSectors, this.skierPositions);
             this.updateEventRecordGhost(eventRecordGhostDatas);
         }
@@ -132,8 +132,8 @@ export class Race extends Scene {
         this.uiManager.flashTimer(this.engine);
     }
 
-    public setSector(gateNumber: number): void {
-        const timeSector = new TimedSector(gateNumber, this.engine.clock.now() - this.startTime!);
+    public setSector(sectorNumber: number): void {
+        const timeSector = new TimedSector(sectorNumber, this.engine.clock.now() - this.startTime!);
         this.timedSectors.push(timeSector);
         this.displaySectorDifference(timeSector);
     }
@@ -150,11 +150,8 @@ export class Race extends Scene {
 
     private displaySectorDifference(timedSector: TimedSector): void {
         const skierSectorTime = timedSector.time;
-        const globalRecordSectorTime = this.globalRecordGhostDatas?.timedSectors?.find(sector => sector.gateNumber === timedSector.gateNumber)?.time;
-        const eventRecordSectorTime = this.eventRecordGhostDatas?.timedSectors?.find(sector => sector.gateNumber === timedSector.gateNumber)?.time;
-
-        console.log('Sectors : ', skierSectorTime, globalRecordSectorTime, eventRecordSectorTime);
-
+        const globalRecordSectorTime = this.globalRecordGhostDatas?.getSectorTime(timedSector.sectorNumber);
+        const eventRecordSectorTime = this.eventRecordGhostDatas?.getSectorTime(timedSector.sectorNumber);
         if (globalRecordSectorTime || eventRecordSectorTime) {
             this.uiManager.displayGhostSectorTiming(this.engine, skierSectorTime, globalRecordSectorTime, eventRecordSectorTime);
         }
@@ -204,13 +201,15 @@ export class Race extends Scene {
         this.setupCamera();
         this.add(this.skierCameraGhost);
 
-        const globalRecordGhostDatas: StockableGhost | null = localStorage.getItem(`ghost_${this.track.name}`) ? JSON.parse(localStorage.getItem(`ghost_${this.track.name}`)!) : null;
+        const globalRecordGhostJson = localStorage.getItem(`ghost_${this.track.name}`);
+        const globalRecordGhostDatas: StockableGhost | null = globalRecordGhostJson ? Object.assign(new StockableGhost(), JSON.parse(globalRecordGhostJson)) : null;
         if (globalRecordGhostDatas && globalRecordGhostDatas.trackVersion === this.track.builderVersion) {
             this.globalRecordGhostDatas = globalRecordGhostDatas;
             this.globalRecordGhost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
             this.add(this.globalRecordGhost);
         }
-        const eventRecordGhostDatas: StockableGhost | null = localStorage.getItem(`ghost_${this.track.name}_${eventId}`) ? JSON.parse(localStorage.getItem(`ghost_${this.track.name}_${eventId}`)!) : null;
+        const eventRecordGhostJson = localStorage.getItem(`ghost_${this.track.name}_${eventId}`);
+        const eventRecordGhostDatas: StockableGhost | null = eventRecordGhostJson ? Object.assign(new StockableGhost(), JSON.parse(eventRecordGhostJson)) : null;
         if (eventRecordGhostDatas && eventRecordGhostDatas.trackVersion === this.track.builderVersion) {
             this.eventRecordGhostDatas = eventRecordGhostDatas;
             if (this.eventRecordGhostDatas?.totalTime !== this.globalRecordGhostDatas?.totalTime) {

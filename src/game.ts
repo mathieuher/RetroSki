@@ -60,6 +60,7 @@ export class Game extends Engine {
         this.addScene('eventManager', new EventManager(this));
 
         this.trackManager.importDefaultTracks();
+        this.trackManager.importDefaultGhosts();
 
         this.start(this.getLoader());
         this.goToScene('eventSetup');

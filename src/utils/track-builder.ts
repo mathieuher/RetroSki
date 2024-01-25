@@ -25,7 +25,7 @@ export class TrackBuilder {
         let nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, gatesConfig);
 
         for (let index = 1; index < numberOfGates; index++) {
-            const gate = new Gate(nextGatePosition, nextGateWidth, index % 2 > 0 ? 'red' : 'blue', index, false, sectorGateNumbers.includes(index));
+            const gate = new Gate(nextGatePosition, nextGateWidth, index % 2 > 0 ? 'red' : 'blue', index, false, sectorGateNumbers.indexOf(index) + 1);
             gates.push(gate);
             nextGateWidth = TrackBuilder.getRandomGateWidth(gatesConfig);
             nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, gatesConfig, nextGatePosition);
@@ -45,7 +45,7 @@ export class TrackBuilder {
         console.log('TrackBuilder - Rebuilding an existing track');
         const gates: Gate[] = [];
         stockableTrack.gates.forEach(stockableGate => {
-            gates.push(new Gate(vec(stockableGate.x, stockableGate.y), stockableGate.width, stockableGate.color, stockableGate.gateNumber, stockableGate.isFinal, stockableGate.isSector));
+            gates.push(new Gate(vec(stockableGate.x, stockableGate.y), stockableGate.width, stockableGate.color, stockableGate.gateNumber, stockableGate.isFinal, stockableGate.sectorNumber));
         });
         return new Track(stockableTrack.builderVersion, stockableTrack.name, stockableTrack.style, stockableTrack.date, gates, stockableTrack.records);
     }
@@ -59,7 +59,7 @@ export class TrackBuilder {
     }
 
     private static generateFinalGate(verticalPosition: number, gateNumber: number): Gate {
-        return new Gate(vec(Config.FINAL_GATE_POSITION, verticalPosition), Config.FINAL_GATE_WIDTH, 'red', gateNumber, true, true);
+        return new Gate(vec(Config.FINAL_GATE_POSITION, verticalPosition), Config.FINAL_GATE_WIDTH, 'red', gateNumber, true, Config.SECTORS_PER_RACE + 1);
     }
 
     private static getNextGatePosition(gateWidth: number, gatesConfig: GatesConfig, currentGatePosition?: Vector): Vector {
