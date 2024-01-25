@@ -1,14 +1,14 @@
 # Roadmap
 
 ## :calendar: Planning for the 1.0.0
-- Clean code and improve performance
+- ✔️ ~~improve performance~~
 - Add intro/help page to provide basic informations in-game
 - ✔️ ~~Support controller (joystick + 3 buttons)~~
 - Different skier sprite and size regarding the track style
 - Add starting gate
 - Add spectator and objects
-- Add sector time and metadata on ghosts to display during the race
-- Provide by default one ghost with each default track
+- ✔️ ~~Add sector time and metadata on ghosts to display during the race~~
+- ✔️ ~~Provide by default one ghost with each default track~~
 - ✔️ ~~Prefilled interface with data from localStorage (player 1, player 2)~~
 - ✔️ ~~Add global record ghost~~
 - ✔️ ~~Add event record ghost~~
