@@ -1,9 +1,9 @@
 export class TimedSector {
-    public gateNumber: number;
+    public sectorNumber: number;
     public time: number;
 
-    constructor(gateNumber: number, time: number) {
-        this.gateNumber = gateNumber;
+    constructor(sectorNumber: number, time: number) {
+        this.sectorNumber = sectorNumber;
         this.time = time;
     }
 }

@@ -3,40 +3,53 @@ import { SkierActions } from "../models/skier-actions.enum";
 import { Resources } from "../resources";
 
 export class SkierGraphics {
+    public static SKIER_SPRITE = Resources.Skier.toSprite();
+    public static SKIER_SLIDING_SPRITE = Resources.SkierSliding.toSprite();
+    public static SKIER_CARVING_SPRITE = Resources.SkierCarving.toSprite();
+    public static SKIER_BRAKING_SPRITE = Resources.SkierBraking.toSprite();
+    public static EVENT_GHOST_SPRITE = Resources.EventRecordGhost.toSprite();
+    public static EVENT_GHOST_SLIDING_SPRITE = Resources.EventRecordGhostSliding.toSprite();
+    public static EVENT_GHOST_CARVING_SPRITE = Resources.EventRecordGhostCarving.toSprite();
+    public static EVENT_GHOST_BRAKING_SPRITE = Resources.EventRecordGhostBraking.toSprite();
+    public static GLOBAL_GHOST_SPRITE = Resources.GlobalGhostSkier.toSprite();
+    public static GLOBAL_GHOST_SLIDING_SPRITE = Resources.GlobalGhostSkierSliding.toSprite();
+    public static GLOBAL_GHOST_CARVING_SPRITE = Resources.GlobalGhostSkierCarving.toSprite();
+    public static GLOBAL_GHOST_BRAKING_SPRITE = Resources.GlobalGhostSkierBraking.toSprite();
+
     public static getSpriteForAction(type: 'skier' | 'globalRecordGhost' | 'eventRecordGhost', action: SkierActions): { sprite: Sprite, flipHorizontal?: boolean } {
         if (action === SkierActions.SLIDE_LEFT || action === SkierActions.SLIDE_RIGHT) {
             const flipHorizontal = action === SkierActions.SLIDE_LEFT;
             if (type === 'skier') {
-                return { sprite: Resources.SkierSliding.toSprite(), flipHorizontal: flipHorizontal };
+                return { sprite: SkierGraphics.SKIER_SLIDING_SPRITE, flipHorizontal: flipHorizontal };
             } else if (type === 'globalRecordGhost') {
-                return { sprite: Resources.GlobalGhostSkierSliding.toSprite(), flipHorizontal: flipHorizontal };
+                return { sprite: SkierGraphics.GLOBAL_GHOST_SLIDING_SPRITE, flipHorizontal: flipHorizontal };
             } else {
-                return { sprite: Resources.EventRecordGhostSliding.toSprite(), flipHorizontal: flipHorizontal };
+                return { sprite: SkierGraphics.EVENT_GHOST_SLIDING_SPRITE, flipHorizontal: flipHorizontal };
             }
         } else if (action === SkierActions.BRAKE) {
             if (type === 'skier') {
-                return { sprite: Resources.SkierBraking.toSprite() };
+                return { sprite: SkierGraphics.SKIER_BRAKING_SPRITE };
             } else if (type === 'globalRecordGhost') {
-                return { sprite: Resources.GlobalGhostSkierBraking.toSprite() };
+                return { sprite: SkierGraphics.GLOBAL_GHOST_BRAKING_SPRITE };
             } else {
-                return { sprite: Resources.EventRecordGhostBraking.toSprite() };
+                return { sprite: SkierGraphics.EVENT_GHOST_BRAKING_SPRITE };
             }
         } else if (action === SkierActions.CARVE_LEFT || action === SkierActions.CARVE_RIGHT) {
             const flipHorizontal = action === SkierActions.CARVE_LEFT;
             if (type === 'skier') {
-                return { sprite: Resources.SkierCarving.toSprite(), flipHorizontal: flipHorizontal };
+                return { sprite: SkierGraphics.SKIER_CARVING_SPRITE, flipHorizontal: flipHorizontal };
             } else if (type === 'globalRecordGhost') {
-                return { sprite: Resources.GlobalGhostSkierCarving.toSprite(), flipHorizontal: flipHorizontal };
+                return { sprite: SkierGraphics.GLOBAL_GHOST_CARVING_SPRITE, flipHorizontal: flipHorizontal };
             } else {
-                return { sprite: Resources.EventRecordGhostCarving.toSprite(), flipHorizontal: flipHorizontal };
+                return { sprite: SkierGraphics.EVENT_GHOST_CARVING_SPRITE, flipHorizontal: flipHorizontal };
             }
         } else {
             if (type === 'skier') {
-                return { sprite: Resources.Skier.toSprite(), flipHorizontal: false };
+                return { sprite: SkierGraphics.SKIER_SPRITE, flipHorizontal: false };
             } else if (type === 'globalRecordGhost') {
-                return { sprite: Resources.GlobalGhostSkier.toSprite() };
+                return { sprite: SkierGraphics.GLOBAL_GHOST_SPRITE };
             } else {
-                return { sprite: Resources.EventRecordGhost.toSprite() };
+                return { sprite: SkierGraphics.EVENT_GHOST_SPRITE };
             }
         }
     }

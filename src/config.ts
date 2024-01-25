@@ -21,11 +21,14 @@ export class Config {
 
     // RACE
     static MISSED_GATE_PENALTY_TIME = 3000;
+    static SECTORS_PER_RACE = 2;
+    static SECTOR_DISPLAY_TIME = 4500;
 
     // FORMAT
     static FORMAT_TIMING = 'mm:ss:SS';
 
     // TRACKS
+    static CURRENT_BUILDER_VERSION = 2;
     static DEFAULT_TRACKS = ['soelden', 'davos', 'wengen', 'adelboden', 'zermatt'];
 
     // CONTROLS
@@ -145,6 +148,4 @@ export class Config {
     static POLE_DETECTOR_MARGIN = 22;
     static FINAL_POLE_WIDTH = 30;
     static FINAL_POLE_HEIGHT = 80;
-
-
 }

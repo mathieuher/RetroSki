@@ -1,5 +1,6 @@
 import { Config } from "../config";
 import { RecordResult } from "../models/record-result";
+import { StockableGhost } from "../models/stockable-ghost";
 import { StockableRecord } from "../models/stockable-record";
 import { StockableTrack } from "../models/stockable-track";
 import { Track } from "../models/track";
@@ -10,6 +11,12 @@ import { format } from 'date-fns';
 export class TrackManager {
     constructor() { }
 
+    /**
+     * Load an already existing track by its name or generate a new one (if not existing)
+     * @param name name of the track to load/build
+     * @param trackStyle style of the track to build (only used when building a new track)
+     * @returns the track
+     */
     public loadTrack(name: string, trackStyle: TrackStyles): Track {
         const requestedTrack = this.getTrackFromLocalStorage(name);
         if (requestedTrack) { return requestedTrack.toTrack() };
@@ -20,14 +27,34 @@ export class TrackManager {
         return newTrack;
     }
 
+    /**
+     * Import default tracks from the assets
+     * Override existing persisted track if the default track version from the assets use a more recent builder version
+     */
     public importDefaultTracks(): void {
         Config.DEFAULT_TRACKS.forEach(track => {
-            if (!localStorage.getItem(`track_${track}`)) {
-                fetch(`tracks/${track}.json`).then(res => res.json()).then(res => {
-                    localStorage.setItem(`track_${track}`, JSON.stringify(res));
-                });
-            }
-        })
+            const storedTrack: StockableTrack = localStorage.getItem(`track_${track}`) ? JSON.parse(localStorage.getItem(`track_${track}`)!) : null;
+            fetch(`tracks/${track}.json`)?.then(trackJson => trackJson.json())?.then((track: StockableTrack) => {
+                if (!storedTrack?.builderVersion || track.builderVersion! > storedTrack.builderVersion)
+                    localStorage.setItem(`track_${track.name}`, JSON.stringify(track));
+            }).catch(() => console.warn('Unable to load default track from the assets : ', track));
+        });
+    }
+
+    /**
+     * Import default ghosts from the assets
+     * Override existing persisted ghosts if the ghost from the asset is using a more recent track version
+     */
+    public importDefaultGhosts(): void {
+        Config.DEFAULT_TRACKS.forEach(track => {
+            const ghostPersistedJson = localStorage.getItem(`ghost_${track}`);
+            const ghostPersistedData: StockableGhost = ghostPersistedJson ? JSON.parse(ghostPersistedJson) : null;
+            fetch(`ghosts/${track}.json`)?.then(ghostJson => ghostJson.json())?.then((defaultGhost: StockableGhost) => {
+                if (!ghostPersistedData?.trackVersion || defaultGhost.trackVersion! > ghostPersistedData.trackVersion) {
+                    localStorage.setItem(`ghost_${track}`, JSON.stringify(defaultGhost));
+                }
+            }).catch(() => console.warn('Unable to load default ghost from the assets : ', track));
+        });
     }
 
     public saveRecord(trackName: string, record: StockableRecord): { position: number, records: RecordResult[] } {
@@ -65,7 +92,7 @@ export class TrackManager {
         let item = localStorage.getItem('track_' + trackName);
         if (item) {
             const tempTrack = Object.assign(new StockableTrack(), JSON.parse(item));
-            return new StockableTrack(tempTrack.name, tempTrack.style, tempTrack.date, tempTrack.gates, tempTrack.records);
+            return new StockableTrack(tempTrack.builderVersion, tempTrack.name, tempTrack.style, tempTrack.date, tempTrack.gates, tempTrack.records);
         }
         return null;
     }
@@ -74,7 +101,7 @@ export class TrackManager {
         const records = this.getTrackFromLocalStorage(trackName)!.records;
         return records?.map((record, index) => {
             const difference = record.timing - records[0].timing;
-            return new RecordResult(index + 1, record.player, format(record.date, 'd MMM yyyy HH:mm'), format(record.timing, 'mm:ss:SS'), difference ? format(difference, 'ss:SS') : '');
+            return new RecordResult(index + 1, record.player, format(record.date, 'd MMM yyyy HH:mm'), format(record.timing, 'mm:ss:SS'), difference ? format(difference, difference >= 60000 ? 'mm:ss:SS' : 'ss:SS') : '');
         });
     }
 
