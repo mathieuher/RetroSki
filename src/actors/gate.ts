@@ -1,4 +1,4 @@
-import { Actor, Vector, vec } from "excalibur";
+import { Actor, Color, Line, Vector, vec } from "excalibur";
 import { Config } from "../config";
 import { Pole } from "./pole";
 import { GateDetector } from "./gate-detector";
@@ -15,6 +15,7 @@ export class Gate extends Actor {
     private leftPole?: Pole;
     private rightPole?: Pole;
     private gateDetector?: GateDetector;
+    private sectorLine?: Actor;
     private gateNumber: number;
     private polesColor: 'red' | 'blue';
     private missed = false;
@@ -43,9 +44,17 @@ export class Gate extends Actor {
             this.buildComponents();
         }
 
-        if (!this.isFinalGate && !this.passed && !this.missed && this.shouldBePassed()) {
+        if (!this.passed && !this.missed && this.shouldBePassed()) {
             (this.scene as Race).addPenalty();
             this.missed = true;
+
+            if (this.sectorNumber) {
+                (this.scene as Race).setSector(this.sectorNumber);
+            }
+
+            if (this.isFinalGate) {
+                (this.scene as Race).stopRace();
+            }
         }
 
         if (this.canBeDestroy()) {
@@ -74,7 +83,8 @@ export class Gate extends Actor {
     }
 
     private buildComponents(): void {
-        const gatePoleWidth = (this.isFinalGate ? Config.FINAL_POLE_WIDTH : Config.POLE_WIDTH);
+        const gatePoleWidth = this.isFinalGate ? Config.FINAL_POLE_WIDTH : Config.POLE_WIDTH;
+        const gatePoleHeight = this.isFinalGate ? Config.FINAL_POLE_HEIGHT : Config.POLE_HEIGHT
 
         this.leftPole = new Pole(vec(0, 0), this.polesColor, this.isFinalGate);
         this.gateDetector = new GateDetector(vec(gatePoleWidth + Config.POLE_DETECTOR_MARGIN, 0), this.width - (2 * (gatePoleWidth + Config.POLE_DETECTOR_MARGIN)), this.isFinalGate);
@@ -83,6 +93,13 @@ export class Gate extends Actor {
         this.addChild(this.leftPole!);
         this.addChild(this.gateDetector!);
         this.addChild(this.rightPole!);
+
+        if (this.sectorNumber) {
+            this.sectorLine = new Actor({ anchor: vec(0, 0), z: 0 });
+            this.sectorLine.graphics.use(new Line({ start: vec(gatePoleWidth - 5, gatePoleHeight / 2), end: vec(this.width - gatePoleWidth + 5, gatePoleHeight / 2), color: Color.Red, thickness: 6 }));
+            this.sectorLine.graphics.opacity = 0.3;
+            this.addChild(this.sectorLine);
+        }
     }
 
     private onGatePassed(): void {
