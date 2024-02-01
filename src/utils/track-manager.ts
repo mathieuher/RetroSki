@@ -12,14 +12,14 @@ export class TrackManager {
     constructor() { }
 
     /**
-     * Load an already existing track by its name or generate a new one (if not existing)
+     * Load an already existing track by its name or generate a new one (if not existing or older version)
      * @param name name of the track to load/build
      * @param trackStyle style of the track to build (only used when building a new track)
      * @returns the track
      */
     public loadTrack(name: string, trackStyle: TrackStyles): Track {
         const requestedTrack = this.getTrackFromLocalStorage(name);
-        if (requestedTrack) { return requestedTrack.toTrack() };
+        if (requestedTrack?.builderVersion === Config.CURRENT_BUILDER_VERSION) { return requestedTrack.toTrack() };
 
         const newTrack = TrackBuilder.designTrack(name, trackStyle);
         const stockableTrack = newTrack.toStockable();
@@ -36,7 +36,7 @@ export class TrackManager {
             const storedTrack: StockableTrack = localStorage.getItem(`track_${track}`) ? JSON.parse(localStorage.getItem(`track_${track}`)!) : null;
             fetch(`tracks/${track}.json`)?.then(trackJson => trackJson.json())?.then((track: StockableTrack) => {
                 if (!storedTrack?.builderVersion || track.builderVersion! > storedTrack.builderVersion)
-                    localStorage.setItem(`track_${track.name}`, JSON.stringify(track));
+                    this.saveTrackToLocalStorage(track);
             }).catch(() => console.warn('Unable to load default track from the assets : ', track));
         });
     }
@@ -91,8 +91,10 @@ export class TrackManager {
     private getTrackFromLocalStorage(trackName: string): StockableTrack | null {
         let item = localStorage.getItem('track_' + trackName);
         if (item) {
-            const tempTrack = Object.assign(new StockableTrack(), JSON.parse(item));
-            return new StockableTrack(tempTrack.builderVersion, tempTrack.name, tempTrack.style, tempTrack.date, tempTrack.gates, tempTrack.records);
+            const tempTrack: StockableTrack = Object.assign(new StockableTrack(), JSON.parse(item));
+            if (tempTrack.builderVersion === Config.CURRENT_BUILDER_VERSION) {
+                return new StockableTrack(tempTrack.builderVersion, tempTrack.name, tempTrack.style, tempTrack.date, tempTrack.gates, tempTrack.records);
+            }
         }
         return null;
     }
