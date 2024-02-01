@@ -28,6 +28,8 @@ export class Game extends Engine {
         Resources.EventRecordGhostSliding,
         Resources.EventRecordGhostBraking,
 
+        Resources.StartingGate,
+        Resources.StartingHouse,
         Resources.PoleRed,
         Resources.PoleBlue,
         Resources.PoleTouchedRed,
