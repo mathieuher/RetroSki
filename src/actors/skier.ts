@@ -21,8 +21,8 @@ export class Skier extends Actor {
     constructor(skierName: string, skierConfig: SkierConfig) {
         super({
             pos: vec(0, 0),
-            width: 30,
-            height: 50,
+            width: 21,
+            height: 30,
             z: 10,
             anchor: vec(0.5, 0.5),
             collisionType: CollisionType.Fixed
@@ -192,7 +192,7 @@ export class Skier extends Actor {
             } else if (skierAction === SkierActions.CARVE_LEFT || skierAction === SkierActions.CARVE_RIGHT) {
                 this.emitCarvingParticles(speedPercentage, this.carvingIntention(engine), skierAction);
             } else if (skierAction === SkierActions.BRAKE) {
-                this.emitBreakingParticles(speedPercentage);
+                this.emitBrakingParticles(speedPercentage);
             } else if (this.speed > 0) {
                 this.emitRidingParticles(speedPercentage);
             }
@@ -201,33 +201,33 @@ export class Skier extends Actor {
     }
 
     private emitSlidingParticles(speedPercentage: number, slidingIntensity: number, skierAction: SkierActions): void {
-        this.particlesEmitter.pos.y = 5;
+        this.particlesEmitter.pos.y = 2.5;
         this.particlesEmitter.radius = 6;
         this.particlesEmitter.particleLife = 1500;
         if (skierAction === SkierActions.SLIDE_LEFT) {
             this.particlesEmitter.maxAngle = 1.6;
             this.particlesEmitter.minAngle = 0.5;
-            this.particlesEmitter.pos.x = 12;
+            this.particlesEmitter.pos.x = 6.5;
         } else {
             this.particlesEmitter.maxAngle = 2.6;
             this.particlesEmitter.minAngle = 1.6;
-            this.particlesEmitter.pos.x = -12;
+            this.particlesEmitter.pos.x = -6.5;
         }
         this.particlesEmitter.emitParticles(speedPercentage * slidingIntensity * 20);
     }
 
     private emitCarvingParticles(speedPercentage: number, carvingIntensity: number, skierAction: SkierActions): void {
-        this.particlesEmitter.pos.y = 5;
+        this.particlesEmitter.pos.y = 2.5;
         this.particlesEmitter.radius = 1;
         this.particlesEmitter.particleLife = 450;
         this.particlesEmitter.maxAngle = 4.8;
         this.particlesEmitter.minAngle = 4.6;
-        this.particlesEmitter.pos.x = skierAction === SkierActions.CARVE_LEFT ? 12 : -12;
+        this.particlesEmitter.pos.x = skierAction === SkierActions.CARVE_LEFT ? 6.5 : -6.5;
         this.particlesEmitter.emitParticles(speedPercentage * carvingIntensity * 15);
     }
 
-    private emitBreakingParticles(speedPercentage: number): void {
-        this.particlesEmitter.pos.y = -20;
+    private emitBrakingParticles(speedPercentage: number): void {
+        this.particlesEmitter.pos.y = -10;
         this.particlesEmitter.radius = 6;
         this.particlesEmitter.particleLife = 1500;
         this.particlesEmitter.maxAngle = 6;

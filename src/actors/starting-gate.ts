@@ -6,8 +6,8 @@ export class StartingGate extends Actor {
         super({
             anchor: anchor,
             pos: position,
-            width: 70,
-            height: 5,
+            width: 42,
+            height: 3,
         });
 
         this.graphics.use(Resources.StartingGate.toSprite());
