@@ -15,6 +15,8 @@ import eventRecordGhostCarving from "./images/sprites/eventRecordGhost_carving.p
 import eventRecordGhostSliding from "./images/sprites/eventRecordGhost_sliding.png";
 import eventRecordGhostBraking from "./images/sprites/eventRecordGhost_braking.png";
 
+import startingGate from "./images/sprites/starting_gate.png";
+import startingHouse from "./images/sprites/starting_house.png";
 import poleRed from "./images/sprites/pole_red.png";
 import poleBlue from "./images/sprites/pole_blue.png";
 import poleTouchedRed from "./images/sprites/pole_touched_red.png";
@@ -47,6 +49,8 @@ const Resources = {
     EventRecordGhostSliding: new ImageSource(eventRecordGhostSliding),
     EventRecordGhostBraking: new ImageSource(eventRecordGhostBraking),
 
+    StartingGate: new ImageSource(startingGate),
+    StartingHouse: new ImageSource(startingHouse),
     PoleRed: new ImageSource(poleRed),
     PoleBlue: new ImageSource(poleBlue),
     PoleTouchedRed: new ImageSource(poleTouchedRed),
