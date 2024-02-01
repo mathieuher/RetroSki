@@ -5,7 +5,9 @@
 - Add intro/help page to provide basic informations in-game
 - ✔️ ~~Support controller (joystick + 3 buttons)~~
 - Different skier sprite and size regarding the track style
-- Add starting gate
+- ✔️~~Add starting gate~~
+- Improve finish gate
+- Rework zooming effect to improve graphics
 - Add spectator and objects
 - ✔️ ~~Add sector time and metadata on ghosts to display during the race~~
 - ✔️ ~~Provide by default one ghost with each default track~~
