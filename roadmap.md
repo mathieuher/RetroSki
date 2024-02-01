@@ -3,11 +3,12 @@
 ## :calendar: Planning for the 1.0.0
 - ✔️ ~~improve performance~~
 - Add intro/help page to provide basic informations in-game
+- Improve track and style selection interface to show already generated track and lock style choice
 - ✔️ ~~Support controller (joystick + 3 buttons)~~
 - Different skier sprite and size regarding the track style
 - ✔️~~Add starting gate~~
 - Improve finish gate
-- Rework zooming effect to improve graphics
+- ✔️~~Rework zooming effect to improve graphics~~
 - Add spectator and objects
 - ✔️ ~~Add sector time and metadata on ghosts to display during the race~~
 - ✔️ ~~Provide by default one ghost with each default track~~
