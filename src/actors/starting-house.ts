@@ -10,13 +10,13 @@ export class StartingHouse extends Actor {
         super({
             anchor: vec(0.5, 0),
             pos: vec(0, -10),
-            width: 400,
-            height: 300,
+            width: 240,
+            height: 180,
             z: 11
         });
 
         this.graphics.use(Resources.StartingHouse.toSprite());
-        this.gate = new StartingGate(vec(0.5, 0), vec(25, -5));
+        this.gate = new StartingGate(vec(0.5, 0), vec(14, -1.5));
         this.addChild(this.gate);
     }
 

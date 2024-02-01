@@ -15,8 +15,8 @@ export class ParticlesBuilder {
             opacity: 0.5,
             fadeFlag: true,
             particleLife: 800,
-            maxSize: 4,
-            minSize: 1,
+            maxSize: 2,
+            minSize: 0.5,
             beginColor: Color.ExcaliburBlue,
             isEmitting: false,
         })

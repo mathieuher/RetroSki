@@ -5,11 +5,11 @@ export class Config {
     static DISPLAY_WIDTH = 800;
     static DISPLAY_HEIGHT = 800;
     static VISIBLE_ON_SCREEN_MARGIN_FACTOR = 1.5;
-    static CAMERA_ZOOM = 0.65;
+    static CAMERA_ZOOM = 1;
     static DISPLAY_MIN_MARGIN = 25;
     static DISPLAY_MAX_RIGHT_POSITION = (Config.DISPLAY_WIDTH / 2) - this.DISPLAY_MIN_MARGIN;
     static DISPLAY_MAX_LEFT_POSITION = -Config.DISPLAY_MAX_RIGHT_POSITION;
-    static FRONT_GHOST_DISTANCE = - this.DISPLAY_HEIGHT / 2;
+    static FRONT_GHOST_DISTANCE = - this.DISPLAY_HEIGHT / 3.8;
 
     // SOUND
     static RACE_AMBIANCE_SOUND_VOLUME = 0.1;
@@ -28,7 +28,7 @@ export class Config {
     static FORMAT_TIMING = 'mm:ss:SS';
 
     // TRACKS
-    static CURRENT_BUILDER_VERSION = 2;
+    static CURRENT_BUILDER_VERSION = 3;
     static DEFAULT_TRACKS = ['soelden', 'davos', 'wengen', 'adelboden', 'zermatt'];
 
     // CONTROLS
@@ -51,7 +51,7 @@ export class Config {
 
     // DYNAMIC
     static MAX_SPEED = 150;
-    static VELOCITY_MULTIPLIER_RATE = 7;
+    static VELOCITY_MULTIPLIER_RATE = 7 * 0.6;
     static LATERAL_VELOCITY_ROTATION_RATE = 1.15;
     // ROTATION
     static MAX_RIGHT_ROTATION_ANGLE = Math.PI / 2;
@@ -106,46 +106,46 @@ export class Config {
     static GATE_OTHER_SIDE_PROBABILITY = 0.95;
     // SPECIFIC TRACK STYLE CONFIG
     static SL_GATES_CONFIG = {
-        maxWidth: 190,
-        minWidth: 150,
-        maxHorizontalDistance: 320,
-        minVerticalDistance: 170,
-        maxVerticalDistance: 270,
+        maxWidth: 114,
+        minWidth: 90,
+        maxHorizontalDistance: 192,
+        minVerticalDistance: 102,
+        maxVerticalDistance: 162,
         minNumber: 41,
         maxNumber: 51
     }
     static GS_GATES_CONFIG = {
-        maxWidth: 200,
-        minWidth: 160,
-        maxHorizontalDistance: 320,
-        minVerticalDistance: 200,
-        maxVerticalDistance: 350,
+        maxWidth: 120,
+        minWidth: 96,
+        maxHorizontalDistance: 192,
+        minVerticalDistance: 120,
+        maxVerticalDistance: 210,
         minNumber: 44,
         maxNumber: 54
     }
     static SG_GATES_CONFIG = {
-        maxWidth: 240,
-        minWidth: 190,
-        maxHorizontalDistance: 350,
-        minVerticalDistance: 320,
-        maxVerticalDistance: 500,
+        maxWidth: 144,
+        minWidth: 114,
+        maxHorizontalDistance: 210,
+        minVerticalDistance: 192,
+        maxVerticalDistance: 300,
         minNumber: 46,
         maxNumber: 56
     }
     static DH_GATES_CONFIG = {
-        maxWidth: 250,
-        minWidth: 200,
-        maxHorizontalDistance: 300,
-        minVerticalDistance: 420,
-        maxVerticalDistance: 530,
+        maxWidth: 150,
+        minWidth: 120,
+        maxHorizontalDistance: 180,
+        minVerticalDistance: 252,
+        maxVerticalDistance: 318,
         minNumber: 48,
         maxNumber: 58
     }
 
     // POLES
-    static POLE_WIDTH = 20;
-    static POLE_HEIGHT = 40;
-    static POLE_DETECTOR_MARGIN = 22;
-    static FINAL_POLE_WIDTH = 30;
-    static FINAL_POLE_HEIGHT = 80;
+    static POLE_WIDTH = 12;
+    static POLE_HEIGHT = 24;
+    static POLE_DETECTOR_MARGIN = 16;
+    static FINAL_POLE_WIDTH = 18;
+    static FINAL_POLE_HEIGHT = 48;
 }
