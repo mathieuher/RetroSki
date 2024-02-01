@@ -16,6 +16,7 @@ import { SkierActions } from "../models/skier-actions.enum";
 import { SkierGraphics } from "../utils/skier-graphics";
 import { StockableGhost } from "../models/stockable-ghost";
 import { TimedSector } from "../models/timed-sector";
+import { StartingHouse } from "../actors/starting-house";
 
 export class Race extends Scene {
 
@@ -35,6 +36,7 @@ export class Race extends Scene {
     private skierCameraGhost?: Actor;
     private skierPositions: SkierPositioning[] = [];
     private gates: Gate[] = [];
+    private startingHouse?: StartingHouse;
     private startTime?: number;
     private endTime?: number;
     private timedSectors: TimedSector[] = [];
@@ -94,6 +96,7 @@ export class Race extends Scene {
         this.listenStopRaceEvent();
         this.skier!.startRace();
         (this.engine as Game).soundPlayer.playSound(Resources.StartRaceSound, 0.3);
+        this.startingHouse?.openGate();
     }
 
     public stopRace(): void {
@@ -196,6 +199,8 @@ export class Race extends Scene {
         this.track = this.buildTrack(trackName, askedTrackStyle);
         this.skier = new Skier(skierName, this.getSkierConfig(this.track.style));
         this.add(this.skier);
+        this.startingHouse = new StartingHouse();
+        this.add(this.startingHouse);
 
         this.skierCameraGhost = new Actor({ width: 1, height: 1, pos: vec(this.skier.pos.x, this.skier.pos.y + Config.FRONT_GHOST_DISTANCE) });
         this.setupCamera();
