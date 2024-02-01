@@ -96,7 +96,7 @@ export class Gate extends Actor {
 
         if (this.sectorNumber) {
             this.sectorLine = new Actor({ anchor: vec(0, 0), z: 0 });
-            this.sectorLine.graphics.use(new Line({ start: vec(gatePoleWidth - 5, gatePoleHeight / 2), end: vec(this.width - gatePoleWidth + 5, gatePoleHeight / 2), color: Color.Red, thickness: 6 }));
+            this.sectorLine.graphics.use(new Line({ start: vec(gatePoleWidth - 5, gatePoleHeight / 2), end: vec(this.width - gatePoleWidth + 5, gatePoleHeight / 2), color: Color.Red, thickness: 3.5 }));
             this.sectorLine.graphics.opacity = 0.3;
             this.addChild(this.sectorLine);
         }
