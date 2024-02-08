@@ -1,1 +1,489 @@
-{"name":"soelden","builderVersion":3,"style":"GS","date":"2024-02-01T22:40:56.248Z","gates":[{"x":102.90327120571392,"y":-165,"color":"red","width":103.57874120696107,"gateNumber":1,"isFinal":false,"sectorNumber":0},{"x":-89.09672879428608,"y":-289.81939251373973,"color":"blue","width":108.43377950603556,"gateNumber":2,"isFinal":false,"sectorNumber":0},{"x":88.45181854797663,"y":-467.7304278004932,"color":"red","width":117.30616672526057,"gateNumber":3,"isFinal":false,"sectorNumber":0},{"x":-103.54818145202337,"y":-632.7161623653601,"color":"blue","width":100.58882836533165,"gateNumber":4,"isFinal":false,"sectorNumber":0},{"x":88.45181854797663,"y":-760.4728994928254,"color":"red","width":115.0638965557017,"gateNumber":5,"isFinal":false,"sectorNumber":0},{"x":-103.54818145202337,"y":-913.3711601532008,"color":"blue","width":105.2473722308858,"gateNumber":6,"isFinal":false,"sectorNumber":0},{"x":88.45181854797663,"y":-1104.39825727307,"color":"red","width":116.86074658036942,"gateNumber":7,"isFinal":false,"sectorNumber":0},{"x":-103.54818145202337,"y":-1241.7444374047043,"color":"blue","width":116.37127525966555,"gateNumber":8,"isFinal":false,"sectorNumber":0},{"x":88.45181854797663,"y":-1428.1982619751093,"color":"red","width":101.74437588051445,"gateNumber":9,"isFinal":false,"sectorNumber":0},{"x":-103.54818145202337,"y":-1571.192992608642,"color":"blue","width":97.86494047110388,"gateNumber":10,"isFinal":false,"sectorNumber":0},{"x":88.45181854797663,"y":-1696.2683262626663,"color":"red","width":117.52198301706497,"gateNumber":11,"isFinal":false,"sectorNumber":0},{"x":-103.54818145202337,"y":-1826.3044553044815,"color":"blue","width":97.49607668447071,"gateNumber":12,"isFinal":false,"sectorNumber":0},{"x":32.201522216391766,"y":-1990.0835301099405,"color":"red","width":112.02060097915368,"gateNumber":13,"isFinal":false,"sectorNumber":0},{"x":-159.79847778360823,"y":-2123.6464587814585,"color":"blue","width":118.76972456176932,"gateNumber":14,"isFinal":false,"sectorNumber":0},{"x":32.201522216391766,"y":-2296.4461823421852,"color":"red","width":109.0351004808539,"gateNumber":15,"isFinal":false,"sectorNumber":0},{"x":-159.79847778360823,"y":-2439.07575979639,"color":"blue","width":114.30917009070268,"gateNumber":16,"isFinal":false,"sectorNumber":0},{"x":32.201522216391766,"y":-2636.721329883945,"color":"red","width":108.78846194258955,"gateNumber":17,"isFinal":false,"sectorNumber":1},{"x":-83.60610501885557,"y":-2789.3538748252945,"color":"blue","width":98.10550204389162,"gateNumber":18,"isFinal":false,"sectorNumber":0},{"x":81.48654880201833,"y":-2930.6853129156625,"color":"red","width":109.83137787454896,"gateNumber":19,"isFinal":false,"sectorNumber":0},{"x":-110.51345119798167,"y":-3137.1165744323407,"color":"blue","width":114.95728317114524,"gateNumber":20,"isFinal":false,"sectorNumber":0},{"x":81.48654880201833,"y":-3290.9167320409924,"color":"red","width":119.47192776761874,"gateNumber":21,"isFinal":false,"sectorNumber":0},{"x":-110.51345119798167,"y":-3438.9497874531708,"color":"blue","width":117.52823931984965,"gateNumber":22,"isFinal":false,"sectorNumber":0},{"x":81.48654880201833,"y":-3567.5994367943804,"color":"red","width":108.76895896438424,"gateNumber":23,"isFinal":false,"sectorNumber":0},{"x":-28.0121294972287,"y":-3738.7084921591686,"color":"blue","width":97.61849591856944,"gateNumber":24,"isFinal":false,"sectorNumber":0},{"x":5.563942303442189,"y":-3877.173026779394,"color":"red","width":112.94682659281723,"gateNumber":25,"isFinal":false,"sectorNumber":0},{"x":-186.4360576965578,"y":-4078.7586821216346,"color":"blue","width":113.97702757458447,"gateNumber":26,"isFinal":false,"sectorNumber":0},{"x":5.5639423034421895,"y":-4244.665584657287,"color":"red","width":115.47697326136735,"gateNumber":27,"isFinal":false,"sectorNumber":0},{"x":-90.71264599203163,"y":-4401.3267877984945,"color":"blue","width":100.36757520503704,"gateNumber":28,"isFinal":false,"sectorNumber":0},{"x":35.98988505980886,"y":-4589.7310640137885,"color":"red","width":119.78082749262167,"gateNumber":29,"isFinal":false,"sectorNumber":0},{"x":-156.01011494019113,"y":-4765.854664926422,"color":"blue","width":119.5309871039145,"gateNumber":30,"isFinal":false,"sectorNumber":0},{"x":35.98988505980887,"y":-4948.732210898712,"color":"red","width":118.29272143156415,"gateNumber":31,"isFinal":false,"sectorNumber":0},{"x":-156.01011494019113,"y":-5125.6616303897845,"color":"blue","width":116.99025705974846,"gateNumber":32,"isFinal":false,"sectorNumber":0},{"x":35.98988505980887,"y":-5260.009218238928,"color":"red","width":97.83241548130701,"gateNumber":33,"isFinal":false,"sectorNumber":0},{"x":-156.01011494019113,"y":-5400.171413980334,"color":"blue","width":108.83398377689134,"gateNumber":34,"isFinal":false,"sectorNumber":2},{"x":35.98988505980887,"y":-5564.170041124096,"color":"red","width":104.76899176883033,"gateNumber":35,"isFinal":false,"sectorNumber":0},{"x":-99.86726952975496,"y":-5762.8100847483465,"color":"blue","width":109.28933000289675,"gateNumber":36,"isFinal":false,"sectorNumber":0},{"x":10.926650778899527,"y":-5912.254777891389,"color":"red","width":115.77846990689507,"gateNumber":37,"isFinal":false,"sectorNumber":0},{"x":-181.07334922110047,"y":-6037.288498718234,"color":"blue","width":107.03197624514128,"gateNumber":38,"isFinal":false,"sectorNumber":0},{"x":10.926650778899528,"y":-6244.148369026029,"color":"red","width":109.77684152262698,"gateNumber":39,"isFinal":false,"sectorNumber":0},{"x":-153.7483768535588,"y":-6395.31330516582,"color":"blue","width":101.01578903654324,"gateNumber":40,"isFinal":false,"sectorNumber":0},{"x":38.251623146441204,"y":-6533.0556017571225,"color":"red","width":110.20375343953327,"gateNumber":41,"isFinal":false,"sectorNumber":0},{"x":-153.7483768535588,"y":-6686.150195643209,"color":"blue","width":103.77711601291183,"gateNumber":42,"isFinal":false,"sectorNumber":0},{"x":29.054617951752665,"y":-6846.946843561611,"color":"red","width":99.21631820751278,"gateNumber":43,"isFinal":false,"sectorNumber":0},{"x":-162.94538204824732,"y":-7016.9603093516425,"color":"blue","width":103.43706645429384,"gateNumber":44,"isFinal":false,"sectorNumber":0},{"x":29.054617951752675,"y":-7193.308122471142,"color":"red","width":111.88596309358101,"gateNumber":45,"isFinal":false,"sectorNumber":0},{"x":-162.94538204824732,"y":-7319.299719969497,"color":"blue","width":113.8249147221532,"gateNumber":46,"isFinal":false,"sectorNumber":0},{"x":29.054617951752675,"y":-7451.414262761727,"color":"red","width":118.05288666217817,"gateNumber":47,"isFinal":false,"sectorNumber":0},{"x":-162.94538204824732,"y":-7619.929245450974,"color":"blue","width":112.39372181032978,"gateNumber":48,"isFinal":false,"sectorNumber":0},{"x":29.054617951752675,"y":-7774.2745030814,"color":"red","width":99.55535163445192,"gateNumber":49,"isFinal":false,"sectorNumber":0},{"x":-162.94538204824732,"y":-7972.319461919585,"color":"blue","width":105.99422632453607,"gateNumber":50,"isFinal":false,"sectorNumber":0},{"x":29.054617951752675,"y":-8100.472611932931,"color":"red","width":119.42161728607799,"gateNumber":51,"isFinal":false,"sectorNumber":0},{"x":-162.94538204824732,"y":-8278.068174167915,"color":"blue","width":119.38445230240558,"gateNumber":52,"isFinal":false,"sectorNumber":0},{"x":-375,"y":-8486.270552235675,"color":"red","width":750,"gateNumber":54,"isFinal":true,"sectorNumber":3}],"records":[{"player":"Mathieu Hugas","date":"2024-02-01T22:42:55.404Z","timing":59087.39999999991},{"player":"Emilie Hugas","date":"2024-02-01T22:47:03.136Z","timing":60223}]}
+{
+	"name": "soelden",
+	"builderVersion": 3,
+	"style": "GS",
+	"date": "2024-02-01T22:40:56.248Z",
+	"gates": [
+		{
+			"x": 102.90327120571392,
+			"y": -165,
+			"color": "red",
+			"width": 103.57874120696107,
+			"gateNumber": 1,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -89.09672879428608,
+			"y": -289.81939251373973,
+			"color": "blue",
+			"width": 108.43377950603556,
+			"gateNumber": 2,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 88.45181854797663,
+			"y": -467.7304278004932,
+			"color": "red",
+			"width": 117.30616672526057,
+			"gateNumber": 3,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -103.54818145202337,
+			"y": -632.7161623653601,
+			"color": "blue",
+			"width": 100.58882836533165,
+			"gateNumber": 4,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 88.45181854797663,
+			"y": -760.4728994928254,
+			"color": "red",
+			"width": 115.0638965557017,
+			"gateNumber": 5,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -103.54818145202337,
+			"y": -913.3711601532008,
+			"color": "blue",
+			"width": 105.2473722308858,
+			"gateNumber": 6,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 88.45181854797663,
+			"y": -1104.39825727307,
+			"color": "red",
+			"width": 116.86074658036942,
+			"gateNumber": 7,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -103.54818145202337,
+			"y": -1241.7444374047043,
+			"color": "blue",
+			"width": 116.37127525966555,
+			"gateNumber": 8,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 88.45181854797663,
+			"y": -1428.1982619751093,
+			"color": "red",
+			"width": 101.74437588051445,
+			"gateNumber": 9,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -103.54818145202337,
+			"y": -1571.192992608642,
+			"color": "blue",
+			"width": 97.86494047110388,
+			"gateNumber": 10,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 88.45181854797663,
+			"y": -1696.2683262626663,
+			"color": "red",
+			"width": 117.52198301706497,
+			"gateNumber": 11,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -103.54818145202337,
+			"y": -1826.3044553044815,
+			"color": "blue",
+			"width": 97.49607668447071,
+			"gateNumber": 12,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 32.201522216391766,
+			"y": -1990.0835301099405,
+			"color": "red",
+			"width": 112.02060097915368,
+			"gateNumber": 13,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -159.79847778360823,
+			"y": -2123.6464587814585,
+			"color": "blue",
+			"width": 118.76972456176932,
+			"gateNumber": 14,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 32.201522216391766,
+			"y": -2296.4461823421852,
+			"color": "red",
+			"width": 109.0351004808539,
+			"gateNumber": 15,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -159.79847778360823,
+			"y": -2439.07575979639,
+			"color": "blue",
+			"width": 114.30917009070268,
+			"gateNumber": 16,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 32.201522216391766,
+			"y": -2636.721329883945,
+			"color": "red",
+			"width": 108.78846194258955,
+			"gateNumber": 17,
+			"isFinal": false,
+			"sectorNumber": 1
+		},
+		{
+			"x": -83.60610501885557,
+			"y": -2789.3538748252945,
+			"color": "blue",
+			"width": 98.10550204389162,
+			"gateNumber": 18,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 81.48654880201833,
+			"y": -2930.6853129156625,
+			"color": "red",
+			"width": 109.83137787454896,
+			"gateNumber": 19,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -110.51345119798167,
+			"y": -3137.1165744323407,
+			"color": "blue",
+			"width": 114.95728317114524,
+			"gateNumber": 20,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 81.48654880201833,
+			"y": -3290.9167320409924,
+			"color": "red",
+			"width": 119.47192776761874,
+			"gateNumber": 21,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -110.51345119798167,
+			"y": -3438.9497874531708,
+			"color": "blue",
+			"width": 117.52823931984965,
+			"gateNumber": 22,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 81.48654880201833,
+			"y": -3567.5994367943804,
+			"color": "red",
+			"width": 108.76895896438424,
+			"gateNumber": 23,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -28.0121294972287,
+			"y": -3738.7084921591686,
+			"color": "blue",
+			"width": 97.61849591856944,
+			"gateNumber": 24,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 5.563942303442189,
+			"y": -3877.173026779394,
+			"color": "red",
+			"width": 112.94682659281723,
+			"gateNumber": 25,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -186.4360576965578,
+			"y": -4078.7586821216346,
+			"color": "blue",
+			"width": 113.97702757458447,
+			"gateNumber": 26,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 5.5639423034421895,
+			"y": -4244.665584657287,
+			"color": "red",
+			"width": 115.47697326136735,
+			"gateNumber": 27,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -90.71264599203163,
+			"y": -4401.3267877984945,
+			"color": "blue",
+			"width": 100.36757520503704,
+			"gateNumber": 28,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 35.98988505980886,
+			"y": -4589.7310640137885,
+			"color": "red",
+			"width": 119.78082749262167,
+			"gateNumber": 29,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -156.01011494019113,
+			"y": -4765.854664926422,
+			"color": "blue",
+			"width": 119.5309871039145,
+			"gateNumber": 30,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 35.98988505980887,
+			"y": -4948.732210898712,
+			"color": "red",
+			"width": 118.29272143156415,
+			"gateNumber": 31,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -156.01011494019113,
+			"y": -5125.6616303897845,
+			"color": "blue",
+			"width": 116.99025705974846,
+			"gateNumber": 32,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 35.98988505980887,
+			"y": -5260.009218238928,
+			"color": "red",
+			"width": 97.83241548130701,
+			"gateNumber": 33,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -156.01011494019113,
+			"y": -5400.171413980334,
+			"color": "blue",
+			"width": 108.83398377689134,
+			"gateNumber": 34,
+			"isFinal": false,
+			"sectorNumber": 2
+		},
+		{
+			"x": 35.98988505980887,
+			"y": -5564.170041124096,
+			"color": "red",
+			"width": 104.76899176883033,
+			"gateNumber": 35,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -99.86726952975496,
+			"y": -5762.8100847483465,
+			"color": "blue",
+			"width": 109.28933000289675,
+			"gateNumber": 36,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 10.926650778899527,
+			"y": -5912.254777891389,
+			"color": "red",
+			"width": 115.77846990689507,
+			"gateNumber": 37,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -181.07334922110047,
+			"y": -6037.288498718234,
+			"color": "blue",
+			"width": 107.03197624514128,
+			"gateNumber": 38,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 10.926650778899528,
+			"y": -6244.148369026029,
+			"color": "red",
+			"width": 109.77684152262698,
+			"gateNumber": 39,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -153.7483768535588,
+			"y": -6395.31330516582,
+			"color": "blue",
+			"width": 101.01578903654324,
+			"gateNumber": 40,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 38.251623146441204,
+			"y": -6533.0556017571225,
+			"color": "red",
+			"width": 110.20375343953327,
+			"gateNumber": 41,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -153.7483768535588,
+			"y": -6686.150195643209,
+			"color": "blue",
+			"width": 103.77711601291183,
+			"gateNumber": 42,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 29.054617951752665,
+			"y": -6846.946843561611,
+			"color": "red",
+			"width": 99.21631820751278,
+			"gateNumber": 43,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -162.94538204824732,
+			"y": -7016.9603093516425,
+			"color": "blue",
+			"width": 103.43706645429384,
+			"gateNumber": 44,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 29.054617951752675,
+			"y": -7193.308122471142,
+			"color": "red",
+			"width": 111.88596309358101,
+			"gateNumber": 45,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -162.94538204824732,
+			"y": -7319.299719969497,
+			"color": "blue",
+			"width": 113.8249147221532,
+			"gateNumber": 46,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 29.054617951752675,
+			"y": -7451.414262761727,
+			"color": "red",
+			"width": 118.05288666217817,
+			"gateNumber": 47,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -162.94538204824732,
+			"y": -7619.929245450974,
+			"color": "blue",
+			"width": 112.39372181032978,
+			"gateNumber": 48,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 29.054617951752675,
+			"y": -7774.2745030814,
+			"color": "red",
+			"width": 99.55535163445192,
+			"gateNumber": 49,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -162.94538204824732,
+			"y": -7972.319461919585,
+			"color": "blue",
+			"width": 105.99422632453607,
+			"gateNumber": 50,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": 29.054617951752675,
+			"y": -8100.472611932931,
+			"color": "red",
+			"width": 119.42161728607799,
+			"gateNumber": 51,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -162.94538204824732,
+			"y": -8278.068174167915,
+			"color": "blue",
+			"width": 119.38445230240558,
+			"gateNumber": 52,
+			"isFinal": false,
+			"sectorNumber": 0
+		},
+		{
+			"x": -375,
+			"y": -8486.270552235675,
+			"color": "red",
+			"width": 750,
+			"gateNumber": 54,
+			"isFinal": true,
+			"sectorNumber": 3
+		}
+	],
+	"records": [
+		{ "player": "Mathieu Hugas", "date": "2024-02-01T22:42:55.404Z", "timing": 59087.39999999991 },
+		{ "player": "Emilie Hugas", "date": "2024-02-01T22:47:03.136Z", "timing": 60223 }
+	]
+}
