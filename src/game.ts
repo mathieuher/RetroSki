@@ -8,6 +8,7 @@ import { SoundPlayer } from './utils/sounds-player';
 import { LogoManager } from './utils/logo-manager';
 import { Race } from './scenes/race';
 import { GamepadsManager } from './utils/gamepads-manager';
+import { WelcomeUiManager } from './utils/welcome-ui-manager';
 
 export class Game extends Engine {
 	private resourcesToLoad = [
@@ -45,6 +46,7 @@ export class Game extends Engine {
 		Resources.TurningSound,
 	];
 
+	public welcomeUiManager = new WelcomeUiManager();
 	public trackManager = new TrackManager();
 	public soundPlayer = new SoundPlayer();
 	public gamepadsManager = new GamepadsManager(this);
@@ -70,8 +72,10 @@ export class Game extends Engine {
 		this.trackManager.importDefaultTracks();
 		this.trackManager.importDefaultGhosts();
 
-		this.start(this.getLoader());
-		this.goToScene('eventSetup');
+		this.start(this.getLoader()).then(() => {
+			this.welcomeUiManager.showWelcomeUi();
+			this.goToScene('eventSetup');
+		});
 	}
 
 	onPreUpdate(_engine: Engine, _delta: number): void {
@@ -95,6 +99,8 @@ export class Game extends Engine {
 				this.goToScene('eventSetup');
 			} else if (_engine.scenes?.race?.isCurrentScene()) {
 				(_engine.currentScene as Race).returnToEventManager();
+			} else if (_engine.scenes?.eventSetup?.isCurrentScene()) {
+				this.welcomeUiManager.showWelcomeUi();
 			}
 		}
 	}
@@ -106,13 +112,7 @@ export class Game extends Engine {
 		loader.logoHeight = 250;
 		loader.logoWidth = 250;
 		loader.loadingBarColor = Color.fromHex('#4a8291');
-
-		loader.startButtonFactory = () => {
-			const startButton = document.createElement('button');
-			startButton.classList.add('start-button');
-			startButton.textContent = 'Play';
-			return startButton;
-		};
+		loader.suppressPlayButton = true;
 		return loader;
 	}
 }

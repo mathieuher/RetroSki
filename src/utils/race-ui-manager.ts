@@ -2,7 +2,6 @@ import { format } from 'date-fns';
 import { RecordResult } from '../models/record-result';
 import { Engine } from 'excalibur';
 import { Config } from '../config';
-import { delay } from 'excalibur/build/dist/Util/Util';
 
 export class RaceUiManager {
 	private resultUi = document.getElementById('result')!;
@@ -40,9 +39,9 @@ export class RaceUiManager {
 
 	public flashTimer(engine: Engine): void {
 		this.timerUi.style.color = '#f5090987';
-		delay(750, engine.clock).then(() => {
+		engine.clock.schedule(() => {
 			this.timerUi.style.color = '#4c829087';
-		});
+		}, 750);
 	}
 
 	public hideUi(): void {
@@ -87,7 +86,7 @@ export class RaceUiManager {
 			);
 		}
 
-		delay(Config.SECTOR_DISPLAY_TIME, engine.clock).then(() => this.hideGhostsUi());
+		engine.clock.schedule(() => this.hideGhostsUi(), Config.SECTOR_DISPLAY_TIME);
 	}
 
 	private displaySector(

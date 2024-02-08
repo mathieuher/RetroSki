@@ -7,6 +7,7 @@ import { Config } from '../config';
 import { Subject, debounceTime, tap } from 'rxjs';
 
 export class EventSetup extends Scene {
+	private backButtonUi = document.getElementById('back-to-welcome-button')!;
 	private raceSetupUi = document.getElementById('event-setup')!;
 	private trackInput = document.getElementById('track-input')! as HTMLInputElement;
 	private trackStyleSelect = document.getElementById('track-style-select')! as HTMLInputElement;
@@ -22,6 +23,7 @@ export class EventSetup extends Scene {
 		this.engine = engine;
 		this.listenSetupCompleted();
 		this.listenTrackInput();
+		this.listenBackButtonClicked();
 	}
 
 	onActivate(_context: SceneActivationContext<unknown>): void {
@@ -47,6 +49,12 @@ export class EventSetup extends Scene {
 
 	private cleanRaceSetup(): void {
 		this.raceSetupUi.style.display = 'none';
+	}
+
+	private listenBackButtonClicked(): void {
+		this.backButtonUi.addEventListener('click', () => {
+			(this.engine as Game).welcomeUiManager.showWelcomeUi();
+		});
 	}
 
 	private listenSetupCompleted(): void {

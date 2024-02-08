@@ -12,6 +12,7 @@ export class EventManager extends Scene {
 	private trackManager!: TrackManager;
 
 	private eventManagerUi = document.getElementById('event-manager')!;
+	private backButtonUi = document.getElementById('back-to-setup-button')!;
 	private skier1Label = document.getElementById('skier-1-label')!;
 	private skier2Label = document.getElementById('skier-2-label')!;
 	private lastResultsContainer = document.getElementById('last-results-container')!;
@@ -23,6 +24,7 @@ export class EventManager extends Scene {
 		super();
 		this.engine = engine;
 		this.listenAction();
+		this.listenBackButtonClicked();
 	}
 
 	onActivate(
@@ -77,6 +79,12 @@ export class EventManager extends Scene {
 
 	public cleanEventRecord(): void {
 		localStorage.removeItem(`ghost_${this.eventConfig.trackName}_${this.eventConfig.eventId}`);
+	}
+
+	private listenBackButtonClicked(): void {
+		this.backButtonUi.addEventListener('click', () => {
+			this.backToMenu();
+		});
 	}
 
 	private startRace(): void {
