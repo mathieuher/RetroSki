@@ -10,6 +10,7 @@ $text: white;
 $textA100: #ffffffce;
 $secondary-text: #cecece;
 $lineBackground: #ffffff29;
+$tableBackground: #ffffff0a;
 $errorSemi: #f5090987;
 
 $globalGhostA100: #EA19D540;
@@ -44,6 +45,12 @@ html body {
         border-radius: 10px;
         overflow: hidden;
         max-width: 100%;
+
+        #back-to-welcome-button, 
+        #back-to-setup-button {
+            cursor: pointer;
+            margin-right: .5rem;
+        }
 
         .actions-toolbar {
             position: absolute;
@@ -84,6 +91,99 @@ html body {
 
             .dialog-actions {
                 padding: 1rem;
+            }
+        }
+
+        #welcome {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 999;
+
+            .title {
+                font-size: 1.3rem;
+                margin-bottom: 0;
+            }
+
+            .section-title {
+                font-size: 1rem;
+                padding: .5rem;
+                background-color: $lineBackground;
+                border-radius: 4px;
+                margin-bottom: .5rem;
+            }
+
+            .section-subtitle {
+                font-size: 0.9srem;
+                padding: .3rem .6rem;
+                background-color: $tableBackground;
+            }
+
+            p {
+                margin-top: 0;
+                line-height: 1.5rem;
+                font-size: 0.8rem;
+                padding: 0 .7rem;
+
+                a, a.focus, a.active, a.visited {
+                    color: white;
+                    padding: 0.4rem;
+                    background-color: $accent;
+                    border-radius: 4px;
+                    text-decoration: none;
+                    font-size: 0.7rem;
+                }
+            }
+
+            small {
+                font-size: 0.7rem;
+            }
+
+            ol {
+                padding-top: 0;
+                padding-bottom: 0;
+                margin: 0;
+                font-size: 0.85rem;
+                line-height: 1.1rem;
+
+                strong {
+                    font-weight: 400;
+                }
+
+                li {
+                    margin-bottom: .4rem;
+                }
+            }
+
+            .table-container {
+                width: 100%;
+                overflow-x: auto;
+            
+                table {
+                    width: 100%;
+                    text-align: left;
+                    background-color: $tableBackground;
+                    border-radius: 4px;
+                    padding: 0 .5rem;
+                    margin-bottom: 1rem;
+
+                    th {
+                        font-size: .9rem;
+                        padding: .5rem 0;
+                        font-weight: inherit;
+                        min-width: 120px;
+                        background: none;
+
+                        &.controls {
+                            width: 120px;
+                        }
+                    }
+
+                    td {
+                        font-size: 0.8rem;
+                    }
+                }
             }
         }
 
