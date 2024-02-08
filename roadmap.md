@@ -5,7 +5,6 @@
 - ✔️ ~~Add intro/help page to provide basic informations in-game~~
 - ✔️ ~~Improve track and style selection interface to show already generated track and lock style choice~~
 - ✔️ ~~Support controller (joystick + 3 buttons)~~
-- Different skier sprite and size regarding the track style
 - ✔️~~Add starting gate~~
 - Improve finish gate
 - ✔️~~Rework zooming effect to improve graphics~~
@@ -26,3 +25,5 @@
 - Implement jumping mechanic when playing with slopes
 - Reproduce real world downhill tracks
 - Implement Skicross track and race dynamic
+- Multi styles and tracks event
+- Different skier sprite and size regarding the track style
