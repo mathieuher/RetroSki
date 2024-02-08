@@ -4,7 +4,7 @@ import { Game } from '../game';
 import { TrackStyles } from '../models/track-styles.enum';
 import { Config } from '../config';
 
-import { Subject, debounceTime, takeUntil, tap } from 'rxjs';
+import { Subject, debounceTime, tap } from 'rxjs';
 
 export class EventSetup extends Scene {
 	private raceSetupUi = document.getElementById('event-setup')!;
@@ -58,7 +58,7 @@ export class EventSetup extends Scene {
 	private listenTrackInput(): void {
 		this.trackNameChanged
 			.pipe(
-				debounceTime(300),
+				debounceTime(200),
 				tap(trackName => this.selectTrack(trackName)),
 			)
 			.subscribe();
@@ -102,7 +102,6 @@ export class EventSetup extends Scene {
 		const track = (this.engine as Game).trackManager.getTrackFromLocalStorage(trackName);
 
 		if (track) {
-			console.log('fond track ', track.name);
 			this.trackStyleSelect.value = track.style;
 			this.trackStyleSelect.disabled = true;
 		} else {
