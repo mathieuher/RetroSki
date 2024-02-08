@@ -1,4 +1,7 @@
-on: push
+on: 
+    push:
+        branches:
+            - master
 name: 🚀 Deploy website on push
 jobs:
   web-deploy:
@@ -25,4 +28,4 @@ jobs:
         username: ln169x_une
         password: ${{ secrets.UNE_PASSWORD }}
         local-dir: ./dist/
-        server-dir: ./retroski
+        server-dir: ./retroski/
