@@ -22,7 +22,7 @@
 	"homepage": "https://mathieuher.github.io/restroski",
 	"devDependencies": {
 		"@biomejs/biome": "1.5.3",
-		"excalibur": "0.28.6",
+		"excalibur": "0.28.7",
 		"gh-pages": "^6.1.1",
 		"sass": "^1.69.7",
 		"typescript": "5.3.3",
