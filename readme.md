@@ -121,6 +121,11 @@ By default ghost mode is activated and you can see your best times while racing<
 ## 👷‍♂️ What's next ?
 <a href="roadmap.md">Draft of a roadmap</a>
 
+## ❤️ Support the project
+Be sure to enjoy your time on the mountain with us 😃<br>
+Feel free to support the project 🙏 :
+<a href="https://donate.stripe.com/7sIaGu2wO52K9S8aEE">Support the project via Stripe</a>
+
 ## ⚫ Developer guide
 1. Run `npm install` to install dependencies
 2. Run `npm run dev` to start the Vite server!
