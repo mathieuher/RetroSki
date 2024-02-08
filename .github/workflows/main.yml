@@ -11,7 +11,7 @@ jobs:
     - name: Use Node.js 20
       uses: actions/setup-node@v2
       with:
-        node-version: '20'
+        node-version: '20.10'
       
     - name: 🔨 Build Project
       run: |
@@ -19,7 +19,7 @@ jobs:
         npm run build
     
     - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: $FTP_HOST
         username: $FTP_USER
