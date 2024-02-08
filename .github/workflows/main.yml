@@ -21,6 +21,6 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: $FTP_HOST
-        username: $FTP_USER
+        server: une-entreprise.ch/retroski
+        username: ln169x_une
         password: ${{ secrets.UNE_PASSWORD }}
