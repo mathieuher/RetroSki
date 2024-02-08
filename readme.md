@@ -7,7 +7,7 @@ Welcome on a small game dev project.<br>
 Put your skis and let's race some randomly generated alpine ski tracks with your friends.
 
 ## 💻 Demo
-https://mathieuher.github.io/RetroSki
+https://une-entreprise.ch/retroski
 
 ## 🎮 Controls
 ### During the race
