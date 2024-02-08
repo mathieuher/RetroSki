@@ -19,7 +19,7 @@ jobs:
         npm run build
     
     - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: $FTP_HOST
         username: $FTP_USER
