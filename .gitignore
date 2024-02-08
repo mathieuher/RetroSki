@@ -6,3 +6,4 @@ dist-ssr
 *.local
 test/images/actual.png
 test/images/diff-*.png
+package-lock.json
