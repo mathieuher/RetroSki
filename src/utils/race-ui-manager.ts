@@ -1,8 +1,8 @@
 import { format } from 'date-fns';
 import { RecordResult } from '../models/record-result';
-import { delay } from 'excalibur/build/dist/Util/Util';
 import { Engine } from 'excalibur';
 import { Config } from '../config';
+import { delay } from 'excalibur/build/dist/Util/Util';
 
 export class RaceUiManager {
 	private resultUi = document.getElementById('result')!;
