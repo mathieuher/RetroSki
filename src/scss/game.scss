@@ -151,6 +151,10 @@ html body {
             select {
                 appearance: none;
                 background-color: $primary;
+
+                &:disabled {
+                    opacity: 0.3;
+                }
             }
 
         }
