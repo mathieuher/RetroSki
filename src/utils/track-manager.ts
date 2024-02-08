@@ -107,15 +107,15 @@ export class TrackManager {
 	}
 
 	public saveTrackToLocalStorage(track: StockableTrack): void {
-		localStorage.setItem(`track_${track.name}`, JSON.stringify(track));
+		localStorage.setItem(`track_${track.name.toLowerCase()}`, JSON.stringify(track));
 	}
 
 	public getTrackStyle(trackName: string): TrackStyles | undefined {
 		return this.getTrackFromLocalStorage(trackName)?.style;
 	}
 
-	private getTrackFromLocalStorage(trackName: string): StockableTrack | null {
-		const item = localStorage.getItem(`track_${trackName}`);
+	public getTrackFromLocalStorage(trackName: string): StockableTrack | null {
+		const item = localStorage.getItem(`track_${trackName.toLowerCase()}`);
 		if (item) {
 			const tempTrack: StockableTrack = Object.assign(new StockableTrack(), JSON.parse(item));
 			if (tempTrack.builderVersion === Config.CURRENT_BUILDER_VERSION) {

@@ -52,7 +52,7 @@ export class Config {
 	// DYNAMIC
 	static MAX_SPEED = 150;
 	static VELOCITY_MULTIPLIER_RATE = 7 * 0.6;
-	static LATERAL_VELOCITY_ROTATION_RATE = 1.15;
+	static LATERAL_VELOCITY_ROTATION_RATE = 1.08;
 	// ROTATION
 	static MAX_RIGHT_ROTATION_ANGLE = Math.PI / 2;
 	static MAX_LEFT_ROTATION_ANGLE = (3 * Math.PI) / 2;

@@ -4,6 +4,8 @@ import { Game } from '../game';
 import { TrackStyles } from '../models/track-styles.enum';
 import { Config } from '../config';
 
+import { Subject, debounceTime, takeUntil, tap } from 'rxjs';
+
 export class EventSetup extends Scene {
 	private raceSetupUi = document.getElementById('event-setup')!;
 	private trackInput = document.getElementById('track-input')! as HTMLInputElement;
@@ -13,10 +15,13 @@ export class EventSetup extends Scene {
 	private racesNumberInput = document.getElementById('races-number-input')! as HTMLInputElement;
 	private setupCompletedButton = document.getElementById('setup-completed-button')! as HTMLButtonElement;
 
+	private trackNameChanged = new Subject<string>();
+
 	constructor(engine: Engine) {
 		super();
 		this.engine = engine;
 		this.listenSetupCompleted();
+		this.listenTrackInput();
 	}
 
 	onActivate(_context: SceneActivationContext<unknown>): void {
@@ -37,6 +42,7 @@ export class EventSetup extends Scene {
 		this.loadSetup();
 		this.raceSetupUi.style.display = 'flex';
 		(this.engine as Game).soundPlayer.showButton();
+		this.selectTrack(this.trackInput.value);
 	}
 
 	private cleanRaceSetup(): void {
@@ -46,6 +52,19 @@ export class EventSetup extends Scene {
 	private listenSetupCompleted(): void {
 		this.setupCompletedButton.addEventListener('click', () => {
 			this.completeSetup();
+		});
+	}
+
+	private listenTrackInput(): void {
+		this.trackNameChanged
+			.pipe(
+				debounceTime(300),
+				tap(trackName => this.selectTrack(trackName)),
+			)
+			.subscribe();
+
+		this.trackInput.addEventListener('input', event => {
+			this.trackNameChanged.next((event.target as HTMLInputElement).value);
 		});
 	}
 
@@ -77,5 +96,17 @@ export class EventSetup extends Scene {
 	private persistSetup(skier1: string, skier2: string) {
 		localStorage.setItem('setup_skier1', skier1);
 		localStorage.setItem('setup_skier2', skier2);
+	}
+
+	private selectTrack(trackName: string): void {
+		const track = (this.engine as Game).trackManager.getTrackFromLocalStorage(trackName);
+
+		if (track) {
+			console.log('fond track ', track.name);
+			this.trackStyleSelect.value = track.style;
+			this.trackStyleSelect.disabled = true;
+		} else {
+			this.trackStyleSelect.disabled = false;
+		}
 	}
 }
