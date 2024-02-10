@@ -16,11 +16,11 @@
 - ✔️ ~~Add event record ghost~~
 - ✔️ ~~Improve sounds~~
 - ✔️ ~~Add a counter for missed gates and display it in the results~~
+- ✔️ ~~Playable on mobile/touch devices via Touch controls~~
 
 ## :bulb: Further ideas
 - Implement local multiplayer (same game or dual game)
 - Provide API for tracks and records sharing
-- Playable on mobile/touch device
 - Build more advanced track with variable slopes
 - Implement jumping mechanic when playing with slopes
 - Reproduce real world downhill tracks
