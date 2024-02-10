@@ -1,4 +1,4 @@
-window.oncontextmenu = function (event) {
+window.oncontextmenu = (event) => {
     event.preventDefault();
     event.stopPropagation();
     return false;
