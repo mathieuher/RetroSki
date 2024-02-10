@@ -14,37 +14,44 @@ Put your skis and let's race some randomly generated alpine ski tracks with your
 <table>
   <tr>
     <th>Action</th>
-    <th>⌨️ Keyboard</th>
-    <th>🎮 Gamepad</th>
+    <th align="left">⌨️ Keyboard</th>
+    <th align="left">🎮 Gamepad</th>
+    <th align="left">📱 Touch</th>
   </tr>
   <tr>
     <td>Start skiing (1x)</td>
     <td><img src="src/images/icons/keyboard_arrow_up.png" valign="bottom"/></td>
     <td><img src="src/images/icons/gamepad_a.png" valign="bottom"/></td>
+    <td>Touch the screen</td>
   </tr>
   <tr>
     <td>Carving</td>
     <td><img src="src/images/icons/keyboard_arrow_left.png" valign="bottom"/><img src="src/images/icons/keyboard_arrow_right.png" valign="bottom"/></td>
     <td><img src="src/images/icons/gamepad_left_stick.png" valign="bottom"/></td>
+    <td>Touch left/right</td>
   </tr>
   <tr>
     <td>Braking/Sliding</td>
     <td><img src="src/images/icons/keyboard_space.png" valign="bottom"/></td>
     <td><img src="src/images/icons/gamepad_b.png" valign="bottom"/></td>
+    <td>Touch bottom</td>
   </tr>
   <tr>
     <td>Show/hide ghosts</td>
     <td><img src="src/images/icons/keyboard_g.png" valign="bottom"/></td>
     <td><img src="src/images/icons/gamepad_left_bumper.png" valign="bottom"/></td>
+    <td></td>
   </tr>
   <tr>
     <td>Return to the event manager (restart the race)</td>
     <td><img src="src/images/icons/keyboard_exit.png" valign="bottom"/></td>
     <td><img src="src/images/icons/gamepad_select.png" valign="bottom"/></td>
+    <td></td>
   </tr>
   <tr>
     <td>Toggle debug mode</td>
     <td><img src="src/images/icons/keyboard_d.png" valign="bottom"/></td>
+    <td></td>
     <td></td>
   </tr>
 </table>
