@@ -509,6 +509,10 @@ html body {
             height: 40px;
             font-family: monospace;
 
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
             &#track-name {
                 right: 0;
                 top: 0;
@@ -622,10 +626,4 @@ i.fa-solid {
 
 ::-webkit-scrollbar {
     width: 0px;
-}
-
-html {
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
 }

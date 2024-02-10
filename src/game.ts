@@ -1,4 +1,4 @@
-import { Color, DisplayMode, Engine, Input, Loader } from 'excalibur';
+import { Color, DisplayMode, Engine, Loader } from 'excalibur';
 import { Resources } from './resources';
 import { Config } from './config';
 import { TrackManager } from './utils/track-manager';
@@ -61,8 +61,7 @@ export class Game extends Engine {
 			backgroundColor: Color.White,
 			fixedUpdateFps: 60,
 			maxFps: 60,
-			canvasElementId: 'game',
-			pointerScope: Input.PointerScope.Document
+			canvasElementId: 'game'
 		});
 	}
 
