@@ -9,7 +9,6 @@ import { LogoManager } from './utils/logo-manager';
 import { Race } from './scenes/race';
 import { GamepadsManager } from './utils/gamepads-manager';
 import { WelcomeUiManager } from './utils/welcome-ui-manager';
-import { TouchManager } from './utils/touch-manager';
 
 export class Game extends Engine {
 	private resourcesToLoad = [
