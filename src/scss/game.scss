@@ -623,3 +623,9 @@ i.fa-solid {
 ::-webkit-scrollbar {
     width: 0px;
 }
+
+html {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
