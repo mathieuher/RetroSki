@@ -6,7 +6,7 @@
 - ✔️ ~~Improve track and style selection interface to show already generated track and lock style choice~~
 - ✔️ ~~Support controller (joystick + 3 buttons)~~
 - ✔️~~Add starting gate~~
-- Improve finish gate
+- ✔️ ~~Improve finish gate~~
 - ✔️~~Rework zooming effect to improve graphics~~
 - Add spectator and objects
 - ✔️ ~~Add sector time and metadata on ghosts to display during the race~~
