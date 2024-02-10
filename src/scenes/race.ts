@@ -17,9 +17,11 @@ import { SkierGraphics } from '../utils/skier-graphics';
 import { StockableGhost } from '../models/stockable-ghost';
 import { TimedSector } from '../models/timed-sector';
 import { StartingHouse } from '../actors/starting-house';
+import { TouchManager } from '../utils/touch-manager';
 
 export class Race extends Scene {
 	public skier?: Skier;
+	public touchManager: TouchManager;
 
 	private uiManager = new RaceUiManager();
 	private uiTimer = new Timer({
@@ -50,6 +52,7 @@ export class Race extends Scene {
 	constructor(engine: Engine) {
 		super();
 		this.engine = engine;
+		this.touchManager = new TouchManager(engine);
 	}
 
 	onPreUpdate(_engine: Engine, _delta: number): void {

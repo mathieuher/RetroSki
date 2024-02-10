@@ -1,4 +1,4 @@
-import { Color, DisplayMode, Engine, Loader } from 'excalibur';
+import { Color, DisplayMode, Engine, Input, Loader } from 'excalibur';
 import { Resources } from './resources';
 import { Config } from './config';
 import { TrackManager } from './utils/track-manager';
@@ -51,7 +51,6 @@ export class Game extends Engine {
 	public trackManager = new TrackManager();
 	public soundPlayer = new SoundPlayer();
 	public gamepadsManager = new GamepadsManager(this);
-	public touchManager = new TouchManager(this);
 
 	public ghostsEnabled = true;
 
@@ -64,6 +63,7 @@ export class Game extends Engine {
 			fixedUpdateFps: 60,
 			maxFps: 60,
 			canvasElementId: 'game',
+			pointerScope: Input.PointerScope.Document
 		});
 	}
 

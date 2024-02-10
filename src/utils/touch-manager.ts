@@ -16,11 +16,11 @@ export class TouchManager {
 
     private listenTouch(): void {
         this.engine.input.pointers.on('down', (event) => {
-            this.recomputeTouchStatus('down', event.screenPos);
+            this.recomputeTouchStatus('down', event.pagePos);
         });
 
         this.engine.input.pointers.on('up', (event) => {
-            this.recomputeTouchStatus('up', event.screenPos);
+            this.recomputeTouchStatus('up', event.pagePos);
         });
     }
 
@@ -36,10 +36,10 @@ export class TouchManager {
     }
 
     private getTouchZone(position: Vector): 'back' | 'left' | 'right' {
-        if (position.y > Config.DISPLAY_HEIGHT - Config.TOUCH_BRAKE_ZONE_HEIGHT) {
+        if (position.y > Math.min(Config.DISPLAY_HEIGHT, window.innerHeight) - Config.TOUCH_BRAKE_ZONE_HEIGHT) {
             return 'back';
         }
-        if (position.x > Config.DISPLAY_WIDTH / 2) {
+        if (position.x > Math.min(Config.DISPLAY_WIDTH, window.innerWidth) / 2) {
             return 'right';
         }
         return 'left';
