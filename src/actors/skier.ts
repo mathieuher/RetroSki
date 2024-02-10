@@ -46,7 +46,8 @@ export class Skier extends Actor {
 		} else {
 			if (
 				engine.input.keyboard.wasPressed(Config.KEYBOARD_START_KEY) ||
-				(engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_RACE_BUTTON)
+				(engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_RACE_BUTTON) ||
+				(engine as Game).touchManager.isTouching
 			) {
 				(this.scene as Race).startRace();
 			}
@@ -283,7 +284,8 @@ export class Skier extends Actor {
 	private hasBreakingIntention(engine: Engine): boolean {
 		return (
 			engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE) ||
-			(engine as Game).gamepadsManager.isButtonHeld(Config.GAMEPAD_CONTROL_BRAKE)
+			(engine as Game).gamepadsManager.isButtonHeld(Config.GAMEPAD_CONTROL_BRAKE) ||
+			(engine as Game).touchManager.isTouchingBack
 		);
 	}
 
@@ -312,7 +314,10 @@ export class Skier extends Actor {
 	}
 
 	private leftCarvingIntention(engine: Engine): number {
-		if (engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_LEFT)) {
+		if (
+			engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_LEFT) ||
+			(engine as Game).touchManager.isTouchingLeft
+		) {
 			return 1;
 		}
 		if ((engine as Game).gamepadsManager.getAxes(Config.GAMEPAD_CONTROL_CARVE) < 0) {
@@ -322,7 +327,10 @@ export class Skier extends Actor {
 	}
 
 	private rightCarvingIntention(engine: Engine): number {
-		if (engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_RIGHT)) {
+		if (
+			engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_CARVE_RIGHT) ||
+			(engine as Game).touchManager.isTouchingRight
+		) {
 			return 1;
 		}
 		if ((engine as Game).gamepadsManager.getAxes(Config.GAMEPAD_CONTROL_CARVE) > 0) {
