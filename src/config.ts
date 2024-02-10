@@ -49,7 +49,7 @@ export class Config {
 	static GAMEPAD_START_BUTTON = Buttons.Start;
 	static GAMEPAD_GHOST_BUTTON = Buttons.LeftBumper;
 
-	static TOUCH_BRAKE_ZONE_HEIGHT = 150;
+	static TOUCH_BRAKE_ZONE_RATIO = 0.12;
 
 	// DYNAMIC
 	static MAX_SPEED = 150;
