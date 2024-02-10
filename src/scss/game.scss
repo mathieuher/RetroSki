@@ -50,7 +50,7 @@ html body {
             border-radius: 0;
         }
 
-        #back-to-welcome-button, 
+        #back-to-welcome-button,
         #back-to-setup-button {
             cursor: pointer;
             margin-right: .5rem;
@@ -131,7 +131,10 @@ html body {
                 font-size: 0.8rem;
                 padding: 0 .7rem;
 
-                a, a.focus, a.active, a.visited {
+                a,
+                a.focus,
+                a.active,
+                a.visited {
                     color: white;
                     padding: 0.4rem;
                     background-color: $accent;
@@ -164,7 +167,7 @@ html body {
             .table-container {
                 width: 100%;
                 overflow-x: auto;
-            
+
                 table {
                     width: 100%;
                     text-align: left;
