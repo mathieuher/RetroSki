@@ -1,480 +1,486 @@
 {
-	"name": "zermatt",
-	"builderVersion": 3,
-	"style": "DH",
-	"date": "2024-02-08T11:50:23.383Z",
-	"gates": [
-		{
-			"x": 96.7000603116701,
-			"y": -285,
-			"color": "red",
-			"width": 139.43779729058082,
-			"gateNumber": 1,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -83.2999396883299,
-			"y": -578.2932436524095,
-			"color": "blue",
-			"width": 149.24378706339184,
-			"gateNumber": 2,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 41.12966032791418,
-			"y": -882.6354549597712,
-			"color": "red",
-			"width": 131.23292074637865,
-			"gateNumber": 3,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -138.87033967208583,
-			"y": -1191.7066321682555,
-			"color": "blue",
-			"width": 145.88650430768485,
-			"gateNumber": 4,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 41.129660327914166,
-			"y": -1454.7993769514267,
-			"color": "red",
-			"width": 140.7620538632255,
-			"gateNumber": 5,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -38.242630659873825,
-			"y": -1762.6436817147246,
-			"color": "blue",
-			"width": 122.54617945854001,
-			"gateNumber": 6,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 132.87385669023794,
-			"y": -2017.239679034495,
-			"color": "red",
-			"width": 132.06481805700483,
-			"gateNumber": 7,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -47.12614330976206,
-			"y": -2282.531525596178,
-			"color": "blue",
-			"width": 124.18568246491559,
-			"gateNumber": 8,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 132.87385669023794,
-			"y": -2598.371554589981,
-			"color": "red",
-			"width": 135.76871578503793,
-			"gateNumber": 9,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -47.12614330976206,
-			"y": -2888.0886723558456,
-			"color": "blue",
-			"width": 142.92928427891118,
-			"gateNumber": 10,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 88.88315104113754,
-			"y": -3168.6958854224245,
-			"color": "red",
-			"width": 136.7979690541197,
-			"gateNumber": 11,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -91.11684895886246,
-			"y": -3424.0700369633887,
-			"color": "blue",
-			"width": 136.58096456974295,
-			"gateNumber": 12,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 88.88315104113754,
-			"y": -3719.5614982036714,
-			"color": "red",
-			"width": 137.50774110781938,
-			"gateNumber": 13,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -91.11684895886246,
-			"y": -4029.2504611978684,
-			"color": "blue",
-			"width": 130.23591825720428,
-			"gateNumber": 14,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 2.729639708922108,
-			"y": -4325.212054584232,
-			"color": "red",
-			"width": 130.31271821779018,
-			"gateNumber": 15,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -177.27036029107788,
-			"y": -4606.697949834906,
-			"color": "blue",
-			"width": 129.36559404767027,
-			"gateNumber": 16,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 2.7296397089221216,
-			"y": -4881.093449166529,
-			"color": "red",
-			"width": 149.25202892192732,
-			"gateNumber": 17,
-			"isFinal": false,
-			"sectorNumber": 1
-		},
-		{
-			"x": -115.76877096039287,
-			"y": -5135.3905668614825,
-			"color": "blue",
-			"width": 133.8891777354687,
-			"gateNumber": 18,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 64.23122903960713,
-			"y": -5411.472798221296,
-			"color": "red",
-			"width": 132.36623232813116,
-			"gateNumber": 19,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -115.76877096039287,
-			"y": -5716.44501687531,
-			"color": "blue",
-			"width": 143.16611322969777,
-			"gateNumber": 20,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 64.23122903960713,
-			"y": -5968.705589551944,
-			"color": "red",
-			"width": 136.11574546707044,
-			"gateNumber": 21,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -115.76877096039287,
-			"y": -6239.557748934177,
-			"color": "blue",
-			"width": 126.72147970052292,
-			"gateNumber": 22,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 64.23122903960713,
-			"y": -6521.524274428474,
-			"color": "red",
-			"width": 140.48519370220174,
-			"gateNumber": 23,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -115.76877096039287,
-			"y": -6776.58729077426,
-			"color": "blue",
-			"width": 143.88216351057437,
-			"gateNumber": 24,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 20.695354961620126,
-			"y": -7031.211914087818,
-			"color": "red",
-			"width": 134.89824389945395,
-			"gateNumber": 25,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -159.30464503837987,
-			"y": -7336.133540897607,
-			"color": "blue",
-			"width": 132.3546533285746,
-			"gateNumber": 26,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 20.695354961620126,
-			"y": -7652.957802053433,
-			"color": "red",
-			"width": 125.32891296916506,
-			"gateNumber": 27,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -87.13794243882639,
-			"y": -7932.3871734989325,
-			"color": "blue",
-			"width": 142.93561813614093,
-			"gateNumber": 28,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 92.86205756117361,
-			"y": -8199.85953115248,
-			"color": "red",
-			"width": 131.37124724773705,
-			"gateNumber": 29,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -87.13794243882639,
-			"y": -8516.988845847362,
-			"color": "blue",
-			"width": 144.4826069802107,
-			"gateNumber": 30,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 92.86205756117361,
-			"y": -8811.676931080374,
-			"color": "red",
-			"width": 142.64584784464887,
-			"gateNumber": 31,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -87.13794243882639,
-			"y": -9113.275938343959,
-			"color": "blue",
-			"width": 122.01890984176434,
-			"gateNumber": 32,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 29.667434109803388,
-			"y": -9367.914446442079,
-			"color": "red",
-			"width": 129.43096806009368,
-			"gateNumber": 33,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -5.522167311183296,
-			"y": -9657.355174511566,
-			"color": "blue",
-			"width": 128.55277190232366,
-			"gateNumber": 34,
-			"isFinal": false,
-			"sectorNumber": 2
-		},
-		{
-			"x": 81.50439496788077,
-			"y": -9952.77364575909,
-			"color": "red",
-			"width": 131.25613671183993,
-			"gateNumber": 35,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -98.49560503211923,
-			"y": -10267.392345854454,
-			"color": "blue",
-			"width": 142.6898511745294,
-			"gateNumber": 36,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 39.598530772003414,
-			"y": -10557.260386002743,
-			"color": "red",
-			"width": 145.09620436998492,
-			"gateNumber": 37,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 142.35778505248746,
-			"y": -10837.581468691424,
-			"color": "blue",
-			"width": 125.3969033944957,
-			"gateNumber": 38,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -37.64221494751254,
-			"y": -11125.883779539412,
-			"color": "red",
-			"width": 132.4035093290116,
-			"gateNumber": 39,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 87.782952282052,
-			"y": -11395.957600560469,
-			"color": "blue",
-			"width": 140.6429681720827,
-			"gateNumber": 40,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -92.217047717948,
-			"y": -11674.388948202944,
-			"color": "red",
-			"width": 145.75682672954,
-			"gateNumber": 41,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 87.782952282052,
-			"y": -11934.86198649532,
-			"color": "blue",
-			"width": 122.56974685450263,
-			"gateNumber": 42,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -17.99341459113529,
-			"y": -12215.250953278353,
-			"color": "red",
-			"width": 140.43937738745163,
-			"gateNumber": 43,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 142.9840118892151,
-			"y": -12471.537245220521,
-			"color": "blue",
-			"width": 137.76796088267204,
-			"gateNumber": 44,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -37.01598811078489,
-			"y": -12782.540997130704,
-			"color": "red",
-			"width": 134.29416400011795,
-			"gateNumber": 45,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 9.768152848280554,
-			"y": -13063.308521074465,
-			"color": "blue",
-			"width": 125.25502856032388,
-			"gateNumber": 46,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -95.58012001431939,
-			"y": -13329.99513809313,
-			"color": "red",
-			"width": 146.50603841604863,
-			"gateNumber": 47,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 84.41987998568061,
-			"y": -13647.88957584505,
-			"color": "blue",
-			"width": 131.9290141204631,
-			"gateNumber": 48,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -95.58012001431939,
-			"y": -13942.8159152692,
-			"color": "red",
-			"width": 135.7412193727386,
-			"gateNumber": 49,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": 84.41987998568061,
-			"y": -14240.632122422216,
-			"color": "blue",
-			"width": 123.30412010334359,
-			"gateNumber": 50,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -95.58012001431939,
-			"y": -14534.305228524196,
-			"color": "red",
-			"width": 138.45845990719954,
-			"gateNumber": 51,
-			"isFinal": false,
-			"sectorNumber": 0
-		},
-		{
-			"x": -375,
-			"y": -14830.82550644466,
-			"color": "red",
-			"width": 750,
-			"gateNumber": 53,
-			"isFinal": true,
-			"sectorNumber": 3
-		}
-	],
-	"records": [
-		{ "player": "Emilie Hugas", "date": "2024-02-08T11:54:53.374Z", "timing": 45951 },
-		{ "player": "Mathieu Hugas", "date": "2024-02-08T11:53:18.807Z", "timing": 46517.5 }
-	]
+    "name": "zermatt",
+    "builderVersion": 3,
+    "style": "DH",
+    "date": "2024-02-08T11:50:23.383Z",
+    "gates": [{
+            "x": 96.7000603116701,
+            "y": -285,
+            "color": "red",
+            "width": 139.43779729058082,
+            "gateNumber": 1,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -83.2999396883299,
+            "y": -578.2932436524095,
+            "color": "red",
+            "width": 149.24378706339184,
+            "gateNumber": 2,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 41.12966032791418,
+            "y": -882.6354549597712,
+            "color": "red",
+            "width": 131.23292074637865,
+            "gateNumber": 3,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -138.87033967208583,
+            "y": -1191.7066321682555,
+            "color": "red",
+            "width": 145.88650430768485,
+            "gateNumber": 4,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 41.129660327914166,
+            "y": -1454.7993769514267,
+            "color": "red",
+            "width": 140.7620538632255,
+            "gateNumber": 5,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -38.242630659873825,
+            "y": -1762.6436817147246,
+            "color": "red",
+            "width": 122.54617945854001,
+            "gateNumber": 6,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 132.87385669023794,
+            "y": -2017.239679034495,
+            "color": "red",
+            "width": 132.06481805700483,
+            "gateNumber": 7,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -47.12614330976206,
+            "y": -2282.531525596178,
+            "color": "red",
+            "width": 124.18568246491559,
+            "gateNumber": 8,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 132.87385669023794,
+            "y": -2598.371554589981,
+            "color": "red",
+            "width": 135.76871578503793,
+            "gateNumber": 9,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -47.12614330976206,
+            "y": -2888.0886723558456,
+            "color": "red",
+            "width": 142.92928427891118,
+            "gateNumber": 10,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 88.88315104113754,
+            "y": -3168.6958854224245,
+            "color": "red",
+            "width": 136.7979690541197,
+            "gateNumber": 11,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -91.11684895886246,
+            "y": -3424.0700369633887,
+            "color": "red",
+            "width": 136.58096456974295,
+            "gateNumber": 12,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 88.88315104113754,
+            "y": -3719.5614982036714,
+            "color": "red",
+            "width": 137.50774110781938,
+            "gateNumber": 13,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -91.11684895886246,
+            "y": -4029.2504611978684,
+            "color": "red",
+            "width": 130.23591825720428,
+            "gateNumber": 14,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 2.729639708922108,
+            "y": -4325.212054584232,
+            "color": "red",
+            "width": 130.31271821779018,
+            "gateNumber": 15,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -177.27036029107788,
+            "y": -4606.697949834906,
+            "color": "red",
+            "width": 129.36559404767027,
+            "gateNumber": 16,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 2.7296397089221216,
+            "y": -4881.093449166529,
+            "color": "red",
+            "width": 149.25202892192732,
+            "gateNumber": 17,
+            "isFinal": false,
+            "sectorNumber": 1
+        },
+        {
+            "x": -115.76877096039287,
+            "y": -5135.3905668614825,
+            "color": "red",
+            "width": 133.8891777354687,
+            "gateNumber": 18,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 64.23122903960713,
+            "y": -5411.472798221296,
+            "color": "red",
+            "width": 132.36623232813116,
+            "gateNumber": 19,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -115.76877096039287,
+            "y": -5716.44501687531,
+            "color": "red",
+            "width": 143.16611322969777,
+            "gateNumber": 20,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 64.23122903960713,
+            "y": -5968.705589551944,
+            "color": "red",
+            "width": 136.11574546707044,
+            "gateNumber": 21,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -115.76877096039287,
+            "y": -6239.557748934177,
+            "color": "red",
+            "width": 126.72147970052292,
+            "gateNumber": 22,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 64.23122903960713,
+            "y": -6521.524274428474,
+            "color": "red",
+            "width": 140.48519370220174,
+            "gateNumber": 23,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -115.76877096039287,
+            "y": -6776.58729077426,
+            "color": "red",
+            "width": 143.88216351057437,
+            "gateNumber": 24,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 20.695354961620126,
+            "y": -7031.211914087818,
+            "color": "red",
+            "width": 134.89824389945395,
+            "gateNumber": 25,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -159.30464503837987,
+            "y": -7336.133540897607,
+            "color": "red",
+            "width": 132.3546533285746,
+            "gateNumber": 26,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 20.695354961620126,
+            "y": -7652.957802053433,
+            "color": "red",
+            "width": 125.32891296916506,
+            "gateNumber": 27,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -87.13794243882639,
+            "y": -7932.3871734989325,
+            "color": "red",
+            "width": 142.93561813614093,
+            "gateNumber": 28,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 92.86205756117361,
+            "y": -8199.85953115248,
+            "color": "red",
+            "width": 131.37124724773705,
+            "gateNumber": 29,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -87.13794243882639,
+            "y": -8516.988845847362,
+            "color": "red",
+            "width": 144.4826069802107,
+            "gateNumber": 30,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 92.86205756117361,
+            "y": -8811.676931080374,
+            "color": "red",
+            "width": 142.64584784464887,
+            "gateNumber": 31,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -87.13794243882639,
+            "y": -9113.275938343959,
+            "color": "red",
+            "width": 122.01890984176434,
+            "gateNumber": 32,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 29.667434109803388,
+            "y": -9367.914446442079,
+            "color": "red",
+            "width": 129.43096806009368,
+            "gateNumber": 33,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -5.522167311183296,
+            "y": -9657.355174511566,
+            "color": "red",
+            "width": 128.55277190232366,
+            "gateNumber": 34,
+            "isFinal": false,
+            "sectorNumber": 2
+        },
+        {
+            "x": 81.50439496788077,
+            "y": -9952.77364575909,
+            "color": "red",
+            "width": 131.25613671183993,
+            "gateNumber": 35,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -98.49560503211923,
+            "y": -10267.392345854454,
+            "color": "red",
+            "width": 142.6898511745294,
+            "gateNumber": 36,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 39.598530772003414,
+            "y": -10557.260386002743,
+            "color": "red",
+            "width": 145.09620436998492,
+            "gateNumber": 37,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 142.35778505248746,
+            "y": -10837.581468691424,
+            "color": "red",
+            "width": 125.3969033944957,
+            "gateNumber": 38,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -37.64221494751254,
+            "y": -11125.883779539412,
+            "color": "red",
+            "width": 132.4035093290116,
+            "gateNumber": 39,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 87.782952282052,
+            "y": -11395.957600560469,
+            "color": "red",
+            "width": 140.6429681720827,
+            "gateNumber": 40,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -92.217047717948,
+            "y": -11674.388948202944,
+            "color": "red",
+            "width": 145.75682672954,
+            "gateNumber": 41,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 87.782952282052,
+            "y": -11934.86198649532,
+            "color": "red",
+            "width": 122.56974685450263,
+            "gateNumber": 42,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -17.99341459113529,
+            "y": -12215.250953278353,
+            "color": "red",
+            "width": 140.43937738745163,
+            "gateNumber": 43,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 142.9840118892151,
+            "y": -12471.537245220521,
+            "color": "red",
+            "width": 137.76796088267204,
+            "gateNumber": 44,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -37.01598811078489,
+            "y": -12782.540997130704,
+            "color": "red",
+            "width": 134.29416400011795,
+            "gateNumber": 45,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 9.768152848280554,
+            "y": -13063.308521074465,
+            "color": "red",
+            "width": 125.25502856032388,
+            "gateNumber": 46,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -95.58012001431939,
+            "y": -13329.99513809313,
+            "color": "red",
+            "width": 146.50603841604863,
+            "gateNumber": 47,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 84.41987998568061,
+            "y": -13647.88957584505,
+            "color": "red",
+            "width": 131.9290141204631,
+            "gateNumber": 48,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -95.58012001431939,
+            "y": -13942.8159152692,
+            "color": "red",
+            "width": 135.7412193727386,
+            "gateNumber": 49,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": 84.41987998568061,
+            "y": -14240.632122422216,
+            "color": "red",
+            "width": 123.30412010334359,
+            "gateNumber": 50,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -95.58012001431939,
+            "y": -14534.305228524196,
+            "color": "red",
+            "width": 138.45845990719954,
+            "gateNumber": 51,
+            "isFinal": false,
+            "sectorNumber": 0
+        },
+        {
+            "x": -375,
+            "y": -14830.82550644466,
+            "color": "red",
+            "width": 750,
+            "gateNumber": 53,
+            "isFinal": true,
+            "sectorNumber": 3
+        }
+    ],
+    "records": [{
+            "player": "Emilie Hugas",
+            "date": "2024-02-08T11:54:53.374Z",
+            "timing": 45951
+        },
+        {
+            "player": "Mathieu Hugas",
+            "date": "2024-02-08T11:53:18.807Z",
+            "timing": 46517.5
+        }
+    ]
 }
