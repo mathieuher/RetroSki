@@ -157,12 +157,8 @@ export class Gate extends Actor {
 
     private updatePassedPolesGraphics(): void {
         for (const child of this.children) {
-            const sprite =
-                this.polesColor === 'red'
-                    ? Resources.PolePassedRed.toSprite()
-                    : Resources.PolePassedBlue.toSprite();
             if (child instanceof Pole) {
-                child.graphics.use(sprite);
+                child.displayPoleCheck();
             }
         }
     }

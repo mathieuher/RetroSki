@@ -31,8 +31,10 @@ export class Game extends Engine {
         Resources.StartingHouse,
         Resources.PoleRed,
         Resources.PoleBlue,
-        Resources.PolePassedRed,
-        Resources.PolePassedBlue,
+        Resources.PoleSlRed,
+        Resources.PoleSlBlue,
+        Resources.PoleCheckRed,
+        Resources.PoleCheckBlue,
         Resources.FinalGate,
 
         Resources.WinterSound,

@@ -1,4 +1,6 @@
 import { Axes, Buttons, Keys } from 'excalibur';
+import { Resources } from './resources';
+import { TrackStyles } from './models/track-styles.enum';
 
 export class Config {
     // DISPLAY
@@ -108,6 +110,7 @@ export class Config {
     static GATE_OTHER_SIDE_PROBABILITY = 0.95;
     // SPECIFIC TRACK STYLE CONFIG
     static SL_GATES_CONFIG = {
+        trackStyle: TrackStyles.SL,
         maxWidth: 114,
         minWidth: 90,
         maxHorizontalDistance: 192,
@@ -115,10 +118,14 @@ export class Config {
         maxVerticalDistance: 162,
         minNumber: 41,
         maxNumber: 51,
-        poleWidth: 12,
-        poleHeight: 24
+        poleWidth: 3,
+        poleHeight: 20,
+        poleSprites: new Map([['red', Resources.PoleSlRed.toSprite()], ['blue', Resources.PoleSlBlue.toSprite()]]),
+        poleCheckSprites: new Map([['red', Resources.PoleCheckRed.toSprite()], ['blue', Resources.PoleCheckBlue.toSprite()]])
+
     };
     static GS_GATES_CONFIG = {
+        trackStyle: TrackStyles.GS,
         maxWidth: 120,
         minWidth: 96,
         maxHorizontalDistance: 192,
@@ -127,9 +134,12 @@ export class Config {
         minNumber: 44,
         maxNumber: 54,
         poleWidth: 12,
-        poleHeight: 24
+        poleHeight: 12,
+        poleSprites: new Map([['red', Resources.PoleRed.toSprite()], ['blue', Resources.PoleBlue.toSprite()]]),
+        poleCheckSprites: new Map([['red', Resources.PoleCheckRed.toSprite()], ['blue', Resources.PoleCheckBlue.toSprite()]])
     };
     static SG_GATES_CONFIG = {
+        trackStyle: TrackStyles.SG,
         maxWidth: 144,
         minWidth: 114,
         maxHorizontalDistance: 210,
@@ -138,9 +148,12 @@ export class Config {
         minNumber: 46,
         maxNumber: 56,
         poleWidth: 12,
-        poleHeight: 24
+        poleHeight: 12,
+        poleSprites: new Map([['red', Resources.PoleRed.toSprite()], ['blue', Resources.PoleBlue.toSprite()]]),
+        poleCheckSprites: new Map([['red', Resources.PoleCheckRed.toSprite()], ['blue', Resources.PoleCheckBlue.toSprite()]])
     };
     static DH_GATES_CONFIG = {
+        trackStyle: TrackStyles.DH,
         maxWidth: 150,
         minWidth: 120,
         maxHorizontalDistance: 180,
@@ -149,7 +162,9 @@ export class Config {
         minNumber: 48,
         maxNumber: 58,
         poleWidth: 12,
-        poleHeight: 24
+        poleHeight: 12,
+        poleSprites: new Map([['red', Resources.PoleRed.toSprite()]]),
+        poleCheckSprites: new Map([['red', Resources.PoleCheckRed.toSprite()]])
     };
 
     // POLES

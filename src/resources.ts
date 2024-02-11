@@ -18,8 +18,10 @@ import startingGate from './images/sprites/starting_gate.png';
 import startingHouse from './images/sprites/starting_house.png';
 import poleRed from './images/sprites/pole_red.png';
 import poleBlue from './images/sprites/pole_blue.png';
-import polePassedRed from './images/sprites/pole_passed_red.png';
-import polePassedBlue from './images/sprites/pole_passed_blue.png';
+import poleSlRed from './images/sprites/pole_sl_red.png';
+import poleSlBlue from './images/sprites/pole_sl_blue.png';
+import poleCheckRed from './images/sprites/pole_check_red.png';
+import poleCheckBlue from './images/sprites/pole_check_blue.png';
 import finalGate from './images/sprites/final_gate.png';
 
 import winterSound from './sounds/winter.mp3';
@@ -49,8 +51,10 @@ const Resources = {
     StartingHouse: new ImageSource(startingHouse),
     PoleRed: new ImageSource(poleRed),
     PoleBlue: new ImageSource(poleBlue),
-    PolePassedRed: new ImageSource(polePassedRed),
-    PolePassedBlue: new ImageSource(polePassedBlue),
+    PoleSlRed: new ImageSource(poleSlRed),
+    PoleSlBlue: new ImageSource(poleSlBlue),
+    PoleCheckRed: new ImageSource(poleCheckRed),
+    PoleCheckBlue: new ImageSource(poleCheckBlue),
     FinalGate: new ImageSource(finalGate),
 
     WinterSound: new Sound(winterSound),
