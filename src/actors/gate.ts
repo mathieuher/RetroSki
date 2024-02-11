@@ -5,8 +5,10 @@ import { GateDetector } from './gate-detector';
 import { Race } from '../scenes/race';
 import { StockableGate } from '../models/stockable-gate';
 import { Resources } from '../resources';
+import { GatesConfig } from '../models/gates-config';
 
 export class Gate extends Actor {
+    public config: GatesConfig;
     public isFinalGate!: boolean;
     public sectorNumber?: number;
     public passed = false;
@@ -20,6 +22,7 @@ export class Gate extends Actor {
     private missed = false;
 
     constructor(
+        config: GatesConfig,
         position: Vector,
         width: number,
         color: 'red' | 'blue',
@@ -30,11 +33,12 @@ export class Gate extends Actor {
         super({
             pos: position,
             width: width,
-            height: isFinalGate ? Config.FINAL_POLE_HEIGHT : Config.POLE_HEIGHT,
+            height: isFinalGate ? Config.FINAL_POLE_HEIGHT : config.poleHeight,
             anchor: vec(0, 0.5),
             z: 5
         });
 
+        this.config = config;
         this.isFinalGate = isFinalGate;
         this.sectorNumber = sectorNumber;
         this.polesColor = color;
@@ -108,16 +112,17 @@ export class Gate extends Actor {
     }
 
     private buildComponents(): void {
-        const gatePoleWidth = this.isFinalGate ? Config.FINAL_POLE_WIDTH : Config.POLE_WIDTH;
-        const gatePoleHeight = this.isFinalGate ? Config.FINAL_POLE_HEIGHT : Config.POLE_HEIGHT;
+        const gatePoleWidth = this.isFinalGate ? Config.FINAL_POLE_WIDTH : this.config.poleWidth;
+        const gatePoleHeight = this.isFinalGate ? Config.FINAL_POLE_HEIGHT : this.config.poleHeight;
 
-        this.leftPole = new Pole(vec(0, 0), this.polesColor, this.isFinalGate);
+        this.leftPole = new Pole(vec(0, 0), this.polesColor, this.config, this.isFinalGate);
         this.gateDetector = new GateDetector(
             vec(gatePoleWidth + Config.POLE_DETECTOR_MARGIN, 0),
             this.width - 2 * (gatePoleWidth + Config.POLE_DETECTOR_MARGIN),
+            this.isFinalGate ? gatePoleHeight : gatePoleHeight / 2,
             this.isFinalGate,
         );
-        this.rightPole = new Pole(vec(this.width - gatePoleWidth, 0), this.polesColor, this.isFinalGate);
+        this.rightPole = new Pole(vec(this.width - gatePoleWidth, 0), this.polesColor, this.config, this.isFinalGate);
 
         this.addChild(this.leftPole!);
         this.addChild(this.gateDetector!);
