@@ -115,6 +115,8 @@ export class Config {
         maxVerticalDistance: 162,
         minNumber: 41,
         maxNumber: 51,
+        poleWidth: 12,
+        poleHeight: 24
     };
     static GS_GATES_CONFIG = {
         maxWidth: 120,
@@ -124,6 +126,8 @@ export class Config {
         maxVerticalDistance: 210,
         minNumber: 44,
         maxNumber: 54,
+        poleWidth: 12,
+        poleHeight: 24
     };
     static SG_GATES_CONFIG = {
         maxWidth: 144,
@@ -133,6 +137,8 @@ export class Config {
         maxVerticalDistance: 300,
         minNumber: 46,
         maxNumber: 56,
+        poleWidth: 12,
+        poleHeight: 24
     };
     static DH_GATES_CONFIG = {
         maxWidth: 150,
@@ -142,11 +148,11 @@ export class Config {
         maxVerticalDistance: 318,
         minNumber: 48,
         maxNumber: 58,
+        poleWidth: 12,
+        poleHeight: 24
     };
 
     // POLES
-    static POLE_WIDTH = 12;
-    static POLE_HEIGHT = 24;
     static POLE_DETECTOR_MARGIN = 18;
     static FINAL_POLE_WIDTH = 30;
     static FINAL_POLE_HEIGHT = 60;

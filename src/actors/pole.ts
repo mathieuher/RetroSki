@@ -3,13 +3,14 @@ import { Config } from '../config';
 import { Resources } from '../resources';
 import { Skier } from './skier';
 import { Game } from '../game';
+import { GatesConfig } from '../models/gates-config';
 
 export class Pole extends Actor {
-    constructor(position: Vector, color: 'red' | 'blue', isFinalPole = false) {
+    constructor(position: Vector, color: 'red' | 'blue', gatesConfig: GatesConfig, isFinalPole: boolean) {
         super({
             pos: position,
-            width: isFinalPole ? Config.FINAL_POLE_WIDTH : Config.POLE_WIDTH,
-            height: isFinalPole ? Config.FINAL_POLE_HEIGHT : Config.POLE_HEIGHT,
+            width: isFinalPole ? Config.FINAL_POLE_WIDTH : gatesConfig.poleWidth,
+            height: isFinalPole ? Config.FINAL_POLE_HEIGHT : gatesConfig.poleHeight,
             anchor: vec(0, 0.5),
             collisionType: CollisionType.Active,
             color: isFinalPole ? Color.fromHex('#DA2F2F') : Color.Transparent,
