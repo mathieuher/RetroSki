@@ -6,6 +6,7 @@ import { Race } from '../scenes/race';
 import { StockableGate } from '../models/stockable-gate';
 import { Resources } from '../resources';
 import { GatesConfig } from '../models/gates-config';
+import { ScreenManager } from '../utils/screen-manager';
 
 export class Gate extends Actor {
     public config: GatesConfig;
@@ -51,10 +52,16 @@ export class Gate extends Actor {
 
     onInitialize() {
         this.on('passed', () => this.onGatePassed());
+        this.on('exitviewport', () => {
+            if (this.isBehind()) {
+                this.kill();
+            }
+        });
     }
 
+
     update(): void {
-        if (this.isOnScreen() && !this.children.length) {
+        if (!this.children?.length && ScreenManager.isNearScreen(this, this.scene.camera)) {
             this.buildComponents();
         }
 
@@ -71,9 +78,6 @@ export class Gate extends Actor {
             }
         }
 
-        if (this.canBeDestroy()) {
-            this.kill();
-        }
     }
 
     public getStockableGate(): StockableGate {
@@ -88,27 +92,15 @@ export class Gate extends Actor {
         );
     }
 
-    private isOnScreen(): boolean {
-        return (
-            Math.abs(this.scene.camera.y - this.pos.y) <
-            Config.DISPLAY_HEIGHT * Config.VISIBLE_ON_SCREEN_MARGIN_FACTOR
-        );
-    }
-
     private shouldBePassed(): boolean {
-        if (
-            (this.scene as Race).skier?.racing &&
-            this.pos.y + Config.FRONT_GHOST_DISTANCE > this.scene.camera.pos.y
-        ) {
+        if ((this.scene as Race).skier?.racing && this.isBehind()) {
             return true;
         }
         return false;
     }
 
-    private canBeDestroy(): boolean {
-        return (
-            this.scene.camera.y - this.pos.y < -Config.DISPLAY_HEIGHT * Config.VISIBLE_ON_SCREEN_MARGIN_FACTOR
-        );
+    private isBehind(): boolean {
+        return this.scene.camera.pos.y < this.pos.y + Config.FRONT_GHOST_DISTANCE;
     }
 
     private buildComponents(): void {
