@@ -25,6 +25,7 @@ export class TrackBuilder {
 
         for (let index = 1; index < numberOfGates; index++) {
             const gate = new Gate(
+                gatesConfig,
                 nextGatePosition,
                 nextGateWidth,
                 TrackBuilder.getGateColor(index, trackStyle),
@@ -37,7 +38,7 @@ export class TrackBuilder {
             nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, gatesConfig, nextGatePosition);
         }
 
-        gates.push(TrackBuilder.generateFinalGate(nextGatePosition.y, numberOfGates + 1));
+        gates.push(TrackBuilder.generateFinalGate(nextGatePosition.y, numberOfGates + 1, gatesConfig));
 
         return new Track(Config.CURRENT_BUILDER_VERSION, name, trackStyle, new Date(), gates, []);
     }
@@ -53,6 +54,7 @@ export class TrackBuilder {
         for (const stockableGate of stockableTrack.gates) {
             gates.push(
                 new Gate(
+                    TrackBuilder.getGatesConfig(stockableTrack.style),
                     vec(stockableGate.x, stockableGate.y),
                     stockableGate.width,
                     stockableGate.color,
@@ -89,8 +91,9 @@ export class TrackBuilder {
         return gatesConfig.minWidth + Math.random() * (gatesConfig.maxWidth - gatesConfig.minWidth);
     }
 
-    private static generateFinalGate(verticalPosition: number, gateNumber: number): Gate {
+    private static generateFinalGate(verticalPosition: number, gateNumber: number, gatesConfig: GatesConfig): Gate {
         return new Gate(
+            gatesConfig,
             vec(Config.FINAL_GATE_POSITION, verticalPosition),
             Config.FINAL_GATE_WIDTH,
             'red',
