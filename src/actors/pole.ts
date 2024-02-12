@@ -3,26 +3,40 @@ import { Config } from '../config';
 import { Resources } from '../resources';
 import { Skier } from './skier';
 import { Game } from '../game';
+import { GatesConfig } from '../models/gates-config';
+import { TrackStyles } from '../models/track-styles.enum';
 
 export class Pole extends Actor {
-    constructor(position: Vector, color: 'red' | 'blue', isFinalPole = false) {
+
+    private poleColor: 'red' | 'blue';
+    private gatesConfig: GatesConfig;
+
+    constructor(position: Vector, color: 'red' | 'blue', gatesConfig: GatesConfig, isFinalPole: boolean) {
         super({
             pos: position,
-            width: isFinalPole ? Config.FINAL_POLE_WIDTH : Config.POLE_WIDTH,
-            height: isFinalPole ? Config.FINAL_POLE_HEIGHT : Config.POLE_HEIGHT,
+            width: isFinalPole ? Config.FINAL_POLE_WIDTH : gatesConfig.poleWidth,
+            height: isFinalPole ? Config.FINAL_POLE_HEIGHT : gatesConfig.poleHeight,
             anchor: vec(0, 0.5),
             collisionType: CollisionType.Active,
             color: isFinalPole ? Color.fromHex('#DA2F2F') : Color.Transparent,
             z: 5,
         });
 
+        this.poleColor = color;
+        this.gatesConfig = gatesConfig;
+
         if (!isFinalPole) {
-            this.graphics.use(color === 'red' ? Resources.PoleRed.toSprite() : Resources.PoleBlue.toSprite());
+            this.graphics.use(gatesConfig.poleSprites.get(color)!);
         }
     }
 
     onInitialize() {
         this.on('collisionstart', evt => this.onPreCollision(evt));
+    }
+
+    public displayPoleCheck(): void {
+        const checkLayer = this.graphics.layers.create({ name: 'check', order: 1, offset: vec(this.gatesConfig.poleWidth / 2, 0) })
+        checkLayer.graphics.push({ graphic: this.gatesConfig.poleCheckSprites.get(this.poleColor)!, options: { anchor: vec(0.5, 2) } });
     }
 
     private onPreCollision(evt: CollisionStartEvent): void {

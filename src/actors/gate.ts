@@ -5,8 +5,11 @@ import { GateDetector } from './gate-detector';
 import { Race } from '../scenes/race';
 import { StockableGate } from '../models/stockable-gate';
 import { Resources } from '../resources';
+import { GatesConfig } from '../models/gates-config';
+import { ScreenManager } from '../utils/screen-manager';
 
 export class Gate extends Actor {
+    public config: GatesConfig;
     public isFinalGate!: boolean;
     public sectorNumber?: number;
     public passed = false;
@@ -20,6 +23,7 @@ export class Gate extends Actor {
     private missed = false;
 
     constructor(
+        config: GatesConfig,
         position: Vector,
         width: number,
         color: 'red' | 'blue',
@@ -30,11 +34,12 @@ export class Gate extends Actor {
         super({
             pos: position,
             width: width,
-            height: isFinalGate ? Config.FINAL_POLE_HEIGHT : Config.POLE_HEIGHT,
+            height: isFinalGate ? Config.FINAL_POLE_HEIGHT : config.poleHeight,
             anchor: vec(0, 0.5),
             z: 5
         });
 
+        this.config = config;
         this.isFinalGate = isFinalGate;
         this.sectorNumber = sectorNumber;
         this.polesColor = color;
@@ -47,10 +52,16 @@ export class Gate extends Actor {
 
     onInitialize() {
         this.on('passed', () => this.onGatePassed());
+        this.on('exitviewport', () => {
+            if (this.isBehind()) {
+                this.kill();
+            }
+        });
     }
 
+
     update(): void {
-        if (this.isOnScreen() && !this.children.length) {
+        if (!this.children?.length && ScreenManager.isNearScreen(this, this.scene.camera)) {
             this.buildComponents();
         }
 
@@ -67,9 +78,6 @@ export class Gate extends Actor {
             }
         }
 
-        if (this.canBeDestroy()) {
-            this.kill();
-        }
     }
 
     public getStockableGate(): StockableGate {
@@ -84,40 +92,29 @@ export class Gate extends Actor {
         );
     }
 
-    private isOnScreen(): boolean {
-        return (
-            Math.abs(this.scene.camera.y - this.pos.y) <
-            Config.DISPLAY_HEIGHT * Config.VISIBLE_ON_SCREEN_MARGIN_FACTOR
-        );
-    }
-
     private shouldBePassed(): boolean {
-        if (
-            (this.scene as Race).skier?.racing &&
-            this.pos.y + Config.FRONT_GHOST_DISTANCE > this.scene.camera.pos.y
-        ) {
+        if ((this.scene as Race).skier?.racing && this.isBehind()) {
             return true;
         }
         return false;
     }
 
-    private canBeDestroy(): boolean {
-        return (
-            this.scene.camera.y - this.pos.y < -Config.DISPLAY_HEIGHT * Config.VISIBLE_ON_SCREEN_MARGIN_FACTOR
-        );
+    private isBehind(): boolean {
+        return this.scene.camera.pos.y < this.pos.y + Config.FRONT_GHOST_DISTANCE;
     }
 
     private buildComponents(): void {
-        const gatePoleWidth = this.isFinalGate ? Config.FINAL_POLE_WIDTH : Config.POLE_WIDTH;
-        const gatePoleHeight = this.isFinalGate ? Config.FINAL_POLE_HEIGHT : Config.POLE_HEIGHT;
+        const gatePoleWidth = this.isFinalGate ? Config.FINAL_POLE_WIDTH : this.config.poleWidth;
+        const gatePoleHeight = this.isFinalGate ? Config.FINAL_POLE_HEIGHT : this.config.poleHeight;
 
-        this.leftPole = new Pole(vec(0, 0), this.polesColor, this.isFinalGate);
+        this.leftPole = new Pole(vec(0, 0), this.polesColor, this.config, this.isFinalGate);
         this.gateDetector = new GateDetector(
             vec(gatePoleWidth + Config.POLE_DETECTOR_MARGIN, 0),
             this.width - 2 * (gatePoleWidth + Config.POLE_DETECTOR_MARGIN),
+            this.isFinalGate ? gatePoleHeight : gatePoleHeight / 2,
             this.isFinalGate,
         );
-        this.rightPole = new Pole(vec(this.width - gatePoleWidth, 0), this.polesColor, this.isFinalGate);
+        this.rightPole = new Pole(vec(this.width - gatePoleWidth, 0), this.polesColor, this.config, this.isFinalGate);
 
         this.addChild(this.leftPole!);
         this.addChild(this.gateDetector!);
@@ -152,12 +149,8 @@ export class Gate extends Actor {
 
     private updatePassedPolesGraphics(): void {
         for (const child of this.children) {
-            const sprite =
-                this.polesColor === 'red'
-                    ? Resources.PolePassedRed.toSprite()
-                    : Resources.PolePassedBlue.toSprite();
             if (child instanceof Pole) {
-                child.graphics.use(sprite);
+                child.displayPoleCheck();
             }
         }
     }
