@@ -4,7 +4,6 @@ import { Resources } from '../resources';
 import { Skier } from './skier';
 import { Game } from '../game';
 import { GatesConfig } from '../models/gates-config';
-import { TrackStyles } from '../models/track-styles.enum';
 
 export class Pole extends Actor {
 
