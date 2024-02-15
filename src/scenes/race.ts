@@ -18,6 +18,7 @@ import { StockableGhost } from '../models/stockable-ghost';
 import { TimedSector } from '../models/timed-sector';
 import { StartingHouse } from '../actors/starting-house';
 import { TouchManager } from '../utils/touch-manager';
+import { StorageManager } from '../utils/storage-manager';
 
 export class Race extends Scene {
 	public skier?: Skier;
@@ -81,7 +82,6 @@ export class Race extends Scene {
 			this.raceConfig = _context.data.raceConfig;
 			this.uiManager.buildUi(this.raceConfig.getFullTrackName());
 			this.prepareRace(
-				_context.data.eventId,
 				this.raceConfig.trackName,
 				this.raceConfig.trackStyle,
 				this.raceConfig.getNextSkierName()!,
@@ -263,12 +263,7 @@ export class Race extends Scene {
 		ghost.graphics.flipHorizontal = !!graphic.flipHorizontal;
 	}
 
-	private prepareRace(
-		eventId: string,
-		trackName: string,
-		askedTrackStyle: TrackStyles,
-		skierName: string,
-	): void {
+	private prepareRace(trackName: string, askedTrackStyle: TrackStyles, skierName: string): void {
 		this.addTimer(this.uiTimer);
 		this.track = this.buildTrack(trackName, askedTrackStyle);
 		this.skier = new Skier(skierName, this.getSkierConfig(this.track.style));
@@ -293,11 +288,11 @@ export class Race extends Scene {
 			this.globalRecordGhost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
 			this.add(this.globalRecordGhost);
 		}
-		const eventRecordGhostJson = localStorage.getItem(`ghost_${this.track.name}_${eventId}`);
+		const eventRecordGhostJson = localStorage.getItem('event_ghost');
 		const eventRecordGhostDatas: StockableGhost | null = eventRecordGhostJson
 			? Object.assign(new StockableGhost(), JSON.parse(eventRecordGhostJson))
 			: null;
-		if (eventRecordGhostDatas && eventRecordGhostDatas.trackVersion === this.track.builderVersion) {
+		if (eventRecordGhostDatas) {
 			this.eventRecordGhostDatas = eventRecordGhostDatas;
 			if (this.eventRecordGhostDatas?.totalTime !== this.globalRecordGhostDatas?.totalTime) {
 				this.eventRecordGhost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
@@ -329,14 +324,11 @@ export class Race extends Scene {
 	}
 
 	private updateGlobalRecordGhost(ghostDatas: StockableGhost): void {
-		localStorage.setItem(`ghost_${ghostDatas.trackName}`, JSON.stringify(ghostDatas));
+		StorageManager.save(`ghost_${ghostDatas.trackName}`, JSON.stringify(ghostDatas));
 	}
 
 	private updateEventRecordGhost(ghostDatas: StockableGhost): void {
-		localStorage.setItem(
-			`ghost_${ghostDatas.trackName}_${ghostDatas.eventId}`,
-			JSON.stringify(ghostDatas),
-		);
+		StorageManager.save('event_ghost', JSON.stringify(ghostDatas));
 	}
 
 	private listenStopRaceEvent(): void {
