@@ -5,6 +5,7 @@ import { StockableRecord } from '../models/stockable-record';
 import { StockableTrack } from '../models/stockable-track';
 import { Track } from '../models/track';
 import { TrackStyles } from '../models/track-styles.enum';
+import { StorageManager } from './storage-manager';
 import { TrackBuilder } from './track-builder';
 import { format } from 'date-fns';
 
@@ -65,7 +66,7 @@ export class TrackManager {
 						!ghostPersistedData?.trackVersion ||
 						(defaultGhost.trackVersion || 0) > ghostPersistedData.trackVersion
 					) {
-						localStorage.setItem(`ghost_${track}`, JSON.stringify(defaultGhost));
+						StorageManager.save(`ghost_${track}`, JSON.stringify(defaultGhost));
 					}
 				})
 				.catch(() => console.warn('Unable to load default ghost from the assets : ', track));
@@ -107,7 +108,7 @@ export class TrackManager {
 	}
 
 	public saveTrackToLocalStorage(track: StockableTrack): void {
-		localStorage.setItem(`track_${track.name.toLowerCase()}`, JSON.stringify(track));
+		StorageManager.save(`track_${track.name.toLowerCase()}`, JSON.stringify(track));
 	}
 
 	public getTrackStyle(trackName: string): TrackStyles | undefined {
