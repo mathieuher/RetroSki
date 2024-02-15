@@ -495,7 +495,27 @@ html body {
 
         }
 
-        #track-name,
+        #race-hud-header-container {
+            position: absolute;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            width: calc(100% - 2rem);
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-family: monospace;
+
+            i {
+                cursor: pointer;
+            }
+
+            #track-name {
+                display: flex;
+                flex: 1 1 auto;
+                justify-content: flex-end;
+            }
+        }
+
         #global-ghost-timing-container,
         #event-ghost-timing-container,
         #speedometer,
@@ -511,12 +531,6 @@ html body {
             padding: 0.25rem 0.5rem;
             height: 40px;
             font-family: monospace;
-
-            &#track-name {
-                right: 0;
-                top: 0;
-                width: 150px;
-            }
 
             &#global-ghost-timing-container,
             &#event-ghost-timing-container {
