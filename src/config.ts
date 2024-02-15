@@ -7,7 +7,7 @@ export class Config {
 	static DISPLAY_WIDTH = 800;
 	static DISPLAY_HEIGHT = 800;
 	static CAMERA_ZOOM = 1;
-	static DISPLAY_MIN_MARGIN = 25;
+	static DISPLAY_MIN_MARGIN = 75;
 	static DISPLAY_MAX_RIGHT_POSITION = Config.DISPLAY_WIDTH / 2 - Config.DISPLAY_MIN_MARGIN;
 	static DISPLAY_MAX_LEFT_POSITION = -Config.DISPLAY_MAX_RIGHT_POSITION;
 	static FRONT_GHOST_DISTANCE = -Config.DISPLAY_HEIGHT / 3.8;
@@ -187,4 +187,14 @@ export class Config {
 	static POLE_DETECTOR_MARGIN = 18;
 	static FINAL_POLE_WIDTH = 30;
 	static FINAL_POLE_HEIGHT = 60;
+
+	// SPECTATORS
+	static SPECTATOR_PRIVATE_SPACE_HEIGHT = 18;
+	static SPECTATOR_PRIVATE_SPACE_WIDTH = 15;
+	static SPECTATOR_SPRITES = [
+		Resources.Spectator1.toSprite(),
+		Resources.Spectator2.toSprite(),
+		Resources.Spectator3.toSprite(),
+		Resources.Spectator4.toSprite(),
+	];
 }
