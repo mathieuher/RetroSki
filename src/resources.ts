@@ -24,6 +24,11 @@ import poleCheckRed from './images/sprites/pole_check_red.png';
 import poleCheckBlue from './images/sprites/pole_check_blue.png';
 import finalGate from './images/sprites/final_gate.png';
 
+import spectator1 from './images/sprites/spectator_1.png';
+import spectator2 from './images/sprites/spectator_2.png';
+import spectator3 from './images/sprites/spectator_3.png';
+import spectator4 from './images/sprites/spectator_4.png';
+
 import winterSound from './sounds/winter.mp3';
 import startRaceSound from './sounds/start_race.mp3';
 import finishRaceSound from './sounds/finish_race.mp3';
@@ -32,37 +37,42 @@ import poleHittingSound from './sounds/pole_hitting.mp3';
 import turningSound from './sounds/turning.mp3';
 
 const Resources = {
-    Skier: new ImageSource(skier),
-    SkierCarving: new ImageSource(skierCarving),
-    SkierSliding: new ImageSource(skierSliding),
-    SkierBraking: new ImageSource(skierBraking),
+	Skier: new ImageSource(skier),
+	SkierCarving: new ImageSource(skierCarving),
+	SkierSliding: new ImageSource(skierSliding),
+	SkierBraking: new ImageSource(skierBraking),
 
-    GlobalGhostSkier: new ImageSource(globalRecordGhost),
-    GlobalGhostSkierCarving: new ImageSource(globalRecordGhostCarving),
-    GlobalGhostSkierSliding: new ImageSource(globalRecordGhostSliding),
-    GlobalGhostSkierBraking: new ImageSource(globalRecordGhostBraking),
+	GlobalGhostSkier: new ImageSource(globalRecordGhost),
+	GlobalGhostSkierCarving: new ImageSource(globalRecordGhostCarving),
+	GlobalGhostSkierSliding: new ImageSource(globalRecordGhostSliding),
+	GlobalGhostSkierBraking: new ImageSource(globalRecordGhostBraking),
 
-    EventRecordGhost: new ImageSource(eventRecordGhost),
-    EventRecordGhostCarving: new ImageSource(eventRecordGhostCarving),
-    EventRecordGhostSliding: new ImageSource(eventRecordGhostSliding),
-    EventRecordGhostBraking: new ImageSource(eventRecordGhostBraking),
+	EventRecordGhost: new ImageSource(eventRecordGhost),
+	EventRecordGhostCarving: new ImageSource(eventRecordGhostCarving),
+	EventRecordGhostSliding: new ImageSource(eventRecordGhostSliding),
+	EventRecordGhostBraking: new ImageSource(eventRecordGhostBraking),
 
-    StartingGate: new ImageSource(startingGate),
-    StartingHouse: new ImageSource(startingHouse),
-    PoleRed: new ImageSource(poleRed),
-    PoleBlue: new ImageSource(poleBlue),
-    PoleSlRed: new ImageSource(poleSlRed),
-    PoleSlBlue: new ImageSource(poleSlBlue),
-    PoleCheckRed: new ImageSource(poleCheckRed),
-    PoleCheckBlue: new ImageSource(poleCheckBlue),
-    FinalGate: new ImageSource(finalGate),
+	StartingGate: new ImageSource(startingGate),
+	StartingHouse: new ImageSource(startingHouse),
+	PoleRed: new ImageSource(poleRed),
+	PoleBlue: new ImageSource(poleBlue),
+	PoleSlRed: new ImageSource(poleSlRed),
+	PoleSlBlue: new ImageSource(poleSlBlue),
+	PoleCheckRed: new ImageSource(poleCheckRed),
+	PoleCheckBlue: new ImageSource(poleCheckBlue),
+	FinalGate: new ImageSource(finalGate),
 
-    WinterSound: new Sound(winterSound),
-    FinishRaceSound: new Sound(finishRaceSound),
-    StartRaceSound: new Sound(startRaceSound),
-    GateMissedSound: new Sound(gateMissedSound),
-    PoleHittingSound: new Sound(poleHittingSound),
-    TurningSound: new Sound(turningSound),
+	Spectator1: new ImageSource(spectator1),
+	Spectator2: new ImageSource(spectator2),
+	Spectator3: new ImageSource(spectator3),
+	Spectator4: new ImageSource(spectator4),
+
+	WinterSound: new Sound(winterSound),
+	FinishRaceSound: new Sound(finishRaceSound),
+	StartRaceSound: new Sound(startRaceSound),
+	GateMissedSound: new Sound(gateMissedSound),
+	PoleHittingSound: new Sound(poleHittingSound),
+	TurningSound: new Sound(turningSound),
 };
 
 export { Resources };
