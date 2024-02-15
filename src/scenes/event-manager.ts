@@ -77,10 +77,6 @@ export class EventManager extends Scene {
 		this.startRaceButton.removeEventListener('click', () => {});
 	}
 
-	public cleanEventRecord(): void {
-		localStorage.removeItem(`ghost_${this.eventConfig.trackName}_${this.eventConfig.eventId}`);
-	}
-
 	private listenBackButtonClicked(): void {
 		this.backButtonUi.addEventListener('click', () => {
 			this.backToMenu();
@@ -188,7 +184,6 @@ export class EventManager extends Scene {
 	}
 
 	private backToMenu(): void {
-		this.cleanEventRecord();
 		this.engine.goToScene('eventSetup');
 	}
 
