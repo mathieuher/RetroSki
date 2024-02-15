@@ -5,6 +5,7 @@ import { TrackStyles } from '../models/track-styles.enum';
 import { Config } from '../config';
 
 import { Subject, debounceTime, tap } from 'rxjs';
+import { StorageManager } from '../utils/storage-manager';
 
 export class EventSetup extends Scene {
 	private backButtonUi = document.getElementById('back-to-welcome-button')!;
@@ -91,7 +92,12 @@ export class EventSetup extends Scene {
 			numberOfRaces,
 		);
 		this.persistSetup(skier1Name, skier2Name);
+		this.cleanEventGhost();
 		this.engine.goToScene('eventManager', { eventConfig: eventConfig });
+	}
+
+	private cleanEventGhost(): void {
+		localStorage.removeItem('event_ghost');
 	}
 
 	private loadSetup(): void {
@@ -102,8 +108,8 @@ export class EventSetup extends Scene {
 	}
 
 	private persistSetup(skier1: string, skier2: string) {
-		localStorage.setItem('setup_skier1', skier1);
-		localStorage.setItem('setup_skier2', skier2);
+		StorageManager.save('setup_skier1', skier1);
+		StorageManager.save('setup_skier2', skier2);
 	}
 
 	private selectTrack(trackName: string): void {
