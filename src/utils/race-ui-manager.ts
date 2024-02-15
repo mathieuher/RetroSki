@@ -4,6 +4,10 @@ import { Engine } from 'excalibur';
 import { Config } from '../config';
 
 export class RaceUiManager {
+	public backToEventButton = document.getElementById('back-to-event-button')!;
+	public backToManagerButton = document.getElementById('back-to-manager')!;
+
+	private raceHudHeaderContainerUi = document.getElementById('race-hud-header-container')!;
 	private resultUi = document.getElementById('result')!;
 	private resultsContainerUi = document.getElementById('results-container')!;
 	private trackNameUi = document.getElementById('track-name')!;
@@ -13,10 +17,9 @@ export class RaceUiManager {
 	private eventGhostTimingUi = document.getElementById('event-ghost-timing')!;
 	private speedometerUi = document.getElementById('speedometer')!;
 	private timerUi = document.getElementById('timer')!;
-	public backToManagerButton = document.getElementById('back-to-manager')!;
 
 	public buildUi(fullTrackName: string): void {
-		this.displayTrackName(fullTrackName);
+		this.displayHeader(fullTrackName);
 	}
 
 	public displayRacingUi(): void {
@@ -33,6 +36,7 @@ export class RaceUiManager {
 		globalResult: { position: number; records: RecordResult[] },
 		missedGates: number,
 	): void {
+		this.hideBackToEventButton();
 		this.resultUi.style.display = 'flex';
 		this.updateResultUi(globalResult, missedGates);
 	}
@@ -46,7 +50,7 @@ export class RaceUiManager {
 
 	public hideUi(): void {
 		this.hideGhostsUi();
-		this.hideTrackName();
+		this.hideHeader();
 		this.hideRacingUi();
 		this.hideResultUi();
 	}
@@ -132,13 +136,22 @@ export class RaceUiManager {
 		location.hash = 'startPosition';
 	}
 
-	private displayTrackName(fullTrackName: string): void {
+	private displayHeader(fullTrackName: string): void {
 		this.trackNameUi.innerText = fullTrackName;
-		this.trackNameUi.style.display = 'flex';
+		this.displayBackToEventButton();
+		this.raceHudHeaderContainerUi.style.display = 'flex';
 	}
 
-	private hideTrackName(): void {
-		this.trackNameUi.style.display = 'none';
+	private hideHeader(): void {
+		this.raceHudHeaderContainerUi.style.display = 'none';
+	}
+
+	private displayBackToEventButton(): void {
+		this.backToEventButton.style.display = 'inline';
+	}
+
+	private hideBackToEventButton(): void {
+		this.backToEventButton.style.display = 'none';
 	}
 
 	private prepareResultsTable(
