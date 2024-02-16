@@ -48,7 +48,7 @@ export class SpectatorGroup extends Actor {
 
 
         if (this.children?.length) {
-            this.rotateSpectators((this.scene as Race).skier!.pos);
+            this.rotateSpectators();
         }
     }
 
@@ -78,7 +78,8 @@ export class SpectatorGroup extends Actor {
         this.soundInstance!.volume = Math.max(0.001, 1 - (distance / 300)) * (this.density / 20) * 0.1;
     }
 
-    private rotateSpectators(skierPosition: Vector): void {
+    private rotateSpectators(): void {
+        // TODO
     }
 
 
