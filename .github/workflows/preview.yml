@@ -28,4 +28,4 @@ jobs:
         username: ${{ vars.FTP_USER }}
         password: ${{ secrets.UNE_PASSWORD }}
         local-dir: ./dist/
-        server-dir: ./retroski/preview
+        server-dir: ./retroski/preview/
