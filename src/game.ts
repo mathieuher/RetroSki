@@ -50,8 +50,14 @@ export class Game extends Engine {
 		Resources.TurningSound,
 		Resources.SpectatorsSound,
 		Resources.Spectators2Sound,
+		Resources.Spectators3Sound,
+		Resources.Spectators4Sound,
 		Resources.SpectatorsIntenseSound,
 		Resources.SpectatorHitSound,
+		Resources.SpectatorHit2Sound,
+		Resources.SpectatorHit3Sound,
+		Resources.SpectatorsBellsSound,
+		Resources.SpectatorsBells2Sound,
 	];
 
 	public welcomeUiManager = new WelcomeUiManager();

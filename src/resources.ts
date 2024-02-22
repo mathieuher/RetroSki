@@ -36,9 +36,15 @@ import gateMissedSound from './sounds/gate_missed.mp3';
 import poleHittingSound from './sounds/pole_hitting.mp3';
 import turningSound from './sounds/turning.mp3';
 import spectators from './sounds/spectators.mp3';
-import spectators2Sound from './sounds/spectators_2.mp3';
+import spectators2Sound from './sounds/spectators2.mp3';
+import spectators3Sound from './sounds/spectators3.mp3';
+import spectators4Sound from './sounds/spectators4.mp3';
 import spectatorsIntenseSound from './sounds/spectators_intense.mp3';
 import spectatorHitSound from './sounds/spectator_hit.mp3';
+import spectatorHit2Sound from './sounds/spectator_hit2.mp3';
+import spectatorHit3Sound from './sounds/spectator_hit3.mp3';
+import spectatorsBellsSound from './sounds/spectators_bells.mp3';
+import spectatorsBells2Sound from './sounds/spectators_bells2.mp3';
 
 const Resources = {
 	Skier: new ImageSource(skier),
@@ -79,8 +85,14 @@ const Resources = {
 	TurningSound: new Sound(turningSound),
 	SpectatorsSound: new Sound(spectators),
 	Spectators2Sound: new Sound(spectators2Sound),
+	Spectators3Sound: new Sound(spectators3Sound),
+	Spectators4Sound: new Sound(spectators4Sound),
 	SpectatorsIntenseSound: new Sound(spectatorsIntenseSound),
 	SpectatorHitSound: new Sound(spectatorHitSound),
+	SpectatorHit2Sound: new Sound(spectatorHit2Sound),
+	SpectatorHit3Sound: new Sound(spectatorHit3Sound),
+	SpectatorsBellsSound: new Sound(spectatorsBellsSound),
+	SpectatorsBells2Sound: new Sound(spectatorsBells2Sound),
 };
 
 export { Resources };
