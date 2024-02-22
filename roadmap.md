@@ -17,6 +17,7 @@
 - ✔️ ~~Improve sounds~~
 - ✔️ ~~Add a counter for missed gates and display it in the results~~
 - ✔️ ~~Playable on mobile/touch devices via Touch controls~~
+- Add a setup screen to group all setup for user (Sounds, Ghosts, Spectators, ..)
 
 ## :bulb: Further ideas
 - Implement local multiplayer (same game or dual game)
