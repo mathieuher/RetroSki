@@ -35,52 +35,52 @@ import finishRaceSound from './sounds/finish_race.mp3';
 import gateMissedSound from './sounds/gate_missed.mp3';
 import poleHittingSound from './sounds/pole_hitting.mp3';
 import turningSound from './sounds/turning.mp3';
-import spectators from './sounds/spectators.wav';
+import spectators from './sounds/spectators.mp3';
 import spectators2Sound from './sounds/spectators_2.mp3';
 import spectatorsIntenseSound from './sounds/spectators_intense.mp3';
 import spectatorHitSound from './sounds/spectator_hit.mp3';
 
 const Resources = {
-    Skier: new ImageSource(skier),
-    SkierCarving: new ImageSource(skierCarving),
-    SkierSliding: new ImageSource(skierSliding),
-    SkierBraking: new ImageSource(skierBraking),
+	Skier: new ImageSource(skier),
+	SkierCarving: new ImageSource(skierCarving),
+	SkierSliding: new ImageSource(skierSliding),
+	SkierBraking: new ImageSource(skierBraking),
 
-    GlobalGhostSkier: new ImageSource(globalRecordGhost),
-    GlobalGhostSkierCarving: new ImageSource(globalRecordGhostCarving),
-    GlobalGhostSkierSliding: new ImageSource(globalRecordGhostSliding),
-    GlobalGhostSkierBraking: new ImageSource(globalRecordGhostBraking),
+	GlobalGhostSkier: new ImageSource(globalRecordGhost),
+	GlobalGhostSkierCarving: new ImageSource(globalRecordGhostCarving),
+	GlobalGhostSkierSliding: new ImageSource(globalRecordGhostSliding),
+	GlobalGhostSkierBraking: new ImageSource(globalRecordGhostBraking),
 
-    EventRecordGhost: new ImageSource(eventRecordGhost),
-    EventRecordGhostCarving: new ImageSource(eventRecordGhostCarving),
-    EventRecordGhostSliding: new ImageSource(eventRecordGhostSliding),
-    EventRecordGhostBraking: new ImageSource(eventRecordGhostBraking),
+	EventRecordGhost: new ImageSource(eventRecordGhost),
+	EventRecordGhostCarving: new ImageSource(eventRecordGhostCarving),
+	EventRecordGhostSliding: new ImageSource(eventRecordGhostSliding),
+	EventRecordGhostBraking: new ImageSource(eventRecordGhostBraking),
 
-    StartingGate: new ImageSource(startingGate),
-    StartingHouse: new ImageSource(startingHouse),
-    PoleRed: new ImageSource(poleRed),
-    PoleBlue: new ImageSource(poleBlue),
-    PoleSlRed: new ImageSource(poleSlRed),
-    PoleSlBlue: new ImageSource(poleSlBlue),
-    PoleCheckRed: new ImageSource(poleCheckRed),
-    PoleCheckBlue: new ImageSource(poleCheckBlue),
-    FinalGate: new ImageSource(finalGate),
+	StartingGate: new ImageSource(startingGate),
+	StartingHouse: new ImageSource(startingHouse),
+	PoleRed: new ImageSource(poleRed),
+	PoleBlue: new ImageSource(poleBlue),
+	PoleSlRed: new ImageSource(poleSlRed),
+	PoleSlBlue: new ImageSource(poleSlBlue),
+	PoleCheckRed: new ImageSource(poleCheckRed),
+	PoleCheckBlue: new ImageSource(poleCheckBlue),
+	FinalGate: new ImageSource(finalGate),
 
-    Spectator1: new ImageSource(spectator1),
-    Spectator2: new ImageSource(spectator2),
-    Spectator3: new ImageSource(spectator3),
-    Spectator4: new ImageSource(spectator4),
+	Spectator1: new ImageSource(spectator1),
+	Spectator2: new ImageSource(spectator2),
+	Spectator3: new ImageSource(spectator3),
+	Spectator4: new ImageSource(spectator4),
 
-    WinterSound: new Sound(winterSound),
-    FinishRaceSound: new Sound(finishRaceSound),
-    StartRaceSound: new Sound(startRaceSound),
-    GateMissedSound: new Sound(gateMissedSound),
-    PoleHittingSound: new Sound(poleHittingSound),
-    TurningSound: new Sound(turningSound),
-    SpectatorsSound: new Sound(spectators),
-    Spectators2Sound: new Sound(spectators2Sound),
-    SpectatorsIntenseSound: new Sound(spectatorsIntenseSound),
-    SpectatorHitSound: new Sound(spectatorHitSound)
+	WinterSound: new Sound(winterSound),
+	FinishRaceSound: new Sound(finishRaceSound),
+	StartRaceSound: new Sound(startRaceSound),
+	GateMissedSound: new Sound(gateMissedSound),
+	PoleHittingSound: new Sound(poleHittingSound),
+	TurningSound: new Sound(turningSound),
+	SpectatorsSound: new Sound(spectators),
+	Spectators2Sound: new Sound(spectators2Sound),
+	SpectatorsIntenseSound: new Sound(spectatorsIntenseSound),
+	SpectatorHitSound: new Sound(spectatorHitSound),
 };
 
 export { Resources };
