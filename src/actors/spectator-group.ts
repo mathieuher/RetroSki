@@ -1,4 +1,4 @@
-import { Actor, Engine, Vector, vec, Audio } from 'excalibur';
+import { Actor, Engine, Vector, vec, Audio, toDegrees } from 'excalibur';
 import { Config } from '../config';
 import { ScreenManager } from '../utils/screen-manager';
 import { Spectator } from './spectator';
@@ -18,6 +18,7 @@ export class SpectatorGroup extends Actor {
 		? Config.SPECTATORS_BELLS_SOUNDS[~~(Math.random() * Config.SPECTATORS_BELLS_SOUNDS.length)]
 		: null;
 	private bellsSoundInstance?: Audio;
+	private centerPoint!: Vector;
 
 	constructor(engine: Engine, position: Vector, density: number, side: 'left' | 'right') {
 		super({
@@ -30,6 +31,7 @@ export class SpectatorGroup extends Actor {
 		this.engine = engine;
 		this.density = density;
 		this.side = side;
+		this.centerPoint = vec(this.pos.x + this.width / 2, this.pos.y + this.height / 2);
 
 		this.listenExitViewportEvent();
 	}
@@ -101,6 +103,10 @@ export class SpectatorGroup extends Actor {
 	}
 
 	private rotateSpectators(): void {
-		// TODO
+		const skierPos = (this.scene as Race).skier?.pos;
+		const angle = Math.atan2(skierPos!.y - this.centerPoint.y, skierPos!.x - this.centerPoint.x);
+		for (const spectator of this.children as Spectator[]) {
+			spectator.rotation = angle;
+		}
 	}
 }
