@@ -16,8 +16,7 @@
     <div class="ui-container">
         <div class="hud-container">
             <div class="actions-toolbar">
-                <i id="sound-mute-button" class="fa-solid fa-volume-high"></i>
-                <i id="sound-button" class="fa-solid fa-volume-xmark"></i>
+                <i id="game-setup-button" class="fa-solid fa-gear"></i>
             </div>
             <div id="welcome">
                 <div class="dialog">
@@ -177,6 +176,32 @@
                     </div>
                     <div class="dialog-actions">
                         <button id="exit-welcome-button">Setup a new event</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="game-setup">
+                <div class="dialog">
+                    <div class="title">Game setup</div>
+                    <div class="dialog-content">
+                        <div class="form-line">
+                            <div class="label">Sounds</div>
+                            <input type="checkbox" id="sounds-checkbox" checked/>
+                        </div>
+                        <div class="form-line">
+                            <div class="label">Spectators</div>
+                            <input type="checkbox" id="spectators-checkbox" checked/>
+                        </div>
+                        <div class="form-line">
+                            <div class="label">Display ghosts</div>
+                            <input type="checkbox" id="ghosts-checkbox" checked/>
+                        </div>
+                        <div class="form-line">
+                            <button id="reset-game-setup-button">Erase content & reload game</button>
+                        </div>
+                    </div>
+                    <div class="dialog-actions">
+                        <button id="save-game-setup-button">Close & save setup</button>
                     </div>
                 </div>
             </div>

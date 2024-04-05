@@ -1,50 +1,24 @@
 import { Sound } from 'excalibur';
+import { GameSetupManager } from './game-setup-manager';
 
 export class SoundPlayer {
-	public sound = true;
-	private soundMuteButton: HTMLElement = document.getElementById('sound-mute-button')!;
-	private soundButton: HTMLElement = document.getElementById('sound-button')!;
+	public gameSetupManager: GameSetupManager;
 
-	constructor() {
-		this.soundButton.addEventListener('click', () => {
-			this.changeSound(true);
-		});
-
-		this.soundMuteButton.addEventListener('click', () => {
-			this.changeSound(false);
-		});
-	}
-
-	public showButton(): void {
-		if (this.sound) {
-			this.soundMuteButton.style.display = 'inline';
-			this.soundButton.style.display = 'none';
-		} else {
-			this.soundButton.style.display = 'inline';
-			this.soundMuteButton.style.display = 'none';
-		}
-	}
-
-	public hideButton(): void {
-		this.soundMuteButton.style.display = 'none';
-		this.soundButton.style.display = 'none';
+	constructor(gameSetupManager: GameSetupManager) {
+		this.gameSetupManager = gameSetupManager;
 	}
 
 	public playSound(sound: Sound, volume: number, loop = false, playMultiple = true): void {
-		if (this.sound && (!sound.isPlaying() || playMultiple)) {
+		const soundsEnabled = this.gameSetupManager.getGameSetup().sounds;
+		if (soundsEnabled && (!sound.isPlaying() || playMultiple)) {
 			sound.loop = loop;
 			sound.play(volume);
-		} else if (this.sound && sound.isPlaying() && volume !== sound.volume) {
+		} else if (soundsEnabled && sound.isPlaying() && volume !== sound.volume) {
 			sound.volume = volume;
 		}
 	}
 
 	public stopSound(sound: Sound): void {
 		sound.stop();
-	}
-
-	private changeSound(value: boolean): void {
-		this.sound = value;
-		this.showButton();
 	}
 }
