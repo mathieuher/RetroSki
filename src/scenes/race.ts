@@ -243,7 +243,7 @@ export class Race extends Scene {
 
 	private updateGhostPosition(ghost: Actor, positions: SkierPositioning[], type: 'global' | 'event'): void {
 		const position = positions.splice(0, 1)[0];
-		if ((this.engine as Game).ghostsEnabled) {
+		if ((this.engine as Game).gameSetupManager.getGameSetup().ghosts) {
 			ghost.pos = vec(position.x, position.y);
 			ghost.rotation = position.rotation;
 			this.updateGhostGraphics(ghost, position.action, type);
@@ -271,7 +271,10 @@ export class Race extends Scene {
 		this.add(this.skier);
 		this.startingHouse = new StartingHouse();
 		this.add(this.startingHouse);
-		this.buildSpectatorGroups(this.track.gates);
+
+		if ((this.engine as Game).gameSetupManager.getGameSetup().spectators) {
+			this.buildSpectatorGroups(this.track.gates);
+		}
 
 		this.skierCameraGhost = new Actor({
 			width: 1,

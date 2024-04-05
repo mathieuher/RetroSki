@@ -69,7 +69,7 @@ export class EventManager extends Scene {
 			'<div class="placeholder">No ranking for the moment</div>';
 		this.nextRacesContainer.innerHTML =
 			this.prepareNextRacesTable(eventConfig) || '<div class="placeholder">No race to come</div>';
-		(this.engine as Game).soundPlayer.showButton();
+		(this.engine as Game).gameSetupManager.showGameSetupButton();
 	}
 
 	public cleanManager(): void {
@@ -84,7 +84,7 @@ export class EventManager extends Scene {
 	}
 
 	private startRace(): void {
-		(this.engine as Game).soundPlayer.hideButton();
+		(this.engine as Game).gameSetupManager.hideGameSetupButton();
 		this.engine.addScene('race', new Race(this.engine));
 		this.engine.goToScene('race', {
 			eventId: this.eventConfig.eventId,
