@@ -19,6 +19,7 @@ import { TimedSector } from '../models/timed-sector';
 import { StartingHouse } from '../actors/starting-house';
 import { TouchManager } from '../utils/touch-manager';
 import { StorageManager } from '../utils/storage-manager';
+import { SpectatorGroup } from '../actors/spectator-group';
 
 export class Race extends Scene {
 	public skier?: Skier;
@@ -196,6 +197,7 @@ export class Race extends Scene {
 
 	public returnToEventManager(raceResult?: RaceResult): void {
 		Resources.FinishRaceSound.stop();
+		this.killActors();
 		this.engine.goToScene('eventManager', raceResult ? { raceResult: raceResult } : {});
 		this.engine.removeScene('race');
 	}
@@ -242,7 +244,7 @@ export class Race extends Scene {
 
 	private updateGhostPosition(ghost: Actor, positions: SkierPositioning[], type: 'global' | 'event'): void {
 		const position = positions.splice(0, 1)[0];
-		if ((this.engine as Game).ghostsEnabled) {
+		if ((this.engine as Game).gameSetupManager.getGameSetup().ghosts) {
 			ghost.pos = vec(position.x, position.y);
 			ghost.rotation = position.rotation;
 			this.updateGhostGraphics(ghost, position.action, type);
@@ -270,6 +272,10 @@ export class Race extends Scene {
 		this.add(this.skier);
 		this.startingHouse = new StartingHouse();
 		this.add(this.startingHouse);
+
+		if ((this.engine as Game).gameSetupManager.getGameSetup().spectators) {
+			this.buildSpectatorGroups(this.track.gates);
+		}
 
 		this.skierCameraGhost = new Actor({
 			width: 1,
@@ -321,6 +327,32 @@ export class Race extends Scene {
 		(this.engine as Game).soundPlayer.stopSound(Resources.WinterSound);
 		(this.engine as Game).soundPlayer.stopSound(Resources.TurningSound);
 		this.clear();
+	}
+
+	private killActors(): void {
+		for (const actor of this.actors) {
+			actor.kill();
+		}
+	}
+
+	private buildSpectatorGroups(gates: Gate[]): void {
+		for (const gate of gates.filter(g => !g.isFinalGate)) {
+			const hasSpectatorGroup = Math.random() <= 0.2;
+
+			if (hasSpectatorGroup) {
+				const xPosition = Config.DISPLAY_WIDTH / 2;
+				const left = Math.random() < 0.5;
+
+				const group = new SpectatorGroup(
+					this.engine,
+					vec(left ? -xPosition : xPosition - Config.DISPLAY_MIN_MARGIN, gate.pos.y),
+					3 + ~~(Math.random() * Config.SPECTATORS_MAX_DENSITY),
+					left ? 'left' : 'right',
+				);
+
+				this.add(group);
+			}
+		}
 	}
 
 	private updateGlobalRecordGhost(ghostDatas: StockableGhost): void {
