@@ -44,7 +44,7 @@ export class EventSetup extends Scene {
 	private prepareRaceSetup(): void {
 		this.loadSetup();
 		this.raceSetupUi.style.display = 'flex';
-		(this.engine as Game).soundPlayer.showButton();
+		(this.engine as Game).gameSetupManager.showGameSetupButton();
 		this.selectTrack(this.trackInput.value);
 	}
 

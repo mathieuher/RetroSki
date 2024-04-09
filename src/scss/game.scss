@@ -41,6 +41,8 @@ html body {
     overflow: hidden;
 
     .hud-container {
+        display: flex;
+        justify-content: center;
         position: relative;
         border-radius: 10px;
         overflow: hidden;
@@ -68,8 +70,7 @@ html body {
             color: $text;
             z-index: 10;
 
-            #sound-button,
-            #sound-mute-button {
+            #game-setup-button {
                 cursor: pointer;
                 display: none;
             }
@@ -148,7 +149,7 @@ html body {
                 font-size: 0.7rem;
             }
 
-            ol {
+            ol, ul {
                 padding-top: 0;
                 padding-bottom: 0;
                 margin: 0;
@@ -190,6 +191,72 @@ html body {
 
                     td {
                         font-size: 0.8rem;
+                    }
+                }
+            }
+        }
+
+        #game-setup {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            position: absolute;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            z-index: 11;
+
+            .dialog {
+                background-color: $accent;
+                opacity: 1;
+                width: 300px;
+                max-width: 90vw;
+                height: 350px;
+                max-height: 90vh;
+                border-radius: 10px;
+
+                .title {
+                    margin-bottom: 1rem;
+                }
+
+                .dialog-content {
+                    font-size: 1.2rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+
+                    .form-line {
+                        display: flex;
+                        flex-shrink: 0;
+                        gap: 1rem;
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+                        align-items: center;
+                        overflow: hidden;
+
+                        button {
+                            margin-top: 1rem;
+                            border-radius: 4px;
+                            padding: .5rem;
+                            font-size: .8rem;
+                            background-color: $redSector !important;
+                            color: $textA100;
+                        }
+
+                        input {
+                            cursor: pointer;
+                            height: 1.5rem;
+                            width: 1.5rem;
+                        }
+                    }
+                }
+
+                .dialog-actions {
+                    button {
+                        font-size: 1.2rem;
+                        color: $textA100 !important;
+                        background-color: $primary !important;
                     }
                 }
             }

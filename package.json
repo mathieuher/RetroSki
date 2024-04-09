@@ -1,6 +1,6 @@
 {
 	"name": "retroski",
-	"version": "0.6.0",
+	"version": "0.7.0",
 	"description": "Retro ski game",
 	"main": "index.js",
 	"scripts": {
@@ -24,7 +24,7 @@
 		"rxjs": "7.8.1",
 		"sass": "^1.70.0",
 		"typescript": "5.3.3",
-		"vite": "5.1.2"
+		"vite": "5.2.8"
 	},
 	"dependencies": {
 		"@excaliburjs/testing": "^0.25.1",

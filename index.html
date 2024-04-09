@@ -16,8 +16,7 @@
     <div class="ui-container">
         <div class="hud-container">
             <div class="actions-toolbar">
-                <i id="sound-mute-button" class="fa-solid fa-volume-high"></i>
-                <i id="sound-button" class="fa-solid fa-volume-xmark"></i>
+                <i id="game-setup-button" class="fa-solid fa-gear"></i>
             </div>
             <div id="welcome">
                 <div class="dialog">
@@ -125,6 +124,19 @@
                             Press (1x) ⌨️<img src="src/images/icons/keyboard_arrow_up.png" valign="bottom"/>, 🎮<img src="src/images/icons/gamepad_a.png" valign="bottom"/> or 📱touch to start skiing and see you at the finish line !<br>
                             ⚠️ Don't miss a gate or you'll receive a penalty of 3 seconds
                         </p>
+                        <div class="section-subtitle">Game setup</div>
+                        <p>
+                            You can access to specific game setup by clicking the ⚙️ on the top right in menus<br>
+                            Here you can enable or disable few settings for your race :
+                        </p>
+                        <ul>
+                            <li>🔊 Sounds</li>
+                            <li>🧑‍🤝‍🧑 Spectators (can affect performance)</li>
+                            <li>👻 Ghosts (can affect performance)</li>
+                        </ul>
+                        <p>
+                            You also have the possibility to reset and restore the game to the default content (tracks, ghosts & record).
+                        </p>
                         <div class="section-title">💡 Tips</div>
                         <div class="section-subtitle">Preloaded tracks</div>
                         <p>By default the game provides 5 tracks, so you can use the same track as your friends even on a different setup.</p>
@@ -145,6 +157,15 @@
                         <p>
                             RetroSki use localStorage to persist generated tracks and records.<br>
                             You can easily export them and share them with friends by using the browser developper tools.
+                        </p>
+                        <div class="section-subtitle">Performance</div>
+                        <p>
+                            Retroski should be playable on any modern device with an updated browser.<br>
+                            In case of performance trouble, you can try to disable via the game setup the display of spectators and ghosts during the race.
+                        </p>
+                        <div class="section-subtitle">Crash</div>
+                        <p>
+                            If your game crash, try to reset & erase all content via the game setup menu to reload original content.
                         </p>
                         <div class="table-container">
                             <table>
@@ -177,6 +198,32 @@
                     </div>
                     <div class="dialog-actions">
                         <button id="exit-welcome-button">Setup a new event</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="game-setup">
+                <div class="dialog">
+                    <div class="title">Game setup</div>
+                    <div class="dialog-content">
+                        <div class="form-line">
+                            <div class="label">Sounds</div>
+                            <input type="checkbox" id="sounds-checkbox" checked/>
+                        </div>
+                        <div class="form-line">
+                            <div class="label">Spectators</div>
+                            <input type="checkbox" id="spectators-checkbox" checked/>
+                        </div>
+                        <div class="form-line">
+                            <div class="label">Ghosts</div>
+                            <input type="checkbox" id="ghosts-checkbox" checked/>
+                        </div>
+                        <div class="form-line">
+                            <button id="reset-game-setup-button">Erase content & reload game</button>
+                        </div>
+                    </div>
+                    <div class="dialog-actions">
+                        <button id="save-game-setup-button">Close & save setup</button>
                     </div>
                 </div>
             </div>

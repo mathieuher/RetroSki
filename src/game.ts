@@ -9,6 +9,7 @@ import { LogoManager } from './utils/logo-manager';
 import { Race } from './scenes/race';
 import { GamepadsManager } from './utils/gamepads-manager';
 import { WelcomeUiManager } from './utils/welcome-ui-manager';
+import { GameSetupManager } from './utils/game-setup-manager';
 
 export class Game extends Engine {
 	private resourcesToLoad = [
@@ -37,20 +38,34 @@ export class Game extends Engine {
 		Resources.PoleCheckBlue,
 		Resources.FinalGate,
 
+		Resources.Spectator1,
+		Resources.Spectator2,
+		Resources.Spectator3,
+		Resources.Spectator4,
+
 		Resources.WinterSound,
 		Resources.StartRaceSound,
 		Resources.FinishRaceSound,
 		Resources.GateMissedSound,
 		Resources.PoleHittingSound,
 		Resources.TurningSound,
+		Resources.SpectatorsSound,
+		Resources.Spectators2Sound,
+		Resources.Spectators3Sound,
+		Resources.Spectators4Sound,
+		Resources.SpectatorsIntenseSound,
+		Resources.SpectatorHitSound,
+		Resources.SpectatorHit2Sound,
+		Resources.SpectatorHit3Sound,
+		Resources.SpectatorsBellsSound,
+		Resources.SpectatorsBells2Sound,
 	];
 
 	public welcomeUiManager = new WelcomeUiManager();
+	public gameSetupManager = new GameSetupManager();
 	public trackManager = new TrackManager();
-	public soundPlayer = new SoundPlayer();
+	public soundPlayer = new SoundPlayer(this.gameSetupManager);
 	public gamepadsManager = new GamepadsManager(this);
-
-	public ghostsEnabled = true;
 
 	constructor() {
 		super({
@@ -85,7 +100,7 @@ export class Game extends Engine {
 				_engine.input.keyboard.wasPressed(Config.KEYBOARD_GHOST_KEY) ||
 				this.gamepadsManager.wasButtonPressed(Config.GAMEPAD_GHOST_BUTTON)
 			) {
-				this.ghostsEnabled = !this.ghostsEnabled;
+				this.gameSetupManager.toggleGhosts();
 			}
 		}
 
