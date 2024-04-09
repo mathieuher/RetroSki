@@ -1,4 +1,4 @@
-import { Actor, Engine, Vector, vec, Audio } from 'excalibur';
+import { Actor, Engine, Vector, vec, Audio, Scene } from 'excalibur';
 import { Config } from '../config';
 import { ScreenManager } from '../utils/screen-manager';
 import { Spectator } from './spectator';
@@ -70,10 +70,13 @@ export class SpectatorGroup extends Actor {
 
 	private checkForKill(): void {
 		if (ScreenManager.isBehind(this.scene.camera.pos, this.pos)) {
-			this.soundInstance?.stop();
-			this.bellsSoundInstance?.stop();
 			this.kill();
 		}
+	}
+
+	onPreKill(): void {
+		this.soundInstance?.stop();
+		this.bellsSoundInstance?.stop();
 	}
 
 	private buildSpectators(): void {
