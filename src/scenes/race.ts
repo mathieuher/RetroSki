@@ -197,6 +197,7 @@ export class Race extends Scene {
 
 	public returnToEventManager(raceResult?: RaceResult): void {
 		Resources.FinishRaceSound.stop();
+		this.killActors();
 		this.engine.goToScene('eventManager', raceResult ? { raceResult: raceResult } : {});
 		this.engine.removeScene('race');
 	}
@@ -326,6 +327,12 @@ export class Race extends Scene {
 		(this.engine as Game).soundPlayer.stopSound(Resources.WinterSound);
 		(this.engine as Game).soundPlayer.stopSound(Resources.TurningSound);
 		this.clear();
+	}
+
+	private killActors(): void {
+		for (const actor of this.actors) {
+			actor.kill();
+		}
 	}
 
 	private buildSpectatorGroups(gates: Gate[]): void {
