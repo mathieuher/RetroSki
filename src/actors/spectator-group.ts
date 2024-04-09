@@ -1,4 +1,4 @@
-import { Actor, Engine, Vector, vec, Audio, Scene } from 'excalibur';
+import { Actor, Engine, Vector, vec, Audio } from 'excalibur';
 import { Config } from '../config';
 import { ScreenManager } from '../utils/screen-manager';
 import { Spectator } from './spectator';
