@@ -29,7 +29,7 @@ export class Config {
 	static FORMAT_TIMING = 'mm:ss:SS';
 
 	// TRACKS
-	static CURRENT_BUILDER_VERSION = 3;
+	static CURRENT_BUILDER_VERSION = 4;
 	static DEFAULT_TRACKS = ['soelden', 'davos', 'wengen', 'adelboden', 'zermatt'];
 
 	// CONTROLS
