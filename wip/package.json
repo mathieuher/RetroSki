@@ -1,0 +1,33 @@
+{
+	"name": "retroski",
+	"version": "1.0.0",
+	"description": "Retro ski game",
+	"main": "index.js",
+	"scripts": {
+		"dev": "vite",
+		"format": "npx biome format --write ./src",
+		"lint": "npx biome lint ./src",
+		"build": "tsc && vite build",
+		"serve": "vite preview"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mathieuher/retroSki.git"
+	},
+	"keywords": ["retroSki"],
+	"author": "Mathieu H.",
+	"license": "",
+	"homepage": "https://mathieuher.github.io/restroski",
+	"devDependencies": {
+		"@biomejs/biome": "1.5.3",
+		"excalibur": "0.28.7",
+		"rxjs": "7.8.1",
+		"sass": "^1.70.0",
+		"typescript": "5.3.3",
+		"vite": "5.2.8"
+	},
+	"dependencies": {
+		"@excaliburjs/testing": "^0.25.1",
+		"date-fns": "^3.3.1"
+	}
+}
