@@ -1,12 +1,32 @@
 <app-toolbar>
     <div ngProjectAs="left-actions">
-        <app-button-icon icon="close"></app-button-icon>
+        <app-button-icon icon="close" routerLink=""></app-button-icon>
     </div>
     <div ngProjectAs="right-actions">
         <app-button-icon icon="settings"></app-button-icon>
     </div>
 </app-toolbar>
 <div class="content">
+    @if(currentPage() === 1) {
+    <ng-container *ngTemplateOutlet="page_1"></ng-container>
+    } @else if (currentPage() === 2) {
+    <ng-container *ngTemplateOutlet="page_2"></ng-container>
+    } @else if (currentPage() === 3) {
+    <ng-container *ngTemplateOutlet="page_3"></ng-container>
+    } @else if (currentPage() === 4) {
+    <ng-container *ngTemplateOutlet="page_4"></ng-container>
+    }
+</div>
+<div class="footer">
+    <div class="stepper">
+        <app-stepper
+            [(currentStep)]="currentPage"
+            [totalStep]="totalPage"
+        ></app-stepper>
+    </div>
+</div>
+
+<ng-template #page_1>
     <div class="retro-title">Introduction</div>
     <div class="retro-text">
         Retroski is a small game development project to peacefully ride the
@@ -25,11 +45,62 @@
         Create or join a server with your friends to share tracks and challenge
         your best rides.
     </div>
-</div>
-<div class="footer">
-    <div class="stepper">
-        <app-button-icon icon="chevron_left"></app-button-icon>
-        <span>Step 1/4</span>
-        <app-button-icon icon="chevron_right"></app-button-icon>
+</ng-template>
+
+<ng-template #page_2>
+    <div class="retro-title">Controls</div>
+    <div class="retro-text">
+        Retroski is pretty simple to play with very few controls but very
+        difficult to master.
     </div>
-</div>
+    <div class="retro-text">
+        You can use different devices to ride the mountain.
+    </div>
+    <div class="retro-title">Devices</div>
+    <div class="retro-subtitle">Keyboard</div>
+    <div class="retro-subtitle">Gamepad</div>
+    <div class="retro-subtitle">Smartphone</div>
+</ng-template>
+
+<ng-template #page_3>
+    <div class="retro-title">Game setup</div>
+    <div class="retro-text">
+        You can access to specific game setup by clicking on the top right
+        corner.
+        <ul>
+            <li>Sounds</li>
+            <li>Ghosts (can affect performance)</li>
+            <li>Spectators (can affect performance)</li>
+        </ul>
+        You also have the possibility to restore the game to default setup and
+        erase all data.
+    </div>
+    <div class="retro-title">Ghosts</div>
+    <div class="retro-text">
+        Multiple ghosts can be displayed at the same time :
+    </div>
+</ng-template>
+
+<ng-template #page_4>
+    <div class="retro-title">Quick tips</div>
+    <div class="retro-subtitle">Stay on the track !</div>
+    <div class="retro-text">
+        Don’t miss a gate or you’ll receive a 3sec. penalty.
+    </div>
+    <div class="retro-subtitle">Track styles</div>
+    <div class="retro-text">
+        Retroski simulate the 4 alpine ski track styles with their specific
+        tracks design and rider abilities.
+    </div>
+    <div class="retro-subtitle">Performances</div>
+    <div class="retro-text">
+        Retroski should be playable on any modern device with an up to date
+        browser. In case of performance trouble try to disabled ghosts and
+        spectators from the setup menu.
+    </div>
+    <div class="retro-subtitle">Have fun and keep riding !</div>
+    <div class="retro-text">
+        Now it’s time to ride and have fun on the mountain. Be careful, don’t
+        hit to many spectators along the ride :) !
+    </div>
+</ng-template>
