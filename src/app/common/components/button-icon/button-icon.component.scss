@@ -1,0 +1,19 @@
+:host {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    width: 34px;
+    border-radius: 50px;
+    color: var(--color-primary);
+    cursor: pointer;
+    transition: background-color var(--transition-time) ease-in-out;
+
+    > span {
+        font-size: 24px;
+    }
+
+    &:hover {
+        background-color: var(--color-primary-lightest);
+    }
+}

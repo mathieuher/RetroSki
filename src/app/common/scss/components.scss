@@ -1,0 +1,57 @@
+.retro-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: var(--field-max-width);
+    background-color: transparent;
+    box-shadow: none;
+    height: 40px;
+    font-size: var(--text-subtitle);
+    font-family: "Kode mono", monospace;
+    text-align: center;
+    border-radius: var(--border-radius-large);
+    cursor: pointer;
+    transition: background-color var(--transition-time) ease-in-out;
+
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+
+    &.tertiary {
+        border: 1px solid var(--color-tertiary);
+        color: var(--color-tertiary);
+    }
+
+    &:hover:not([disabled]) {
+        background-color: var(--color-tertiary-lightest);
+    }
+
+    &[disabled] {
+        border-color: var(--color-disabled);
+        color: var(--color-disabled);
+        cursor: initial;
+    }
+}
+
+.retro-title {
+    font-size: var(--text-title);
+    margin: 0;
+    margin-top: 1.5rem;
+    margin-bottom: 0.25rem;
+    color: var(--color-primary);
+    font-weight: 500;
+}
+
+.retro-subtitle {
+    font-size: var(--text-subtitle);
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    color: var(--color-tertiary);
+    font-weight: 500;
+}
+
+.retro-text {
+    font-size: var(--text-standard);
+    color: var(--color-primary);
+    font-weight: 400;
+}
