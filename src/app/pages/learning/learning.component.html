@@ -1,12 +1,15 @@
 <app-toolbar>
     <div ngProjectAs="left-actions">
-        <app-button-icon icon="close" routerLink=""></app-button-icon>
+        <app-button-icon icon="close" routerLink="/"></app-button-icon>
     </div>
     <div ngProjectAs="right-actions">
-        <app-button-icon icon="settings"></app-button-icon>
+        <app-button-icon
+            icon="settings"
+            routerLink="/settings"
+        ></app-button-icon>
     </div>
 </app-toolbar>
-<div class="content">
+<div class="retro-content">
     @if(currentPage() === 1) {
     <ng-container *ngTemplateOutlet="page_1"></ng-container>
     } @else if (currentPage() === 2) {
@@ -17,7 +20,7 @@
     <ng-container *ngTemplateOutlet="page_4"></ng-container>
     }
 </div>
-<div class="footer">
+<div class="retro-footer">
     <div class="stepper">
         <app-stepper
             [(currentStep)]="currentPage"
@@ -101,6 +104,6 @@
     <div class="retro-subtitle">Have fun and keep riding !</div>
     <div class="retro-text">
         Now it’s time to ride and have fun on the mountain. Be careful, don’t
-        hit to many spectators along the ride :) !
+        hit too many spectators along the ride :) !
     </div>
 </ng-template>

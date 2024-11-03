@@ -9,6 +9,13 @@
     cursor: pointer;
     transition: background-color var(--transition-time) ease-in-out;
 
+    &.tertiary {
+        color: var(--color-tertiary);
+        &:hover {
+            background-color: var(--color-tertiary-lightest);
+        }
+    }
+
     > span {
         font-size: 24px;
     }
