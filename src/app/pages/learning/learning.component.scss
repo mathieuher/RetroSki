@@ -3,18 +3,4 @@
     flex: 1 1 auto;
     flex-direction: column;
     padding: 1rem;
-
-    .content {
-        display: flex;
-        flex-direction: column;
-        flex: 1 1 auto;
-        overflow-y: auto;
-    }
-
-    .footer {
-        display: flex;
-        flex: 1 0 auto;
-        align-items: flex-end;
-        justify-content: center;
-    }
 }

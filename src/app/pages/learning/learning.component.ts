@@ -1,4 +1,4 @@
-import { Component, computed, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, model } from '@angular/core';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { RouterLink } from '@angular/router';
@@ -10,7 +10,8 @@ import { NgTemplateOutlet } from '@angular/common';
   standalone: true,
   imports: [ButtonIconComponent, NgTemplateOutlet,  RouterLink, StepperComponent, ToolbarComponent],
   templateUrl: './learning.component.html',
-  styleUrl: './learning.component.scss'
+  styleUrl: './learning.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LearningComponent {
     protected readonly totalPage = 4;
