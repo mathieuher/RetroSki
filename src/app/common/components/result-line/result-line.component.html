@@ -1,0 +1,7 @@
+<div class="ride-label">{{ rideLabel() }}</div>
+<div class="name">{{ name() }}</div>
+@if(ridePosition()) {
+<div class="ride-position">({{ ridePosition() }})</div>
+} @if(time()) {
+<div class="time">{{ time() }}</div>
+}

@@ -1,0 +1,44 @@
+<app-toolbar>
+    <div ngProjectAs="left-actions">
+        <app-button-icon icon="close" routerLink="/"></app-button-icon>
+    </div>
+    <div ngProjectAs="right-actions">
+        <app-button-icon
+            icon="settings"
+            routerLink="/settings"
+        ></app-button-icon>
+    </div>
+</app-toolbar>
+<div class="retro-content">
+    <div class="retro-title">Ride local</div>
+    <div class="retro-subtitle">Track setup</div>
+    <div class="retro-form-section">
+        <div class="retro-form-line">
+            <div class="label">Track</div>
+            <select class="retro-input">
+                <option>Davos - SG</option>
+            </select>
+        </div>
+        <button class="retro-button tertiary" disabled>
+            Create a new track
+        </button>
+    </div>
+    <div class="retro-subtitle">Rider setup</div>
+    <div class="retro-form-section">
+        <div class="retro-form-line">
+            <div class="label">Rider 1</div>
+            <input type="text" class="retro-input" />
+        </div>
+        <button class="retro-button tertiary">Add another rider</button>
+    </div>
+    <div class="retro-subtitle">Event setup</div>
+    <div class="retro-form-line">
+        <div class="label">Number of races</div>
+        <input type="number" class="retro-input" />
+    </div>
+    <div class="retro-footer">
+        <button class="retro-button" (click)="startEvent()">
+            Start the event
+        </button>
+    </div>
+</div>
