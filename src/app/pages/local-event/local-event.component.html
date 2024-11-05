@@ -1,0 +1,77 @@
+<app-toolbar>
+    <div ngProjectAs="left-actions">
+        <app-button-icon
+            icon="logout"
+            routerLink="/ride-local"
+            [flipped]="true"
+        ></app-button-icon>
+    </div>
+    <div ngProjectAs="right-actions">
+        <app-button-icon
+            icon="settings"
+            routerLink="/settings"
+        ></app-button-icon>
+    </div>
+</app-toolbar>
+<div class="retro-content">
+    <div class="retro-title">Local event</div>
+    <div class="retro-subtitle">Actual ranking</div>
+    <div class="retro-list">
+        <app-ranking-line
+            [position]="222"
+            name="Mathieu"
+            time="1:00:49"
+            [currentRider]="true"
+        ></app-ranking-line>
+        <app-ranking-line
+            [position]="2"
+            name="Emilie"
+            time="+00:39"
+            [isDiff]="true"
+        ></app-ranking-line>
+    </div>
+    <div class="retro-subtitle">Last results</div>
+    <div class="retro-list">
+        <app-result-line
+            type="race"
+            [rideNumber]="122"
+            [ridePosition]="22"
+            name="Mathieu"
+            time="1:00:49"
+            [current]="true"
+        ></app-result-line>
+        <app-result-line
+            type="race"
+            [rideNumber]="1"
+            [ridePosition]="1"
+            name="Mathieu"
+            time="1:00:49"
+        ></app-result-line>
+        <app-result-line
+            type="race"
+            [rideNumber]="1"
+            [ridePosition]="1"
+            name="Mathieu"
+            time="1:00:49"
+        ></app-result-line
+        ><app-result-line
+            type="race"
+            [rideNumber]="1"
+            [ridePosition]="1"
+            name="Mathieu"
+            time="1:00:49"
+            [current]="true"
+        ></app-result-line>
+    </div>
+    <div class="retro-subtitle">Next races</div>
+    <div class="retro-list">
+        <app-result-line
+            type="race"
+            [rideNumber]="4"
+            name="Emilie"
+        ></app-result-line>
+    </div>
+</div>
+<div class="retro-footer">
+    <button class="retro-button">Start riding</button>
+</div>

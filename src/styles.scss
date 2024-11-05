@@ -3,7 +3,7 @@
 
 html,
 body {
-    font-family: "Kode mono", monospace;
+    font-family: var(--text-font-family);
     background-color: var(--color-surface);
     margin: 0;
 

@@ -9,6 +9,10 @@
     cursor: pointer;
     transition: background-color var(--transition-time) ease-in-out;
 
+    &.flipped > span {
+        transform: scaleX(-1);
+    }
+
     &.tertiary {
         color: var(--color-tertiary);
         &:hover {

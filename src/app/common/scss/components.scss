@@ -3,7 +3,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: var(--field-max-width);
     background-color: transparent;
     box-shadow: none;
     height: 40px;
@@ -58,6 +57,7 @@
     flex: 1 0 auto;
     align-items: flex-end;
     justify-content: center;
+    padding-bottom: 0.5rem;
 }
 
 .retro-title {
@@ -81,4 +81,51 @@
     font-size: var(--text-standard);
     color: var(--color-primary);
     font-weight: 400;
+}
+
+.retro-form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.retro-form-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-standard);
+
+    select,
+    input {
+        min-width: 150px;
+        max-width: 50%;
+        display: flex;
+        flex: 1 1 auto;
+
+        &[type="number"] {
+            min-width: 75px;
+            max-width: 25%;
+        }
+    }
+
+    select {
+        cursor: pointer;
+    }
+}
+
+.retro-input {
+    font-size: 14px;
+    border-radius: var(--border-radius-large);
+    border-color: var(--color-tertiary);
+    color: var(--color-tertiary);
+    font-family: var(--text-font-family);
+    height: 40px;
+    padding: 0 0.5rem;
+    outline: none;
+    border: 1px solid;
+
+    &[type="number"] {
+        text-align: right;
+    }
 }
