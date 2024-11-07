@@ -36,7 +36,7 @@ export class TrackManager {
 		for (const track of Config.DEFAULT_TRACKS) {
 			const serializedStoredTrack = localStorage.getItem(`track_${track}`);
 			const storedTrack = serializedStoredTrack ? JSON.parse(serializedStoredTrack) : null;
-			fetch(`tracks/${track}.json`)
+			fetch(`assets/tracks/${track}.json`)
 				?.then(trackJson => trackJson.json())
 				?.then((track: StockableTrack) => {
 					if (
@@ -59,7 +59,7 @@ export class TrackManager {
 			const ghostPersistedData: StockableGhost = ghostPersistedJson
 				? JSON.parse(ghostPersistedJson)
 				: null;
-			fetch(`ghosts/${track}.json`)
+			fetch(`assets/ghosts/${track}.json`)
 				?.then(ghostJson => ghostJson.json())
 				?.then((defaultGhost: StockableGhost) => {
 					if (

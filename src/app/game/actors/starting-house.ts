@@ -20,7 +20,7 @@ export class StartingHouse extends Actor {
         this.addChild(this.gate);
     }
 
-    public update(): void {
+    public override update(): void {
         if (this.canDestroy()) {
             this.kill();
         }

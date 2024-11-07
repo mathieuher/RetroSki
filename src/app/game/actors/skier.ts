@@ -31,12 +31,12 @@ export class Skier extends Actor {
         this.skierConfig = skierConfig;
     }
 
-    onInitialize() {
+    override onInitialize() {
         this.particlesEmitter = ParticlesBuilder.getParticlesEmitter();
         this.addChild(this.particlesEmitter);
     }
 
-    update(engine: Engine): void {
+    override update(engine: Engine): void {
         const skierAction = this.getSkierCurrentAction(engine);
         this.updateGraphics(skierAction);
         if (this.racing || this.finish) {

@@ -25,7 +25,7 @@ export class Race extends Scene {
 	public skier?: Skier;
 	public touchManager: TouchManager;
 
-	private uiManager = new RaceUiManager();
+	// private uiManager = new RaceUiManager();
 	private uiTimer = new Timer({
 		interval: 60,
 		repeats: true,
@@ -59,7 +59,7 @@ export class Race extends Scene {
 		this.listenBackToEventManagerClicked();
 	}
 
-	onPreUpdate(_engine: Engine, _delta: number): void {
+	override onPreUpdate(_engine: Engine, _delta: number): void {
 		if (this.skier?.racing) {
 			if (
 				_engine.input.keyboard.wasPressed(Config.KEYBOARD_RESTART_KEY) ||
@@ -78,10 +78,11 @@ export class Race extends Scene {
 		}
 	}
 
-	onActivate(_context: SceneActivationContext<{ eventId: string; raceConfig: EventRaceResult }>): void {
+	override onActivate(_context: SceneActivationContext<{ eventId: string; raceConfig: EventRaceResult }>): void {
+        console.log('coming to race');
 		if (_context.data?.raceConfig) {
 			this.raceConfig = _context.data.raceConfig;
-			this.uiManager.buildUi(this.raceConfig.getFullTrackName());
+			// this.uiManager.buildUi(this.raceConfig.getFullTrackName());
 			this.prepareRace(
 				this.raceConfig.trackName,
 				this.raceConfig.trackStyle,
@@ -92,7 +93,7 @@ export class Race extends Scene {
 		}
 	}
 
-	onDeactivate(_context: SceneActivationContext<undefined>): void {
+	override onDeactivate(_context: SceneActivationContext<undefined>): void {
 		this.cleanRace();
 	}
 
@@ -102,8 +103,8 @@ export class Race extends Scene {
 	}
 
 	public startRace(): void {
-		this.uiManager.hideGhostsUi();
-		this.uiManager.displayRacingUi();
+		// this.uiManager.hideGhostsUi();
+		// this.uiManager.displayRacingUi();
 		this.startTime = this.engine.clock.now();
 		this.uiTimer.start();
 		this.listenStopRaceEvent();
@@ -164,14 +165,16 @@ export class Race extends Scene {
 		}
 
 		if (globalResult) {
-			this.uiManager.displayResultUi(globalResult, missedGates);
+			// this.uiManager.displayResultUi(globalResult, missedGates);
 		}
 
+        /*
 		this.uiManager.backToManagerButton.addEventListener(
 			'click',
 			() => this.returnToEventManager(this.result),
 			{ once: true },
 		);
+        */
 
 		(this.engine as Game).soundPlayer.playSound(Resources.FinishRaceSound, Config.FINISH_SOUND_VOLUME);
 	}
@@ -182,7 +185,7 @@ export class Race extends Scene {
 			Resources.GateMissedSound,
 			Config.GATE_MISSED_SOUND_VOLUME,
 		);
-		this.uiManager.flashTimer(this.engine);
+		// this.uiManager.flashTimer(this.engine);
 	}
 
 	public setSector(sectorNumber: number): void {
@@ -196,16 +199,19 @@ export class Race extends Scene {
 	}
 
 	public returnToEventManager(raceResult?: RaceResult): void {
+        // TODO : Implement
 		Resources.FinishRaceSound.stop();
 		this.killActors();
-		this.engine.goToScene('eventManager', raceResult ? { raceResult: raceResult } : {});
+		// this.engine.goToScene('eventManager', raceResult ? { raceResult: raceResult } : {});
 		this.engine.removeScene('race');
 	}
 
 	private listenBackToEventManagerClicked(): void {
-		this.uiManager.backToEventButton.addEventListener('click', () => this.returnToEventManager(), {
+		/*
+        this.uiManager.backToEventButton.addEventListener('click', () => this.returnToEventManager(), {
 			once: true,
 		});
+        */
 	}
 
 	private displaySectorDifference(timedSector: TimedSector): void {
@@ -213,12 +219,14 @@ export class Race extends Scene {
 		const globalRecordSectorTime = this.globalRecordGhostDatas?.getSectorTime(timedSector.sectorNumber);
 		const eventRecordSectorTime = this.eventRecordGhostDatas?.getSectorTime(timedSector.sectorNumber);
 		if (globalRecordSectorTime || eventRecordSectorTime) {
-			this.uiManager.displayGhostSectorTiming(
+			/*
+            this.uiManager.displayGhostSectorTiming(
 				this.engine,
 				skierSectorTime,
 				globalRecordSectorTime,
 				eventRecordSectorTime,
 			);
+            */
 		}
 	}
 
@@ -306,10 +314,12 @@ export class Race extends Scene {
 			}
 		}
 
+        /*
 		this.uiManager.displayGhostsTiming(
 			this.globalRecordGhostDatas?.totalTime,
 			this.eventRecordGhostDatas?.totalTime,
 		);
+        */
 		(this.engine as Game).soundPlayer.playSound(
 			Resources.WinterSound,
 			Config.RACE_AMBIANCE_SOUND_VOLUME,
@@ -320,7 +330,7 @@ export class Race extends Scene {
 	private cleanRace(): void {
 		this.startTime = undefined;
 		this.endTime = undefined;
-		this.uiManager.hideUi();
+		// this.uiManager.hideUi();
 		this.gates = [];
 		this.raceConfig = undefined;
 		this.track = undefined;
@@ -368,7 +378,7 @@ export class Race extends Scene {
 	}
 
 	private updateRacingUi(): void {
-		this.uiManager.updateRacingUi(this.skier!.speed, this.engine.clock.now() - this.startTime!);
+		// this.uiManager.updateRacingUi(this.skier!.speed, this.engine.clock.now() - this.startTime!);
 	}
 
 	private buildTrack(trackName: string, trackStyle: TrackStyles): Track {

@@ -29,7 +29,7 @@ export class Pole extends Actor {
 		}
 	}
 
-	onInitialize() {
+	override onInitialize() {
 		this.on('collisionstart', evt => this.onPreCollision(evt));
 	}
 

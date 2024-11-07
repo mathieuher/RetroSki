@@ -3,7 +3,7 @@ export class WelcomeUiManager {
 	private exitWelcomeButtonUi = document.getElementById('exit-welcome-button')!;
 
 	constructor() {
-		this.listenExitWelcomeButton();
+		// this.listenExitWelcomeButton();
 	}
 
 	public showWelcomeUi(): void {

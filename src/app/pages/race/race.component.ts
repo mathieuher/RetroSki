@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Game } from '../../game/game';
 
 @Component({
   selector: 'app-race',
@@ -8,7 +9,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './race.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RaceComponent {
+export class RaceComponent implements OnInit {
+    private game?: Game;
 
+    ngOnInit(): void {
+        this.game = new Game();
+        this.game.initialize();
+    }
     
 }

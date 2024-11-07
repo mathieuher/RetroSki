@@ -50,7 +50,7 @@ export class Gate extends Actor {
 		}
 	}
 
-	onInitialize() {
+	override onInitialize() {
 		this.on('passed', () => this.onGatePassed());
 		this.on('exitviewport', () => {
 			if (this.isBehind()) {
@@ -59,7 +59,7 @@ export class Gate extends Actor {
 		});
 	}
 
-	update(): void {
+	override update(): void {
 		if (!this.children?.length && ScreenManager.isNearScreen(this, this.scene.camera)) {
 			this.buildComponents();
 		}

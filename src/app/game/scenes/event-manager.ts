@@ -27,7 +27,7 @@ export class EventManager extends Scene {
 		this.listenBackButtonClicked();
 	}
 
-	onActivate(
+	override onActivate(
 		_context: SceneActivationContext<{ eventConfig?: EventConfig; raceResult?: RaceResult }>,
 	): void {
 		this.trackManager = (this.engine as Game).trackManager;
@@ -42,11 +42,11 @@ export class EventManager extends Scene {
 		this.prepareManager(this.eventConfig);
 	}
 
-	onDeactivate(_context: SceneActivationContext<undefined>): void {
+	override onDeactivate(_context: SceneActivationContext<undefined>): void {
 		this.cleanManager();
 	}
 
-	onPreUpdate(engine: Engine): void {
+	override onPreUpdate(engine: Engine): void {
 		if (
 			(engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_START_BUTTON) &&
 			this.eventConfig?.getNextRace()

@@ -27,15 +27,15 @@ export class EventSetup extends Scene {
 		this.listenBackButtonClicked();
 	}
 
-	onActivate(_context: SceneActivationContext<unknown>): void {
+	override onActivate(_context: SceneActivationContext<unknown>): void {
 		this.prepareRaceSetup();
 	}
 
-	onDeactivate(_context: SceneActivationContext<undefined>): void {
+	override onDeactivate(_context: SceneActivationContext<undefined>): void {
 		this.cleanRaceSetup();
 	}
 
-	onPreUpdate(engine: Engine): void {
+	override onPreUpdate(engine: Engine): void {
 		if ((engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_START_BUTTON)) {
 			this.completeSetup();
 		}
@@ -54,7 +54,7 @@ export class EventSetup extends Scene {
 
 	private listenBackButtonClicked(): void {
 		this.backButtonUi.addEventListener('click', () => {
-			(this.engine as Game).welcomeUiManager.showWelcomeUi();
+			// (this.engine as Game).welcomeUiManager.showWelcomeUi();
 		});
 	}
 

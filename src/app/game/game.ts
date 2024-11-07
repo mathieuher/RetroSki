@@ -1,15 +1,14 @@
 import { Color, DisplayMode, Engine, Loader } from 'excalibur';
 import { Resources } from './resources';
-import { Config } from './config';
 import { TrackManager } from './utils/track-manager';
-import { EventSetup } from './scenes/event-setup';
-import { EventManager } from './scenes/event-manager';
 import { SoundPlayer } from './utils/sounds-player';
 import { LogoManager } from './utils/logo-manager';
 import { Race } from './scenes/race';
 import { GamepadsManager } from './utils/gamepads-manager';
 import { WelcomeUiManager } from './utils/welcome-ui-manager';
 import { GameSetupManager } from './utils/game-setup-manager';
+import { EventRaceResult } from './models/event-race-result';
+import { TrackStyles } from './models/track-styles.enum';
 
 export class Game extends Engine {
 	private resourcesToLoad = [
@@ -23,7 +22,7 @@ export class Game extends Engine {
 		Resources.GlobalGhostSkierSliding,
 		Resources.GlobalGhostSkierBraking,
 
-		Resources.EventRecordGhost,
+        Resources.EventRecordGhost,
 		Resources.EventRecordGhostCarving,
 		Resources.EventRecordGhostSliding,
 		Resources.EventRecordGhostBraking,
@@ -38,11 +37,11 @@ export class Game extends Engine {
 		Resources.PoleCheckBlue,
 		Resources.FinalGate,
 
-		Resources.Spectator1,
+        Resources.Spectator1,
 		Resources.Spectator2,
 		Resources.Spectator3,
 		Resources.Spectator4,
-
+    
 		Resources.WinterSound,
 		Resources.StartRaceSound,
 		Resources.FinishRaceSound,
@@ -80,20 +79,28 @@ export class Game extends Engine {
 	}
 
 	initialize() {
+        this.addScene('race', new Race(this));
+        /*
 		this.addScene('eventSetup', new EventSetup(this));
 		this.addScene('eventManager', new EventManager(this));
 
+        */
+
 		this.trackManager.importDefaultTracks();
 		this.trackManager.importDefaultGhosts();
-
+        
 		this.start(this.getLoader()).then(() => {
-			this.welcomeUiManager.showWelcomeUi();
-			this.goToScene('eventSetup');
+            // TODO : Implement
+            this.goToScene('race', {eventId: '12', raceConfig: new EventRaceResult('12', 1, 'soelden', TrackStyles.GS, 'mat', 'mathieu') });
+			// this.welcomeUiManager.showWelcomeUi();
+			// this.goToScene('eventSetup');
 		});
+        
 	}
 
-	onPreUpdate(_engine: Engine, _delta: number): void {
-		if (_engine.scenes?.race?.isCurrentScene()) {
+	override onPreUpdate(_engine: Engine, _delta: number): void {
+        /*
+		if (_engine.scenes?.['race']?.isCurrentScene()) {
 			if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_DEBUG_KEY)) {
 				_engine.showDebug(!_engine.isDebug);
 			} else if (
@@ -108,27 +115,25 @@ export class Game extends Engine {
 			_engine.input.keyboard.wasPressed(Config.KEYBOARD_EXIT_KEY) ||
 			this.gamepadsManager.wasButtonPressed(Config.GAMEPAD_EXIT_BUTTON)
 		) {
-			if (_engine.scenes?.eventManager?.isCurrentScene()) {
+			if (_engine.scenes?.['eventManager']?.isCurrentScene()) {
 				this.goToScene('eventSetup');
-			} else if (_engine.scenes?.race?.isCurrentScene()) {
+			} else if (_engine.scenes?.['race']?.isCurrentScene()) {
 				(_engine.currentScene as Race).returnToEventManager();
-			} else if (_engine.scenes?.eventSetup?.isCurrentScene()) {
-				this.welcomeUiManager.showWelcomeUi();
+			} else if (_engine.scenes?.['eventSetup']?.isCurrentScene()) {
+				// this.welcomeUiManager.showWelcomeUi();
 			}
 		}
+            */
 	}
 
 	private getLoader(): Loader {
 		const loader = new Loader(this.resourcesToLoad);
-		loader.backgroundColor = '#b0d4dd';
+		loader.backgroundColor = 'white';
 		loader.logo = LogoManager.base64Image;
 		loader.logoHeight = 250;
 		loader.logoWidth = 250;
-		loader.loadingBarColor = Color.fromHex('#4a8291');
+		loader.loadingBarColor = Color.fromHex('#22165f');
 		loader.suppressPlayButton = true;
 		return loader;
 	}
 }
-
-export const game = new Game();
-game.initialize();
