@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, model, ModelSignal, signal, Signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { CheckboxComponent } from '../../common/components/checkbox/checkbox.component';
 import { Location } from '@angular/common';
+import { SettingsService } from '../../common/services/settings.service';
+import { Settings } from '../../common/models/settings';
 
 @Component({
   selector: 'app-settings',
@@ -15,8 +17,22 @@ import { Location } from '@angular/common';
 })
 export class SettingsComponent {
     private location = inject(Location);
+    private router = inject(Router);
+    protected settingsService = inject(SettingsService);
+
+    protected settings: Signal<Settings>;
+
+    constructor() {
+        this.settings = signal(this.settingsService.getSettings())
+    }
 
     protected goBack(): void {
         this.location.back();
+    }
+
+    protected restore(): void {
+        this.settingsService.restoreSettings();
+        localStorage.clear();
+        this.router.navigate(['/']);
     }
 }

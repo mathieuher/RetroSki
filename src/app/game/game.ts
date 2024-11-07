@@ -1,14 +1,14 @@
 import { Color, DisplayMode, Engine, Loader } from 'excalibur';
 import { Resources } from './resources';
-import { TrackManager } from './utils/track-manager';
 import { SoundPlayer } from './utils/sounds-player';
 import { LogoManager } from './utils/logo-manager';
 import { Race } from './scenes/race';
 import { GamepadsManager } from './utils/gamepads-manager';
-import { WelcomeUiManager } from './utils/welcome-ui-manager';
-import { GameSetupManager } from './utils/game-setup-manager';
-import { EventRaceResult } from './models/event-race-result';
-import { TrackStyles } from './models/track-styles.enum';
+import { SettingsService } from '../common/services/settings.service';
+import { Config } from './config';
+import { EventEmitter } from '@angular/core';
+import { RaceConfig } from './models/race-config';
+import { RaceResult } from './models/race-result';
 
 export class Game extends Engine {
 	private resourcesToLoad = [
@@ -60,13 +60,16 @@ export class Game extends Engine {
 		Resources.SpectatorsBells2Sound,
 	];
 
-	public welcomeUiManager = new WelcomeUiManager();
-	public gameSetupManager = new GameSetupManager();
-	public trackManager = new TrackManager();
-	public soundPlayer = new SoundPlayer(this.gameSetupManager);
+    public raceStopped = new EventEmitter<RaceResult | undefined>();
+
+    public settingsService: SettingsService;
+
+	public soundPlayer: SoundPlayer;
 	public gamepadsManager = new GamepadsManager(this);
 
-	constructor() {
+    private raceConfig: RaceConfig;
+
+	constructor(raceConfig: RaceConfig, settingsService: SettingsService) {
 		super({
 			displayMode: DisplayMode.FitContainerAndFill,
 			width: 800,
@@ -76,54 +79,33 @@ export class Game extends Engine {
 			maxFps: 60,
 			canvasElementId: 'game',
 		});
+
+        this.raceConfig = raceConfig;
+        this.settingsService = settingsService;
+        this.soundPlayer = new SoundPlayer(settingsService)
 	}
 
 	initialize() {
-        this.addScene('race', new Race(this));
-        /*
-		this.addScene('eventSetup', new EventSetup(this));
-		this.addScene('eventManager', new EventManager(this));
-
-        */
-
-		this.trackManager.importDefaultTracks();
-		this.trackManager.importDefaultGhosts();
+        this.addScene('race', new Race(this, this.raceConfig));
         
 		this.start(this.getLoader()).then(() => {
-            // TODO : Implement
-            this.goToScene('race', {eventId: '12', raceConfig: new EventRaceResult('12', 1, 'soelden', TrackStyles.GS, 'mat', 'mathieu') });
-			// this.welcomeUiManager.showWelcomeUi();
-			// this.goToScene('eventSetup');
+            this.goToScene('race');
 		});
         
 	}
 
 	override onPreUpdate(_engine: Engine, _delta: number): void {
-        /*
-		if (_engine.scenes?.['race']?.isCurrentScene()) {
-			if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_DEBUG_KEY)) {
-				_engine.showDebug(!_engine.isDebug);
-			} else if (
-				_engine.input.keyboard.wasPressed(Config.KEYBOARD_GHOST_KEY) ||
-				this.gamepadsManager.wasButtonPressed(Config.GAMEPAD_GHOST_BUTTON)
-			) {
-				this.gameSetupManager.toggleGhosts();
-			}
-		}
+		if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_DEBUG_KEY)) {
+			_engine.showDebug(!_engine.isDebug);
+		} 
 
-		if (
-			_engine.input.keyboard.wasPressed(Config.KEYBOARD_EXIT_KEY) ||
-			this.gamepadsManager.wasButtonPressed(Config.GAMEPAD_EXIT_BUTTON)
-		) {
-			if (_engine.scenes?.['eventManager']?.isCurrentScene()) {
-				this.goToScene('eventSetup');
-			} else if (_engine.scenes?.['race']?.isCurrentScene()) {
-				(_engine.currentScene as Race).returnToEventManager();
-			} else if (_engine.scenes?.['eventSetup']?.isCurrentScene()) {
-				// this.welcomeUiManager.showWelcomeUi();
-			}
-		}
-            */
+        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_EXIT_KEY)) {
+			this.raceStopped.emit();
+        } 
+
+        if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_GHOST_KEY)) {
+			this.settingsService.setGhosts(!this.settingsService.getSettings().ghosts);
+		} 
 	}
 
 	private getLoader(): Loader {

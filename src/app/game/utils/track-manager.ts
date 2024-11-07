@@ -1,4 +1,5 @@
 import { Config } from '../config';
+import { GlobalResult } from '../models/global-result';
 import { RecordResult } from '../models/record-result';
 import { StockableGhost } from '../models/stockable-ghost';
 import { StockableRecord } from '../models/stockable-record';
@@ -10,6 +11,12 @@ import { TrackBuilder } from './track-builder';
 import { format } from 'date-fns';
 
 export class TrackManager {
+
+    constructor() {
+        this.importDefaultTracks();
+        this.importDefaultGhosts();
+    }
+
 	/**
 	 * Load an already existing track by its name or generate a new one (if not existing or older version)
 	 * @param name name of the track to load/build
@@ -74,20 +81,13 @@ export class TrackManager {
 	}
 
 	public saveRecord(
-		trackName: string,
+		track: Track,
 		record: StockableRecord,
-	): { position: number; records: RecordResult[] } | null {
-		const track = this.getTrackFromLocalStorage(trackName);
-		if (track) {
-			track.records.push(record);
-			track.records.sort((r1, r2) => r1.timing - r2.timing);
-			this.saveTrackToLocalStorage(track);
-			return {
-				position: track.records.filter(r => r.timing < record.timing).length + 1,
-				records: this.getCurrentRecords(trackName),
-			};
-		}
-		return null;
+	): GlobalResult | null {
+		track.records.push(record);
+		track.records.sort((r1, r2) => r1.timing - r2.timing);
+		this.saveTrackToLocalStorage(track.toStockable());
+		return new GlobalResult(this.getCurrentRecords(track.name), track.records.filter(r => r.timing < record.timing).length + 1);
 	}
 
 	public getRecordPosition(trackName: string, timing: number): number | null {
