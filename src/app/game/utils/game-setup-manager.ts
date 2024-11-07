@@ -13,6 +13,7 @@ export class GameSetupManager {
 	private gameSetup = new GameSetup();
 
 	constructor() {
+        /*
 		this.gameSetupButton.addEventListener('click', () => {
 			this.showGameSetup();
 		});
@@ -24,6 +25,7 @@ export class GameSetupManager {
 		this.saveButton.addEventListener('click', () => {
 			this.saveGameSetup();
 		});
+        */
 	}
 
 	public showGameSetupButton(): void {

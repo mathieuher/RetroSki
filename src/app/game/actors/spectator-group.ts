@@ -36,7 +36,7 @@ export class SpectatorGroup extends Actor {
 		this.listenExitViewportEvent();
 	}
 
-	update(): void {
+	override update(): void {
 		if (ScreenManager.isNearScreen(this, this.scene.camera) && !this.children?.length) {
 			this.buildSpectators();
 			(this.engine as Game).soundPlayer.playSound(this.sound, 0.001, true, true);
@@ -74,7 +74,7 @@ export class SpectatorGroup extends Actor {
 		}
 	}
 
-	onPreKill(): void {
+	override onPreKill(): void {
 		this.soundInstance?.stop();
 		this.bellsSoundInstance?.stop();
 	}

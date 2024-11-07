@@ -31,6 +31,26 @@
               "src/assets",
               {
                 "glob": "**/*",
+                "input": "src/app/game/images",
+                "output": "assets/images"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/app/game/sounds",
+                "output": "assets/sounds"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/app/game/ghosts",
+                "output": "assets/ghosts"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/app/game/tracks",
+                "output": "assets/tracks"
+              },
+              {
+                "glob": "**/*",
                 "input": "public"
               }
             ],

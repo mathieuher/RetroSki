@@ -12,7 +12,7 @@ export class GateDetector extends Actor {
         });
     }
 
-    onInitialize() {
+    override onInitialize() {
         this.on('precollision', evt => this.onPreCollision(evt));
     }
 
