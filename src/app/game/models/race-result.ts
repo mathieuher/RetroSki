@@ -1,13 +1,17 @@
+import { StockableGhost } from "./stockable-ghost";
+
 export class RaceResult {
-	public raceNumber: number;
-	public skierName: string;
+	public rider: string;
 	public date: Date;
 	public timing: number;
+    public missedGates: number;
+    public ghost: StockableGhost;
 
-	constructor(raceNumber: number, skierName: string, date: Date, timing: number) {
-		this.raceNumber = raceNumber;
-		this.skierName = skierName;
+	constructor(rider: string, date: Date, timing: number, missedGates: number, ghost: StockableGhost) {
+		this.rider = rider;
 		this.date = date;
 		this.timing = timing;
+        this.missedGates = missedGates;
+        this.ghost = ghost;
 	}
 }

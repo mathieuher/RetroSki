@@ -1,15 +1,15 @@
 import { Sound } from 'excalibur';
-import { GameSetupManager } from './game-setup-manager';
+import { SettingsService } from '../../common/services/settings.service';
 
 export class SoundPlayer {
-	public gameSetupManager: GameSetupManager;
+    private settingsService: SettingsService;
 
-	constructor(gameSetupManager: GameSetupManager) {
-		this.gameSetupManager = gameSetupManager;
+	constructor(settingsService: SettingsService) {
+		this.settingsService = settingsService;
 	}
 
 	public playSound(sound: Sound, volume: number, loop = false, playMultiple = true): void {
-		const soundsEnabled = this.gameSetupManager.getGameSetup().sounds;
+		const soundsEnabled = this.settingsService.getSettings().sound;
 		if (soundsEnabled && (!sound.isPlaying() || playMultiple)) {
 			sound.loop = loop;
 			sound.play(volume);

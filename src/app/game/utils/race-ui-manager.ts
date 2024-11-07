@@ -1,16 +1,8 @@
 import { format } from 'date-fns';
-import { RecordResult } from '../models/record-result';
 import { Engine } from 'excalibur';
 import { Config } from '../config';
 
 export class RaceUiManager {
-	public backToEventButton = document.getElementById('back-to-event-button')!;
-	public backToManagerButton = document.getElementById('back-to-manager')!;
-
-	private raceHudHeaderContainerUi = document.getElementById('race-hud-header-container')!;
-	private resultUi = document.getElementById('result')!;
-	private resultsContainerUi = document.getElementById('results-container')!;
-	private trackNameUi = document.getElementById('track-name')!;
 	private globalGhostTimingContainerUi = document.getElementById('global-ghost-timing-container')!;
 	private globalGhostTimingUi = document.getElementById('global-ghost-timing')!;
 	private eventGhostTimingContainerUi = document.getElementById('event-ghost-timing-container')!;
@@ -18,13 +10,9 @@ export class RaceUiManager {
 	private speedometerUi = document.getElementById('speedometer')!;
 	private timerUi = document.getElementById('timer')!;
 
-	public buildUi(fullTrackName: string): void {
-		this.displayHeader(fullTrackName);
-	}
-
 	public displayRacingUi(): void {
-		this.speedometerUi.style.display = 'flex';
-		this.timerUi.style.display = 'flex';
+		this.speedometerUi.classList.add('visible');
+		this.timerUi.classList.add('visible');
 	}
 
 	public updateRacingUi(currentSpeed: number, currentTiming: number): void {
@@ -32,27 +20,16 @@ export class RaceUiManager {
 		this.timerUi.innerText = `${format(currentTiming, 'mm:ss:SS')}`;
 	}
 
-	public displayResultUi(
-		globalResult: { position: number; records: RecordResult[] },
-		missedGates: number,
-	): void {
-		this.hideBackToEventButton();
-		this.resultUi.style.display = 'flex';
-		this.updateResultUi(globalResult, missedGates);
-	}
-
 	public flashTimer(engine: Engine): void {
-		this.timerUi.style.color = '#f5090987';
+		this.timerUi.classList.add('penalty');
 		engine.clock.schedule(() => {
-			this.timerUi.style.color = '#4c829087';
+			this.timerUi.classList.remove('penalty');
 		}, 750);
 	}
 
 	public hideUi(): void {
 		this.hideGhostsUi();
-		this.hideHeader();
 		this.hideRacingUi();
-		this.hideResultUi();
 	}
 
 	public displayGhostsTiming(globalGhostTiming?: number, eventGhostTiming?: number): void {
@@ -119,41 +96,11 @@ export class RaceUiManager {
 	}
 
 	private hideRacingUi(): void {
-		this.speedometerUi.style.display = 'none';
-		this.timerUi.style.display = 'none';
+		this.speedometerUi.classList.remove('visible');;
+		this.timerUi.classList.remove('visible');
 	}
 
-	private hideResultUi(): void {
-		this.resultUi.style.display = 'none';
-	}
-
-	private updateResultUi(
-		globalResult: { position: number; records: RecordResult[] },
-		missedGates: number,
-	): void {
-		location.hash = '';
-		this.resultsContainerUi.innerHTML = this.prepareResultsTable(globalResult, missedGates);
-		location.hash = 'startPosition';
-	}
-
-	private displayHeader(fullTrackName: string): void {
-		this.trackNameUi.innerText = fullTrackName;
-		this.displayBackToEventButton();
-		this.raceHudHeaderContainerUi.style.display = 'flex';
-	}
-
-	private hideHeader(): void {
-		this.raceHudHeaderContainerUi.style.display = 'none';
-	}
-
-	private displayBackToEventButton(): void {
-		this.backToEventButton.style.display = 'inline';
-	}
-
-	private hideBackToEventButton(): void {
-		this.backToEventButton.style.display = 'none';
-	}
-
+    /*
 	private prepareResultsTable(
 		globalResult: { position: number; records: RecordResult[] },
 		missedGates: number,
@@ -183,4 +130,5 @@ export class RaceUiManager {
 			})
 			.join('');
 	}
+    */
 }
