@@ -94,6 +94,7 @@ export class Game extends Engine {
         
 	}
 
+
 	override onPreUpdate(_engine: Engine, _delta: number): void {
 		if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_DEBUG_KEY)) {
 			_engine.showDebug(!_engine.isDebug);

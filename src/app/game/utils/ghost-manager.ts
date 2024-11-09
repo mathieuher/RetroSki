@@ -19,9 +19,11 @@ export class GhostManager {
         return undefined;
     }
 
+    /*
     public static setGlobalGhost(ghost: StockableGhost): void {
         StorageManager.save(`ghost_${ghost.trackName}`, JSON.stringify(ghost));
     }
+    */
 
     public static setEventGhost(ghost: StockableGhost): void {
         StorageManager.save(`event_ghost`, JSON.stringify(ghost));

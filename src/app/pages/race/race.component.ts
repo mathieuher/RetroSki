@@ -1,47 +1,57 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Game } from '../../game/game';
 import { SettingsService } from '../../common/services/settings.service';
 import { Router } from '@angular/router';
 import { ButtonIconComponent } from "../../common/components/button-icon/button-icon.component";
 import { RaceConfig } from '../../game/models/race-config';
-import { TrackManager } from '../../game/utils/track-manager';
 import { GhostManager } from '../../game/utils/ghost-manager';
 import { RaceResult } from '../../game/models/race-result';
 import { StockableRecord } from '../../game/models/stockable-record';
-import { GlobalResult } from '../../game/models/global-result';
 import { RankingLineComponent } from "../../common/components/ranking-line/ranking-line.component";
 import { format } from "date-fns";
 import { Config } from '../../game/config';
+import { LocalEventService } from '../../common/services/local-event.service';
+import { LocalEvent } from '../../common/models/local-event';
+import { TrackService } from '../../common/services/track.service';
+import { filter, from, map, Observable, of, switchMap, takeUntil, tap } from 'rxjs';
+import { Destroyable } from '../../common/components/destroyable/destroyable.component';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 class RaceRanking {
-    public globalResult: GlobalResult;
+    public trackRecords: StockableRecord[];
     public timing: number;
     public penalties: number;
 
-    constructor(globalResult: GlobalResult, timing: number, penalties: number) {
-        this.globalResult = globalResult;
+    constructor(trackRecords: StockableRecord[], timing: number, penalties: number) {
+        this.trackRecords = trackRecords;
         this.timing = timing;
         this.penalties = penalties;
     }
 
-    public getPositionLabel(): string {
-        if(this.globalResult.position > 3) {
-            return `${this.globalResult.position}th`;
+    public get positionLabel(): string {
+        const position = +this.position;
+        if(position > 3) {
+            return `${position}th`;
         }
-        if(this.globalResult.position === 3) {
-            return `${this.globalResult.position}rd`;
+        if(position === 3) {
+            return `${position}rd`;
         }
-        if(this.globalResult.position === 2) {
-            return `${this.globalResult.position}nd`;
+        if(position === 2) {
+            return `${position}nd`;
         }
-        return `${this.globalResult.position}st`;
+        return `${position}st`;
     }
 
-    public getTime(): string {
+    public getDiffTime(timing: number): string {
+        const diff = timing - this.referenceTime;
+        return `+${format(diff, diff >= 60000 ? 'mm:ss:SS' : 'ss:SS')}`;
+    }
+
+    public get formattedTime(): string {
         return format(this.timing, 'mm:ss:SS');
     }
 
-    public getPenaltiesLabel(): string {
+    public get penaltiesLabel(): string {
         if(this.penalties) {
             if(this.penalties > 1) {
                 return `${this.penalties} penalties (+${this.penalties * (Config.MISSED_GATE_PENALTY_TIME / 1000)}s)`;
@@ -49,6 +59,14 @@ class RaceRanking {
             return `${this.penalties} penalty (+${Config.MISSED_GATE_PENALTY_TIME / 1000}s)`;
         }
         return '';
+    }
+
+    public get position(): number {
+        return this.trackRecords.filter(record => record.timing < this.timing).length + 1;
+    }
+
+    private get referenceTime(): number {
+        return this.trackRecords[0].timing;
     }
 }
 
@@ -60,60 +78,80 @@ class RaceRanking {
   styleUrl: './race.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RaceComponent implements OnInit {
+export class RaceComponent extends Destroyable implements OnInit {
     private router = inject(Router);
+    private localEventService = inject(LocalEventService);
+    private trackService = inject(TrackService);
+
     private settingsService = inject(SettingsService);
 
-    protected raceConfig: RaceConfig;
+    protected raceConfig?: RaceConfig;
     protected raceRanking = signal<RaceRanking | undefined>(undefined);
 
-    private trackManager = new TrackManager();
     private game?: Game;
 
     constructor() {
-        this.raceConfig = this.buildRaceConfig();
+        super();
+        if(!event) {
+            this.router.navigate(['/local-event']);
+        } 
     }
 
     ngOnInit(): void {
-        this.game = new Game(this.raceConfig, this.settingsService);
-        this.game.initialize();
-        this.listenToRaceStop();
+        this.buildRaceConfig$(this.localEventService.getEvent()!).pipe(
+            tap(config => this.raceConfig = config),
+            tap(config => {
+                this.game = new Game(config, this.settingsService);
+                this.game.initialize();
+            }),
+            tap(() => this.listenToRaceStop()),
+            takeUntil(this.destroyed$)
+        ).subscribe();
     }
 
     protected exitRace(): void {
-        this.game?.stop();
+        this.game!.stop();
+        this.game = undefined;
         this.router.navigate(['/local-event']);
     }
 
-    private buildRaceConfig(): RaceConfig {
-        const track = this.trackManager.getTrackFromLocalStorage('zermatt')!.toTrack();
-        const globalGhost = GhostManager.getGlobalGhost(track.name);
-        const eventGhost = GhostManager.getEventGhost();
-        return new RaceConfig('1', 'Mat', track!, globalGhost, eventGhost);
+    private buildRaceConfig$(event: LocalEvent): Observable<RaceConfig> {
+        return this.trackService.getTrackGhost$(event.track!.id!).pipe(
+            map(globalGhost => new RaceConfig(event.id, event.incomingRaces[0].rider, event.track!, globalGhost, event.ghost))
+        );
     }
 
     private listenToRaceStop(): void {
-        this.game!.raceStopped.subscribe((result?: RaceResult) => {
-            if(result) {
-                const globalResult = this.saveRecord(result);
-                this.saveGhosts(result, globalResult);
-
-                // TODO : Display race timing
-                this.raceRanking.set(new RaceRanking(globalResult, result.timing, result.missedGates));
-
-            } else {
-                this.exitRace();
-            }
-
-        })
+        let raceResult: RaceResult;
+        from(this.game!.raceStopped).pipe(
+            tap(result => {
+                if(!result) {
+                    this.exitRace();
+                }
+            }),
+            filter(Boolean),
+            tap(result => raceResult = result),
+            tap(result => this.localEventService.addEventResult(result)),
+            map(result => new StockableRecord(this.raceConfig!.track.id!, result.rider, result.date, result.timing)),
+            switchMap(result => this.trackService.addTrackRecord$(result)),
+            switchMap(() => this.trackService.getTrackRecords$(this.raceConfig!.track.id!)),
+            tap(results => this.raceRanking.set(new RaceRanking(results, raceResult.timing, raceResult.missedGates))),
+            tap(() => {
+                if(!this.raceConfig!.eventGhost?.totalTime || raceResult.timing < this.raceConfig!.eventGhost.totalTime) {
+                    this.localEventService.updateEventGhost(raceResult.ghost);
+                }
+            }),
+            switchMap(() => {
+                if(!this.raceConfig!.globalGhost?.totalTime || raceResult.timing < this.raceConfig!.globalGhost.totalTime) {
+                    return this.trackService.updateTrackGhost$(raceResult.ghost);
+                }
+                return of(null);
+            }),
+            takeUntil(this.destroyed$)
+        ).subscribe()
     }
 
-    private saveRecord(result: RaceResult): GlobalResult {
-        const stockableRecord = new StockableRecord(result.rider, result.date, result.timing);
-        return this.trackManager.saveRecord(this.raceConfig.track, stockableRecord)!;
-        
-    }
-
+    /*
     private saveGhosts(result: RaceResult, globalResult: GlobalResult): void {
         if (globalResult?.position === 1) {
 			GhostManager.setGlobalGhost(result.ghost);
@@ -123,5 +161,6 @@ export class RaceComponent implements OnInit {
 			GhostManager.setEventGhost(result.ghost);
 		}
     }
+        */
     
 }

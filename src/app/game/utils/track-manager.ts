@@ -121,6 +121,7 @@ export class TrackManager {
 			const tempTrack: StockableTrack = Object.assign(new StockableTrack(), JSON.parse(item));
 			if (tempTrack.builderVersion === Config.CURRENT_BUILDER_VERSION) {
 				return new StockableTrack(
+                    undefined,
 					tempTrack.builderVersion,
 					tempTrack.name,
 					tempTrack.style,

@@ -6,7 +6,7 @@
             (click)="exitRace()"
         ></app-button-icon>
         <div class="track-name">
-            {{ raceConfig.track.name }} - {{ raceConfig.track.style }}
+            {{ raceConfig?.track?.name }} - {{ raceConfig?.track?.style }}
         </div>
     </div>
     <div class="content">
@@ -29,28 +29,27 @@
     </div>
 </div>
 
-@if(raceRanking()) {
+@if(raceRanking(); as raceRanking) {
 <div class="timing-overlay">
     <div class="ranking">
-        <div class="position">{{ raceRanking()!.getPositionLabel() }}</div>
-        <div class="timing">{{ raceRanking()!.getTime() }}</div>
-        <div class="penalties">{{ raceRanking()!.getPenaltiesLabel() }}</div>
+        <div class="position">{{ raceRanking.positionLabel }}</div>
+        <div class="timing">{{ raceRanking.formattedTime }}</div>
+        <div class="penalties">{{ raceRanking.penaltiesLabel }}</div>
     </div>
     <div class="retro-content">
         <div class="retro-title">Full ranking</div>
         <div class="ranking-list">
-            @for (result of raceRanking()!.globalResult.records; track
-            result.position) {
+            @for (record of raceRanking.trackRecords; track $index) {
             <app-ranking-line
-                [position]="result.position"
-                [name]="result.player"
+                [position]="$index + 1"
+                [name]="record.player"
                 [time]="
-                    result.position > 1 ? '+ ' + result.difference : result.time
+                    $index > 0
+                        ? raceRanking.getDiffTime(record.timing)
+                        : record.formattedTime
                 "
-                [currentRider]="
-                    result.position === raceRanking()!.globalResult.position
-                "
-                [isDiff]="result.position > 1"
+                [currentRider]="$index + 1 === raceRanking.position"
+                [isDiff]="$index > 0"
             ></app-ranking-line>
             }
         </div>

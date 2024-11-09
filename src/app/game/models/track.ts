@@ -4,37 +4,41 @@ import { StockableTrack } from './stockable-track';
 import { TrackStyles } from './track-styles.enum';
 
 export class Track {
+    public id?: number;
 	public name: string;
 	public builderVersion?: number;
 	public style: TrackStyles;
 	public date: Date;
 	public gates: Gate[];
-	public records: StockableRecord[];
 
 	constructor(
+        id?: number,
 		builderVersion?: number,
 		name?: string,
 		style?: TrackStyles,
 		date?: Date,
-		gates?: Gate[],
-		records?: StockableRecord[],
+		gates?: Gate[]
 	) {
+        this.id = id;
 		this.builderVersion = builderVersion;
 		this.name = name!;
 		this.style = style!;
 		this.date = date!;
 		this.gates = gates!;
-		this.records = records!;
 	}
+
+    public get fullName(): string {
+        return `${this.name} - ${this.style}`;
+    }
 
 	public toStockable(): StockableTrack {
 		return new StockableTrack(
+            this.id,
 			this.builderVersion,
 			this.name,
 			this.style,
 			this.date,
-			this.gates.map(gate => gate.getStockableGate()),
-			this.records,
+			this.gates.map(gate => gate.getStockableGate())
 		);
 	}
 }
