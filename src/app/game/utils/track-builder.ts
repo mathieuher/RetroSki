@@ -40,7 +40,7 @@ export class TrackBuilder {
 
         gates.push(TrackBuilder.generateFinalGate(nextGatePosition.y, numberOfGates + 1, gatesConfig));
 
-        return new Track(Config.CURRENT_BUILDER_VERSION, name, trackStyle, new Date(), gates, []);
+        return new Track(undefined, Config.CURRENT_BUILDER_VERSION, name, trackStyle, new Date(), gates);
     }
 
 	/**
@@ -65,13 +65,26 @@ export class TrackBuilder {
             );
         }
         return new Track(
+            stockableTrack.id,
             stockableTrack.builderVersion,
             stockableTrack.name,
             stockableTrack.style,
             stockableTrack.date,
-            gates,
-            stockableTrack.records,
+            gates
         );
+    }
+
+    public static getGatesConfig(trackStyle: TrackStyles): GatesConfig {
+        if (trackStyle === TrackStyles.SL) {
+            return Config.SL_GATES_CONFIG;
+        }
+        if (trackStyle === TrackStyles.GS) {
+            return Config.GS_GATES_CONFIG;
+        }
+        if (trackStyle === TrackStyles.SG) {
+            return Config.SG_GATES_CONFIG;
+        }
+        return Config.DH_GATES_CONFIG;
     }
 
     private static getRandomGatesNumber(gatesConfig: GatesConfig): number {
@@ -154,19 +167,6 @@ export class TrackBuilder {
             numbers.push(firstGateNumber * i);
         }
         return numbers;
-    }
-
-    private static getGatesConfig(trackStyle: TrackStyles): GatesConfig {
-        if (trackStyle === TrackStyles.SL) {
-            return Config.SL_GATES_CONFIG;
-        }
-        if (trackStyle === TrackStyles.GS) {
-            return Config.GS_GATES_CONFIG;
-        }
-        if (trackStyle === TrackStyles.SG) {
-            return Config.SG_GATES_CONFIG;
-        }
-        return Config.DH_GATES_CONFIG;
     }
 
     private static furtherAutorizedXPosition(

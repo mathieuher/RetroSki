@@ -18,6 +18,7 @@ import { TouchManager } from '../utils/touch-manager';
 import { SpectatorGroup } from '../actors/spectator-group';
 import { RaceUiManager } from '../utils/race-ui-manager';
 import { RaceConfig } from '../models/race-config';
+import { TrackBuilder } from '../utils/track-builder';
 
 export class Race extends Scene {
 	public skier?: Skier;
@@ -99,15 +100,13 @@ export class Race extends Scene {
 
 		const missedGates = this.gates.filter(gate => !gate.passed).length;
         const ghost = new StockableGhost(
+            this.raceConfig.track.id!,
             new Date(),
             this.raceConfig.eventId,
-            this.raceConfig.track.name,
-            this.raceConfig.track.builderVersion,
-            this.raceConfig.track.style,
-            this.skier!.skierName,
+            this.raceConfig.rider,
             timing,
             this.timedSectors,
-            this.skierPositions,
+            this.skierPositions
         );
         const result = new RaceResult(this.raceConfig.rider, new Date(), timing, missedGates, ghost);
         (this.engine as Game).raceStopped.emit(result);    
@@ -242,7 +241,7 @@ export class Race extends Scene {
 	}
 
     private buildGhosts(globalGhost?: StockableGhost, eventGhost?: StockableGhost): void {
-        if (globalGhost && globalGhost.trackVersion === this.raceConfig.track.builderVersion) {
+        if (globalGhost) {
 			this.globalRecordGhostDatas = globalGhost;
 			this.globalRecordGhost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
 			this.add(this.globalRecordGhost);
@@ -286,7 +285,11 @@ export class Race extends Scene {
 	}
 
 	private buildTrack(track: Track): void {
-		for (const gate of track.gates) {
+        const gates = track.gates.map(gate => {
+           const stockableGate = gate.getStockableGate(); 
+           return new Gate(TrackBuilder.getGatesConfig(track.style), vec(stockableGate.x, stockableGate.y), stockableGate.width, stockableGate.color, stockableGate.gateNumber, stockableGate.isFinal, stockableGate.sectorNumber);
+        });
+		for (const gate of gates) {
 			this.gates?.push(gate);
 			this.add(gate);
 		}

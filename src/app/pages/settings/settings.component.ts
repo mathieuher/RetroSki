@@ -6,6 +6,7 @@ import { CheckboxComponent } from '../../common/components/checkbox/checkbox.com
 import { Location } from '@angular/common';
 import { SettingsService } from '../../common/services/settings.service';
 import { Settings } from '../../common/models/settings';
+import { RetroskiDB, RETROSKI_DB } from '../../common/db/db';
 
 @Component({
   selector: 'app-settings',
@@ -33,6 +34,7 @@ export class SettingsComponent {
     protected restore(): void {
         this.settingsService.restoreSettings();
         localStorage.clear();
+        RETROSKI_DB.delete({disableAutoOpen: false});
         this.router.navigate(['/']);
     }
 }

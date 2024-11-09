@@ -82,6 +82,17 @@
     font-size: var(--text-standard);
     color: var(--color-primary);
     font-weight: 400;
+
+    &.tertiary {
+        color: var(--color-tertiary);
+    }
+}
+
+.retro-placeholder {
+    font-size: var(--text-small);
+    padding: 1rem 0.5rem;
+    text-align: center;
+    color: var(--color-tertiary-light);
 }
 
 .retro-form-section {
@@ -91,27 +102,59 @@
     margin-bottom: 0.5rem;
 }
 
+.retro-data-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-standard);
+    gap: 0.5rem;
+
+    .label {
+        display: flex;
+    }
+
+    .value {
+        display: flex;
+        flex: 1 1 auto;
+        color: var(--color-tertiary);
+    }
+}
+
 .retro-form-line {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: var(--text-standard);
+    gap: 0.5rem;
+
+    .label {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        justify-content: space-between;
+    }
 
     select,
     input {
-        min-width: 150px;
-        max-width: 50%;
         display: flex;
         flex: 1 1 auto;
+        padding: 0 0.5rem;
+    }
+
+    select {
+        min-width: 150px;
+        max-width: 50%;
+    }
+
+    input {
+        padding-inline: 1rem;
+        min-width: calc(150px - 2rem);
+        max-width: calc(50% - 2rem);
 
         &[type="number"] {
             min-width: 75px;
             max-width: 25%;
         }
-    }
-
-    select {
-        cursor: pointer;
     }
 }
 

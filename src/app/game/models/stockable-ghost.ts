@@ -3,33 +3,27 @@ import { TimedSector } from './timed-sector';
 import { TrackStyles } from './track-styles.enum';
 
 export class StockableGhost {
+    public trackId?: number;
 	public date?: Date;
 	public eventId?: string;
-	public trackName?: string;
-	public trackVersion?: number;
-	public trackStyle?: TrackStyles;
-	public skier?: string;
+    public rider?: string;
 	public totalTime?: number;
 	public timedSectors?: TimedSector[];
 	public positions?: SkierPositioning[];
 
 	constructor(
+        trackId?: number,
 		date?: Date,
 		eventId?: string,
-		trackName?: string,
-		trackVersion?: number | undefined,
-		trackStyle?: TrackStyles,
-		skier?: string,
+		rider?: string,
 		totalTime?: number,
 		timedSectors?: TimedSector[],
 		positions?: SkierPositioning[],
 	) {
+        this.trackId = trackId;
 		this.date = date;
 		this.eventId = eventId;
-		this.trackName = trackName;
-		this.trackVersion = trackVersion;
-		this.trackStyle = trackStyle;
-		this.skier = skier;
+		this.rider = rider;
 		this.totalTime = totalTime;
 		this.timedSectors = timedSectors;
 		this.positions = positions;
