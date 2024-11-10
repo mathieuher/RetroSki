@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, Signal, signal } from '@angular/core';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
-import { Track } from '../../game/models/track';
+import type { Track } from '../../game/models/track';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TrackStyles } from '../../game/models/track-styles.enum';
 import { TrackBuilder } from '../../game/utils/track-builder';
@@ -12,17 +12,17 @@ import { Destroyable } from '../../common/components/destroyable/destroyable.com
 import { takeUntil, tap } from 'rxjs';
 
 interface CreateTrackForm {
-    name: FormControl<string | null>,
-    style: FormControl<TrackStyles | null>
+    name: FormControl<string | null>;
+    style: FormControl<TrackStyles | null>;
 }
 
 @Component({
-  selector: 'app-create-track',
-  standalone: true,
-  imports: [ButtonIconComponent, ReactiveFormsModule, ToolbarComponent],
-  templateUrl: './create-track.component.html',
-  styleUrl: './create-track.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-create-track',
+    standalone: true,
+    imports: [ButtonIconComponent, ReactiveFormsModule, ToolbarComponent],
+    templateUrl: './create-track.component.html',
+    styleUrl: './create-track.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateTrackComponent extends Destroyable {
     protected generatedTrack = signal<Track | undefined>(undefined);
@@ -38,30 +38,36 @@ export class CreateTrackComponent extends Destroyable {
 
     constructor() {
         super();
-        this.form.valueChanges.pipe(
-            takeUntilDestroyed()
-        ).subscribe(() => {
+        this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
             this.resetComputed();
             this.checkSimilarTrack(this.form.value.name!, this.form.value.style!);
         });
     }
 
     protected generateTrack(): void {
-        this.generatedTrack.set(TrackBuilder.designTrack(this.form.value.name!.toLocaleLowerCase(), this.form.value.style!));
+        this.generatedTrack.set(
+            TrackBuilder.designTrack(this.form.value.name!.toLocaleLowerCase(), this.form.value.style!)
+        );
     }
 
     protected saveTrack(): void {
-        this.trackService.addTrack$(this.generatedTrack()!).pipe(
-            tap(() => this.resetComputed()),
-            takeUntil(this.destroyed$)
-        ).subscribe()
+        this.trackService
+            .addTrack$(this.generatedTrack()!)
+            .pipe(
+                tap(() => this.resetComputed()),
+                takeUntil(this.destroyed$)
+            )
+            .subscribe();
     }
 
-    protected checkSimilarTrack(name: string, style: TrackStyles): void{
-        this.trackService.isTrackAvailable$(name.toLocaleLowerCase(), style).pipe(
-            tap(available => this.trackAlreadyUse.set(available)),
-            takeUntil(this.destroyed$)
-        ).subscribe();
+    protected checkSimilarTrack(name: string, style: TrackStyles): void {
+        this.trackService
+            .isTrackAvailable$(name.toLocaleLowerCase(), style)
+            .pipe(
+                tap(available => this.trackAlreadyUse.set(available)),
+                takeUntil(this.destroyed$)
+            )
+            .subscribe();
     }
 
     protected goBack(): void {
@@ -72,5 +78,4 @@ export class CreateTrackComponent extends Destroyable {
         this.generatedTrack.set(undefined);
         this.trackAlreadyUse.set(false);
     }
-
 }

@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, type Signal } from '@angular/core';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { LocalEventService } from '../../common/services/local-event.service';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Track } from '../../game/models/track';
+import type { Track } from '../../game/models/track';
 import { TrackService } from '../../common/services/track.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -15,21 +15,19 @@ export interface LocalEventForm {
 }
 
 @Component({
-  selector: 'app-ride-local',
-  standalone: true,
-  imports: [ButtonIconComponent, ReactiveFormsModule, RouterModule, RouterLink, ToolbarComponent],
-  templateUrl: './ride-local.component.html',
-  styleUrl: './ride-local.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-ride-local',
+    standalone: true,
+    imports: [ButtonIconComponent, ReactiveFormsModule, RouterModule, RouterLink, ToolbarComponent],
+    templateUrl: './ride-local.component.html',
+    styleUrl: './ride-local.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RideLocalComponent {
     protected availableTracks: Signal<Track[] | undefined>;
 
     protected form = new FormGroup<LocalEventForm>({
         track: new FormControl(null, [Validators.required, Validators.minLength(3)]),
-        riders: new FormArray([
-            new FormControl<string | null>(null, [Validators.required])
-        ], [Validators.required]),
+        riders: new FormArray([new FormControl<string | null>(null, [Validators.required])], [Validators.required]),
         races: new FormControl(2, [Validators.required, Validators.min(1), Validators.max(10)])
     });
 
@@ -51,7 +49,7 @@ export class RideLocalComponent {
 
     protected startEvent(): void {
         const track = this.availableTracks()?.find(track => track.fullName === this.form.value!.track);
-        if(track) {
+        if (track) {
             this.localEventService.newEvent(track, this.form.value.riders as string[], this.form.value.races!);
             this.router.navigate(['/local-event']);
         }

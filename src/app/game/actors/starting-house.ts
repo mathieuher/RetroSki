@@ -12,7 +12,7 @@ export class StartingHouse extends Actor {
             pos: vec(0, -10),
             width: 240,
             height: 180,
-            z: 11,
+            z: 11
         });
 
         this.graphics.use(Resources.StartingHouse.toSprite());

@@ -1,8 +1,8 @@
-import { format } from "date-fns";
-import { Track } from "../../game/models/track";
-import { Rider } from "./rider";
-import { Config } from "../../game/config";
-import { StockableGhost } from "../../game/models/stockable-ghost";
+import { format } from 'date-fns';
+import type { Track } from '../../game/models/track';
+import { Rider } from './rider';
+import { Config } from '../../game/config';
+import type { StockableGhost } from '../../game/models/stockable-ghost';
 
 export class LocalEventRanking {
     public name: string;
@@ -65,46 +65,59 @@ export class LocalEvent {
     // How many race are done by all the riders
     public get raceCounted(): number | undefined {
         let raceCounted = this.racesLimit;
-        this.riders?.forEach(rider => {
-            if(rider.results.length < raceCounted!) {
+        for (const rider of this.riders!) {
+            if (rider.results.length < raceCounted!) {
                 raceCounted = rider.results.length;
             }
-        })
+        }
         return raceCounted;
     }
 
     // Current ranking of the event : Time-attack or Race
     public get rankings(): LocalEventRanking[] | undefined {
-        if(this.type === 'time-attack') {
-            const bestTimeRankings = this.riders?.filter(rider => rider.bestTime).sort((r1, r2) => r1.bestTime! - r2.bestTime!);
+        if (this.type === 'time-attack') {
+            const bestTimeRankings = this.riders
+                ?.filter(rider => rider.bestTime)
+                .sort((r1, r2) => r1.bestTime! - r2.bestTime!);
             return bestTimeRankings?.map(ranking => new LocalEventRanking(ranking.name!, ranking.bestTime!)) ?? [];
         }
 
-        if(this.raceCounted) {
-            const raceRankings = this.riders?.filter(rider => rider.totalTime).sort((r1, r2) => r1.getTimeAfter(this.raceCounted!) - r2.getTimeAfter(this.raceCounted!));
-            return raceRankings?.map(ranking => new LocalEventRanking(ranking.name!, ranking.getTimeAfter(this.raceCounted!)));
+        if (this.raceCounted) {
+            const raceRankings = this.riders
+                ?.filter(rider => rider.totalTime)
+                .sort((r1, r2) => r1.getTimeAfter(this.raceCounted!) - r2.getTimeAfter(this.raceCounted!));
+            return raceRankings?.map(
+                ranking => new LocalEventRanking(ranking.name!, ranking.getTimeAfter(this.raceCounted!))
+            );
         }
         return undefined;
     }
 
-    // All event results from most recent to older 
+    // All event results from most recent to older
     public get results(): LocalEventResult[] {
-        return this.riders?.map(rider => {
-            return rider.results.map((result, index) => {
-                return new LocalEventResult(index + 1, result.rider, result.timing, result.date);
-            })
-        }
-    ).flat().sort((r1, r2) => r1.date < r2.date ? 1 : -1) ?? [];
+        return (
+            this.riders
+                ?.flatMap(rider => {
+                    return rider.results.map((result, index) => {
+                        return new LocalEventResult(index + 1, result.rider, result.timing, result.date);
+                    });
+                })
+                .sort((r1, r2) => (r1.date < r2.date ? 1 : -1)) ?? []
+        );
     }
 
     public get incomingRaces(): LocalEventRace[] {
-        return this.riders?.map(rider => this.generateIncomingRace(rider, this.track!, this.racesLimit!)).flat().sort((r1, r2) => r1.raceNumber - r2.raceNumber) ?? [];
-    } 
+        return (
+            this.riders
+                ?.flatMap(rider => this.generateIncomingRace(rider, this.track!, this.racesLimit!))
+                .sort((r1, r2) => r1.raceNumber - r2.raceNumber) ?? []
+        );
+    }
 
     private generateIncomingRace(rider: Rider, track: Track, races: number): LocalEventRace[] {
         const incomingRaces = [];
-        for(let i = 0; i < races; i++) {
-            if(rider.results.length <= i) {
+        for (let i = 0; i < races; i++) {
+            if (rider.results.length <= i) {
                 incomingRaces.push(new LocalEventRace(rider.name!, track, i + 1));
             }
         }

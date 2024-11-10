@@ -1,8 +1,8 @@
-import { TrackStyles } from "./track-styles.enum";
-import { Sprite } from "excalibur";
+import type { TrackStyles } from './track-styles.enum';
+import type { Sprite } from 'excalibur';
 
 export interface GatesConfig {
-    trackStyle: TrackStyles,
+    trackStyle: TrackStyles;
     maxWidth: number;
     minWidth: number;
     maxHorizontalDistance: number;

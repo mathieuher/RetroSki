@@ -1,10 +1,10 @@
-import { Actor, CollisionType, Engine, ParticleEmitter, vec } from 'excalibur';
+import { Actor, CollisionType, type Engine, type ParticleEmitter, vec } from 'excalibur';
 import { Config } from '../config';
 import { Resources } from '../resources';
-import { Race } from '../scenes/race';
+import type { Race } from '../scenes/race';
 import { ParticlesBuilder } from '../utils/particles-builder';
-import { SkierConfig } from '../models/skier-config';
-import { Game } from '../game';
+import type { SkierConfig } from '../models/skier-config';
+import type { Game } from '../game';
 import { SkierActions } from '../models/skier-actions.enum';
 import { SkierGraphics } from '../utils/skier-graphics';
 
@@ -25,7 +25,7 @@ export class Skier extends Actor {
             height: 30,
             z: 4,
             anchor: vec(0.5, 0.5),
-            collisionType: CollisionType.Fixed,
+            collisionType: CollisionType.Fixed
         });
         this.skierName = skierName;
         this.skierConfig = skierConfig;
@@ -114,9 +114,7 @@ export class Skier extends Actor {
             const angularRotation = this.rotation * (180 / Math.PI);
             if (angularRotation !== 0) {
                 futurRotation =
-                    angularRotation >= 270
-                        ? this.rotation + rotationCenterRate
-                        : this.rotation - rotationCenterRate;
+                    angularRotation >= 270 ? this.rotation + rotationCenterRate : this.rotation - rotationCenterRate;
             }
         }
 
@@ -174,10 +172,7 @@ export class Skier extends Actor {
             xVelocity = -lateralVelocity * Config.LATERAL_VELOCITY_ROTATION_RATE * adherenceRate;
             yVelocity = Math.max(0, this.speed - adherenceRate * lateralVelocity);
         }
-        this.vel = vec(
-            xVelocity * Config.VELOCITY_MULTIPLIER_RATE,
-            -yVelocity * Config.VELOCITY_MULTIPLIER_RATE,
-        );
+        this.vel = vec(xVelocity * Config.VELOCITY_MULTIPLIER_RATE, -yVelocity * Config.VELOCITY_MULTIPLIER_RATE);
     }
 
     private getAdherenceRate(engine: Engine): number {
@@ -200,12 +195,12 @@ export class Skier extends Actor {
         if ((this.hasBreakingIntention(engine) || forceBreaking) && this.speed) {
             Resources.TurningSound.volume = Math.min(
                 Config.BRAKING_SOUND_VOLUME,
-                (this.speed / Config.MAX_SPEED) * Config.BRAKING_SOUND_VOLUME,
+                (this.speed / Config.MAX_SPEED) * Config.BRAKING_SOUND_VOLUME
             );
         } else if (this.carvingIntention(engine) && this.speed) {
             Resources.TurningSound.volume = Math.min(
                 Config.CARVING_SOUND_VOLUME,
-                (this.speed / Config.MAX_SPEED) * Config.CARVING_SOUND_VOLUME * this.carvingIntention(engine),
+                (this.speed / Config.MAX_SPEED) * Config.CARVING_SOUND_VOLUME * this.carvingIntention(engine)
             );
         } else {
             Resources.TurningSound.volume = 0;
@@ -227,11 +222,7 @@ export class Skier extends Actor {
         }
     }
 
-    private emitSlidingParticles(
-        speedPercentage: number,
-        slidingIntensity: number,
-        skierAction: SkierActions,
-    ): void {
+    private emitSlidingParticles(speedPercentage: number, slidingIntensity: number, skierAction: SkierActions): void {
         this.particlesEmitter.pos.y = 2.5;
         this.particlesEmitter.radius = 6;
         this.particlesEmitter.particleLife = 1500;
@@ -247,11 +238,7 @@ export class Skier extends Actor {
         this.particlesEmitter.emitParticles(speedPercentage * slidingIntensity * 35);
     }
 
-    private emitCarvingParticles(
-        speedPercentage: number,
-        carvingIntensity: number,
-        skierAction: SkierActions,
-    ): void {
+    private emitCarvingParticles(speedPercentage: number, carvingIntensity: number, skierAction: SkierActions): void {
         this.particlesEmitter.pos.y = 2.5;
         this.particlesEmitter.radius = 1;
         this.particlesEmitter.particleLife = 450;
