@@ -16,6 +16,11 @@ export class LocalEventRanking {
     public get formattedTime(): string {
         return format(this.time, Config.FORMAT_TIMING);
     }
+
+    public getDiffTime(reference: number): string {
+        const diff = this.time - reference;
+        return `+${format(diff, diff >= 60000 ? 'mm:ss:SS' : 'ss:SS')}`;
+    }
 }
 
 export class LocalEventResult {

@@ -22,7 +22,11 @@
         <app-ranking-line
             [position]="$index + 1"
             [name]="ranking.name"
-            [time]="ranking.formattedTime"
+            [time]="
+                $index > 0
+                    ? ranking.getDiffTime(event.rankings[0].time)
+                    : ranking.formattedTime
+            "
             [isDiff]="$index > 0"
         >
         </app-ranking-line>
