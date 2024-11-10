@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Settings } from '../models/settings';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class SettingsService {
     private settings = new Settings();
@@ -30,5 +30,4 @@ export class SettingsService {
     public restoreSettings(): void {
         this.settings = new Settings();
     }
-    
 }

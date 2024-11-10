@@ -1,5 +1,5 @@
-import { format } from "date-fns";
-import { Config } from "../../game/config";
+import { format } from 'date-fns';
+import { Config } from '../../game/config';
 
 export class Result {
     public rider: string;

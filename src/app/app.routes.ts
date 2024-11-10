@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { LearningComponent } from './pages/learning/learning.component';
 import { SettingsComponent } from './pages/settings/settings.component';

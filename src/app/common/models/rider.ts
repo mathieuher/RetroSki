@@ -1,5 +1,5 @@
-import { StockableRecord } from "../../game/models/stockable-record";
-import { Result } from "./result";
+import { StockableRecord } from '../../game/models/stockable-record';
+import type { Result } from './result';
 
 export class Rider {
     public name?: string;
@@ -11,9 +11,7 @@ export class Rider {
     }
 
     public get totalTime(): number {
-        let time = 0;
-        this.results.forEach(result => time += result.timing);
-        return time;
+        return this.results.map(result => result.timing).reduce((acc, curr) => acc + curr) || 0;
     }
 
     public get bestTime(): number | undefined {
@@ -22,7 +20,7 @@ export class Rider {
 
     public getTimeAfter(race: number): number {
         let time = 0;
-        for(let i = 0; i < race; i++) {
+        for (let i = 0; i < race; i++) {
             time += this.results[i]?.timing ?? 0;
         }
         return time;

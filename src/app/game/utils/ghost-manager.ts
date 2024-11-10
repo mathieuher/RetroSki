@@ -1,11 +1,10 @@
-import { StockableGhost } from "../models/stockable-ghost";
-import { StorageManager } from "./storage-manager";
+import { StockableGhost } from '../models/stockable-ghost';
+import { StorageManager } from './storage-manager';
 
 export class GhostManager {
-
     public static getGlobalGhost(trackname: string): StockableGhost | undefined {
         const globalRecordGhostJson = localStorage.getItem(`ghost_${trackname}`);
-        if(globalRecordGhostJson) {
+        if (globalRecordGhostJson) {
             return Object.assign(new StockableGhost(), JSON.parse(globalRecordGhostJson));
         }
         return undefined;
@@ -13,7 +12,7 @@ export class GhostManager {
 
     public static getEventGhost(): StockableGhost | undefined {
         const eventRecordGhostJson = localStorage.getItem('event_ghost');
-        if(eventRecordGhostJson) {
+        if (eventRecordGhostJson) {
             return Object.assign(new StockableGhost(), JSON.parse(eventRecordGhostJson));
         }
         return undefined;
@@ -26,8 +25,6 @@ export class GhostManager {
     */
 
     public static setEventGhost(ghost: StockableGhost): void {
-        StorageManager.save(`event_ghost`, JSON.stringify(ghost));
+        StorageManager.save('event_ghost', JSON.stringify(ghost));
     }
-
-
 }

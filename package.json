@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "biome lint --write src",
+    "format": "biome format --write src"
   },
   "private": true,
   "dependencies": {
@@ -29,6 +31,7 @@
     "@angular-devkit/build-angular": "^18.0.7",
     "@angular/cli": "^18.0.7",
     "@angular/compiler-cli": "^18.0.0",
+    "@biomejs/biome": "1.9.4",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",

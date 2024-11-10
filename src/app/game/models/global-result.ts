@@ -1,4 +1,4 @@
-import { RecordResult } from "./record-result";
+import type { RecordResult } from './record-result';
 
 export class GlobalResult {
     public records: RecordResult[];

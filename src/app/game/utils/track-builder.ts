@@ -1,18 +1,18 @@
-import { Vector, vec } from 'excalibur';
+import { type Vector, vec } from 'excalibur';
 import { Gate } from '../actors/gate';
 import { Config } from '../config';
 import { Track } from '../models/track';
-import { StockableTrack } from '../models/stockable-track';
+import type { StockableTrack } from '../models/stockable-track';
 import { TrackStyles } from '../models/track-styles.enum';
-import { GatesConfig } from '../models/gates-config';
+import type { GatesConfig } from '../models/gates-config';
 
 export class TrackBuilder {
-	/**
-	 * Design a new track
-	 * @param name name of the track
-	 * @param trackStyle style of the track
-	 * @returns new track
-	 */
+    /**
+     * Design a new track
+     * @param name name of the track
+     * @param trackStyle style of the track
+     * @returns new track
+     */
     public static designTrack(name: string, trackStyle: TrackStyles): Track {
         const gates = [];
         const gatesConfig = TrackBuilder.getGatesConfig(trackStyle);
@@ -31,7 +31,7 @@ export class TrackBuilder {
                 TrackBuilder.getGateColor(index, trackStyle),
                 index,
                 false,
-                sectorGateNumbers.indexOf(index) + 1,
+                sectorGateNumbers.indexOf(index) + 1
             );
             gates.push(gate);
             nextGateWidth = TrackBuilder.getRandomGateWidth(gatesConfig);
@@ -43,11 +43,11 @@ export class TrackBuilder {
         return new Track(undefined, Config.CURRENT_BUILDER_VERSION, name, trackStyle, new Date(), gates);
     }
 
-	/**
-	 * Rebuild an existing track from the storage format
-	 * @param stockableTrack stockable version of the track
-	 * @returns the track
-	 */
+    /**
+     * Rebuild an existing track from the storage format
+     * @param stockableTrack stockable version of the track
+     * @returns the track
+     */
     public static buildTrack(stockableTrack: StockableTrack): Track {
         console.log('TrackBuilder - Rebuilding an existing track');
         const gates: Gate[] = [];
@@ -60,8 +60,8 @@ export class TrackBuilder {
                     stockableGate.color,
                     stockableGate.gateNumber,
                     stockableGate.isFinal,
-                    stockableGate.sectorNumber,
-                ),
+                    stockableGate.sectorNumber
+                )
             );
         }
         return new Track(
@@ -88,9 +88,7 @@ export class TrackBuilder {
     }
 
     private static getRandomGatesNumber(gatesConfig: GatesConfig): number {
-        return Math.floor(
-            gatesConfig.minNumber + Math.random() * (gatesConfig.maxNumber - gatesConfig.minNumber),
-        );
+        return Math.floor(gatesConfig.minNumber + Math.random() * (gatesConfig.maxNumber - gatesConfig.minNumber));
     }
 
     private static getGateColor(gateNumber: number, trackStyle: TrackStyles): 'red' | 'blue' {
@@ -112,14 +110,14 @@ export class TrackBuilder {
             'red',
             gateNumber,
             true,
-            Config.SECTORS_PER_RACE + 1,
+            Config.SECTORS_PER_RACE + 1
         );
     }
 
     private static getNextGatePosition(
         gateWidth: number,
         gatesConfig: GatesConfig,
-        currentGatePosition?: Vector,
+        currentGatePosition?: Vector
     ): Vector {
         const randomizedValue = Math.random();
         const maxRightPosition = Config.GATE_MAX_RIGHT_POSITION - gateWidth;
@@ -140,7 +138,7 @@ export class TrackBuilder {
                     currentGatePosition.x,
                     isLeftGate ? 'left' : 'right',
                     maxRightPosition,
-                    gatesConfig,
+                    gatesConfig
                 );
             } else {
                 xRestrictedPosition = xProjectedPosition;
@@ -156,7 +154,7 @@ export class TrackBuilder {
         const xPosition = maxRightPosition * Math.random();
         return vec(
             isLeftGate ? -xPosition : xPosition,
-            -((gatesConfig.maxVerticalDistance + gatesConfig.minVerticalDistance) / 2),
+            -((gatesConfig.maxVerticalDistance + gatesConfig.minVerticalDistance) / 2)
         );
     }
 
@@ -173,7 +171,7 @@ export class TrackBuilder {
         reference: number,
         direction: 'left' | 'right',
         maxRightPosition: number,
-        gatesConfig: GatesConfig,
+        gatesConfig: GatesConfig
     ): number {
         if (direction === 'left') {
             return Math.max(reference - gatesConfig.maxHorizontalDistance, Config.GATE_MAX_LEFT_POSITION);
