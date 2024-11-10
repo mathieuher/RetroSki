@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, model, ModelSignal, signal, Signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, signal, Signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { CheckboxComponent } from '../../common/components/checkbox/checkbox.component';
 import { Location } from '@angular/common';
 import { SettingsService } from '../../common/services/settings.service';
 import { Settings } from '../../common/models/settings';
-import { RetroskiDB, RETROSKI_DB } from '../../common/db/db';
+import { RETROSKI_DB } from '../../common/db/db';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [ButtonIconComponent, CheckboxComponent, RouterLink, ToolbarComponent],
+  imports: [ButtonIconComponent, CheckboxComponent, ToolbarComponent],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
