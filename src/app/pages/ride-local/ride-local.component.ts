@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { Router, RouterLink, RouterModule } from '@angular/router';
