@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal, type Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, type OnDestroy, signal, type Signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
@@ -16,7 +16,7 @@ import { RETROSKI_DB } from '../../common/db/db';
     styleUrl: './settings.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnDestroy {
     private location = inject(Location);
     private router = inject(Router);
     protected settingsService = inject(SettingsService);
@@ -27,12 +27,16 @@ export class SettingsComponent {
         this.settings = signal(this.settingsService.getSettings());
     }
 
+    ngOnDestroy(): void {
+        this.settingsService.persistSettings();
+    }
+
     protected goBack(): void {
         this.location.back();
     }
 
     protected restore(): void {
-        this.settingsService.restoreSettings();
+        this.settingsService.resetSettings();
         localStorage.clear();
         RETROSKI_DB.delete({ disableAutoOpen: false });
         this.router.navigate(['/']);
