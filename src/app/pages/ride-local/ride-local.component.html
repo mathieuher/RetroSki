@@ -17,9 +17,9 @@
             @if(availableTracks()?.length) {
             <div class="label">Track</div>
             <select class="retro-input" formControlName="track">
-                <option selected [value]="0">Select a track</option>
+                <option selected [ngValue]="0">Select a track</option>
                 @for(track of availableTracks(); track $index) {
-                <option [value]="track.id">{{ track.fullName }}</option>
+                <option [ngValue]="track.id">{{ track.fullName }}</option>
                 }
             </select>
             }

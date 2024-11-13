@@ -19,7 +19,7 @@ export interface LocalEventForm {
 @Component({
     selector: 'app-ride-local',
     standalone: true,
-    imports: [ButtonIconComponent, ReactiveFormsModule, RouterModule, RouterLink, ToolbarComponent],
+    imports: [ButtonIconComponent, JsonPipe, ReactiveFormsModule, RouterModule, RouterLink, ToolbarComponent],
     templateUrl: './ride-local.component.html',
     styleUrl: './ride-local.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -79,7 +79,7 @@ export class RideLocalComponent implements OnDestroy {
             : 2;
 
         this.form = new FormGroup<LocalEventForm>({
-            track: new FormControl(defaultTrack, [Validators.required, Validators.minLength(3)]),
+            track: new FormControl(defaultTrack, [Validators.required, Validators.min(1)]),
             riders: new FormArray(
                 [new FormControl<string | null>(defaultRiders.splice(0, 1)[0], [Validators.required])],
                 [Validators.required]
