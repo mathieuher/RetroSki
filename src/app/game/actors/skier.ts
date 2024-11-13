@@ -208,7 +208,7 @@ export class Skier extends Actor {
     }
 
     private emitParticles(engine: Engine, skierAction: SkierActions): void {
-        if (this.particlesEmitter) {
+        if (this.particlesEmitter && (engine as Game).settingsService.getSettings().particles) {
             const speedPercentage = this.speed / Config.MAX_SPEED;
             if (skierAction === SkierActions.SLIDE_LEFT || skierAction === SkierActions.SLIDE_RIGHT) {
                 this.emitSlidingParticles(speedPercentage, this.slidingIntention(engine), skierAction);

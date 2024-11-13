@@ -6,7 +6,7 @@
             (click)="exitRace()"
         ></app-button-icon>
         <div class="track-name">
-            {{ raceConfig?.track?.name }} - {{ raceConfig?.track?.style }}
+            {{ raceConfig()?.track?.fullName }}
         </div>
     </div>
     <div class="content">
