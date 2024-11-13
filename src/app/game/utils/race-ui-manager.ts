@@ -89,36 +89,4 @@ export class RaceUiManager {
         this.speedometerUi.classList.remove('visible');
         this.timerUi.classList.remove('visible');
     }
-
-    /*
-	private prepareResultsTable(
-		globalResult: { position: number; records: RecordResult[] },
-		missedGates: number,
-	): string {
-		return globalResult.records
-			.map(result => {
-				const currentResult = result.position === globalResult.position;
-				const startPosition =
-					result.position === (globalResult.position > 4 ? globalResult.position - 4 : 1);
-				const timeHtml =
-					currentResult && missedGates
-						? `${
-								result.time
-						  }<br><i class="fa-solid fa-triangle-exclamation"></i> missed ${missedGates} gate${
-								missedGates > 1 ? 's' : ''
-						  }`
-						: `${result.time}`;
-				return `<div ${startPosition ? 'id="startPosition"' : ''} class="result-line ${
-					currentResult ? 'current' : ''
-				}">
-                <div>${result.position}</div>
-                <div>${result.player}</div>
-                <div>${result.date}</div>
-                <div class="time">${timeHtml}</div>
-                <div class="time">${result.difference ? `+ ${result.difference}` : ''}</div>
-            </div>`;
-			})
-			.join('');
-	}
-    */
 }

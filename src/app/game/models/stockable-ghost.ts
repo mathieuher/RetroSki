@@ -1,7 +1,5 @@
 import type { SkierPositioning } from './skier-positioning';
 import type { TimedSector } from './timed-sector';
-import { TrackStyles } from './track-styles.enum';
-
 export class StockableGhost {
     public trackId?: number;
     public date?: Date;

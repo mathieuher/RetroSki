@@ -50,7 +50,7 @@ export class TrackService {
     }
 
     public getTrackGhost$(trackId: number): Observable<StockableGhost | undefined> {
-        return from(liveQuery(() => RETROSKI_DB.ghosts.get(trackId))).pipe(
+        return from(RETROSKI_DB.ghosts.get(trackId)).pipe(
             map(ghost => Object.assign(new StockableGhost(), ghost))
         );
     }
