@@ -5,8 +5,7 @@ import { ButtonIconComponent } from '../button-icon/button-icon.component';
     selector: 'app-checkbox',
     standalone: true,
     imports: [ButtonIconComponent],
-    templateUrl: './checkbox.component.html',
-    styleUrl: './checkbox.component.scss'
+    templateUrl: './checkbox.component.html'
 })
 export class CheckboxComponent {
     public checked = model(false);

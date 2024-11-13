@@ -10,6 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Location } from '@angular/common';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
 import { takeUntil, tap } from 'rxjs';
+import { RideLocalComponent } from '../ride-local/ride-local.component';
 
 interface CreateTrackForm {
     name: FormControl<string | null>;
@@ -55,6 +56,7 @@ export class CreateTrackComponent extends Destroyable {
             .addTrack$(this.generatedTrack()!)
             .pipe(
                 tap(() => this.resetComputed()),
+                tap(trackNumber => localStorage.setItem(RideLocalComponent.TRACK_KEY, `${trackNumber}`)),
                 takeUntil(this.destroyed$)
             )
             .subscribe();
@@ -76,6 +78,6 @@ export class CreateTrackComponent extends Destroyable {
 
     private resetComputed(): void {
         this.generatedTrack.set(undefined);
-        this.trackAlreadyUse.set(false);
+        // this.trackAlreadyUse.set(true);
     }
 }

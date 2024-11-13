@@ -21,7 +21,7 @@ export class Track {
     }
 
     public get fullName(): string {
-        return `${this.name} - ${this.style}`;
+        return `${Track.formatTrackName(this.name)} - ${this.style}`;
     }
 
     public toStockable(): StockableTrack {
@@ -33,5 +33,9 @@ export class Track {
             this.date,
             this.gates.map(gate => gate.getStockableGate())
         );
+    }
+
+    private static formatTrackName(name: string): string {
+        return `${name[0].toLocaleUpperCase()}${name.substring(1).toLocaleLowerCase()}`;
     }
 }

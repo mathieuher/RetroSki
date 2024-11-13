@@ -190,7 +190,7 @@ export class Config {
 
     // SPECTATORS
     static SPECTATOR_HEIGHT = 18;
-    static SPECTATOR_WIDTH = 15;
+    static SPECTATOR_WIDTH = 18;
     static SPECTATOR_SPRITES = [
         Resources.Spectator1.toSprite(),
         Resources.Spectator2.toSprite(),

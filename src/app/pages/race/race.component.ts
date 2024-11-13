@@ -83,7 +83,7 @@ export class RaceComponent extends Destroyable implements OnInit {
 
     private settingsService = inject(SettingsService);
 
-    protected raceConfig?: RaceConfig;
+    protected raceConfig = signal<RaceConfig | undefined>(undefined);
     protected raceRanking = signal<RaceRanking | undefined>(undefined);
 
     private game?: Game;
@@ -103,10 +103,11 @@ export class RaceComponent extends Destroyable implements OnInit {
                     this.game = new Game(config, this.settingsService);
                     this.game.initialize();
                 }),
+                tap(config => this.raceConfig.set(config)),
                 tap(() => this.listenToRaceStop()),
                 takeUntil(this.destroyed$)
             )
-            .subscribe(config => (this.raceConfig = config));
+            .subscribe();
     }
 
     protected exitRace(): void {
@@ -139,25 +140,25 @@ export class RaceComponent extends Destroyable implements OnInit {
                 tap(result => (raceResult = result)),
                 tap(result => this.localEventService.addEventResult(result)),
                 map(
-                    result => new StockableRecord(this.raceConfig!.track.id!, result.rider, result.date, result.timing)
+                    result => new StockableRecord(this.raceConfig()!.track.id!, result.rider, result.date, result.timing)
                 ),
                 switchMap(result => this.trackService.addTrackRecord$(result)),
-                switchMap(() => this.trackService.getTrackRecords$(this.raceConfig!.track.id!)),
+                switchMap(() => this.trackService.getTrackRecords$(this.raceConfig()!.track.id!)),
                 tap(results =>
                     this.raceRanking.set(new RaceRanking(results, raceResult.timing, raceResult.missedGates))
                 ),
                 tap(() => {
                     if (
-                        !this.raceConfig!.eventGhost?.totalTime ||
-                        raceResult.timing < this.raceConfig!.eventGhost.totalTime
+                        !this.raceConfig()!.eventGhost?.totalTime ||
+                        raceResult.timing < this.raceConfig()!.eventGhost!.totalTime!
                     ) {
                         this.localEventService.updateEventGhost(raceResult.ghost);
                     }
                 }),
                 switchMap(() => {
                     if (
-                        !this.raceConfig!.globalGhost?.totalTime ||
-                        raceResult.timing < this.raceConfig!.globalGhost.totalTime
+                        !this.raceConfig()!.globalGhost?.totalTime ||
+                        raceResult.timing < this.raceConfig()!.globalGhost!.totalTime!
                     ) {
                         return this.trackService.updateTrackGhost$(raceResult.ghost);
                     }
@@ -167,16 +168,4 @@ export class RaceComponent extends Destroyable implements OnInit {
             )
             .subscribe();
     }
-
-    /*
-    private saveGhosts(result: RaceResult, globalResult: GlobalResult): void {
-        if (globalResult?.position === 1) {
-			GhostManager.setGlobalGhost(result.ghost);
-		}
-
-		if (!this.raceConfig.eventGhost || result.timing < this.raceConfig.eventGhost?.totalTime!) {
-			GhostManager.setEventGhost(result.ghost);
-		}
-    }
-        */
 }
