@@ -4,7 +4,6 @@ import { SettingsService } from '../../common/services/settings.service';
 import { Router } from '@angular/router';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { RaceConfig } from '../../game/models/race-config';
-import { GhostManager } from '../../game/utils/ghost-manager';
 import type { RaceResult } from '../../game/models/race-result';
 import { StockableRecord } from '../../game/models/stockable-record';
 import { RankingLineComponent } from '../../common/components/ranking-line/ranking-line.component';
@@ -15,7 +14,6 @@ import type { LocalEvent } from '../../common/models/local-event';
 import { TrackService } from '../../common/services/track.service';
 import { filter, from, map, type Observable, of, switchMap, takeUntil, tap } from 'rxjs';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 class RaceRanking {
     public trackRecords: StockableRecord[];
@@ -101,6 +99,7 @@ export class RaceComponent extends Destroyable implements OnInit {
         this.buildRaceConfig$(this.localEventService.getEvent()!)
             .pipe(
                 tap(config => {
+                    console.log('new game : config', config);
                     this.game = new Game(config, this.settingsService);
                     this.game.initialize();
                 }),
