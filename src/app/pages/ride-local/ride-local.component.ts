@@ -15,17 +15,16 @@ export interface LocalEventForm {
     riders: FormArray<FormControl<string | null>>;
     races: FormControl<number | null>;
 }
-
 @Component({
     selector: 'app-ride-local',
     standalone: true,
-    imports: [ButtonIconComponent, JsonPipe, ReactiveFormsModule, RouterModule, RouterLink, ToolbarComponent],
+    imports: [ButtonIconComponent, ReactiveFormsModule, RouterModule, RouterLink, ToolbarComponent],
     templateUrl: './ride-local.component.html',
     styleUrl: './ride-local.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RideLocalComponent implements OnDestroy {
-    private static TRACK_KEY = 'event_track';
+    public static TRACK_KEY = 'event_track';
     private static RIDERS_KEY = 'event_riders';
     private static RACES_KEY = 'event_races';
 
