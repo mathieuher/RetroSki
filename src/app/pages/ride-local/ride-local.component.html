@@ -19,7 +19,7 @@
             <select class="retro-input" formControlName="track">
                 <option selected [value]="0">Select a track</option>
                 @for(track of availableTracks(); track $index) {
-                <option>{{ track.fullName }}</option>
+                <option [value]="track.id">{{ track.fullName }}</option>
                 }
             </select>
             }
