@@ -9,7 +9,7 @@
     background-color: var(--color-surface);
 
     app-notification {
-        position: absolute;
+        position: fixed;
         top: 10dvh;
     }
 }
