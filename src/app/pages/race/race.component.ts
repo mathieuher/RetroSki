@@ -90,7 +90,7 @@ export class RaceComponent extends Destroyable implements OnInit, OnDestroy{
 
     constructor() {
         super();
-        if (!event) {
+        if (!this.localEventService.getEvent()) {
             this.router.navigate(['/local-event']);
         }
     }
@@ -111,13 +111,10 @@ export class RaceComponent extends Destroyable implements OnInit, OnDestroy{
     }
 
     public override ngOnDestroy(): void {
-        this.game?.stop();
-        this.game = undefined;
+        this.game?.stopProperly();     
     }
 
     protected exitRace(): void {
-        this.game!.stop();
-        this.game = undefined;
         this.router.navigate(['/local-event']);
     }
 
