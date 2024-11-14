@@ -32,22 +32,22 @@
               {
                 "glob": "**/*",
                 "input": "src/app/game/images",
-                "output": "assets/images"
+                "output": "./assets/images"
               },
               {
                 "glob": "**/*",
                 "input": "src/app/game/sounds",
-                "output": "assets/sounds"
+                "output": "./assets/sounds"
               },
               {
                 "glob": "**/*",
                 "input": "src/app/game/ghosts",
-                "output": "assets/ghosts"
+                "output": "./assets/ghosts"
               },
               {
                 "glob": "**/*",
                 "input": "src/app/game/tracks",
-                "output": "assets/tracks"
+                "output": "./assets/tracks"
               },
               {
                 "glob": "**/*",
