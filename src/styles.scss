@@ -6,6 +6,7 @@ body {
     font-family: var(--text-font-family);
     background-color: var(--color-surface);
     margin: 0;
+    user-select: none;
 
     .app-container {
         display: flex;
