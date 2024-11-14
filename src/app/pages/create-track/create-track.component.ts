@@ -55,8 +55,8 @@ export class CreateTrackComponent extends Destroyable {
         this.trackService
             .addTrack$(this.generatedTrack()!)
             .pipe(
-                tap(() => this.resetComputed()),
                 tap(trackNumber => localStorage.setItem(RideLocalComponent.TRACK_KEY, `${trackNumber}`)),
+                tap(() => this.goBack()),
                 takeUntil(this.destroyed$)
             )
             .subscribe();
@@ -78,6 +78,5 @@ export class CreateTrackComponent extends Destroyable {
 
     private resetComputed(): void {
         this.generatedTrack.set(undefined);
-        // this.trackAlreadyUse.set(true);
     }
 }
