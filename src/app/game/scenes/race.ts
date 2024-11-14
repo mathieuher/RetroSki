@@ -113,6 +113,18 @@ export class Race extends Scene {
         (this.engine as Game).soundPlayer.playSound(Resources.FinishRaceSound, Config.FINISH_SOUND_VOLUME);
     }
 
+    public cleanRace(): void {
+        this.startTime = undefined;
+        this.endTime = undefined;
+        this.uiManager.hideUi();
+        this.gates = [];
+        (this.engine as Game).soundPlayer.stopSound(Resources.WinterSound);
+        (this.engine as Game).soundPlayer.stopSound(Resources.TurningSound);
+        Resources.FinishRaceSound.stop();
+        this.killActors();
+        this.clear();
+    }
+
     public addPenalty(): void {
         this.startTime! -= Config.MISSED_GATE_PENALTY_TIME;
         (this.engine as Game).soundPlayer.playSound(Resources.GateMissedSound, Config.GATE_MISSED_SOUND_VOLUME);
@@ -213,18 +225,6 @@ export class Race extends Scene {
         );
 
         (this.engine as Game).soundPlayer.playSound(Resources.WinterSound, Config.RACE_AMBIANCE_SOUND_VOLUME, true);
-    }
-
-    private cleanRace(): void {
-        this.startTime = undefined;
-        this.endTime = undefined;
-        this.uiManager.hideUi();
-        this.gates = [];
-        (this.engine as Game).soundPlayer.stopSound(Resources.WinterSound);
-        (this.engine as Game).soundPlayer.stopSound(Resources.TurningSound);
-        Resources.FinishRaceSound.stop();
-        this.killActors();
-        this.clear();
     }
 
     private killActors(): void {
