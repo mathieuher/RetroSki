@@ -68,6 +68,9 @@
     margin-bottom: 0.25rem;
     color: var(--color-primary);
     font-weight: 500;
+    position: sticky;
+    top: 0;
+    background-color: var(--color-surface);
 }
 
 .retro-subtitle {
@@ -76,6 +79,9 @@
     margin-bottom: 0.25rem;
     color: var(--color-tertiary);
     font-weight: 500;
+    position: sticky;
+    top: 26px;
+    background-color: var(--color-surface);
 }
 
 .retro-text {
@@ -159,7 +165,7 @@
 }
 
 .retro-input {
-    font-size: 14px;
+    font-size: var(--text-standard);
     border-radius: var(--border-radius-large);
     border-color: var(--color-tertiary);
     color: var(--color-tertiary);
@@ -171,5 +177,19 @@
 
     &[type="number"] {
         text-align: right;
+    }
+}
+
+.retro-command {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    font-size: var(--text-small);
+    color: var(--color-text);
+    padding: 0.2rem;
+
+    span {
+        color: var(--color-tertiary);
+        font-weight: 500;
     }
 }

@@ -4,11 +4,12 @@ import { ToolbarComponent } from '../../common/components/toolbar/toolbar.compon
 import { RouterLink } from '@angular/router';
 import { StepperComponent } from '../../common/components/stepper/stepper.component';
 import { NgTemplateOutlet } from '@angular/common';
+import { ExpanderComponent } from '../../common/components/expander/expander.component';
 
 @Component({
     selector: 'app-learning',
     standalone: true,
-    imports: [ButtonIconComponent, NgTemplateOutlet, RouterLink, StepperComponent, ToolbarComponent],
+    imports: [ButtonIconComponent, ExpanderComponent, NgTemplateOutlet, RouterLink, StepperComponent, ToolbarComponent],
     templateUrl: './learning.component.html',
     styleUrl: './learning.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
