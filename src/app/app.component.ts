@@ -1,6 +1,6 @@
 import { Component, signal, type WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NotificationComponent } from "./common/components/notification/notification.component";
+import { NotificationComponent } from './common/components/notification/notification.component';
 
 @Component({
     selector: 'app-root',

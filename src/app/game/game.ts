@@ -105,8 +105,8 @@ export class Game extends Engine {
         if (_engine.input.keyboard.wasPressed(Config.KEYBOARD_GHOST_KEY)) {
             this.settingsService.setGhosts(!this.settingsService.getSettings().ghosts);
         }
-    }   
-    
+    }
+
     public stopProperly(): void {
         this.stop();
         (this.currentScene as Race).cleanRace();

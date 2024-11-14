@@ -1,4 +1,13 @@
-import { Actor, CollisionType, type Vector, toRadians, vec, type CollisionStartEvent, type Sound, Collider, CircleCollider } from 'excalibur';
+import {
+    Actor,
+    CollisionType,
+    type Vector,
+    toRadians,
+    vec,
+    type CollisionStartEvent,
+    type Sound,
+    CircleCollider
+} from 'excalibur';
 import { Config } from '../config';
 import { Skier } from './skier';
 import type { Game } from '../game';
@@ -14,7 +23,7 @@ export class Spectator extends Actor {
             height: Config.SPECTATOR_HEIGHT,
             rotation: toRadians(rotation),
             collisionType: CollisionType.Active,
-            collider: new CircleCollider({ radius: 10, offset: vec(-1, 1)})
+            collider: new CircleCollider({ radius: 10, offset: vec(-1, 1) })
         });
 
         const randomizer = Math.random();

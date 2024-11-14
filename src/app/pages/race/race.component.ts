@@ -76,7 +76,7 @@ class RaceRanking {
     styleUrl: './race.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RaceComponent extends Destroyable implements OnInit, OnDestroy{
+export class RaceComponent extends Destroyable implements OnInit, OnDestroy {
     private router = inject(Router);
     private localEventService = inject(LocalEventService);
     private trackService = inject(TrackService);
@@ -111,7 +111,7 @@ export class RaceComponent extends Destroyable implements OnInit, OnDestroy{
     }
 
     public override ngOnDestroy(): void {
-        this.game?.stopProperly();     
+        this.game?.stopProperly();
     }
 
     protected exitRace(): void {
@@ -142,7 +142,8 @@ export class RaceComponent extends Destroyable implements OnInit, OnDestroy{
                 tap(result => (raceResult = result)),
                 tap(result => this.localEventService.addEventResult(result)),
                 map(
-                    result => new StockableRecord(this.raceConfig()!.track.id!, result.rider, result.date, result.timing)
+                    result =>
+                        new StockableRecord(this.raceConfig()!.track.id!, result.rider, result.date, result.timing)
                 ),
                 switchMap(result => this.trackService.addTrackRecord$(result)),
                 switchMap(() => this.trackService.getTrackRecords$(this.raceConfig()!.track.id!)),
