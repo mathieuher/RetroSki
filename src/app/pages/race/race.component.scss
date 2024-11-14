@@ -13,6 +13,7 @@
         top: 0px;
         left: 0px;
         color: var(--color-primary);
+        pointer-events: none;
 
         .header,
         .footer {
