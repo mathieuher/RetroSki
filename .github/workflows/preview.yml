@@ -19,7 +19,7 @@ jobs:
     - name: 🔨 Build Project
       run: |
         yarn install
-        yarn run build
+        yarn run build --base-href ./
     
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
