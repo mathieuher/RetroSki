@@ -18,7 +18,7 @@ export interface LocalEventForm {
 @Component({
     selector: 'app-ride-local',
     standalone: true,
-    imports: [ButtonIconComponent, ReactiveFormsModule, RouterModule, RouterLink, ToolbarComponent],
+    imports: [ButtonIconComponent, JsonPipe, ReactiveFormsModule, RouterModule, RouterLink, ToolbarComponent],
     templateUrl: './ride-local.component.html',
     styleUrl: './ride-local.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -51,8 +51,8 @@ export class RideLocalComponent implements OnDestroy {
         StorageManager.save(RideLocalComponent.RACES_KEY, `${this.form.value.races}` || '');
     }
 
-    protected addRider(): void {
-        this.form.controls.riders.push(new FormControl(null, [Validators.required]));
+    protected addRider(rider?: string): void {
+        this.form.controls.riders.push(new FormControl(rider ?? null, [Validators.required]));
     }
 
     protected removeRider(index: number): void {
@@ -88,7 +88,7 @@ export class RideLocalComponent implements OnDestroy {
 
         if (defaultRiders.length) {
             for (const rider of defaultRiders) {
-                this.form.controls.riders.controls.push(new FormControl(rider, [Validators.required]));
+                this.addRider(rider);
             }
         }
     }

@@ -7,6 +7,8 @@
 - Define default tracks, records and ghosts
 - Rework skier dynamic
 - Finish learning pages
+- Improve scrolling dynamic on event page
+- ✔️ ~~Fix riders name selection~~
 - ✔️ ~~Update deployment pipeline~~
 - ✔️ ~~Rework models to prepare online record storage~~
 - ✔️ ~~Implement track selection~~
