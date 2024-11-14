@@ -4,6 +4,11 @@
     flex-direction: column;
     position: relative;
 
+    canvas#game {
+        max-width: 100dvw;
+        max-height: 100dvh;
+    }
+
     .ui-overlay {
         display: flex;
         flex-direction: column;
