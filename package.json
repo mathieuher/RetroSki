@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "biome lint --write src",
-    "format": "biome format --write src"
+    "format": "biome format --write src",
+    "postbuild": "cp src/.htaccess dist/"
   },
   "private": true,
   "dependencies": {
