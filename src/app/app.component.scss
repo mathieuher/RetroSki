@@ -7,4 +7,9 @@
     max-height: 100%;
     border-radius: var(--border-radius);
     background-color: var(--color-surface);
+
+    app-notification {
+        position: absolute;
+        top: 10dvh;
+    }
 }
