@@ -60,9 +60,53 @@
         You can use various devices to ride the mountain:
     </div>
     <div class="retro-title">Devices</div>
-    <div class="retro-subtitle">Keyboard</div>
-    <div class="retro-subtitle">Gamepad</div>
-    <div class="retro-subtitle">Smartphone</div>
+    <app-expander title="Keyboard" [expanded]="true">
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_arrow_up.png" /> Start riding
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_arrow_left.png" /> Carve left
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_arrow_right.png" /> Carve right
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_space.png" /> Brake / slide
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_exit.png" /> Leave the race
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_g.png" /> Toggle ghosts
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_d.png" /> Toggle debug mode
+        </div>
+    </app-expander>
+    <app-expander title="Gamepad">
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_a.png" /> Start riding
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_left_stick.png" /> Carve left /
+            right
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_b.png" /> Brake / slide
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_select.png" /> Leave the race
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_left_bumper.png" /> Toggle ghosts
+        </div>
+    </app-expander>
+    <app-expander title="Touch device">
+        <div class="retro-command"><span>Touch</span> Start riding</div>
+        <div class="retro-command"><span>Touch left</span> Carve left</div>
+        <div class="retro-command"><span>Touch right</span> Carve right</div>
+        <div class="retro-command"><span>Touch bottom</span> Brake / slide</div>
+    </app-expander>
 </ng-template>
 
 <ng-template #page_3>
@@ -83,6 +127,13 @@
     <div class="retro-text">
         Multiple ghosts can be displayed simultaneously, allowing you to track
         different runs at once.
+    </div>
+    <div class="retro-subtitle">Ghosts on track</div>
+    <div class="retro-command">
+        <img src="./assets/icons/global_record_ghost.png" /> Overall best
+    </div>
+    <div class="retro-command">
+        <img src="./assets/icons/event_record_ghost.png" /> Event best
     </div>
 </ng-template>
 
