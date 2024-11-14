@@ -71,20 +71,12 @@ Put your skis and let's race some randomly generated alpine ski tracks with your
 </table>
 
 ## 📘 Gamer guide
-### Event setup
+### Ride local
 Welcome to your event setup.<br>
 Here you have to provide few informations before starting to ride :
-1. Name of the track (if the track doesn't exist it generates a new one)<br>
-<b>Note: Check one of the preloaded tracks below for your first ride</b>
-2. Style of the track (Slalom, Giant slalom, Super-G or Downhill)<br>
-<b>Note: This param is only applied when generating a new track.</b>
-3. Name of the first player
-4. Name of the second player
-5. Number of races (1 to 10 is recommended)
-
-### Event manager
-This screen is the home place before and after each race.<br>
-It provides informations about the current event.
+1. Track (if the track doesn't exist you can create a new one)<br>
+2. Riders name
+3. Number of races (1 to 10)
 
 ### Race
 You made it to the top of the hill !<br>
@@ -93,12 +85,13 @@ Press (1x) ⌨️<img src="src/images/icons/keyboard_arrow_up.png" valign="botto
 ⚠️ Don't miss a gate or you'll receive a penalty of <b>3 seconds</b>
 
 ### Game setup
-You can access to specific game setup by clicking the ⚙️ on the top right in menus<br>
+You can access to specific game setup by clicking the ⚙️ on the top right in the interface<br>
 Here you can enable or disable few settings for your race :
 <ul>
   <li>🔊 Sounds</li>
-  <li>🧑‍🤝‍🧑 Spectators (can affect performance)</li>
-  <li>👻 Ghosts (can affect performance)</li>
+  <li>🧑‍🤝‍🧑 Spectators (may affect performance)</li>
+  <li>👻 Ghosts (may affect performance)</li>
+  <li> Particles (may affect performance)</li>
 </ul>
 You also have the possibility to reset and restore the game to the default content (tracks, ghosts & record).
 
@@ -117,8 +110,7 @@ The dynamic of the skier is also impacted by the style of the track to mimic rea
 <b>Note: For your first rides, Giant slalom is a good style to start gaining some experience</b>
 
 ### Keep your records
-RetroSki use localStorage to persist generated tracks and records.<br> 
-You can easily export them and share them with friends by using the browser developper tools.
+RetroSki use localStorage and indexedDB to persist generated tracks and records.
 
 ### Follow your path
 By default ghost mode is activated and you can see your best times while racing<br>
@@ -139,7 +131,7 @@ By default ghost mode is activated and you can see your best times while racing<
 
 ### Performance
 Retroski should be playable on any modern device with an updated browser.<br>
-In case of performance trouble, you can try to disable via the game setup the display of spectators and ghosts during the race.
+In case of performance trouble, you can try to disable via the game setup the display of spectators, ghosts and particles during the race.
 
 ### Crash
 If your game crash, try to reset & erase all content via the game setup menu to reload original content.
@@ -153,6 +145,6 @@ Feel free to support the project 🙏 :
 <a href="https://donate.stripe.com/7sIaGu2wO52K9S8aEE">Support the project via Stripe</a>
 
 ## ⚫ Developer guide
-1. Run `npm install` to install dependencies
-2. Run `npm run dev` to start the Vite server!
+1. Run `yarn install` to install dependencies
+2. Run `yarn start` to start in local!
 3. Have fun!

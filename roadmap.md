@@ -1,5 +1,20 @@
 # Roadmap
 
+## :calendar: Planning for the 2.0.0
+- Improve particles
+- Improve skier sprites when turning
+- Implement async multiplayer
+- Define default tracks, records and ghosts
+- Rework skier dynamic
+- Finish learning pages
+- ✔️ ~~Update deployment pipeline~~
+- ✔️ ~~Rework models to prepare online record storage~~
+- ✔️ ~~Implement track selection~~
+- ✔️ ~~Use indexedDB instead of localStorage~~
+- ✔️ ~~Improve device compatibility~~
+- ✔️ ~~Encapsulate the game in an Angular app~~
+- ✔️ ~~Redesign user interfaces~~
+
 ## :calendar: Planning for the 1.0.0
 - ✔️ ~~improve performance~~
 - ✔️ ~~Add intro/help page to provide basic informations in-game~~
@@ -17,7 +32,7 @@
 - ✔️ ~~Improve sounds~~
 - ✔️ ~~Add a counter for missed gates and display it in the results~~
 - ✔️ ~~Playable on mobile/touch devices via Touch controls~~
-- ✔️ ~Add a setup screen to group all setup for user (Sounds, Ghosts, Spectators, ..)~
+- ✔️ ~~Add a setup screen to group all setup for user (Sounds, Ghosts, Spectators, ..)~~
 
 ## :bulb: Further ideas
 - Implement local multiplayer (same game or dual game)
