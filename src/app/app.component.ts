@@ -1,4 +1,4 @@
-import { Component, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, signal, type WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NotificationComponent } from "./common/components/notification/notification.component";
 
