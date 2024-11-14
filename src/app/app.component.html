@@ -1,1 +1,7 @@
 <router-outlet />
+@if(!screenCompatible()) {
+<app-notification>
+    Your screen height is incompatible with Retroski. Please switch to portrait
+    mode or use a device with a screen height of at least 500 pixels.
+</app-notification>
+}
