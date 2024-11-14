@@ -19,7 +19,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "baseHref": "/preview/",
             "outputPath": "dist/",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -74,8 +73,7 @@
                   "maximumError": "4kB"
                 }
               ],
-              "outputHashing": "all",
-              "baseHref": "/preview/",
+              "outputHashing": "all"
             },
             "development": {
               "optimization": false,
