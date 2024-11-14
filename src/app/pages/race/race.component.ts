@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, type OnInit, signal } from '@angular/core';
 import { Game } from '../../game/game';
 import { SettingsService } from '../../common/services/settings.service';
 import { Router } from '@angular/router';
@@ -76,7 +76,7 @@ class RaceRanking {
     styleUrl: './race.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RaceComponent extends Destroyable implements OnInit {
+export class RaceComponent extends Destroyable implements OnInit, OnDestroy{
     private router = inject(Router);
     private localEventService = inject(LocalEventService);
     private trackService = inject(TrackService);
@@ -108,6 +108,11 @@ export class RaceComponent extends Destroyable implements OnInit {
                 takeUntil(this.destroyed$)
             )
             .subscribe();
+    }
+
+    public override ngOnDestroy(): void {
+        this.game?.stop();
+        this.game = undefined;
     }
 
     protected exitRace(): void {
