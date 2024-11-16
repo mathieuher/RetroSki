@@ -49,7 +49,7 @@ export class TrackBuilder {
      * @returns the track
      */
     public static buildTrack(stockableTrack: StockableTrack): Track {
-        console.log('TrackBuilder - Rebuilding an existing track');
+        ('TrackBuilder - Rebuilding an existing track');
         const gates: Gate[] = [];
         for (const stockableGate of stockableTrack.gates) {
             gates.push(

@@ -106,11 +106,11 @@ Ghost mode is activated by default so you can view your best time as you race.<b
   </tr>
   <tr>
     <td><img src="src/assets/icons/global_record_ghost.png" valign="bottom"/></td>
-    <td>Absolute best time on the track</td>
+    <td>Global best time on the track</td>
   </tr>
   <tr>
     <td><img src="src/assets/icons/event_record_ghost.png" valign="bottom"/></td>
-    <td>Current event best time on the track</td>
+    <td>Event event best time on the track</td>
   </tr>
 </table>
 
