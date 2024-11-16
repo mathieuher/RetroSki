@@ -37,7 +37,7 @@ export class SpectatorGroup extends Actor {
     }
 
     override update(): void {
-        if (ScreenManager.isNearScreen(this, this.scene.camera) && !this.children?.length) {
+        if (ScreenManager.isNearScreen(this, this.scene!.camera) && !this.children?.length) {
             this.buildSpectators();
             (this.engine as Game).soundPlayer.playSound(this.sound, 0.001, true, true);
             this.soundInstance = this.sound.instances[this.sound.instanceCount() - 1];
@@ -52,7 +52,7 @@ export class SpectatorGroup extends Actor {
         }
 
         if (
-            ScreenManager.isBehind(this.scene.camera.pos, this.pos.add(vec(0, this.height))) &&
+            ScreenManager.isBehind(this.scene!.camera.pos, this.pos.add(vec(0, this.height))) &&
             this.shouldPlayIntenseSound
         ) {
             this.shouldPlayIntenseSound = false;
@@ -69,7 +69,7 @@ export class SpectatorGroup extends Actor {
     }
 
     private checkForKill(): void {
-        if (ScreenManager.isBehind(this.scene.camera.pos, this.pos)) {
+        if (ScreenManager.isBehind(this.scene!.camera.pos, this.pos)) {
             this.kill();
         }
     }

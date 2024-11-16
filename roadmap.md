@@ -6,6 +6,7 @@
 - Implement async multiplayer
 - Define default tracks, records and ghosts
 - Rework skier dynamic
+- Updatex excaliburjs core version
 - ✔️ ~~Finish learning pages~~
 - ✔️ ~~Improve scrolling dynamic on event page~~
 - ✔️ ~~Fix riders name selection~~

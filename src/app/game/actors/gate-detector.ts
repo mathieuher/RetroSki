@@ -18,7 +18,7 @@ export class GateDetector extends Actor {
 
     private onPreCollision(event: PreCollisionEvent): void {
         if (event.other instanceof Skier) {
-            this.parent.emit('passed');
+            this.parent!.emit('passed');
             this.kill();
         }
     }

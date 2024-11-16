@@ -31,6 +31,6 @@ export class StartingHouse extends Actor {
     }
 
     private canDestroy(): boolean {
-        return !ScreenManager.isNearScreen(this, this.scene.camera);
+        return !ScreenManager.isNearScreen(this, this.scene!.camera);
     }
 }
