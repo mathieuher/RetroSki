@@ -34,20 +34,30 @@ export class Pole extends Actor {
     }
 
     public displayPoleCheck(): void {
+        // TODO : Fix graphics
+        this.graphics.add(this.gatesConfig.poleCheckSprites.get(this.poleColor)!, {
+            anchor: vec(0.5, this.gatesConfig.trackStyle === TrackStyles.SL ? 2.5 : 2)
+        });
+        /*
         const checkLayer = this.graphics.layers.create({
             name: 'check',
             order: 1,
             offset: vec(this.gatesConfig.poleWidth / 2, 0)
         });
+        
         checkLayer.graphics.push({
             graphic: this.gatesConfig.poleCheckSprites.get(this.poleColor)!,
             options: { anchor: vec(0.5, this.gatesConfig.trackStyle === TrackStyles.SL ? 2.5 : 2) }
         });
+        */
     }
 
     private onPreCollision(evt: CollisionStartEvent): void {
         if (evt.other instanceof Skier) {
-            (this.scene.engine as Game).soundPlayer.playSound(Resources.PoleHittingSound, Config.POLE_HIT_SOUND_VOLUME);
+            (this.scene!.engine as Game).soundPlayer.playSound(
+                Resources.PoleHittingSound,
+                Config.POLE_HIT_SOUND_VOLUME
+            );
         }
     }
 }

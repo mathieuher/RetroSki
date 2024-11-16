@@ -60,7 +60,7 @@ export class Gate extends Actor {
     }
 
     override update(): void {
-        if (!this.children?.length && ScreenManager.isNearScreen(this, this.scene.camera)) {
+        if (!this.children?.length && ScreenManager.isNearScreen(this, this.scene!.camera)) {
             this.buildComponents();
         }
 
@@ -98,7 +98,7 @@ export class Gate extends Actor {
     }
 
     private isBehind(): boolean {
-        return ScreenManager.isBehind(this.scene.camera.pos, this.pos);
+        return ScreenManager.isBehind(this.scene!.camera.pos, this.pos);
     }
 
     private buildComponents(): void {

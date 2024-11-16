@@ -30,7 +30,6 @@ export class LocalEventComponent {
     }
 
     protected startRace(): void {
-        // TODO : Implement
         this.router.navigate(['/race']);
     }
 }
