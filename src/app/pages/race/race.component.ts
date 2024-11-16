@@ -99,7 +99,6 @@ export class RaceComponent extends Destroyable implements OnInit, OnDestroy {
         this.buildRaceConfig$(this.localEventService.getEvent()!)
             .pipe(
                 tap(config => {
-                    console.log('new game : config', config);
                     this.game = new Game(config, this.settingsService);
                     this.game.initialize();
                 }),
