@@ -16,7 +16,7 @@ export class ParticlesBuilder {
             particleLife: 1200,
             maxSize: 4,
             minSize: 0.75,
-            beginColor: Color.ExcaliburBlue,
+            beginColor: Color.fromRGB(23, 106, 170, 0.1),
             isEmitting: false
         });
         return emitter;
