@@ -48,9 +48,7 @@ export class Gate extends Actor {
         if (this.isFinalGate) {
             this.graphics.use(Resources.FinalGate.toSprite());
         }
-    }
 
-    override onInitialize() {
         this.on('passed', () => this.onGatePassed());
         this.on('exitviewport', () => {
             if (this.isBehind()) {
