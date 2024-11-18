@@ -29,9 +29,7 @@ export class Skier extends Actor {
         });
         this.skierName = skierName;
         this.skierConfig = skierConfig;
-    }
 
-    override onInitialize() {
         this.particlesEmitter = ParticlesBuilder.getParticlesEmitter();
         this.addChild(this.particlesEmitter);
     }
@@ -249,7 +247,7 @@ export class Skier extends Actor {
         this.particlesEmitter.maxAngle = 1;
         this.particlesEmitter.minAngle = 1;
         this.particlesEmitter.pos.x = skierAction === SkierActions.CARVE_LEFT ? 8 : -8;
-        this.particlesEmitter.emitParticles(speedPercentage * carvingIntensity * 15);
+        this.particlesEmitter.emitParticles(speedPercentage * carvingIntensity * 25);
     }
 
     private emitBrakingParticles(speedPercentage: number): void {
