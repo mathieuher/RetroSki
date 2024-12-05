@@ -1,0 +1,63 @@
+<canvas id="game"></canvas>
+<div class="ui-overlay">
+    <div class="header">
+        <app-button-icon
+            icon="arrow_back"
+            (click)="exitRace()"
+        ></app-button-icon>
+        <div class="track-name">
+            {{ raceConfig()?.track?.fullName }}
+        </div>
+    </div>
+    <div class="content">
+        <div id="global-ghost-timing-container" class="ghost global">
+            <div class="label">
+                <span class="icon material-symbols-outlined">timer</span> GB
+            </div>
+            <div id="global-ghost-timing" class="time">00:00:00</div>
+        </div>
+        <div id="event-ghost-timing-container" class="ghost event">
+            <div class="label">
+                <span class="icon material-symbols-outlined">timer</span> EB
+            </div>
+            <div id="event-ghost-timing" class="time">00:00:00</div>
+        </div>
+    </div>
+    <div class="footer">
+        <div id="speedometer" class="speed">0 km/h</div>
+        <div id="timer" class="timer">00:00:00</div>
+    </div>
+</div>
+
+@if(raceRanking(); as raceRanking) {
+<div class="timing-overlay">
+    <div class="ranking">
+        <div class="position">{{ raceRanking.positionLabel }}</div>
+        <div class="timing">{{ raceRanking.formattedTime }}</div>
+        <div class="penalties">{{ raceRanking.penaltiesLabel }}</div>
+    </div>
+    <div class="retro-content">
+        <div class="retro-title">Full ranking</div>
+        <div class="ranking-list">
+            @for (record of raceRanking.trackRecords; track $index) {
+            <app-ranking-line
+                [position]="$index + 1"
+                [name]="record.player"
+                [time]="
+                    $index > 0
+                        ? raceRanking.getDiffTime(record.timing)
+                        : record.formattedTime
+                "
+                [currentRider]="$index + 1 === raceRanking.position"
+                [isDiff]="$index > 0"
+            ></app-ranking-line>
+            }
+        </div>
+    </div>
+    <div class="retro-footer">
+        <button class="retro-button" (click)="exitRace()">
+            Back to the event
+        </button>
+    </div>
+</div>
+}

@@ -1,0 +1,70 @@
+<app-toolbar>
+    <div ngProjectAs="left-actions">
+        <app-button-icon icon="close" routerLink="/"></app-button-icon>
+    </div>
+    <div ngProjectAs="right-actions">
+        <app-button-icon
+            icon="settings"
+            routerLink="/settings"
+        ></app-button-icon>
+    </div>
+</app-toolbar>
+<div class="retro-content" [formGroup]="form">
+    <div class="retro-title">Ride local</div>
+    <div class="retro-subtitle">Track setup</div>
+    <div class="retro-form-section">
+        <div class="retro-form-line">
+            @if(availableTracks()?.length) {
+            <div class="label">Track</div>
+            <select class="retro-input" formControlName="track">
+                <option selected [ngValue]="0">Select a track</option>
+                @for(track of availableTracks(); track $index) {
+                <option [ngValue]="track.id">{{ track.fullName }}</option>
+                }
+            </select>
+            }
+        </div>
+        <button class="retro-button tertiary" routerLink="/create-track">
+            Create a new track
+        </button>
+    </div>
+    <div class="retro-subtitle">Rider setup</div>
+    <div class="retro-form-section" formArrayName="riders">
+        @for(rider of form.controls.riders.controls; track $index) {
+        <div class="retro-form-line">
+            <div class="label">
+                Rider {{ $index + 1 }}
+                @if(form.value.riders?.length! > 1) {
+                <app-button-icon
+                    icon="delete"
+                    class="tertiary"
+                    (click)="removeRider($index)"
+                ></app-button-icon>
+                }
+            </div>
+            <input type="text" class="retro-input" [formControl]="rider" />
+        </div>
+        }
+        <button
+            class="retro-button tertiary"
+            (click)="addRider()"
+            [disabled]="form.value.riders?.length! >= 4"
+        >
+            Add another rider
+        </button>
+    </div>
+    <div class="retro-subtitle">Event setup</div>
+    <div class="retro-form-line">
+        <div class="label">Number of races</div>
+        <input type="number" class="retro-input" formControlName="races" />
+    </div>
+</div>
+<div class="retro-footer">
+    <button
+        class="retro-button"
+        (click)="startEvent()"
+        [disabled]="!form.valid"
+    >
+        Start the event
+    </button>
+</div>

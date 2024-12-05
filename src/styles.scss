@@ -1,0 +1,18 @@
+@import "./app/common/scss/variables";
+@import "./app/common/scss/components";
+
+html,
+body {
+    font-family: var(--text-font-family);
+    background-color: var(--color-app-background);
+    margin: 0;
+    user-select: none;
+
+    .app-container {
+        display: flex;
+        width: 100dvw;
+        height: 100dvh;
+        align-items: center;
+        justify-content: center;
+    }
+}

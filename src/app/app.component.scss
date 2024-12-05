@@ -1,0 +1,14 @@
+:host {
+    display: flex;
+    justify-content: center;
+    width: 600px;
+    height: 1000px;
+    max-width: 100%;
+    max-height: 100%;
+    background-color: var(--color-surface);
+
+    app-notification {
+        position: fixed;
+        top: 10dvh;
+    }
+}
