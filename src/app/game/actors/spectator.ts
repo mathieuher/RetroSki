@@ -23,7 +23,7 @@ export class Spectator extends Actor {
             height: Config.SPECTATOR_HEIGHT,
             rotation: toRadians(rotation),
             collisionType: CollisionType.Active,
-            collider: new CircleCollider({ radius: 10, offset: vec(-1, 1) })
+            // collider: new CircleCollider({ radius: 10, offset: vec(-1, 1) })
         });
 
         const randomizer = Math.random();
