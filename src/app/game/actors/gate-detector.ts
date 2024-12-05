@@ -1,4 +1,4 @@
-import { Actor, CollisionStartEvent, CollisionType, type PreCollisionEvent, type Vector, vec } from 'excalibur';
+import { Actor, type CollisionStartEvent, CollisionType, type Vector, vec } from 'excalibur';
 import { Skier } from './skier';
 
 export class GateDetector extends Actor {

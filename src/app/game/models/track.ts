@@ -1,4 +1,4 @@
-import type { Gate } from '../actors/gate';
+import type { StockableGate } from './stockable-gate';
 import { StockableTrack } from './stockable-track';
 import type { TrackStyles } from './track-styles.enum';
 
@@ -8,9 +8,16 @@ export class Track {
     public builderVersion?: number;
     public style: TrackStyles;
     public date: Date;
-    public gates: Gate[];
+    public gates: StockableGate[];
 
-    constructor(id?: number, builderVersion?: number, name?: string, style?: TrackStyles, date?: Date, gates?: Gate[]) {
+    constructor(
+        id?: number,
+        builderVersion?: number,
+        name?: string,
+        style?: TrackStyles,
+        date?: Date,
+        gates?: StockableGate[]
+    ) {
         this.id = id;
         this.builderVersion = builderVersion;
         this.name = name!;
@@ -24,14 +31,7 @@ export class Track {
     }
 
     public toStockable(): StockableTrack {
-        return new StockableTrack(
-            this.id,
-            this.builderVersion,
-            this.name,
-            this.style,
-            this.date,
-            this.gates.map(gate => gate.getStockableGate())
-        );
+        return new StockableTrack(this.id, this.builderVersion, this.name, this.style, this.date, this.gates);
     }
 
     private static formatTrackName(name: string): string {
