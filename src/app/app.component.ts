@@ -17,13 +17,14 @@ export class AppComponent {
     private router = inject(Router);
 
     constructor() {
+        this.routeLoading = toSignal(
+            this.router.events.pipe(
+                filter(event => event instanceof RouteConfigLoadStart || event instanceof RouteConfigLoadEnd),
+                map(event => event instanceof RouteConfigLoadStart),
+                takeUntilDestroyed()
+            )
+        );
 
-        this.routeLoading = toSignal(this.router.events.pipe(
-            filter(event => event instanceof RouteConfigLoadStart || event instanceof RouteConfigLoadEnd),
-            map(event => event instanceof RouteConfigLoadStart),
-            takeUntilDestroyed()
-        ));  
-        
         this.screenCompatible = signal(screen.height >= 500);
 
         addEventListener('resize', () => this.screenCompatible.set(screen.height >= 500));
