@@ -45,7 +45,7 @@ export class Spectator extends Actor {
     }
 
     private onPreCollision(evt: CollisionStartEvent): void {
-        if (evt.other.owner instanceof Skier) {
+        if (evt.other instanceof Skier) {
             (this.scene!.engine as Game).soundPlayer.playSound(
                 this.hitSound,
                 Config.SPECTATOR_HIT_SOUND_INTENSITY,
