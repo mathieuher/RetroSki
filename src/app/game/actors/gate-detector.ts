@@ -1,4 +1,4 @@
-import { Actor, CollisionType, type PreCollisionEvent, type Vector, vec } from 'excalibur';
+import { Actor, CollisionStartEvent, CollisionType, type PreCollisionEvent, type Vector, vec } from 'excalibur';
 import { Skier } from './skier';
 
 export class GateDetector extends Actor {
@@ -13,11 +13,11 @@ export class GateDetector extends Actor {
     }
 
     override onInitialize() {
-        this.on('precollision', evt => this.onPreCollision(evt));
+        this.on('collisionstart', evt => this.onPreCollision(evt));
     }
 
-    private onPreCollision(event: PreCollisionEvent): void {
-        if (event.other instanceof Skier) {
+    private onPreCollision(event: CollisionStartEvent): void {
+        if (event.other.owner instanceof Skier) {
             this.parent!.emit('passed');
             this.kill();
         }
