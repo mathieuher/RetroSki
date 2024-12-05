@@ -248,7 +248,6 @@ export class Skier extends Actor {
         this.particlesEmitter.minAngle = 1;
         this.particlesEmitter.pos.x = skierAction === SkierActions.CARVE_LEFT ? 8 : -8;
         this.particlesEmitter.emitParticles(speedPercentage * carvingIntensity * 2);
-        console.log(speedPercentage * carvingIntensity * 2)
     }
 
     private emitBrakingParticles(speedPercentage: number): void {
