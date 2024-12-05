@@ -11,7 +11,7 @@ export class ParticlesBuilder {
                 minAngle: 3.4,
                 maxAngle: 6,
                 opacity: 0.7,
-                life: 2000,
+                life: 1000,
                 maxSize: 5,
                 minSize: 5,
                 startSize: 5,
@@ -47,6 +47,6 @@ export class ParticlesBuilder {
             radius: 1,
             emitRate: 1,
             isEmitting: false
-        })
+        });
     }
 }

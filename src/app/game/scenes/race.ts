@@ -278,9 +278,8 @@ export class Race extends Scene {
     }
 
     private buildTrack(track: Track): void {
-        const gates = track.gates.map(gate => {
-            const stockableGate = gate.getStockableGate();
-            return new Gate(
+        for (const stockableGate of track.gates) {
+            const gate = new Gate(
                 TrackBuilder.getGatesConfig(track.style),
                 vec(stockableGate.x, stockableGate.y),
                 stockableGate.width,
@@ -289,9 +288,7 @@ export class Race extends Scene {
                 stockableGate.isFinal,
                 stockableGate.sectorNumber
             );
-        });
-        for (const gate of gates) {
-            this.gates?.push(gate);
+            this.gates.push(gate);
             this.add(gate);
         }
     }

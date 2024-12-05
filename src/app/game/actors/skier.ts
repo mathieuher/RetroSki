@@ -1,4 +1,4 @@
-import { Actor, CollisionType, type Engine, GpuParticleEmitter, type ParticleEmitter, vec } from 'excalibur';
+import { Actor, CollisionType, type Engine, type ParticleEmitter, Scene, vec } from 'excalibur';
 import { Config } from '../config';
 import { Resources } from '../resources';
 import type { Race } from '../scenes/race';
@@ -223,7 +223,6 @@ export class Skier extends Actor {
     private emitSlidingParticles(speedPercentage: number, slidingIntensity: number, skierAction: SkierActions): void {
         this.particlesEmitter.pos.y = 2.5;
         this.particlesEmitter.radius = 6;
-        this.particlesEmitter.particle.life = 2500;
         this.particlesEmitter.particle.minSpeed = 10;
         this.particlesEmitter.particle.maxSpeed = 50;
         if (skierAction === SkierActions.SLIDE_LEFT) {
@@ -241,7 +240,6 @@ export class Skier extends Actor {
     private emitCarvingParticles(speedPercentage: number, carvingIntensity: number, skierAction: SkierActions): void {
         this.particlesEmitter.pos.y = -1;
         this.particlesEmitter.radius = 1;
-        this.particlesEmitter.particle.life = 2000;
         this.particlesEmitter.particle.minSpeed = 0;
         this.particlesEmitter.particle.maxSpeed = 0;
         this.particlesEmitter.particle.maxAngle = 1;
@@ -253,7 +251,6 @@ export class Skier extends Actor {
     private emitBrakingParticles(speedPercentage: number): void {
         this.particlesEmitter.pos.y = -10;
         this.particlesEmitter.radius = 6;
-        this.particlesEmitter.particle.life = 2000;
         this.particlesEmitter.particle.minSpeed = 10;
         this.particlesEmitter.particle.maxSpeed = 50;
         this.particlesEmitter.particle.maxAngle = 6;
@@ -265,13 +262,12 @@ export class Skier extends Actor {
     private emitRidingParticles(speedPercentage: number): void {
         this.particlesEmitter.pos.y = 0;
         this.particlesEmitter.radius = 8;
-        this.particlesEmitter.particle.life = 500;
         this.particlesEmitter.particle.minSpeed = 0;
         this.particlesEmitter.particle.maxSpeed = 0;
         this.particlesEmitter.particle.maxAngle = 6;
         this.particlesEmitter.particle.minAngle = 3.4;
         this.particlesEmitter.pos.x = 0;
-        this.particlesEmitter.emitParticles(speedPercentage);
+        // this.particlesEmitter.emitParticles(speedPercentage * 0.01);
     }
 
     private hasBreakingIntention(engine: Engine): boolean {
