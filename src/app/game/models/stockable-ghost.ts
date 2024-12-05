@@ -32,6 +32,14 @@ export class StockableGhost {
     }
 
     public static duplicate(ghost: StockableGhost): StockableGhost {
-        return new StockableGhost(ghost.trackId, ghost.date, ghost.eventId, ghost.rider, ghost.totalTime, ghost.timedSectors, [...ghost.positions!]);
+        return new StockableGhost(
+            ghost.trackId,
+            ghost.date,
+            ghost.eventId,
+            ghost.rider,
+            ghost.totalTime,
+            ghost.timedSectors,
+            [...ghost.positions!]
+        );
     }
 }

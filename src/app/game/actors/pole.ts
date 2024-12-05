@@ -25,10 +25,12 @@ export class Pole extends Actor {
         this.poleColor = color;
         this.gatesConfig = gatesConfig;
         this.graphicsGroup = new GraphicsGroup({
-            members: [{
-                graphic: gatesConfig.poleSprites.get(color)!,
-                offset: vec(0, 0)
-            }]
+            members: [
+                {
+                    graphic: gatesConfig.poleSprites.get(color)!,
+                    offset: vec(0, 0)
+                }
+            ]
         });
 
         if (!isFinalPole) {
@@ -44,7 +46,7 @@ export class Pole extends Actor {
         this.graphicsGroup.members.push({
             graphic: this.gatesConfig.poleCheckSprites.get(this.poleColor)!,
             useBounds: false,
-            offset: this.gatesConfig.trackStyle === TrackStyles.SL ? vec(-2.5, -15): vec(2, -15)
+            offset: this.gatesConfig.trackStyle === TrackStyles.SL ? vec(-2.5, -15) : vec(2, -15)
         });
     }
 

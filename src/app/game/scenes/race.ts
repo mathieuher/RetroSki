@@ -235,7 +235,7 @@ export class Race extends Scene {
 
     private buildGhosts(globalGhost?: StockableGhost, eventGhost?: StockableGhost): void {
         if (globalGhost) {
-            this.globalRecordGhostDatas = StockableGhost.duplicate(globalGhost)
+            this.globalRecordGhostDatas = StockableGhost.duplicate(globalGhost);
             this.globalRecordGhost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
             this.add(this.globalRecordGhost);
         }
