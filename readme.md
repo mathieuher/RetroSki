@@ -74,21 +74,13 @@ You can access to specific game setup by clicking the ⚙️ on the top right in
 Here you can enable or disable few settings for your race:
 <ul>
   <li>🔊 Sounds</li>
-  <li>🧑‍🤝‍🧑 Spectators (may affect performance)</li>
-  <li>👻 Ghosts (may affect performance)</li>
+  <li>🧑‍🤝‍🧑 Spectators</li>
+  <li>👻 Ghosts</li>
   <li> Particles (may affect performance)</li>
 </ul>
 You can also reset the game to default settings, restoring all tracks, ghosts, and records.
 
 ## 💡 Tips
-### Preloaded tracks
-The game includes 5 default tracks, so you can race on the same tracks as your friends, even on different devices:
-1. <img src="https://www.kidlink.org/icons/f0-ch.gif" valign="middle"/> Davos (Giant slalom)
-2. <img src="https://www.kidlink.org/icons/f0-ch.gif" valign="middle"/> Adelboden (Slalom)
-3. <img src="https://www.kidlink.org/icons/f0-at.gif" valign="middle"/> Soelden (Giant slalom)
-4. <img src="https://www.kidlink.org/icons/f0-ch.gif" valign="middle"/> Wengen (Super-G)
-5. <img src="https://www.kidlink.org/icons/f0-ch.gif" valign="middle"/> Zermatt (Downhill)
-
 ### Different track styles
 Each track style follows unique rules when generating a new track.<br> 
 Track style also impacts skier dynamics, mimicking real-world conditions.<br>
@@ -110,13 +102,13 @@ Ghost mode is activated by default so you can view your best time as you race.<b
   </tr>
   <tr>
     <td><img src="src/assets/icons/event_record_ghost.png" valign="bottom"/></td>
-    <td>Event event best time on the track</td>
+    <td>Event best time on the track</td>
   </tr>
 </table>
 
 ### Performance
 RetroSki is playable on any modern device with an updated browser.<br>
-If you experience performance issues, try disabling spectators, ghosts, and particles in the game setup.
+If you experience performance issues, try disabling spectators, ghosts, and particles in the game setup and reload the game.
 
 ### Crash
 If the game crashes, try resetting and erasing all content via the game setup menu to reload the original content.

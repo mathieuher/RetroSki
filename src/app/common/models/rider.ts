@@ -1,4 +1,3 @@
-import { StockableRecord } from '../../game/models/stockable-record';
 import type { Result } from './result';
 
 export class Rider {
