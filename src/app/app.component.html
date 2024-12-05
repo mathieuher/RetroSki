@@ -1,3 +1,6 @@
+@if(routeLoading()) {
+<div class="loading-placeholder">Loading</div>
+}
 <router-outlet />
 @if(!screenCompatible()) {
 <app-notification>

@@ -1,6 +1,8 @@
-import { Component, signal, type WritableSignal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, Signal, signal, type WritableSignal } from '@angular/core';
+import { RouteConfigLoadEnd, RouteConfigLoadStart, Router, RouterOutlet } from '@angular/router';
 import { NotificationComponent } from './common/components/notification/notification.component';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -11,8 +13,17 @@ import { NotificationComponent } from './common/components/notification/notifica
 })
 export class AppComponent {
     protected screenCompatible: WritableSignal<boolean>;
+    protected routeLoading: Signal<boolean | undefined>;
+    private router = inject(Router);
 
     constructor() {
+
+        this.routeLoading = toSignal(this.router.events.pipe(
+            filter(event => event instanceof RouteConfigLoadStart || event instanceof RouteConfigLoadEnd),
+            map(event => event instanceof RouteConfigLoadStart ? true : false),
+            takeUntilDestroyed()
+        ));  
+        
         this.screenCompatible = signal(screen.height >= 500);
 
         addEventListener('resize', () => this.screenCompatible.set(screen.height >= 500));
