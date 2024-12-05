@@ -1,4 +1,4 @@
-import { Injectable, Signal, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { LocalEvent } from '../models/local-event';
 import { Rider } from '../models/rider';
 import type { Track } from '../../game/models/track';

@@ -1,12 +1,12 @@
 # Roadmap
 
 ## :calendar: Planning for the 2.0.0
-- Improve particles
+- Improve particles and performance
 - Improve skier sprites when turning
 - Implement async multiplayer
-- Define default tracks, records and ghosts
-- Rework skier dynamic
-- Updatex excaliburjs core version
+- Define new default tracks, records and ghosts
+- ✔️ ~~Rework skier dynamic~~
+- ✔️ ~~Update excaliburjs core version~~
 - ✔️ ~~Finish learning pages~~
 - ✔️ ~~Improve scrolling dynamic on event page~~
 - ✔️ ~~Fix riders name selection~~

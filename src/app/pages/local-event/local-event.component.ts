@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { Router, RouterLink } from '@angular/router';
 import { RankingLineComponent } from '../../common/components/ranking-line/ranking-line.component';
 import { ResultLineComponent } from '../../common/components/result-line/result-line.component';
-import { type LocalEvent, LocalEventRace, LocalEventRanking } from '../../common/models/local-event';
+import type { LocalEvent } from '../../common/models/local-event';
 import { LocalEventService } from '../../common/services/local-event.service';
-import { JsonPipe } from '@angular/common';
 
 @Component({
     selector: 'app-local-event',
