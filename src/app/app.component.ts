@@ -1,4 +1,4 @@
-import { Component, inject, Signal, signal, type WritableSignal } from '@angular/core';
+import { Component, inject, type Signal, signal, type WritableSignal } from '@angular/core';
 import { RouteConfigLoadEnd, RouteConfigLoadStart, Router, RouterOutlet } from '@angular/router';
 import { NotificationComponent } from './common/components/notification/notification.component';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
@@ -20,7 +20,7 @@ export class AppComponent {
 
         this.routeLoading = toSignal(this.router.events.pipe(
             filter(event => event instanceof RouteConfigLoadStart || event instanceof RouteConfigLoadEnd),
-            map(event => event instanceof RouteConfigLoadStart ? true : false),
+            map(event => event instanceof RouteConfigLoadStart),
             takeUntilDestroyed()
         ));  
         
