@@ -41,7 +41,7 @@ export class TrackService {
     }
 
     public getTrackGhost$(trackId: number): Observable<StockableGhost | undefined> {
-        return from(RETROSKI_DB.ghosts.get(trackId)).pipe(map(ghost => Object.assign(new StockableGhost(), ghost)));
+        return from(RETROSKI_DB.ghosts.get(trackId)).pipe(map(ghost => ghost ? Object.assign(new StockableGhost(), ghost): undefined));
     }
 
     public updateTrackGhost$(ghost: StockableGhost): Observable<number> {
