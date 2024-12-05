@@ -1,4 +1,4 @@
-import { Actor, CollisionType, type Engine, type ParticleEmitter, Scene, vec } from 'excalibur';
+import { Actor, CollisionType, type Engine, GpuParticleEmitter, ParticleEmitter, Scene, vec } from 'excalibur';
 import { Config } from '../config';
 import { Resources } from '../resources';
 import type { Race } from '../scenes/race';
@@ -16,7 +16,7 @@ export class Skier extends Actor {
     public racing = false;
     public finish = false;
 
-    private particlesEmitter!: ParticleEmitter;
+    private particlesEmitter = ParticlesBuilder.getGpuParticlesEmitter();
 
     constructor(skierName: string, skierConfig: SkierConfig) {
         super({
@@ -30,7 +30,6 @@ export class Skier extends Actor {
         this.skierName = skierName;
         this.skierConfig = skierConfig;
 
-        this.particlesEmitter = ParticlesBuilder.getParticlesEmitter();
         this.addChild(this.particlesEmitter);
     }
 
@@ -214,8 +213,6 @@ export class Skier extends Actor {
                 this.emitCarvingParticles(speedPercentage, this.carvingIntention(engine), skierAction);
             } else if (skierAction === SkierActions.BRAKE) {
                 this.emitBrakingParticles(speedPercentage);
-            } else if (this.speed > 0) {
-                this.emitRidingParticles(speedPercentage);
             }
         }
     }
@@ -257,17 +254,6 @@ export class Skier extends Actor {
         this.particlesEmitter.particle.minAngle = 3.4;
         this.particlesEmitter.pos.x = 0;
         this.particlesEmitter.emitParticles(speedPercentage * 30);
-    }
-
-    private emitRidingParticles(speedPercentage: number): void {
-        this.particlesEmitter.pos.y = 0;
-        this.particlesEmitter.radius = 8;
-        this.particlesEmitter.particle.minSpeed = 0;
-        this.particlesEmitter.particle.maxSpeed = 0;
-        this.particlesEmitter.particle.maxAngle = 6;
-        this.particlesEmitter.particle.minAngle = 3.4;
-        this.particlesEmitter.pos.x = 0;
-        // this.particlesEmitter.emitParticles(speedPercentage * 0.01);
     }
 
     private hasBreakingIntention(engine: Engine): boolean {
