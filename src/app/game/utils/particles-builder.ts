@@ -2,23 +2,25 @@ import { Color, EmitterType, ParticleEmitter, vec } from 'excalibur';
 
 export class ParticlesBuilder {
     public static getParticlesEmitter(): ParticleEmitter {
-        const emitter = new ParticleEmitter({
+        return new ParticleEmitter({
             pos: vec(0, -20),
             emitterType: EmitterType.Circle,
-            radius: 6,
-            minVel: 50,
-            maxVel: 200,
+            radius: 1,
+            minVel: 1,
+            maxVel: 10,
             minAngle: 3.4,
             maxAngle: 6,
-            emitRate: 400,
-            opacity: 0.5,
+            emitRate: 1,
+            opacity: 0.7,
             fadeFlag: true,
-            particleLife: 1200,
-            maxSize: 4,
-            minSize: 0.75,
+            particleLife: 2000,
+            maxSize: 5,
+            minSize: 5,
+            startSize: 5,
+            endSize: 1,
             beginColor: Color.fromRGB(23, 106, 170, 0.1),
+            endColor: Color.Transparent,
             isEmitting: false
         });
-        return emitter;
     }
 }

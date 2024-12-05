@@ -201,7 +201,7 @@ export class Race extends Scene {
     private prepareRace(raceConfig: RaceConfig): void {
         this.addTimer(this.uiTimer);
         this.buildTrack(raceConfig.track);
-        this.skier = new Skier(raceConfig.rider, this.getSkierConfig(this.raceConfig.track.style));
+        this.skier = new Skier(raceConfig.rider, this.getSkierConfig(raceConfig.track.style));
         this.add(this.skier);
         this.startingHouse = new StartingHouse();
         this.add(this.startingHouse);
@@ -235,13 +235,13 @@ export class Race extends Scene {
 
     private buildGhosts(globalGhost?: StockableGhost, eventGhost?: StockableGhost): void {
         if (globalGhost) {
-            this.globalRecordGhostDatas = globalGhost;
+            this.globalRecordGhostDatas = StockableGhost.duplicate(globalGhost)
             this.globalRecordGhost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
             this.add(this.globalRecordGhost);
         }
 
         if (eventGhost) {
-            this.eventRecordGhostDatas = eventGhost;
+            this.eventRecordGhostDatas = StockableGhost.duplicate(eventGhost);
             if (this.eventRecordGhostDatas?.totalTime !== this.globalRecordGhostDatas?.totalTime) {
                 this.eventRecordGhost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
                 this.add(this.eventRecordGhost);

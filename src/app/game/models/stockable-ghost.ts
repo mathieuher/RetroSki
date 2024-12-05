@@ -30,4 +30,8 @@ export class StockableGhost {
     public getSectorTime(sectorNumber: number): number | undefined {
         return this.timedSectors ? this.timedSectors[sectorNumber - 1]?.time : undefined;
     }
+
+    public static duplicate(ghost: StockableGhost): StockableGhost {
+        return new StockableGhost(ghost.trackId, ghost.date, ghost.eventId, ghost.rider, ghost.totalTime, ghost.timedSectors, [...ghost.positions!]);
+    }
 }
