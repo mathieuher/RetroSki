@@ -1,4 +1,4 @@
-import { Actor, type CollisionStartEvent, CollisionType, type Vector, vec, Color } from 'excalibur';
+import { Actor, type CollisionStartEvent, CollisionType, type Vector, vec, Color, GraphicsGroup } from 'excalibur';
 import { Config } from '../config';
 import { Resources } from '../resources';
 import { Skier } from './skier';
@@ -9,6 +9,7 @@ import { TrackStyles } from '../models/track-styles.enum';
 export class Pole extends Actor {
     private poleColor: 'red' | 'blue';
     private gatesConfig: GatesConfig;
+    private graphicsGroup: GraphicsGroup;
 
     constructor(position: Vector, color: 'red' | 'blue', gatesConfig: GatesConfig, isFinalPole: boolean) {
         super({
@@ -23,9 +24,15 @@ export class Pole extends Actor {
 
         this.poleColor = color;
         this.gatesConfig = gatesConfig;
+        this.graphicsGroup = new GraphicsGroup({
+            members: [{
+                graphic: gatesConfig.poleSprites.get(color)!,
+                offset: vec(0, 0)
+            }]
+        });
 
         if (!isFinalPole) {
-            this.graphics.use(gatesConfig.poleSprites.get(color)!);
+            this.graphics.use(this.graphicsGroup);
         }
     }
 
@@ -34,22 +41,11 @@ export class Pole extends Actor {
     }
 
     public displayPoleCheck(): void {
-        // TODO : Fix graphics
-        this.graphics.add(this.gatesConfig.poleCheckSprites.get(this.poleColor)!, {
-            anchor: vec(0.5, this.gatesConfig.trackStyle === TrackStyles.SL ? 2.5 : 2)
-        });
-        /*
-        const checkLayer = this.graphics.layers.create({
-            name: 'check',
-            order: 1,
-            offset: vec(this.gatesConfig.poleWidth / 2, 0)
-        });
-        
-        checkLayer.graphics.push({
+        this.graphicsGroup.members.push({
             graphic: this.gatesConfig.poleCheckSprites.get(this.poleColor)!,
-            options: { anchor: vec(0.5, this.gatesConfig.trackStyle === TrackStyles.SL ? 2.5 : 2) }
+            useBounds: false,
+            offset: this.gatesConfig.trackStyle === TrackStyles.SL ? vec(-2.5, -15): vec(2, -15)
         });
-        */
     }
 
     private onPreCollision(evt: CollisionStartEvent): void {

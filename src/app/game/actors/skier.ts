@@ -224,7 +224,7 @@ export class Skier extends Actor {
         this.particlesEmitter.pos.y = 2.5;
         this.particlesEmitter.radius = 6;
         this.particlesEmitter.particleLife = 2500;
-        this.particlesEmitter.minVel = 0;
+        this.particlesEmitter.minVel = 10;
         this.particlesEmitter.maxVel = 50;
         if (skierAction === SkierActions.SLIDE_LEFT) {
             this.particlesEmitter.maxAngle = 1.6;
@@ -235,31 +235,32 @@ export class Skier extends Actor {
             this.particlesEmitter.minAngle = 1.6;
             this.particlesEmitter.pos.x = -8;
         }
-        this.particlesEmitter.emitParticles(speedPercentage * slidingIntensity * 60);
+        this.particlesEmitter.emitParticles(speedPercentage * slidingIntensity * 20);
     }
 
     private emitCarvingParticles(speedPercentage: number, carvingIntensity: number, skierAction: SkierActions): void {
         this.particlesEmitter.pos.y = -1;
         this.particlesEmitter.radius = 1;
-        this.particlesEmitter.particleLife = 2500;
-        this.particlesEmitter.minVel = -5;
+        this.particlesEmitter.particleLife = 2000;
+        this.particlesEmitter.minVel = 1;
         this.particlesEmitter.maxVel = 5;
         this.particlesEmitter.maxAngle = 1;
         this.particlesEmitter.minAngle = 1;
         this.particlesEmitter.pos.x = skierAction === SkierActions.CARVE_LEFT ? 8 : -8;
-        this.particlesEmitter.emitParticles(speedPercentage * carvingIntensity * 25);
+        this.particlesEmitter.emitParticles(speedPercentage * carvingIntensity * 2);
+        console.log(speedPercentage * carvingIntensity * 2)
     }
 
     private emitBrakingParticles(speedPercentage: number): void {
         this.particlesEmitter.pos.y = -10;
         this.particlesEmitter.radius = 6;
-        this.particlesEmitter.particleLife = 2500;
+        this.particlesEmitter.particleLife = 2000;
         this.particlesEmitter.minVel = 10;
         this.particlesEmitter.maxVel = 50;
         this.particlesEmitter.maxAngle = 6;
         this.particlesEmitter.minAngle = 3.4;
         this.particlesEmitter.pos.x = 0;
-        this.particlesEmitter.emitParticles(speedPercentage * 40);
+        this.particlesEmitter.emitParticles(speedPercentage * 20);
     }
 
     private emitRidingParticles(speedPercentage: number): void {
@@ -271,7 +272,7 @@ export class Skier extends Actor {
         this.particlesEmitter.maxAngle = 6;
         this.particlesEmitter.minAngle = 3.4;
         this.particlesEmitter.pos.x = 0;
-        this.particlesEmitter.emitParticles(speedPercentage * 2);
+        this.particlesEmitter.emitParticles(speedPercentage);
     }
 
     private hasBreakingIntention(engine: Engine): boolean {
