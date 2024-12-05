@@ -14,12 +14,12 @@ jobs:
     - name: Use Node.js 20
       uses: actions/setup-node@v2
       with:
-        node-version: '20.10'
+        node-version: '20.11.1'
       
     - name: 🔨 Build Project
       run: |
-        npm install
-        npm run build
+        yarn install
+        yarn run build
     
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4

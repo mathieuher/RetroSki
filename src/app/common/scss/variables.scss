@@ -1,0 +1,33 @@
+html {
+    --color-app-background: #1e1e1e;
+    --color-surface: #ffffff;
+    --color-primary: #22165f;
+    --color-primary-lightest: #ede9ff;
+    --color-tertiary: #9747ff;
+    --color-tertiary-light: #9f78ca;
+    --color-tertiary-lightest: #f2e5ff;
+    --color-success: #10c045;
+    --color-success-lightest: #9fe4b4;
+    --color-success-darkest: #004515;
+    --color-error: #ff3235;
+    --color-error-lightest: #f7babb;
+    --color-error-darkest: #700002;
+    --color-text: var(--color-primary);
+    --color-disabled: #9c9c9c;
+
+    --text-font-family: "Kode mono", monospace;
+    --text-big: 32px;
+    --text-title: 20px;
+    --text-standard: 14px;
+    --text-subtitle: 16px;
+    --text-small: 12px;
+
+    --border-radius: 0.25rem;
+    --border-radius-large: 0.5rem;
+
+    --transition-time: 250ms;
+
+    --field-max-width: 500px;
+
+    font-size: 16px;
+}

@@ -1,0 +1,34 @@
+:host {
+    display: flex;
+    gap: 0.5rem;
+    font-size: var(--text-standard);
+    align-items: center;
+    padding: 0.1rem 0.5rem;
+    border-radius: var(--border-radius);
+
+    .position,
+    .name,
+    .time {
+        display: flex;
+
+        &.position {
+            width: 30px;
+        }
+
+        &.name {
+            flex: 1 1 auto;
+        }
+
+        &.time {
+            justify-content: flex-end;
+        }
+    }
+
+    &.current {
+        background-color: var(--color-tertiary-lightest);
+    }
+
+    &.diff > .time {
+        color: var(--color-error);
+    }
+}

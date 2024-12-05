@@ -1,0 +1,163 @@
+<app-toolbar>
+    <div ngProjectAs="left-actions">
+        <app-button-icon icon="close" routerLink="/"></app-button-icon>
+    </div>
+    <div ngProjectAs="right-actions">
+        <app-button-icon
+            icon="settings"
+            routerLink="/settings"
+        ></app-button-icon>
+    </div>
+</app-toolbar>
+<div class="retro-content">
+    @if(currentPage() === 1) {
+    <ng-container *ngTemplateOutlet="page_1"></ng-container>
+    } @else if (currentPage() === 2) {
+    <ng-container *ngTemplateOutlet="page_2"></ng-container>
+    } @else if (currentPage() === 3) {
+    <ng-container *ngTemplateOutlet="page_3"></ng-container>
+    } @else if (currentPage() === 4) {
+    <ng-container *ngTemplateOutlet="page_4"></ng-container>
+    }
+</div>
+<div class="retro-footer">
+    <div class="stepper">
+        <app-stepper
+            [(currentStep)]="currentPage"
+            [totalStep]="totalPage"
+        ></app-stepper>
+    </div>
+</div>
+
+<ng-template #page_1>
+    <div class="retro-title">Introduction</div>
+    <div class="retro-text">
+        Retroski is a small game development project designed for peaceful
+        mountain rides and friendly competition. Challenge your friends on
+        randomly generated 2D alpine ski tracks!
+    </div>
+    <div class="retro-title">Game modes</div>
+    <div class="retro-subtitle">Ride local</div>
+    <div class="retro-text">
+        Choose from existing tracks or generate a custom one, and keep track of
+        your best rides on this device. You can also play with friends by taking
+        turns on the same device.
+    </div>
+    <div class="retro-subtitle">Ride online (work in progress)</div>
+    <div class="retro-text">
+        Create or join a server with friends to share tracks and compete for the
+        best times.
+    </div>
+</ng-template>
+
+<ng-template #page_2>
+    <div class="retro-title">Controls</div>
+    <div class="retro-text">
+        Retroski is easy to pick up, with only a few controls, but it’s
+        challenging to master!
+    </div>
+    <div class="retro-text">
+        You can use various devices to ride the mountain:
+    </div>
+    <div class="retro-title">Devices</div>
+    <app-expander title="Keyboard" [expanded]="true">
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_arrow_up.png" /> Start riding
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_arrow_left.png" /> Carve left
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_arrow_right.png" /> Carve right
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_space.png" /> Brake / slide
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_exit.png" /> Leave the race
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_g.png" /> Toggle ghosts
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/keyboard_d.png" /> Toggle debug mode
+        </div>
+    </app-expander>
+    <app-expander title="Gamepad">
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_a.png" /> Start riding
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_left_stick.png" /> Carve left /
+            right
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_b.png" /> Brake / slide
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_select.png" /> Leave the race
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_left_bumper.png" /> Toggle ghosts
+        </div>
+    </app-expander>
+    <app-expander title="Touch device">
+        <div class="retro-command"><span>Touch screen</span> Start riding</div>
+        <div class="retro-command"><span>Touch left</span> Carve left</div>
+        <div class="retro-command"><span>Touch right</span> Carve right</div>
+        <div class="retro-command"><span>Touch bottom</span> Brake / slide</div>
+    </app-expander>
+</ng-template>
+
+<ng-template #page_3>
+    <div class="retro-title">Game setup</div>
+    <div class="retro-text">
+        Access the game setup by clicking the icon in the top-right corner.
+        Here, you can customize various settings:
+        <ul>
+            <li>Sounds</li>
+            <li>Ghosts (may affect performance)</li>
+            <li>Spectators (may affect performance)</li>
+            <li>Particles (may affect performance)</li>
+        </ul>
+        You can also restore the game to its default settings and erase all
+        data.
+    </div>
+    <div class="retro-title">Ghosts</div>
+    <div class="retro-text">
+        Multiple ghosts can be displayed simultaneously, allowing you to track
+        different runs at once.
+    </div>
+    <div class="retro-subtitle">Ghosts on track</div>
+    <div class="retro-command">
+        <img src="./assets/icons/global_record_ghost.png" /> Global best
+    </div>
+    <div class="retro-command">
+        <img src="./assets/icons/event_record_ghost.png" /> Event best
+    </div>
+</ng-template>
+
+<ng-template #page_4>
+    <div class="retro-title">Quick tips</div>
+    <div class="retro-subtitle">Stay on the track !</div>
+    <div class="retro-text">
+        Don’t miss a gate, or you’ll receive a 3-second penalty.
+    </div>
+    <div class="retro-subtitle">Track styles</div>
+    <div class="retro-text">
+        Retroski simulates the four alpine skiing track styles, each with unique
+        track designs and rider abilities.
+    </div>
+    <div class="retro-subtitle">Performances</div>
+    <div class="retro-text">
+        Retroski is designed to run on any modern device with an up-to-date
+        browser. If you experience performance issues, try disabling ghosts,
+        spectators and particles in the setup menu and reload the game.
+    </div>
+    <div class="retro-subtitle">Have fun and keep riding !</div>
+    <div class="retro-text">
+        It’s time to hit the mountain and have fun! Be careful not to bump into
+        too many spectators along the way. :)
+    </div>
+    <button class="retro-button" routerLink="/">Back to home</button>
+</ng-template>

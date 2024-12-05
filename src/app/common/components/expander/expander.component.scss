@@ -1,0 +1,38 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    overflow: hidden;
+
+    &.expanded {
+        .content {
+            height: fit-content;
+        }
+
+        .header {
+            app-button-icon {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    .header {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+
+        app-button-icon {
+            transition: var(--transition-time) ease;
+        }
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        height: 0px;
+        overflow: hidden;
+        transition: max-height var(--transition-time) ease-in-out;
+    }
+}

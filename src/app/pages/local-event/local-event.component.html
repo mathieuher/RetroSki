@@ -1,0 +1,80 @@
+<app-toolbar>
+    <div ngProjectAs="left-actions">
+        <app-button-icon
+            icon="logout"
+            routerLink="/ride-local"
+            [flipped]="true"
+        ></app-button-icon>
+    </div>
+    <div ngProjectAs="right-actions">
+        <app-button-icon
+            icon="settings"
+            routerLink="/settings"
+        ></app-button-icon>
+    </div>
+</app-toolbar>
+<div class="retro-content">
+    <div class="retro-title">Local event</div>
+    <div class="retro-subtitle">Actual ranking</div>
+    @if(event.rankings) {
+    <div class="retro-list">
+        @for(ranking of event.rankings; track $index) {
+        <app-ranking-line
+            [position]="$index + 1"
+            [name]="ranking.name"
+            [time]="
+                $index > 0
+                    ? ranking.getDiffTime(event.rankings[0].time)
+                    : ranking.formattedTime
+            "
+            [isDiff]="$index > 0"
+        >
+        </app-ranking-line>
+        }
+    </div>
+    } @else {
+    <div class="retro-placeholder">No ranking to display for the moment</div>
+    }
+    <div class="retro-subtitle">Last results</div>
+    @if(event.results.length) {
+    <div class="retro-list">
+        @for(result of event.results; track $index) {
+        <app-result-line
+            [type]="event.type"
+            [rideNumber]="result.rideNumber"
+            [name]="result.rider"
+            [time]="result.formattedTime"
+        ></app-result-line>
+        }
+    </div>
+    } @else {
+    <div class="retro-placeholder">No result to display for the moment</div>
+    } @if(event.type === 'race') {
+    <div class="retro-subtitle">Incoming races</div>
+    @if(event.incomingRaces.length) { @for(race of event.incomingRaces; track
+    $index) {
+    <app-result-line
+        type="race"
+        [rideNumber]="race.raceNumber"
+        [name]="race.rider"
+        [current]="$index < 1"
+    ></app-result-line>
+    } } @else {
+    <div class="retro-placeholder">No more race to come !</div>
+    } }
+</div>
+<div class="retro-footer">
+    @if(event.type !== 'race' || event.incomingRaces.length) {
+    <button
+        class="retro-button"
+        [disabled]="event.type === 'race' && !event.incomingRaces.length"
+        (click)="startRace()"
+    >
+        Start riding
+    </button>
+    } @else {
+    <button class="retro-button" routerLink="/ride-local">
+        Leave the event
+    </button>
+    }
+</div>

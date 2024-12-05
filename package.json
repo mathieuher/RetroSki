@@ -1,33 +1,45 @@
 {
-	"name": "retroski",
-	"version": "1.0.0",
-	"description": "Retro ski game",
-	"main": "index.js",
-	"scripts": {
-		"dev": "vite",
-		"format": "npx biome format --write ./src",
-		"lint": "npx biome lint ./src",
-		"build": "tsc && vite build",
-		"serve": "vite preview"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/mathieuher/retroSki.git"
-	},
-	"keywords": ["retroSki"],
-	"author": "Mathieu H.",
-	"license": "",
-	"homepage": "https://mathieuher.github.io/restroski",
-	"devDependencies": {
-		"@biomejs/biome": "1.5.3",
-		"excalibur": "0.28.7",
-		"rxjs": "7.8.1",
-		"sass": "^1.70.0",
-		"typescript": "5.3.3",
-		"vite": "5.2.8"
-	},
-	"dependencies": {
-		"@excaliburjs/testing": "^0.25.1",
-		"date-fns": "^3.3.1"
-	}
+  "name": "retro-ski",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "lint": "biome lint --write src",
+    "format": "biome format --write src",
+    "postbuild": "cp src/.htaccess dist/"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^18.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/forms": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/platform-browser-dynamic": "^18.0.0",
+    "@angular/router": "^18.0.0",
+    "date-fns": "4.1.0",
+    "dexie": "^4.0.9",
+    "excalibur": "0.29.3",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.3"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^18.0.7",
+    "@angular/cli": "^18.0.7",
+    "@angular/compiler-cli": "^18.0.0",
+    "@biomejs/biome": "1.9.4",
+    "@types/jasmine": "~5.1.0",
+    "jasmine-core": "~5.1.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.4.2"
+  }
 }

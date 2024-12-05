@@ -1,0 +1,159 @@
+:host {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    position: relative;
+
+    canvas#game {
+        max-width: 100dvw;
+        max-height: 100dvh;
+    }
+
+    .ui-overlay {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        color: var(--color-primary);
+        pointer-events: none;
+
+        .header,
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem;
+
+            &.header {
+                pointer-events: all;
+            }
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            width: 100%;
+            align-items: flex-end;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            padding-bottom: 15%;
+
+            .ghost {
+                display: flex;
+                border-radius: var(--border-radius) 0 0 var(--border-radius);
+                background-color: var(--color-tertiary-lightest);
+                color: var(--color-tertiary);
+                overflow: hidden;
+                max-width: 0px;
+                transition: max-width var(--transition-time) ease-in-out;
+
+                &.slow-sector > .time {
+                    color: var(--color-error-darkest);
+                    background-color: var(--color-error-lightest);
+                }
+
+                &.fast-sector > .time {
+                    color: var(--color-success-darkest);
+                    background-color: var(--color-success-lightest);
+                }
+
+                &.visible {
+                    max-width: 250px;
+                }
+
+                &.event {
+                    background-color: var(--color-primary-lightest);
+                    color: var(--color-primary);
+                }
+
+                > .label,
+                > .time {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.2rem;
+                    padding: 0.5rem 0.5rem;
+                    flex-wrap: nowrap;
+                    text-wrap: nowrap;
+
+                    &.time {
+                        justify-content: flex-end;
+                        width: 90px;
+                    }
+                }
+            }
+        }
+
+        #speedometer,
+        #timer {
+            visibility: hidden;
+
+            &.visible {
+                visibility: visible;
+            }
+        }
+
+        #timer {
+            &.penalty {
+                color: var(--color-error);
+            }
+        }
+    }
+
+    .timing-overlay {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: var(--color-primary);
+
+        .ranking {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 25%;
+            gap: 0.5;
+
+            .position {
+                font-size: var(--text-big);
+                color: var(--color-tertiary);
+                font-weight: 500;
+            }
+
+            .timing {
+                font-size: var(--text-subtitle);
+            }
+
+            .penalties {
+                font-size: var(--text-small);
+                color: var(--color-error);
+            }
+        }
+
+        .retro-content {
+            padding: 0 1rem;
+
+            .ranking-list {
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 auto;
+                overflow-y: auto;
+            }
+        }
+
+        .retro-footer {
+            padding: 0.5rem;
+            .retro-button {
+                margin-bottom: 1rem;
+            }
+        }
+    }
+}

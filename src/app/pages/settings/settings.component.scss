@@ -1,0 +1,18 @@
+:host {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 1rem;
+
+    .retro-text {
+        margin-bottom: 2rem;
+    }
+
+    .setting-item {
+        display: flex;
+        height: 40px;
+        // flex: 1 1 auto;
+        justify-content: space-between;
+        font-size: var(--text-subtitle);
+    }
+}

@@ -1,0 +1,40 @@
+<app-toolbar>
+    <div ngProjectAs="left-actions">
+        <app-button-icon icon="close" (click)="goBack()"></app-button-icon>
+    </div>
+</app-toolbar>
+<div class="retro-content">
+    <div class="retro-title">Settings</div>
+    <div class="retro-text">
+        Settings are applied on the whole game whether you play local or online.
+    </div>
+    <div class="setting-item">
+        <div class="name">Sound</div>
+        <div class="value">
+            <app-checkbox [(checked)]="settings().sound"></app-checkbox>
+        </div>
+    </div>
+    <div class="setting-item">
+        <div class="name">Spectators</div>
+        <div class="value">
+            <app-checkbox [(checked)]="settings().spectators"></app-checkbox>
+        </div>
+    </div>
+    <div class="setting-item">
+        <div class="name">Ghosts</div>
+        <div class="value">
+            <app-checkbox [(checked)]="settings().ghosts"></app-checkbox>
+        </div>
+    </div>
+    <div class="setting-item">
+        <div class="name">Particles</div>
+        <div class="value">
+            <app-checkbox [(checked)]="settings().particles"></app-checkbox>
+        </div>
+    </div>
+    <div class="retro-footer">
+        <button class="retro-button error" (click)="restore()">
+            Erase content and restore
+        </button>
+    </div>
+</div>

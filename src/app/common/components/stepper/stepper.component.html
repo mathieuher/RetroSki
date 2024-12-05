@@ -1,0 +1,11 @@
+<app-button-icon
+    icon="chevron_left"
+    [class.hidden]="currentStep() <= 1"
+    (click)="currentStep.set(currentStep() - 1)"
+></app-button-icon>
+<span>Step {{ currentStep() }}/{{ totalStep() }}</span>
+<app-button-icon
+    icon="chevron_right"
+    [class.hidden]="currentStep() >= totalStep()"
+    (click)="currentStep.set(currentStep() + 1)"
+></app-button-icon>

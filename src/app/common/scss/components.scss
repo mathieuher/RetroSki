@@ -1,0 +1,195 @@
+.retro-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: transparent;
+    box-shadow: none;
+    height: 40px;
+    font-size: var(--text-subtitle);
+    font-family: "Kode mono", monospace;
+    text-align: center;
+    border-radius: var(--border-radius-large);
+    cursor: pointer;
+    transition: background-color var(--transition-time) ease-in-out;
+
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+
+    &.tertiary {
+        border: 1px solid var(--color-tertiary);
+        color: var(--color-tertiary);
+
+        &:hover:not([disabled]) {
+            background-color: var(--color-tertiary-lightest);
+        }
+    }
+
+    &.error {
+        border: 1px solid var(--color-error);
+        color: var(--color-error);
+
+        &:hover:not([disabled]) {
+            background-color: var(--color-error-lightest);
+        }
+    }
+
+    &:hover:not([disabled]) {
+        background-color: var(--color-primary-lightest);
+    }
+
+    &[disabled] {
+        border-color: var(--color-disabled);
+        color: var(--color-disabled);
+        cursor: initial;
+    }
+}
+
+.retro-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+.retro-footer {
+    display: flex;
+    flex: 1 0 auto;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+.retro-title {
+    font-size: var(--text-title);
+    margin: 0;
+    margin-top: 1.5rem;
+    margin-bottom: 0.25rem;
+    color: var(--color-primary);
+    font-weight: 500;
+    position: sticky;
+    top: 0;
+    background-color: var(--color-surface);
+}
+
+.retro-subtitle {
+    font-size: var(--text-subtitle);
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    color: var(--color-tertiary);
+    font-weight: 500;
+    position: sticky;
+    top: 26px;
+    background-color: var(--color-surface);
+}
+
+.retro-text {
+    font-size: var(--text-standard);
+    color: var(--color-primary);
+    font-weight: 400;
+
+    &.tertiary {
+        color: var(--color-tertiary);
+    }
+}
+
+.retro-placeholder {
+    font-size: var(--text-small);
+    padding: 1rem 0.5rem;
+    text-align: center;
+    color: var(--color-tertiary-light);
+}
+
+.retro-form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.retro-data-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-standard);
+    gap: 0.5rem;
+
+    .label {
+        display: flex;
+    }
+
+    .value {
+        display: flex;
+        flex: 1 1 auto;
+        color: var(--color-tertiary);
+    }
+}
+
+.retro-form-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-standard);
+    gap: 0.5rem;
+
+    .label {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    select,
+    input {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 0 0.5rem;
+    }
+
+    select {
+        min-width: 150px;
+        max-width: 50%;
+    }
+
+    input {
+        padding-inline: 1rem;
+        min-width: calc(150px - 2rem);
+        max-width: calc(50% - 2rem);
+
+        &[type="number"] {
+            min-width: 75px;
+            max-width: 25%;
+        }
+    }
+}
+
+.retro-input {
+    font-size: var(--text-standard);
+    border-radius: var(--border-radius-large);
+    border-color: var(--color-tertiary);
+    color: var(--color-tertiary);
+    font-family: var(--text-font-family);
+    height: 40px;
+    padding: 0 0.5rem;
+    outline: none;
+    border: 1px solid;
+
+    &[type="number"] {
+        text-align: right;
+    }
+}
+
+.retro-command {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    font-size: var(--text-small);
+    color: var(--color-text);
+    padding: 0.2rem;
+
+    span {
+        color: var(--color-tertiary);
+        font-weight: 500;
+    }
+}

@@ -1,0 +1,33 @@
+:host {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    font-size: var(--text-standard);
+    padding: 0.1rem 0.5rem;
+    border-radius: var(--border-radius);
+
+    .ride-label,
+    .name,
+    .ride-position,
+    .time {
+        display: flex;
+        text-wrap: nowrap;
+
+        &.ride-label {
+            width: 75px;
+        }
+
+        &.name {
+            flex: 1 1 auto;
+        }
+
+        &.time {
+            width: 70px;
+            justify-content: flex-end;
+        }
+    }
+
+    &.current {
+        background-color: var(--color-tertiary-lightest);
+    }
+}
