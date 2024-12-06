@@ -58,6 +58,7 @@
         [rideNumber]="race.raceNumber"
         [name]="race.rider"
         [current]="$index < 1"
+        [track]="race.track.fullName"
     ></app-result-line>
     } } @else {
     <div class="retro-placeholder">No more race to come !</div>

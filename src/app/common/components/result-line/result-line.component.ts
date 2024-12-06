@@ -18,6 +18,7 @@ export class ResultLineComponent {
     public ridePosition = input<number>();
     public name = input<string>();
     public time = input<string>();
+    public track = input<string>();
 
     protected rideLabel = computed(() => {
         return this.type() === 'race' ? `Race ${this.rideNumber()}.` : `Try ${this.rideNumber()}.`;
