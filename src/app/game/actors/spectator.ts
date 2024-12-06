@@ -17,12 +17,13 @@ export class Spectator extends Actor {
 
     constructor(position: Vector, rotation: number) {
         super({
-            anchor: vec(0, 1),
+            anchor: vec(0.5, 0.5),
             pos: position,
             width: Config.SPECTATOR_WIDTH,
             height: Config.SPECTATOR_HEIGHT,
             rotation: toRadians(rotation),
-            collisionType: CollisionType.Active
+            collisionType: CollisionType.Active,
+            collider: new CircleCollider({ radius: Config.SPECTATOR_WIDTH / 2})
         });
 
         const randomizer = Math.random();
