@@ -6,11 +6,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TrackStyles } from '../../game/models/track-styles.enum';
 import { TrackBuilder } from '../../game/utils/track-builder';
 import { TrackService } from '../../common/services/track.service';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Location } from '@angular/common';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
 import { switchMap, takeUntil, tap } from 'rxjs';
 import { RideLocalComponent } from '../ride-local/ride-local.component';
+import { RouterLink } from '@angular/router';
 
 interface CreateTrackForm {
     name: FormControl<string | null>;
@@ -20,7 +21,7 @@ interface CreateTrackForm {
 @Component({
     selector: 'app-manage-tracks',
     standalone: true,
-    imports: [ButtonIconComponent, ReactiveFormsModule, ToolbarComponent],
+    imports: [ButtonIconComponent, ReactiveFormsModule, RouterLink, ToolbarComponent],
     templateUrl: './manage-tracks.component.html',
     styleUrl: './manage-tracks.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
