@@ -10,12 +10,12 @@
     </div>
 </app-toolbar>
 <div class="retro-content">
-    <div class="retro-title">Create a new track</div>
+    <div class="retro-title">Track manager</div>
+    <div class="retro-subtitle">Build a new track</div>
     <div class="retro-text">
         This new track will be stored on your device and will be available for
         local and online events
     </div>
-    <div class="retro-subtitle">Track details</div>
     <div class="retro-form-section" [formGroup]="form">
         <div class="retro-form-line">
             <div class="label">Name</div>
@@ -35,33 +35,28 @@
             [disabled]="!form.valid || trackAlreadyUse()"
             (click)="generateTrack()"
         >
-            Genrate the track
+            Build the track
         </button>
         @if(trackAlreadyUse()) {
         <div class="retro-text tertiary">A similar track already exist</div>
-        } @if(generatedTrack(); as track) {
-        <div class="retro-subtitle">Generated track preview</div>
-        <div class="retro-data-line">
-            <span class="label">Track :</span>
-            <span class="value">{{ track.fullName }}</span>
-        </div>
-        <div class="retro-data-line">
-            <span class="label">Builder version :</span>
-            <span class="value">{{ track.builderVersion }}</span>
-        </div>
-        <div class="retro-data-line">
-            <span class="label">Gates :</span>
-            <span class="value">{{ track.gates.length }}</span>
-        </div>
         }
     </div>
-    <div class="retro-footer">
-        <button
-            class="retro-button"
-            [disabled]="!generatedTrack()"
-            (click)="saveTrack()"
-        >
-            Save the track
-        </button>
+    <div class="retro-title">
+        Existing tracks @if(existingTracks()?.length) { ({{
+            existingTracks()?.length
+        }}) }
+    </div>
+    <div class="tracks-container">
+        @for(track of existingTracks() ?? []; track track.id) {
+        <div class="track-line">
+            <span class="label">{{ track.fullName }}</span>
+            <div class="actions">
+                <app-button-icon
+                    icon="delete"
+                    (click)="deleteTrack(track)"
+                ></app-button-icon>
+            </div>
+        </div>
+        }
     </div>
 </div>

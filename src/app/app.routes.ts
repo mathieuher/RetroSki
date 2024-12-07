@@ -19,8 +19,8 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/local-event/local-event.component').then(m => m.LocalEventComponent)
     },
     {
-        path: 'create-track',
-        loadComponent: () => import('./pages/create-track/create-track.component').then(m => m.CreateTrackComponent)
+        path: 'manage-tracks',
+        loadComponent: () => import('./pages/manage-tracks/manage-tracks.component').then(m => m.ManageTracksComponent)
     },
     { path: 'race', loadComponent: () => import('./pages/race/race.component').then(m => m.RaceComponent) },
     { path: '**', pathMatch: 'full', redirectTo: '' }

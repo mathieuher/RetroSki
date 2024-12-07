@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    inject,
+    model,
+    ModelSignal,
+    Signal,
+    signal,
+    WritableSignal
+} from '@angular/core';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import type { Track } from '../../game/models/track';
@@ -6,10 +15,10 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TrackStyles } from '../../game/models/track-styles.enum';
 import { TrackBuilder } from '../../game/utils/track-builder';
 import { TrackService } from '../../common/services/track.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Location } from '@angular/common';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
-import { takeUntil, tap } from 'rxjs';
+import { switchMap, takeUntil, tap } from 'rxjs';
 import { RideLocalComponent } from '../ride-local/ride-local.component';
 
 interface CreateTrackForm {
@@ -18,20 +27,21 @@ interface CreateTrackForm {
 }
 
 @Component({
-    selector: 'app-create-track',
+    selector: 'app-manage-tracks',
     standalone: true,
     imports: [ButtonIconComponent, ReactiveFormsModule, ToolbarComponent],
-    templateUrl: './create-track.component.html',
-    styleUrl: './create-track.component.scss',
+    templateUrl: './manage-tracks.component.html',
+    styleUrl: './manage-tracks.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateTrackComponent extends Destroyable {
+export class ManageTracksComponent extends Destroyable {
     protected generatedTrack = signal<Track | undefined>(undefined);
     protected trackAlreadyUse = signal<boolean>(false);
+    protected existingTracks = signal<Track[] | undefined>([]);
 
     protected form = new FormGroup<CreateTrackForm>({
         name: new FormControl(null, [Validators.required]),
-        style: new FormControl(TrackStyles.SL, [Validators.required])
+        style: new FormControl(TrackStyles.SG, [Validators.required])
     });
 
     private trackService = inject(TrackService);
@@ -39,16 +49,26 @@ export class CreateTrackComponent extends Destroyable {
 
     constructor() {
         super();
+
         this.form.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
             this.resetComputed();
             this.checkSimilarTrack(this.form.value.name!, this.form.value.style!);
         });
+
+        this.trackService
+            .getTracks$()
+            .pipe(
+                tap(tracks => this.existingTracks.set(tracks)),
+                takeUntilDestroyed()
+            )
+            .subscribe();
     }
 
     protected generateTrack(): void {
         this.generatedTrack.set(
             TrackBuilder.designTrack(this.form.value.name!.toLocaleLowerCase(), this.form.value.style!)
         );
+        this.saveTrack();
     }
 
     protected saveTrack(): void {
@@ -56,7 +76,9 @@ export class CreateTrackComponent extends Destroyable {
             .addTrack$(this.generatedTrack()!)
             .pipe(
                 tap(trackNumber => localStorage.setItem(RideLocalComponent.TRACK_KEY, `${trackNumber}`)),
-                tap(() => this.goBack()),
+                tap(() => this.form.patchValue({ name: '' })),
+                switchMap(() => this.trackService.getTracks$()),
+                tap(tracks => this.existingTracks.set(tracks)),
                 takeUntil(this.destroyed$)
             )
             .subscribe();
@@ -74,6 +96,16 @@ export class CreateTrackComponent extends Destroyable {
 
     protected goBack(): void {
         this.location.back();
+    }
+
+    protected deleteTrack(track: Track): void {
+        this.trackService
+            .removeTrack$(track)
+            .pipe(
+                tap(tracks => this.existingTracks.set(tracks)),
+                takeUntil(this.destroyed$)
+            )
+            .subscribe();
     }
 
     private resetComputed(): void {

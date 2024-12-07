@@ -1,0 +1,22 @@
+:host {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 1rem;
+
+    .tracks-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .track-line {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 0.5rem;
+            background-color: var(--color-primary-lightest);
+            border-radius: var(--border-radius);
+        }
+    }
+}

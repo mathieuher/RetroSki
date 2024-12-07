@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { from, map, type Observable } from 'rxjs';
+import { from, map, switchMap, type Observable } from 'rxjs';
 import type { Track } from '../../game/models/track';
 import { RETROSKI_DB } from '../db/db';
 import { StockableTrack } from '../../game/models/stockable-track';
@@ -26,6 +26,10 @@ export class TrackService {
 
     public addTrack$(track: Track): Observable<number> {
         return from(RETROSKI_DB.tracks.add(track.toStockable()));
+    }
+
+    public removeTrack$(track: Track): Observable<Track[]> {
+        return from(RETROSKI_DB.tracks.delete(track.id!)).pipe(switchMap(() => this.getTracks$()));
     }
 
     public addTrackRecord$(record: StockableRecord): Observable<number> {
