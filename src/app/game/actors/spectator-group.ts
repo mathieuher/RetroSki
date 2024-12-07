@@ -18,7 +18,6 @@ export class SpectatorGroup extends Actor {
         ? Config.SPECTATORS_BELLS_SOUNDS[~~(Math.random() * Config.SPECTATORS_BELLS_SOUNDS.length)]
         : null;
     private bellsSoundInstance?: Audio;
-    private centerPoint!: Vector;
 
     constructor(engine: Engine, position: Vector, density: number, side: 'left' | 'right') {
         super({
@@ -31,7 +30,6 @@ export class SpectatorGroup extends Actor {
         this.engine = engine;
         this.density = density;
         this.side = side;
-        this.centerPoint = vec(this.pos.x + this.width / 2, this.pos.y + this.height / 2);
 
         this.listenExitViewportEvent();
     }
@@ -57,10 +55,6 @@ export class SpectatorGroup extends Actor {
         ) {
             this.shouldPlayIntenseSound = false;
             (this.engine as Game).soundPlayer.playSound(Resources.SpectatorsIntenseSound, 0.3, false, true);
-        }
-
-        if (this.children?.length) {
-            this.rotateSpectators();
         }
     }
 
@@ -99,14 +93,6 @@ export class SpectatorGroup extends Actor {
             this.bellsSoundInstance!.volume =
                 Math.max(0.001, 1 - distance / Config.SPECTATORS_MAX_SOUND_DISTANCE) *
                 Config.SPECTATORS_BELLS_SOUND_INTENSITY;
-        }
-    }
-
-    private rotateSpectators(): void {
-        const skierPos = (this.scene as Race).skier?.pos;
-        const angle = Math.atan2(skierPos!.y - this.centerPoint.y, skierPos!.x - this.centerPoint.x);
-        for (const spectator of this.children as Spectator[]) {
-            spectator.rotation = angle;
         }
     }
 }
