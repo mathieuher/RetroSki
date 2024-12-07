@@ -1,25 +1,26 @@
-import { Color, EmitterType, ParticleEmitter, vec } from 'excalibur';
+import { Color, EmitterType, GpuParticleEmitter, ParticleEmitter, vec } from 'excalibur';
 
 export class ParticlesBuilder {
-    public static getParticlesEmitter(): ParticleEmitter {
-        return new ParticleEmitter({
-            pos: vec(0, -20),
+    public static getGpuParticlesEmitter(side: 'left' | 'right'): GpuParticleEmitter {
+        return new GpuParticleEmitter({
+            pos: vec(side === 'left' ? -8 : 8, -4),
             emitterType: EmitterType.Circle,
-            minVel: 1,
-            maxVel: 10,
-            minAngle: 3.4,
-            maxAngle: 6,
-            opacity: 0.7,
-            particleLife: 1000,
-            maxSize: 5,
-            minSize: 5,
-            startSize: 5,
-            endSize: 1,
-            beginColor: Color.fromRGB(23, 106, 170, 0.1),
-            endColor: Color.Transparent,
             radius: 1,
-            emitRate: 1,
-            isEmitting: false
+            emitRate: 100,
+            maxParticles: 10_000,
+            isEmitting: false,
+            particle: {
+                minSpeed: 0,
+                maxSpeed: 10,
+                minAngle: side === 'left' ? 3 : 0.1,
+                maxAngle: side === 'left' ? 3 : 0.1,
+                life: 3000,
+                startSize: 4,
+                endSize: 1,
+                beginColor: Color.fromRGB(120, 194, 250),
+                endColor: Color.Transparent,
+                opacity: 0.5
+            }
         });
     }
 }

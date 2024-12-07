@@ -23,7 +23,7 @@ export class Spectator extends Actor {
             height: Config.SPECTATOR_HEIGHT,
             rotation: toRadians(rotation),
             collisionType: CollisionType.Active,
-            collider: new CircleCollider({ radius: Config.SPECTATOR_WIDTH / 2 })
+            collider: new CircleCollider({ radius: Config.SPECTATOR_WIDTH / 2 }) as unknown as undefined
         });
 
         const randomizer = Math.random();
@@ -46,7 +46,7 @@ export class Spectator extends Actor {
     }
 
     private onPreCollision(evt: CollisionStartEvent): void {
-        if (evt.other instanceof Skier) {
+        if (evt.other.owner instanceof Skier) {
             (this.scene!.engine as Game).soundPlayer.playSound(
                 this.hitSound,
                 Config.SPECTATOR_HIT_SOUND_INTENSITY,
