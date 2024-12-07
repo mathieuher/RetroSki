@@ -33,9 +33,10 @@ export class TouchManager {
             this.activePointers.delete(pointerId);
         }
 
-        this.isTouchingBack = this.activePointers.get(pointerId) === 'back';
-        this.isTouchingLeft = this.activePointers.get(pointerId) === 'left';
-        this.isTouchingRight = this.activePointers.get(pointerId) === 'right';
+        const values = [...this.activePointers.values()];
+        this.isTouchingBack = !!values.find(v => v === 'back');
+        this.isTouchingLeft = !!values.find(v => v === 'left');
+        this.isTouchingRight = !!values.find(v => v === 'right');
 
         this.isTouching = this.isTouchingBack || this.isTouchingLeft || this.isTouchingRight;
     }
