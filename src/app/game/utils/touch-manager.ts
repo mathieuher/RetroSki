@@ -4,6 +4,8 @@ import { Config } from '../config';
 export class TouchManager {
     private engine: Engine;
 
+    private activePointers: Map<number, 'back' | 'left' | 'right'> = new Map();
+
     public isTouching = false;
     public isTouchingBack = false;
     public isTouchingLeft = false;
@@ -16,22 +18,25 @@ export class TouchManager {
 
     private listenTouch(): void {
         this.engine.input.pointers.on('down', event => {
-            this.recomputeTouchStatus('down', event.pagePos);
+            this.recomputeTouchStatus(event.pointerId, 'down', event.pagePos);
         });
 
         this.engine.input.pointers.on('up', event => {
-            this.recomputeTouchStatus('up', event.pagePos);
+            this.recomputeTouchStatus(event.pointerId, 'up', event.pagePos);
         });
     }
 
-    private recomputeTouchStatus(type: 'down' | 'up', position: Vector): void {
-        if (this.getTouchZone(position) === 'back') {
-            this.isTouchingBack = type === 'down';
-        } else if (this.getTouchZone(position) === 'left') {
-            this.isTouchingLeft = type === 'down';
-        } else if (this.getTouchZone(position) === 'right') {
-            this.isTouchingRight = type === 'down';
+    private recomputeTouchStatus(pointerId: number, type: 'down' | 'up', position: Vector): void {
+        if (type === 'down') {
+            this.activePointers.set(pointerId, this.getTouchZone(position));
+        } else {
+            this.activePointers.delete(pointerId);
         }
+
+        this.isTouchingBack = this.activePointers.get(pointerId) === 'back';
+        this.isTouchingLeft = this.activePointers.get(pointerId) === 'left';
+        this.isTouchingRight = this.activePointers.get(pointerId) === 'right';
+
         this.isTouching = this.isTouchingBack || this.isTouchingLeft || this.isTouchingRight;
     }
 
