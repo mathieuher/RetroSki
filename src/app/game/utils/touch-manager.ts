@@ -20,16 +20,11 @@ export class TouchManager {
         });
 
         this.engine.input.pointers.on('up', event => {
-            console.log(this.engine.input.pointers.count());
             this.recomputeTouchStatus('up', event.pagePos);
         });
     }
 
     private recomputeTouchStatus(type: 'down' | 'up', position: Vector): void {
-        if(this.engine.input.pointers.count() === 1) {
-            this.resetTouch();
-        }
-        
         if (this.getTouchZone(position) === 'back') {
             this.isTouchingBack = type === 'down';
         } else if (this.getTouchZone(position) === 'left') {
@@ -38,13 +33,6 @@ export class TouchManager {
             this.isTouchingRight = type === 'down';
         }
         this.isTouching = this.isTouchingBack || this.isTouchingLeft || this.isTouchingRight;
-    }
-
-    private resetTouch(): void {
-        this.isTouchingBack = false;
-        this.isTouchingLeft = false;
-        this.isTouchingRight = false;
-        this.isTouching = false;
     }
 
     private getTouchZone(position: Vector): 'back' | 'left' | 'right' {
