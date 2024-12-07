@@ -1,4 +1,4 @@
-import { Actor, CollisionType, type Engine, type GpuParticleEmitter, toDegrees, toRadians, vec } from 'excalibur';
+import { Actor, CollisionType, type Engine, GpuParticleEmitter, type ParticleEmitter, vec } from 'excalibur';
 import { Config } from '../config';
 import { Resources } from '../resources';
 import type { Race } from '../scenes/race';
@@ -233,7 +233,7 @@ export class Skier extends Actor {
     }
 
     private emitSlidingParticles(speedPercentage: number, slidingIntensity: number, skierAction: SkierActions): void {
-        const emittingRate = speedPercentage * speedPercentage * slidingIntensity * 200;
+        const emittingRate = speedPercentage * slidingIntensity * 40;
         if (skierAction === SkierActions.SLIDE_LEFT) {
             this.rightParticlesEmitter.particle.minSpeed = 10;
             this.rightParticlesEmitter.particle.maxSpeed = speedPercentage * 200;
@@ -246,14 +246,15 @@ export class Skier extends Actor {
     }
 
     private emitCarvingParticles(speedPercentage: number, carvingIntensity: number, skierAction: SkierActions): void {
+        const emittingRate = carvingIntensity * speedPercentage * 10;
         if (skierAction === SkierActions.CARVE_RIGHT) {
             this.leftParticlesEmitter.particle.minSpeed = 0;
             this.leftParticlesEmitter.particle.maxSpeed = 0;
-            this.leftParticlesEmitter.emitParticles(carvingIntensity * speedPercentage * 10);
+            this.leftParticlesEmitter.emitParticles(emittingRate);
         } else {
             this.rightParticlesEmitter.particle.minSpeed = 0;
             this.rightParticlesEmitter.particle.maxSpeed = 0;
-            this.rightParticlesEmitter.emitParticles(carvingIntensity * speedPercentage * 10);
+            this.rightParticlesEmitter.emitParticles(emittingRate);
         }
     }
 
@@ -264,7 +265,7 @@ export class Skier extends Actor {
         this.rightParticlesEmitter.particle.minSpeed = -10;
         this.rightParticlesEmitter.particle.maxSpeed = 30;
 
-        const emittingRate = speedPercentage * speedPercentage * 200;
+        const emittingRate = speedPercentage * 20;
         this.leftParticlesEmitter.emitParticles(emittingRate);
         this.rightParticlesEmitter.emitParticles(emittingRate);
     }
