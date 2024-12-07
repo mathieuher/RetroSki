@@ -3624,7 +3624,7 @@ events@^3.2.0:
   resolved "https://registry.yarnpkg.com/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
 
-excalibur@0.30.0-alpha:
+excalibur@0.30.0-alpha.1302:
   version "0.30.0-alpha.1302"
   resolved "https://registry.yarnpkg.com/excalibur/-/excalibur-0.30.0-alpha.1302.tgz#7c73954cc13849522cec81673ba15b392604f764"
   integrity sha512-+fePvHxhu7cztirbtRjetrrqXITRWc3q2KlxaSBOFZuqRPfAj5j5O/X74E/H5SaynJ4ZABIkZz4IIx9G76YuDQ==
