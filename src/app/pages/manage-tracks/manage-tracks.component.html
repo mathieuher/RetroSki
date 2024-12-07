@@ -50,9 +50,11 @@
         @for(track of existingTracks() ?? []; track track.id) {
         <div class="track-line">
             <span class="label">{{ track.fullName }}</span>
+            <span class="gates">{{ track.gates.length }} gates</span>
             <div class="actions">
                 <app-button-icon
                     icon="delete"
+                    class="tertiary"
                     (click)="deleteTrack(track)"
                 ></app-button-icon>
             </div>

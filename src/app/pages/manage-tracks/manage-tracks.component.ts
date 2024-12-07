@@ -2,11 +2,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     inject,
-    model,
-    ModelSignal,
-    Signal,
     signal,
-    WritableSignal
 } from '@angular/core';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
@@ -40,7 +36,7 @@ export class ManageTracksComponent extends Destroyable {
     protected existingTracks = signal<Track[] | undefined>([]);
 
     protected form = new FormGroup<CreateTrackForm>({
-        name: new FormControl(null, [Validators.required]),
+        name: new FormControl(null, [Validators.required, Validators.maxLength(20)]),
         style: new FormControl(TrackStyles.SG, [Validators.required])
     });
 

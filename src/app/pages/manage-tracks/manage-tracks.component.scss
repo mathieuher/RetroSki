@@ -8,15 +8,27 @@
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
+        overflow-y: auto;
 
         .track-line {
+            gap: 0.5rem;
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: space-between;
             padding: 0 0.5rem;
             background-color: var(--color-primary-lightest);
             border-radius: var(--border-radius);
+            color: var(--color-text);
+            font-size: var(--text-standard);
+
+            .label {
+                flex: 1 1 auto;
+            }
+
+            .gates {
+                font-size: var(--text-small);
+                color: var(--color);
+            }
         }
     }
 }
