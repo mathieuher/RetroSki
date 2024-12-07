@@ -4,8 +4,6 @@ import { Config } from '../config';
 export class TouchManager {
     private engine: Engine;
 
-    private activePointers: Map<number, 'back' | 'left' | 'right'> = new Map();
-
     public isTouching = false;
     public isTouchingBack = false;
     public isTouchingLeft = false;
@@ -18,27 +16,35 @@ export class TouchManager {
 
     private listenTouch(): void {
         this.engine.input.pointers.on('down', event => {
-            this.recomputeTouchStatus(event.pointerId, 'down', event.pagePos);
+            this.recomputeTouchStatus('down', event.pagePos);
         });
 
         this.engine.input.pointers.on('up', event => {
-            this.recomputeTouchStatus(event.pointerId, 'up', event.pagePos);
+            console.log(this.engine.input.pointers.count());
+            this.recomputeTouchStatus('up', event.pagePos);
         });
     }
 
-    private recomputeTouchStatus(pointerId: number, type: 'down' | 'up', position: Vector): void {
-        if (type === 'down') {
-            this.activePointers.set(pointerId, this.getTouchZone(position));
-        } else {
-            this.activePointers.delete(pointerId);
+    private recomputeTouchStatus(type: 'down' | 'up', position: Vector): void {
+        if(this.engine.input.pointers.count() === 1) {
+            this.resetTouch();
         }
-
-        const values = [...this.activePointers.values()];
-        this.isTouchingBack = !!values.find(v => v === 'back');
-        this.isTouchingLeft = !!values.find(v => v === 'left');
-        this.isTouchingRight = !!values.find(v => v === 'right');
-
+        
+        if (this.getTouchZone(position) === 'back') {
+            this.isTouchingBack = type === 'down';
+        } else if (this.getTouchZone(position) === 'left') {
+            this.isTouchingLeft = type === 'down';
+        } else if (this.getTouchZone(position) === 'right') {
+            this.isTouchingRight = type === 'down';
+        }
         this.isTouching = this.isTouchingBack || this.isTouchingLeft || this.isTouchingRight;
+    }
+
+    private resetTouch(): void {
+        this.isTouchingBack = false;
+        this.isTouchingLeft = false;
+        this.isTouchingRight = false;
+        this.isTouching = false;
     }
 
     private getTouchZone(position: Vector): 'back' | 'left' | 'right' {
