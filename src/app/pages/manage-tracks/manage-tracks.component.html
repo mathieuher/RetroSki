@@ -59,6 +59,8 @@
                 ></app-button-icon>
             </div>
         </div>
+        } @if(!existingTracks()?.length) {
+        <div class="retro-placeholder">No existing track, build one !</div>
         }
     </div>
 </div>
