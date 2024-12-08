@@ -5,6 +5,7 @@
 - Improve skier sprites when turning
 - Implement async multiplayer
 - Define new default tracks, records and ghosts
+- ✔️ ~~Improve spectators dynamic and animation~~
 - ✔️ ~~Rework skier dynamic~~
 - ✔️ ~~Update excaliburjs core version~~
 - ✔️ ~~Finish learning pages~~
