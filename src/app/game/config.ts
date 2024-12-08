@@ -198,7 +198,7 @@ export class Config {
         Resources.Spectator4.toSprite()
     ];
     static SPECTATORS_MAX_DENSITY = 20;
-    static SPECTATORS_MAX_SOUND_DISTANCE = 300;
+    static SPECTATORS_MAX_SOUND_DISTANCE = 600;
     static SPECTATORS_SOUND_INTENSITY = 0.15;
     static SPECTATORS_SOUNDS = [
         Resources.SpectatorsSound,

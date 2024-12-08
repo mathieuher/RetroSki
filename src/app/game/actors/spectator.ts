@@ -6,8 +6,7 @@ import {
     vec,
     type CollisionStartEvent,
     type Sound,
-    CircleCollider,
-    type Engine
+    CircleCollider
 } from 'excalibur';
 import { Config } from '../config';
 import { Skier } from './skier';
@@ -42,7 +41,7 @@ export class Spectator extends Actor {
     override update(engine: Game, _delta: number): void {
         if(engine.settingsService.getSettings().spectatorsAnimation) {
             const distanceFromSkier = this.getGlobalPos().distance((this.scene as Race).skier!.pos);
-            if(distanceFromSkier < Config.SPECTATORS_MAX_SOUND_DISTANCE * 2) {
+            if(distanceFromSkier < Config.SPECTATORS_MAX_SOUND_DISTANCE) {
                 this.lookAtSkier();
                 this.excitingMove();
             }

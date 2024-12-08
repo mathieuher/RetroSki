@@ -63,7 +63,7 @@ export class SpectatorGroup extends Actor {
     }
 
     private checkForKill(): void {
-        if (ScreenManager.isBehind(this.scene!.camera.pos, this.pos)) {
+        if (ScreenManager.isBehind(this.scene!.camera.pos, this.pos) && this.soundInstance?.volume! < 0.02) {
             this.kill();
         }
     }
@@ -83,15 +83,14 @@ export class SpectatorGroup extends Actor {
     }
 
     private adjustSoundVolume(): void {
-        const skierYPosition = (this.scene as Race).skier!.pos.y;
-        const distance = Math.min(Math.abs(this.pos.y - skierYPosition), Config.SPECTATORS_MAX_SOUND_DISTANCE);
+        const distanceFromSkier = this.getGlobalPos().distance((this.scene as Race).skier!.pos);
         this.soundInstance!.volume =
-            Math.max(0.001, 1 - distance / Config.SPECTATORS_MAX_SOUND_DISTANCE) *
+            Math.max(0.001, 1 - distanceFromSkier / Config.SPECTATORS_MAX_SOUND_DISTANCE) *
             (this.density / Config.SPECTATORS_MAX_DENSITY) *
             Config.SPECTATORS_SOUND_INTENSITY;
         if (this.bellsSoundInstance) {
             this.bellsSoundInstance!.volume =
-                Math.max(0.001, 1 - distance / Config.SPECTATORS_MAX_SOUND_DISTANCE) *
+                Math.max(0.001, 1 - distanceFromSkier / Config.SPECTATORS_MAX_SOUND_DISTANCE) *
                 Config.SPECTATORS_BELLS_SOUND_INTENSITY;
         }
     }
