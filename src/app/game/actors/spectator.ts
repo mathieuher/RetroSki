@@ -32,9 +32,7 @@ export class Spectator extends Actor {
         const randomizer = Math.random();
         this.useRandomSpectatorGraphic(randomizer);
         this.useRandomHitSound(randomizer);
-    }
 
-    override onInitialize() {
         this.on('collisionstart', evt => this.onPreCollision(evt));
     }
 
