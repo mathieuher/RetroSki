@@ -92,6 +92,10 @@
     &.tertiary {
         color: var(--color-tertiary);
     }
+
+    &.error {
+        color: var(--color-error);
+    }
 }
 
 .retro-placeholder {

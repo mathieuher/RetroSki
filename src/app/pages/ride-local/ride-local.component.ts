@@ -10,7 +10,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { StorageManager } from '../../game/utils/storage-manager';
 import { JsonPipe } from '@angular/common';
 
-export interface LocalEventForm {
+interface LocalEventForm {
     track: FormControl<number | null>;
     riders: FormArray<FormControl<string | null>>;
     races: FormControl<number | null>;
@@ -18,7 +18,7 @@ export interface LocalEventForm {
 @Component({
     selector: 'app-ride-local',
     standalone: true,
-    imports: [ButtonIconComponent, JsonPipe, ReactiveFormsModule, RouterModule, RouterLink, ToolbarComponent],
+    imports: [ButtonIconComponent, ReactiveFormsModule, RouterModule, RouterLink, ToolbarComponent],
     templateUrl: './ride-local.component.html',
     styleUrl: './ride-local.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

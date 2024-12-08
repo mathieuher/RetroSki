@@ -1,0 +1,93 @@
+<app-toolbar>
+    <div ngProjectAs="left-actions">
+        <app-button-icon icon="close" routerLink="/"></app-button-icon>
+    </div>
+    <div ngProjectAs="right-actions">
+        <app-button-icon
+            icon="settings"
+            routerLink="/settings"
+        ></app-button-icon>
+    </div>
+</app-toolbar>
+<div class="retro-content">
+    <div class="retro-title">Ride online</div>
+    <div class="retro-text">
+        Welcome to RetroSki online community, the home place to share rides with
+        your friends !
+    </div>
+    <div class="retro-subtitle">Login</div>
+    <form [formGroup]="loginForm">
+        <div class="retro-form-section">
+            <div class="retro-form-line">
+                <div class="label">Email</div>
+                <input
+                    class="retro-input"
+                    type="email"
+                    formControlName="email"
+                    placeholder="Valid email"
+                />
+            </div>
+            <div class="retro-form-line">
+                <div class="label">Password</div>
+                <input
+                    class="retro-input"
+                    type="password"
+                    formControlName="password"
+                    placeholder="6 to 16 char."
+                />
+            </div>
+            @if(loginError()) {
+            <div class="retro-text error">{{ loginError() }}</div>
+            }
+            <button
+                class="retro-button"
+                [disabled]="loginForm.invalid"
+                (click)="login()"
+            >
+                Login
+            </button>
+        </div>
+    </form>
+    <div class="retro-subtitle">Register</div>
+    <form [formGroup]="registerForm">
+        <div class="retro-form-section">
+            <div class="retro-form-line">
+                <div class="label">Username</div>
+                <input
+                    class="retro-input"
+                    type="text"
+                    formControlName="name"
+                    placeholder="3 to 16 char."
+                />
+            </div>
+            <div class="retro-form-line">
+                <div class="label">Email</div>
+                <input
+                    class="retro-input"
+                    type="email"
+                    formControlName="email"
+                    placeholder="Valid email"
+                />
+            </div>
+            <div class="retro-form-line">
+                <div class="label">Password</div>
+                <input
+                    class="retro-input"
+                    type="password"
+                    formControlName="password"
+                    placeholder="6 to 16 char."
+                />
+            </div>
+            @if(registerError()) {
+            <div class="retro-text error">{{ registerError() }}</div>
+            }
+            <button
+                class="retro-button"
+                [disabled]="registerForm.invalid"
+                (click)="register()"
+            >
+                Register
+            </button>
+        </div>
+    </form>
+</div>

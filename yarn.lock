@@ -5498,6 +5498,11 @@ pkg-dir@^7.0.0:
   dependencies:
     find-up "^6.3.0"
 
+pocketbase@1.1.0:
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/pocketbase/-/pocketbase-0.22.1.tgz#644336cb4f94f23d63389c060ddf2ce41c696829"
+  integrity sha512-hnzpDcIx5kbkUJXz6IkiTox6R4nb706u4rPSMy2FYCaI2OqBnFxbY0qwWBSqx1ERz/Xi61Uguf17Gb9bWZ8+kw==
+
 postcss-loader@8.1.1:
   version "8.1.1"
   resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-8.1.1.tgz#2822589e7522927344954acb55bbf26e8b195dfe"
