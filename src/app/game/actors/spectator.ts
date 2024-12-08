@@ -37,13 +37,13 @@ export class Spectator extends Actor {
     }
 
     override update(engine: Game, _delta: number): void {
-        if(engine.settingsService.getSettings().spectatorsAnimation) {
+        if (engine.settingsService.getSettings().spectatorsAnimation) {
             const distanceFromSkier = this.getGlobalPos().distance((this.scene as Race).skier!.pos);
-            if(distanceFromSkier < Config.SPECTATORS_MAX_SOUND_DISTANCE) {
+            if (distanceFromSkier < Config.SPECTATORS_MAX_SOUND_DISTANCE) {
                 this.lookAtSkier();
                 this.excitingMove();
             }
-        }  
+        }
     }
 
     private useRandomSpectatorGraphic(randomizer: number): void {
@@ -68,9 +68,9 @@ export class Spectator extends Actor {
     }
 
     private excitingMove(): void {
-        if(!this.pos.distance(this.originalPos)) {
-            const sideMove = Math.random() > 0.5 ? 0.5: -0.5;
-            const upMove = Math.random() > 0.5 ? 0.5: -0.5;
+        if (!this.pos.distance(this.originalPos)) {
+            const sideMove = Math.random() > 0.5 ? 0.5 : -0.5;
+            const upMove = Math.random() > 0.5 ? 0.5 : -0.5;
             this.pos = vec(this.pos.x + sideMove, this.pos.y + upMove);
         } else {
             this.pos = this.originalPos;

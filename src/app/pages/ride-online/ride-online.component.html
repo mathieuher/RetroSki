@@ -1,1 +1,61 @@
-<p>ride-online works!</p>
+<app-toolbar>
+    <div ngProjectAs="left-actions">
+        <app-button-icon
+            icon="logout"
+            class="flipped"
+            routerLink="/"
+        ></app-button-icon>
+    </div>
+    <div ngProjectAs="right-actions">
+        <app-button-icon
+            icon="settings"
+            routerLink="/settings"
+        ></app-button-icon>
+    </div>
+</app-toolbar>
+<div class="retro-content">
+    <div class="retro-title">Ride online</div>
+    <div class="retro-text">
+        Welcome on the mountain
+        <a class="retro-link">{{ user?.name }}</a> !
+    </div>
+    <div class="retro-subtitle">Connect to a server</div>
+    <div class="retro-form-section">
+        <div class="retro-form-line">
+            <div class="label">Server code</div>
+            <input type="text" class="retro-input" [formControl]="serverCode" />
+        </div>
+        <button
+            class="retro-button tertiary"
+            [disabled]="!serverCode.valid"
+            (click)="connectServer()"
+        >
+            Connect
+        </button>
+    </div>
+    <div class="retro-subtitle">Create a new server</div>
+    <div class="retro-form-section">
+        <div class="retro-form-line">
+            <div class="label">Server name</div>
+            <input type="text" class="retro-input" [formControl]="serverName" />
+        </div>
+        <button
+            class="retro-button tertiary"
+            [disabled]="!serverName.valid"
+            (click)="createServer()"
+        >
+            Create
+        </button>
+    </div>
+    <div class="retro-subtitle">Previously ridden servers</div>
+    <div class="servers-list">
+        <div class="server">
+            <div class="server-name">Server name</div>
+            <div class="server-infos">8 riders</div>
+        </div>
+        <div class="server">
+            <div class="server-name">Server name</div>
+            <div class="server-infos">8 riders</div>
+        </div>
+    </div>
+</div>

@@ -45,7 +45,10 @@ export class SettingsService {
     public persistSettings(): void {
         StorageManager.save(SettingsService.SOUND_KEY, this.settings.sound ? 'true' : 'false');
         StorageManager.save(SettingsService.SPECTATORS_KEY, this.settings.spectators ? 'true' : 'false');
-        StorageManager.save(SettingsService.SPECTATORS_ANIMATION_KEY, this.settings.spectatorsAnimation ? 'true' : 'false');
+        StorageManager.save(
+            SettingsService.SPECTATORS_ANIMATION_KEY,
+            this.settings.spectatorsAnimation ? 'true' : 'false'
+        );
         StorageManager.save(SettingsService.GHOSTS_KEY, this.settings.ghosts ? 'true' : 'false');
         StorageManager.save(SettingsService.PARTICLES_KEY, this.settings.particles ? 'true' : 'false');
     }

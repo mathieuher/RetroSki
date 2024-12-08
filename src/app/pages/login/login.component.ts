@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
     type AbstractControl,
     FormControl,
@@ -12,7 +12,7 @@ import {
     Validators
 } from '@angular/forms';
 import { AuthService } from '../../common/services/auth.service';
-import { catchError, of, takeUntil } from 'rxjs';
+import { catchError, of, switchMap, takeUntil, tap } from 'rxjs';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
 
 interface LoginForm {
@@ -45,6 +45,7 @@ const emailValidator: ValidatorFn = (control: AbstractControl): ValidationErrors
 })
 export class LoginComponent extends Destroyable {
     private authService = inject(AuthService);
+    private router = inject(Router);
 
     protected loginForm!: FormGroup<LoginForm>;
     protected registerForm!: FormGroup<RegisterForm>;
@@ -54,6 +55,11 @@ export class LoginComponent extends Destroyable {
 
     constructor() {
         super();
+
+        if (this.authService.isAuth()) {
+            this.router.navigate(['/ride-online']);
+        }
+
         this.initForms();
     }
 
@@ -76,6 +82,7 @@ export class LoginComponent extends Destroyable {
             this.authService
                 .login$(this.loginForm.value.email!, this.loginForm.value.password!)
                 .pipe(
+                    tap(() => this.router.navigate(['/ride-online'])),
                     catchError(() => {
                         this.loginError.set('Invalid email or password');
                         return of(null);
@@ -93,6 +100,8 @@ export class LoginComponent extends Destroyable {
             this.authService
                 .register$(values.email!, values.name!, values.password!)
                 .pipe(
+                    switchMap(() => this.authService.login$(values.email!, values.password!)),
+                    tap(() => this.router.navigate(['/ride-online'])),
                     catchError(error => {
                         const errorData = error.data.data;
                         if (errorData?.email) {

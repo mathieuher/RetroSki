@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { from, map, type Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import type { RecordAuthResponse } from 'pocketbase';
+import type { RecordAuthResponse, RecordModel } from 'pocketbase';
 import { User } from '../models/user';
 import { FormatterUtils } from '../utils/formatter.utils';
 
@@ -36,5 +36,11 @@ export class AuthService {
                 return newUser;
             })
         );
+    }
+
+    public getUser(): User | null {
+        return environment.pb.authStore.isValid
+            ? User.buildFromRecord(environment.pb.authStore.record as RecordModel)
+            : null;
     }
 }

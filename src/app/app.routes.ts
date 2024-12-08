@@ -19,6 +19,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)
     },
     {
+        path: 'ride-online',
+        loadComponent: () => import('./pages/ride-online/ride-online.component').then(m => m.RideOnlineComponent)
+    },
+    {
         path: 'local-event',
         loadComponent: () => import('./pages/local-event/local-event.component').then(m => m.LocalEventComponent)
     },
