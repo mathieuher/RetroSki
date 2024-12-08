@@ -20,6 +20,14 @@
             <app-checkbox [(checked)]="settings().spectators"></app-checkbox>
         </div>
     </div>
+    <div class="setting-item" [class.disabled]="!settings().spectators">
+        <div class="name">Spectators animation</div>
+        <div class="value">
+            <app-checkbox
+                [(checked)]="settings().spectatorsAnimation"
+            ></app-checkbox>
+        </div>
+    </div>
     <div class="setting-item">
         <div class="name">Ghosts</div>
         <div class="value">
