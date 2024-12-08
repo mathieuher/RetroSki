@@ -9,6 +9,7 @@ export class SettingsService {
     private static SOUND_KEY = 'settings_sound';
     private static GHOSTS_KEY = 'settings_ghost';
     private static SPECTATORS_KEY = 'settings_spectators';
+    private static SPECTATORS_ANIMATION_KEY = 'settings_spectators_animation';
     private static PARTICLES_KEY = 'settings_particles';
 
     private settings: Settings;
@@ -18,6 +19,7 @@ export class SettingsService {
             localStorage.getItem(SettingsService.SOUND_KEY) !== 'false',
             localStorage.getItem(SettingsService.GHOSTS_KEY) !== 'false',
             localStorage.getItem(SettingsService.SPECTATORS_KEY) !== 'false',
+            localStorage.getItem(SettingsService.SPECTATORS_ANIMATION_KEY) !== 'false',
             localStorage.getItem(SettingsService.PARTICLES_KEY) !== 'false'
         );
         this.settings;
@@ -43,6 +45,7 @@ export class SettingsService {
     public persistSettings(): void {
         StorageManager.save(SettingsService.SOUND_KEY, this.settings.sound ? 'true' : 'false');
         StorageManager.save(SettingsService.SPECTATORS_KEY, this.settings.spectators ? 'true' : 'false');
+        StorageManager.save(SettingsService.SPECTATORS_ANIMATION_KEY, this.settings.spectatorsAnimation ? 'true' : 'false');
         StorageManager.save(SettingsService.GHOSTS_KEY, this.settings.ghosts ? 'true' : 'false');
         StorageManager.save(SettingsService.PARTICLES_KEY, this.settings.particles ? 'true' : 'false');
     }

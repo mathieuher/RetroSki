@@ -39,12 +39,14 @@ export class Spectator extends Actor {
         this.on('collisionstart', evt => this.onPreCollision(evt));
     }
 
-    override update(engine: Engine, delta: number): void {
-        const distanceFromSkier = this.getGlobalPos().distance((this.scene as Race).skier!.pos);
-        if(distanceFromSkier < Config.SPECTATORS_MAX_SOUND_DISTANCE * 2) {
-            this.lookAtSkier();
-            this.excitingMove();
-        }
+    override update(engine: Game, _delta: number): void {
+        if(engine.settingsService.getSettings().spectatorsAnimation) {
+            const distanceFromSkier = this.getGlobalPos().distance((this.scene as Race).skier!.pos);
+            if(distanceFromSkier < Config.SPECTATORS_MAX_SOUND_DISTANCE * 2) {
+                this.lookAtSkier();
+                this.excitingMove();
+            }
+        }  
     }
 
     private useRandomSpectatorGraphic(randomizer: number): void {
