@@ -23,8 +23,16 @@
     <div class="retro-form-section">
         <div class="retro-form-line">
             <div class="label">Server code</div>
-            <input type="text" class="retro-input" [formControl]="serverCode" />
+            <input
+                type="text"
+                class="retro-input"
+                placeholder="Valid server code"
+                [formControl]="serverCode"
+            />
         </div>
+        @if(connectionError()) {
+        <div class="retro-text error">{{ connectionError() }}</div>
+        }
         <button
             class="retro-button tertiary"
             [disabled]="!serverCode.valid"
@@ -37,8 +45,16 @@
     <div class="retro-form-section">
         <div class="retro-form-line">
             <div class="label">Server name</div>
-            <input type="text" class="retro-input" [formControl]="serverName" />
+            <input
+                type="text"
+                class="retro-input"
+                placeholder="3 to 16 char."
+                [formControl]="serverName"
+            />
         </div>
+        @if(creationError()) {
+        <div class="retro-text error">{{ creationError() }}</div>
+        }
         <button
             class="retro-button tertiary"
             [disabled]="!serverName.valid"
@@ -49,13 +65,11 @@
     </div>
     <div class="retro-subtitle">Previously ridden servers</div>
     <div class="servers-list">
+        @for(server of riddenServers(); track server.id) {
         <div class="server">
-            <div class="server-name">Server name</div>
+            <div class="server-name">{{ server.name }}</div>
             <div class="server-infos">8 riders</div>
         </div>
-        <div class="server">
-            <div class="server-name">Server name</div>
-            <div class="server-infos">8 riders</div>
-        </div>
+        }
     </div>
 </div>

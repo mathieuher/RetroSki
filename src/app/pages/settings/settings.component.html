@@ -40,6 +40,15 @@
             <app-checkbox [(checked)]="settings().particles"></app-checkbox>
         </div>
     </div>
+    @if(authService.isAuth()) {
+    <div class="retro-subtitle">Profile</div>
+    <div class="retro-text">
+        Logged as <a class="retro-link">{{ authService.getUser()?.name }}</a>
+    </div>
+    <button class="retro-button tertiary" (click)="authService.logout()">
+        Logout
+    </button>
+    }
     <div class="retro-footer">
         <button class="retro-button error" (click)="restore()">
             Erase content and restore
