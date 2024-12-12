@@ -1,5 +1,5 @@
 {
     "editor.defaultFormatter": "biomejs.biome",
     "notebook.defaultFormatter": "biomejs.biome",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
 }

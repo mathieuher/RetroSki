@@ -1,13 +1,13 @@
 <app-toolbar>
-    <div ngProjectAs="left-actions">
+    <ng-container ngProjectAs="left-actions">
         <app-button-icon icon="close" routerLink="/"></app-button-icon>
-    </div>
-    <div ngProjectAs="right-actions">
+    </ng-container>
+    <ng-container ngProjectAs="right-actions">
         <app-button-icon
             icon="settings"
             routerLink="/settings"
         ></app-button-icon>
-    </div>
+    </ng-container>
 </app-toolbar>
 <div class="retro-content" [formGroup]="form">
     <div class="retro-title">Ride local</div>

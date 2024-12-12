@@ -3,29 +3,4 @@
     flex: 1 1 auto;
     flex-direction: column;
     padding: 1rem;
-
-    .servers-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        overflow-y: auto;
-
-        .server {
-            cursor: pointer;
-            display: flex;
-            flex-direction: row;
-            padding: 0.5rem;
-            border: 1px solid var(--color-tertiary);
-            border-radius: var(--border-radius);
-            font-size: var(--text-standard);
-            color: var(--color-tertiary);
-            justify-content: space-between;
-            align-items: center;
-            transition: background-color var(--transition-time) ease-in-out;
-
-            &:hover {
-                background-color: var(--color-tertiary-lightest);
-            }
-        }
-    }
 }

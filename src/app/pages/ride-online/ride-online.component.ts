@@ -75,4 +75,8 @@ export class RideOnlineComponent extends Destroyable {
                 .subscribe();
         }
     }
+
+    protected openServer(serverId: string): void {
+        this.router.navigate(['/server', serverId]);
+    }
 }

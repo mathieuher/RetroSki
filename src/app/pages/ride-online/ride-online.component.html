@@ -1,17 +1,13 @@
 <app-toolbar>
-    <div ngProjectAs="left-actions">
-        <app-button-icon
-            icon="logout"
-            class="flipped"
-            routerLink="/"
-        ></app-button-icon>
-    </div>
-    <div ngProjectAs="right-actions">
+    <ng-container ngProjectAs="left-actions">
+        <app-button-icon icon="close" routerLink="/"></app-button-icon>
+    </ng-container>
+    <ng-container ngProjectAs="right-actions">
         <app-button-icon
             icon="settings"
             routerLink="/settings"
         ></app-button-icon>
-    </div>
+    </ng-container>
 </app-toolbar>
 <div class="retro-content">
     <div class="retro-title">Ride online</div>
@@ -64,9 +60,9 @@
         </button>
     </div>
     <div class="retro-subtitle">Previously ridden servers</div>
-    <div class="servers-list">
-        @for(server of riddenServers(); track server.id) {
-        <div class="server">
+    <div class="retro-items-list">
+        @for(server of riddenServers(); track server) {
+        <div class="retro-item" (click)="openServer(server.id)">
             <div class="server-name">{{ server.name }}</div>
             <div class="server-infos">8 riders</div>
         </div>

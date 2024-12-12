@@ -23,6 +23,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/ride-online/ride-online.component').then(m => m.RideOnlineComponent)
     },
     {
+        path: 'server/:id',
+        loadComponent: () => import('./pages/server/server.component').then(m => m.ServerComponent)
+    },
+    {
         path: 'local-event',
         loadComponent: () => import('./pages/local-event/local-event.component').then(m => m.LocalEventComponent)
     },
