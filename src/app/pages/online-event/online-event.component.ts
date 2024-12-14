@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    inject,
-    type Signal
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, type Signal } from '@angular/core';
 import { RankingLineComponent } from '../../common/components/ranking-line/ranking-line.component';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
@@ -57,7 +51,7 @@ export class OnlineEventComponent {
             request: this.event,
             loader: event => this.eventService.getResults$(event.request?.id!)
         }).value;
-        
+
         this.rankings = computed(() => this.eventService.buildRankings(this.event()!.racesLimit, this.results()!));
 
         this.remainingRaces = computed(() => this.getRemainingRaces(this.event(), this.results()));
@@ -77,7 +71,7 @@ export class OnlineEventComponent {
         }
         const remainingRaces = [];
         for (let i = numberOfRaces; i < event.racesLimit; i++) {
-            remainingRaces.push(i+1);
+            remainingRaces.push(i + 1);
         }
         return remainingRaces;
     }

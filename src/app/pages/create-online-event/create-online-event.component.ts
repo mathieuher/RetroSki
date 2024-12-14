@@ -3,7 +3,6 @@ import { ToolbarComponent } from '../../common/components/toolbar/toolbar.compon
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { Location } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import type { ServerTrack } from '../../common/models/server-track';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ServerService } from '../../common/services/server.service';
 import { takeUntil, tap } from 'rxjs';

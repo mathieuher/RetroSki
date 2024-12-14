@@ -12,6 +12,21 @@
 <div class="retro-content">
     <form [formGroup]="form">
         <div class="retro-title">Create online event</div>
+        <div class="retro-subtitle">Event track</div>
+        <div class="retro-form-section">
+            @if(tracks()?.length) {
+            <div class="retro-form-line">
+                <div class="label">Track</div>
+                <select class="retro-input" formControlName="track">
+                    <option value=null>Select a track</option>
+                    @for (track of tracks(); track track.id) {
+                    <option value="{{ track.id }}">{{ track.fullName }}</option>
+                    }
+                </select>
+            </div>
+            }
+            <button class="retro-button tertiary" routerLink="/manage-online-tracks">Manage online tracks</button>
+        </div>
         <div class="retro-subtitle">Event details</div>
         <div class="retro-form-section">
             <div class="retro-form-line">
@@ -31,21 +46,6 @@
                     <input type="number" class="retro-input" formControlName="races" placeholder="1 to 10" />
             </div>
             }
-        </div>
-        <div class="retro-subtitle">Event track</div>
-        <div class="retro-form-section">
-            @if(tracks()?.length) {
-            <div class="retro-form-line">
-                <div class="label">Track</div>
-                <select class="retro-input" formControlName="track">
-                    <option value=null>Select a track</option>
-                    @for (track of tracks(); track track.id) {
-                    <option value="{{ track.id }}">{{ track.fullName }}</option>
-                    }
-                </select>
-            </div>
-            }
-            <button class="retro-button tertiary" routerLink="/manage-online-tracks">Manage online tracks</button>
         </div>
     </form>
 </div>
