@@ -43,6 +43,5 @@ Thumbs.db
 
 
 # Pocketbase
-backend/*.md
-backend/pocketbase
-backend/pb_data
+backend/*
+!backend/pb_migrations
