@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { OnlineEvent } from '../models/online-event';
 import { EventResult } from '../models/event-result';
 import { EventRanking } from '../models/event-ranking';
+import { toDate } from 'date-fns';
 
 @Injectable({
     providedIn: 'root'
@@ -30,7 +31,7 @@ export class EventService {
         ).pipe(
             map(records =>
                 // biome-ignore lint/complexity/useLiteralKeys: <explanation>
-                records.map(record => new EventResult(0, record['name'], record['timing'], new Date(record['updated'])))
+                records.map(record => new EventResult(0, record['name'], record['timing'], toDate(record['updated'])))
             ),
             map(records =>
                 records.map((record, index) => {
@@ -39,12 +40,8 @@ export class EventService {
                     return record;
                 })
             ),
-            map(records => records.sort((a, b) => b.date.getTime() - a.date.getTime()))
+            map(records => records.reverse())
         );
-    }
-
-    public getRankings$(eventId: string, racesLimit: number, results: EventResult[]): Observable<EventRanking[]> {
-        return this.getResults$(eventId).pipe(map(results => this.buildRankings(racesLimit, results)));
     }
 
     public buildRankings(raceLimit: number, results: EventResult[]): EventRanking[] {

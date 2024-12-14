@@ -38,9 +38,6 @@ export class RideOnlineComponent extends Destroyable {
 
     constructor() {
         super();
-        if (!this.authService.isAuth()) {
-            this.router.navigate(['/login']);
-        }
 
         this.user = this.authService.getUser();
         this.userServers = toSignal(this.serverService.getUserServers$());

@@ -1,72 +1,21 @@
-import { ChangeDetectionStrategy, Component, inject, type OnDestroy, type OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
 import { Game } from '../../game/game';
 import { SettingsService } from '../../common/services/settings.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { RaceConfig } from '../../game/models/race-config';
 import type { RaceResult } from '../../game/models/race-result';
 import { StockableRecord } from '../../game/models/stockable-record';
 import { RankingLineComponent } from '../../common/components/ranking-line/ranking-line.component';
-import { format } from 'date-fns';
-import { Config } from '../../game/config';
 import { LocalEventService } from '../../common/services/local-event.service';
 import type { LocalEvent } from '../../common/models/local-event';
 import { TrackService } from '../../common/services/track.service';
-import { filter, from, map, type Observable, of, switchMap, takeUntil, tap } from 'rxjs';
+import { concatMap, filter, from, map, type Observable, of, switchMap, takeUntil, tap } from 'rxjs';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
-
-class RaceRanking {
-    public trackRecords: StockableRecord[];
-    public timing: number;
-    public penalties: number;
-
-    constructor(trackRecords: StockableRecord[], timing: number, penalties: number) {
-        this.trackRecords = trackRecords;
-        this.timing = timing;
-        this.penalties = penalties;
-    }
-
-    public get positionLabel(): string {
-        const position = +this.position;
-        if (position > 3) {
-            return `${position}th`;
-        }
-        if (position === 3) {
-            return `${position}rd`;
-        }
-        if (position === 2) {
-            return `${position}nd`;
-        }
-        return `${position}st`;
-    }
-
-    public getDiffTime(timing: number): string {
-        const diff = timing - this.referenceTime;
-        return `+${format(diff, diff >= 60000 ? 'mm:ss:SS' : 'ss:SS')}`;
-    }
-
-    public get formattedTime(): string {
-        return format(this.timing, 'mm:ss:SS');
-    }
-
-    public get penaltiesLabel(): string {
-        if (this.penalties) {
-            if (this.penalties > 1) {
-                return `${this.penalties} penalties (+${this.penalties * (Config.MISSED_GATE_PENALTY_TIME / 1000)}s)`;
-            }
-            return `${this.penalties} penalty (+${Config.MISSED_GATE_PENALTY_TIME / 1000}s)`;
-        }
-        return '';
-    }
-
-    public get position(): number {
-        return this.trackRecords.filter(record => record.timing < this.timing).length + 1;
-    }
-
-    private get referenceTime(): number {
-        return this.trackRecords[0].timing;
-    }
-}
+import { RaceRanking } from '../../common/models/race-ranking';
+import { Location } from '@angular/common';
+import { EventService } from '../../common/services/event.service';
+import { AuthService } from '../../common/services/auth.service';
 
 @Component({
     selector: 'app-race',
@@ -76,37 +25,45 @@ class RaceRanking {
     styleUrl: './race.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RaceComponent extends Destroyable implements OnInit, OnDestroy {
+export class RaceComponent extends Destroyable implements OnInit {
     private router = inject(Router);
     private localEventService = inject(LocalEventService);
+    private eventService = inject(EventService);
     private trackService = inject(TrackService);
-
+    private route = inject(ActivatedRoute);
     private settingsService = inject(SettingsService);
+    private location = inject(Location);
 
     protected raceConfig = signal<RaceConfig | undefined>(undefined);
     protected raceRanking = signal<RaceRanking | undefined>(undefined);
 
     private game?: Game;
 
+    private type = (this.route.snapshot.data as { type: 'local' | 'online' }).type;
+    private eventId = (this.route.snapshot.params as { eventId: string }).eventId;
+    private user = inject(AuthService).getUser();
+
     constructor() {
         super();
-        if (!this.localEventService.getEvent()) {
-            this.router.navigate(['/local-event']);
+        if (this.type === 'local') {
+            if (!this.localEventService.getEvent()) {
+                this.router.navigate(['/local-event']);
+            }
         }
     }
 
     ngOnInit(): void {
-        this.buildRaceConfig$(this.localEventService.getEvent()!)
-            .pipe(
-                tap(config => {
-                    this.game = new Game(config, this.settingsService);
-                    this.game.initialize();
-                }),
-                tap(config => this.raceConfig.set(config)),
-                tap(() => this.listenToRaceStop()),
-                takeUntil(this.destroyed$)
-            )
-            .subscribe();
+        const config$: Observable<RaceConfig> = this.type === 'local' ? this.buildLocalRaceConfig$(this.localEventService.getEvent()!) : this.buildOnlineRaceConfig$(this.eventId);
+
+        config$.pipe(
+            tap(config => {
+                this.game = new Game(config, this.settingsService);
+                this.game.initialize();
+            }),
+            tap(config => this.raceConfig.set(config)),
+            tap(() => this.listenToRaceStop()),
+            takeUntil(this.destroyed$)
+        ).subscribe();
     }
 
     public override ngOnDestroy(): void {
@@ -114,10 +71,14 @@ export class RaceComponent extends Destroyable implements OnInit, OnDestroy {
     }
 
     protected exitRace(): void {
-        this.router.navigate(['/local-event']);
+        if (this.type === 'local') {
+            this.router.navigate(['/local-event']);
+        } else {
+            this.router.navigate(['/online-event', this.eventId]);
+        }
     }
 
-    private buildRaceConfig$(event: LocalEvent): Observable<RaceConfig> {
+    private buildLocalRaceConfig$(event: LocalEvent): Observable<RaceConfig> {
         return this.trackService
             .getTrackGhost$('local', event.track!.id!)
             .pipe(
@@ -126,6 +87,14 @@ export class RaceComponent extends Destroyable implements OnInit, OnDestroy {
                         new RaceConfig(event.id, event.incomingRaces[0].rider, event.track!, globalGhost, event.ghost)
                 )
             );
+    }
+
+    private buildOnlineRaceConfig$(eventId: string): Observable<RaceConfig> {
+        return this.eventService.getEvent$(eventId).pipe(
+            switchMap(event => this.trackService.getTrack$('online', event.trackId!).pipe(
+                map(track => new RaceConfig(event.id, this.user!.name!, track))
+            ))
+        );
     }
 
     private listenToRaceStop(): void {
@@ -139,30 +108,38 @@ export class RaceComponent extends Destroyable implements OnInit, OnDestroy {
                 }),
                 filter(Boolean),
                 tap(result => (raceResult = result)),
-                tap(result => this.localEventService.addEventResult(result)),
+                tap(result => {
+                    if (this.type === 'local') {
+                        this.localEventService.addEventResult(result);
+                    }
+                }),
                 map(
                     result =>
                         new StockableRecord(this.raceConfig()!.track.id!, result.rider, result.date, result.timing)
                 ),
-                switchMap(result => this.trackService.addTrackRecord$('local', result)),
-                switchMap(() => this.trackService.getTrackRecords$('local', this.raceConfig()!.track.id!)),
+                concatMap(result => this.trackService.addTrackRecord$(this.type, this.eventId, result)),
+                concatMap(() => this.trackService.getTrackRecords$(this.type, this.raceConfig()!.track.id!)),
                 tap(results =>
                     this.raceRanking.set(new RaceRanking(results, raceResult.timing, raceResult.missedGates))
                 ),
-                tap(() => {
+                concatMap(() => {
                     if (
                         !this.raceConfig()!.eventGhost?.totalTime ||
                         raceResult.timing < this.raceConfig()!.eventGhost!.totalTime!
                     ) {
-                        this.localEventService.updateEventGhost(raceResult.ghost);
+                        if (this.type === 'online') {
+                            return this.trackService.updateTrackGhost$(this.type, this.raceConfig()!.track.id!, raceResult.ghost);
+                        }
+                     this.localEventService.updateEventGhost(raceResult.ghost);
                     }
+                    return of(null);
                 }),
-                switchMap(() => {
+                concatMap(() => {
                     if (
                         !this.raceConfig()!.globalGhost?.totalTime ||
                         raceResult.timing < this.raceConfig()!.globalGhost!.totalTime!
                     ) {
-                        return this.trackService.updateTrackGhost$('local', raceResult.ghost);
+                        return this.trackService.updateTrackGhost$(this.type, this.raceConfig()!.track.id!, raceResult.ghost);
                     }
                     return of(null);
                 }),

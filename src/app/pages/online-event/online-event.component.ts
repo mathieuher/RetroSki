@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, type Signal } fro
 import { RankingLineComponent } from '../../common/components/ranking-line/ranking-line.component';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { EventService } from '../../common/services/event.service';
 import { Location } from '@angular/common';
@@ -18,7 +18,7 @@ import type { User } from '../../common/models/user';
 @Component({
     selector: 'app-online-event',
     standalone: true,
-    imports: [ButtonIconComponent, ToolbarComponent, RankingLineComponent, ResultLineComponent],
+    imports: [ButtonIconComponent, ToolbarComponent, RankingLineComponent, ResultLineComponent, RouterLink],
     templateUrl: './online-event.component.html',
     styleUrl: './online-event.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -52,7 +52,7 @@ export class OnlineEventComponent {
             loader: event => this.eventService.getResults$(event.request?.id!)
         }).value;
 
-        this.rankings = computed(() => this.eventService.buildRankings(this.event()!.racesLimit, this.results()!));
+        this.rankings = computed(() => this.eventService.buildRankings(this.event()!.racesLimit, this.results() ? [...this.results()!] : []));
 
         this.remainingRaces = computed(() => this.getRemainingRaces(this.event(), this.results()));
     }
