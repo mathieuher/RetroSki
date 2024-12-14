@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { from, map, type Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { OnlineEvent } from '../models/online-event';
-import { TrackService } from './track.service';
 
 @Injectable({
     providedIn: 'root'
