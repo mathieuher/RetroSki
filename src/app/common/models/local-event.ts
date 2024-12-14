@@ -3,43 +3,8 @@ import type { Track } from '../../game/models/track';
 import { Rider } from './rider';
 import { Config } from '../../game/config';
 import type { StockableGhost } from '../../game/models/stockable-ghost';
-
-export class LocalEventRanking {
-    public name: string;
-    public time: number;
-
-    constructor(name: string, time: number) {
-        this.name = name;
-        this.time = time;
-    }
-
-    public get formattedTime(): string {
-        return format(this.time, Config.FORMAT_TIMING);
-    }
-
-    public getDiffTime(reference: number): string {
-        const diff = this.time - reference;
-        return `+${format(diff, diff >= 60000 ? 'mm:ss:SS' : 'ss:SS')}`;
-    }
-}
-
-export class LocalEventResult {
-    public rideNumber: number;
-    public rider: string;
-    public time: number;
-    public date: Date;
-
-    constructor(rideNumber: number, rider: string, time: number, date: Date) {
-        this.rideNumber = rideNumber;
-        this.rider = rider;
-        this.time = time;
-        this.date = date;
-    }
-
-    public get formattedTime(): string {
-        return format(this.time, Config.FORMAT_TIMING);
-    }
-}
+import { EventResult } from './event-result';
+import { EventRanking } from './event-ranking';
 
 export class LocalEventRace {
     public rider: string;
@@ -79,12 +44,12 @@ export class LocalEvent {
     }
 
     // Current ranking of the event : Time-attack or Race
-    public get rankings(): LocalEventRanking[] | undefined {
+    public get rankings(): EventRanking[] | undefined {
         if (this.type === 'time-attack') {
             const bestTimeRankings = this.riders
                 ?.filter(rider => rider.bestTime)
                 .sort((r1, r2) => r1.bestTime! - r2.bestTime!);
-            return bestTimeRankings?.map(ranking => new LocalEventRanking(ranking.name!, ranking.bestTime!)) ?? [];
+            return bestTimeRankings?.map(ranking => new EventRanking(ranking.name!, ranking.bestTime!)) ?? [];
         }
 
         if (this.raceCounted) {
@@ -92,19 +57,19 @@ export class LocalEvent {
                 ?.filter(rider => rider.totalTime)
                 .sort((r1, r2) => r1.getTimeAfter(this.raceCounted!) - r2.getTimeAfter(this.raceCounted!));
             return raceRankings?.map(
-                ranking => new LocalEventRanking(ranking.name!, ranking.getTimeAfter(this.raceCounted!))
+                ranking => new EventRanking(ranking.name!, ranking.getTimeAfter(this.raceCounted!))
             );
         }
         return undefined;
     }
 
     // All event results from most recent to older
-    public get results(): LocalEventResult[] {
+    public get results(): EventResult[] {
         return (
             this.riders
                 ?.flatMap(rider => {
                     return rider.results.map((result, index) => {
-                        return new LocalEventResult(index + 1, result.rider, result.timing, result.date);
+                        return new EventResult(index + 1, result.rider, result.timing, result.date);
                     });
                 })
                 .sort((r1, r2) => (r1.date < r2.date ? 1 : -1)) ?? []
