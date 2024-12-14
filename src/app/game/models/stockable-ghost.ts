@@ -1,7 +1,7 @@
 import type { SkierPositioning } from './skier-positioning';
 import type { TimedSector } from './timed-sector';
 export class StockableGhost {
-    public trackId?: number;
+    public trackId?: string;
     public date?: Date;
     public eventId?: string;
     public rider?: string;
@@ -10,7 +10,7 @@ export class StockableGhost {
     public positions?: SkierPositioning[];
 
     constructor(
-        trackId?: number,
+        trackId?: string,
         date?: Date,
         eventId?: string,
         rider?: string,

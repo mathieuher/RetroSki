@@ -3,7 +3,7 @@ import { StockableTrack } from './stockable-track';
 import type { TrackStyles } from './track-styles.enum';
 
 export class Track {
-    public id?: number;
+    public id?: string;
     public name: string;
     public builderVersion?: number;
     public style: TrackStyles;
@@ -11,7 +11,7 @@ export class Track {
     public gates: StockableGate[];
 
     constructor(
-        id?: number,
+        id?: string,
         builderVersion?: number,
         name?: string,
         style?: TrackStyles,

@@ -1,5 +1,6 @@
 .retro-button {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -211,21 +212,44 @@
     overflow-y: auto;
     padding: 0.5rem 0;
 
+    &.no-scrollable {
+        overflow-y: unset;
+    }
+
     .retro-item {
         cursor: pointer;
         display: flex;
         flex-direction: row;
         padding: 0.5rem;
-        border: 1px solid var(--color-tertiary);
+        border: 1px solid var(--color-primary);
         border-radius: var(--border-radius);
         font-size: var(--text-standard);
-        color: var(--color-tertiary);
+        color: var(--color-primary);
         justify-content: space-between;
         align-items: center;
         transition: background-color var(--transition-time) ease-in-out;
 
         &:hover {
-            background-color: var(--color-tertiary-lightest);
+            background-color: var(--color-primary-lightest);
+        }
+
+        &.tertiary {
+            border: 1px solid var(--color-tertiary);
+            color: var(--color-tertiary);
+
+            &:hover {
+                background-color: var(--color-tertiary-lightest);
+            }
+        }
+
+        .icon {
+            font-size: var(--icon-small);
+        }
+
+        >div {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
     }
 }

@@ -119,7 +119,7 @@ export class RaceComponent extends Destroyable implements OnInit, OnDestroy {
 
     private buildRaceConfig$(event: LocalEvent): Observable<RaceConfig> {
         return this.trackService
-            .getTrackGhost$(event.track!.id!)
+            .getTrackGhost$('local', event.track!.id!)
             .pipe(
                 map(
                     globalGhost =>
@@ -144,8 +144,8 @@ export class RaceComponent extends Destroyable implements OnInit, OnDestroy {
                     result =>
                         new StockableRecord(this.raceConfig()!.track.id!, result.rider, result.date, result.timing)
                 ),
-                switchMap(result => this.trackService.addTrackRecord$(result)),
-                switchMap(() => this.trackService.getTrackRecords$(this.raceConfig()!.track.id!)),
+                switchMap(result => this.trackService.addTrackRecord$('local', result)),
+                switchMap(() => this.trackService.getTrackRecords$('local', this.raceConfig()!.track.id!)),
                 tap(results =>
                     this.raceRanking.set(new RaceRanking(results, raceResult.timing, raceResult.missedGates))
                 ),
@@ -162,7 +162,7 @@ export class RaceComponent extends Destroyable implements OnInit, OnDestroy {
                         !this.raceConfig()!.globalGhost?.totalTime ||
                         raceResult.timing < this.raceConfig()!.globalGhost!.totalTime!
                     ) {
-                        return this.trackService.updateTrackGhost$(raceResult.ghost);
+                        return this.trackService.updateTrackGhost$('local', raceResult.ghost);
                     }
                     return of(null);
                 }),

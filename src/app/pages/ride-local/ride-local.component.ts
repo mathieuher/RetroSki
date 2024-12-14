@@ -8,13 +8,13 @@ import type { Track } from '../../game/models/track';
 import { TrackService } from '../../common/services/track.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { StorageManager } from '../../game/utils/storage-manager';
-import { JsonPipe } from '@angular/common';
 
 interface LocalEventForm {
     track: FormControl<number | null>;
     riders: FormArray<FormControl<string | null>>;
     races: FormControl<number | null>;
 }
+
 @Component({
     selector: 'app-ride-local',
     standalone: true,
@@ -37,7 +37,7 @@ export class RideLocalComponent implements OnDestroy {
     private localEventService = inject(LocalEventService);
 
     constructor() {
-        this.availableTracks = toSignal(this.trackService.getTracks$());
+        this.availableTracks = toSignal(this.trackService.getTracks$('local'));
         this.initForm();
     }
 

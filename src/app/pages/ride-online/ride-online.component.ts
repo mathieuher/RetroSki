@@ -6,7 +6,7 @@ import { AuthService } from '../../common/services/auth.service';
 import type { User } from '../../common/models/user';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ServerService } from '../../common/services/server.service';
-import { catchError, EMPTY, takeUntil } from 'rxjs';
+import { catchError, EMPTY, takeUntil, tap } from 'rxjs';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
 import type { Server } from '../../common/models/server';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -31,7 +31,7 @@ export class RideOnlineComponent extends Destroyable {
         Validators.minLength(3),
         Validators.maxLength(16)
     ]);
-    protected riddenServers: Signal<Server[] | undefined>;
+    protected userServers: Signal<Server[] | undefined>;
 
     protected connectionError = signal<string | null>(null);
     protected creationError = signal<string | null>(null);
@@ -43,7 +43,7 @@ export class RideOnlineComponent extends Destroyable {
         }
 
         this.user = this.authService.getUser();
-        this.riddenServers = toSignal(this.serverService.getRiddenServers$());
+        this.userServers = toSignal(this.serverService.getUserServers$());
     }
 
     protected createServer(): void {
@@ -51,6 +51,7 @@ export class RideOnlineComponent extends Destroyable {
             this.serverService
                 .createServer$(this.serverName.value!, this.user)
                 .pipe(
+                    tap(server => this.openServer(server.id)),
                     catchError(() => {
                         this.creationError.set('Unable to create the server');
                         return EMPTY;

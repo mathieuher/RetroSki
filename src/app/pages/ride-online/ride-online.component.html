@@ -59,12 +59,26 @@
             Create
         </button>
     </div>
-    <div class="retro-subtitle">Previously ridden servers</div>
-    <div class="retro-items-list">
-        @for(server of riddenServers(); track server) {
+    <div class="retro-subtitle">Owned or ridden servers</div>
+    <div class="retro-items-list no-scrollable">
+        @for(server of userServers(); track server) {
         <div class="retro-item" (click)="openServer(server.id)">
-            <div class="server-name">{{ server.name }}</div>
-            <div class="server-infos">8 riders</div>
+            <div class="server-name">
+                @if(server.owner === user?.id) {
+                <span class="icon material-symbols-outlined">crown</span> 
+                }
+                {{ server.name }}
+            </div>
+            @if(server.riders) {
+            <div class="server-infos">
+                {{ server.riders }} rider{{ server.riders > 1 ? 's' : '' }}
+            </div>
+            }
+        </div>
+        }
+        @if(!userServers()?.length) {
+        <div class="retro-placeholder">
+            Join or create a server to start riding
         </div>
         }
     </div>

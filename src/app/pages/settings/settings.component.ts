@@ -38,10 +38,15 @@ export class SettingsComponent implements OnDestroy {
         this.location.back();
     }
 
+    protected logout(): void {
+        this.authService.logout();
+        this.router.navigate(['/login']);
+    }
+
     protected restore(): void {
         this.settingsService.resetSettings();
         localStorage.clear();
         RETROSKI_DB.delete({ disableAutoOpen: false });
-        this.router.navigate(['/']);
+        window.location.reload();
     }
 }

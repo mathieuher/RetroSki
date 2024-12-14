@@ -21,15 +21,17 @@
     <div class="retro-title">
         Server : <span class="tertiary">{{ server()?.name }}</span>
     </div>
-    <div class="retro-text">
-        Access code : <span class="tertiary">{{ server()?.id }}</span>
-    </div>
     <div class="retro-subtitle">Active riders</div>
     <div class="riders-list">
         @for (rider of riders(); track rider.name) {
         <div class="rider" [class.active]="rider.name === user?.name">
             <div class="name">{{ rider.name }}</div>
-            <div class="rides">{{ rider.rides }} rides</div>
+            <div class="rides">{{ rider.rides }} ride{{ rider.rides > 1 ? 's' : '' }}</div>
+        </div>
+        }
+        @if(!riders()?.length) {
+        <div class="retro-placeholder">
+            No active riders yet
         </div>
         }
     </div>
@@ -41,10 +43,15 @@
             <div class="type">{{ event.racesLimit !== 0 ? 'Race' : 'Time-attack' }}</div>
         </div>
         }
+        @if(!events()?.length) {
+        <div class="retro-placeholder">
+            No events available yet
+        </div>
+        }
     </div>
 </div>
 @if(user?.id === server()?.owner) {
 <div class="retro-footer">
-    <button class="retro-button">Create an event</button>
+    <button class="retro-button" routerLink="/create-online-event/{{ server()?.id }}">Create an event</button>
 </div>
 }

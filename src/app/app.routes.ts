@@ -31,8 +31,23 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/local-event/local-event.component').then(m => m.LocalEventComponent)
     },
     {
+        path: 'create-online-event/:serverId',
+        loadComponent: () =>
+            import('./pages/create-online-event/create-online-event.component').then(m => m.CreateOnlineEventComponent)
+    },
+    {
         path: 'manage-tracks',
-        loadComponent: () => import('./pages/manage-tracks/manage-tracks.component').then(m => m.ManageTracksComponent)
+        loadComponent: () => import('./pages/manage-tracks/manage-tracks.component').then(m => m.ManageTracksComponent),
+        data: {
+            type: 'local'
+        }
+    },
+    {
+        path: 'manage-online-tracks',
+        loadComponent: () => import('./pages/manage-tracks/manage-tracks.component').then(m => m.ManageTracksComponent),
+        data: {
+            type: 'online'
+        }
     },
     { path: 'race', loadComponent: () => import('./pages/race/race.component').then(m => m.RaceComponent) },
     { path: '**', pathMatch: 'full', redirectTo: '' }
