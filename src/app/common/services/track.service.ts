@@ -12,6 +12,13 @@ import { environment } from '../../../environments/environment';
     providedIn: 'root'
 })
 export class TrackService {
+    public getTrack$(type: TrackType, id: string): Observable<Track> {
+        if (type === 'local') {
+            return this.getLocalTrack$(id);
+        }
+        return this.getOnlineTrack$(id);
+    }
+
     public getTracks$(type: TrackType): Observable<Track[]> {
         const tracks = type === 'local' ? this.getLocalTracks$() : this.getOnlineTracks$();
         return tracks.pipe(map(tracks => tracks.sort((a, b) => a.name.localeCompare(b.name))));
@@ -41,8 +48,20 @@ export class TrackService {
         return type === 'local' ? this.updateLocalTrackGhost$(ghost) : this.updateOnlineTrackGhost$(ghost);
     }
 
+    private getLocalTrack$(id: string): Observable<Track> {
+        return from(RETROSKI_DB.tracks.get(id)).pipe(
+            map(track => Object.assign(new StockableTrack(), track).toTrack())
+        );
+    }
+
+    private getOnlineTrack$(id: string): Observable<Track> {
+        return from(environment.pb.collection('tracks').getOne(id)).pipe(
+            map(track => Object.assign(new StockableTrack(), track).toTrack())
+        );
+    }
+
     private getLocalTracks$(): Observable<Track[]> {
-        return from(RETROSKI_DB.tracks.orderBy('name').toArray()).pipe(
+        return from(RETROSKI_DB.tracks.toArray()).pipe(
             map(tracks => tracks.map(track => Object.assign(new StockableTrack(), track))),
             map(stockableTracks => stockableTracks.map(stockableTrack => stockableTrack.toTrack()))
         );

@@ -38,7 +38,7 @@
     <div class="retro-subtitle">Events</div>
     <div class="retro-items-list">
         @for (event of events(); track event.id) {
-        <div class="retro-item">
+        <div class="retro-item" routerLink="/online-event/{{ event.id }}">
             <div class="name">{{ event.name }}</div>
             <div class="type">{{ event.racesLimit !== 0 ? 'Race' : 'Time-attack' }}</div>
         </div>

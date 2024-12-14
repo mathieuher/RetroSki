@@ -1,0 +1,57 @@
+<app-toolbar>
+    <ng-container ngProjectAs="left-actions">
+        <app-button-icon
+            icon="close"
+            (click)="goBack()"
+        ></app-button-icon>
+    </ng-container>
+    <ng-container ngProjectAs="right-actions">
+        <app-button-icon
+            icon="settings"
+            routerLink="/settings"
+        ></app-button-icon>
+    </ng-container>
+</app-toolbar>
+<div class="retro-content">
+    @if (event()) {
+        <div class="retro-title">Event : <span class="tertiary">{{ event()!.name }}</span></div>
+        <div class="retro-text">Track : <span class="tertiary">{{ event()!.trackId }}</span></div>
+        <div class="retro-subtitle">Ranking</div>
+        <div class="retro-list">
+            <app-ranking-line
+                [position]="1"
+                name="Test"
+                time="00:00:00"
+                [isDiff]="false"
+            >
+            </app-ranking-line>
+            <app-ranking-line
+                [position]="1"
+                name="Test"
+                time="00:00:00"
+                [isDiff]="true"
+            >
+            </app-ranking-line>
+        </div>
+        <div class="retro-subtitle">All results</div>
+        <div class="retro-list">
+            <app-result-line
+                [type]="'time-attack'"
+                [rideNumber]="1"
+                [name]="'Mat'"
+                [time]="'00:00:00'"
+            ></app-result-line>
+        </div>
+        <div class="retro-subtitle">My remaining races</div>
+        <app-result-line
+        type="time-attack"
+            [rideNumber]="1"
+            [name]="'Mat'"
+            [current]="true"
+            [track]="'Davos'"
+        ></app-result-line>
+    }
+</div>
+<div class="retro-footer">
+    <button class="retro-button">Start riding</button>
+</div>
