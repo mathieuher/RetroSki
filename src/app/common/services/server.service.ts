@@ -98,8 +98,8 @@ export class ServerService {
 
     public getTracks$(): Observable<ServerTrack[]> {
         return from(environment.pb.collection('tracks').getFullList()).pipe(
-            // biome-ignore lint/complexity/useLiteralKeys: <explanation>
             map(records =>
+                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                 records.map(record => ({ id: record['id'], name: `${record['name']} - (${record['style']})` }))
             )
         );
