@@ -2,7 +2,6 @@ import { format } from 'date-fns';
 import type { StockableRecord } from '../../game/models/stockable-record';
 import { Config } from '../../game/config';
 
-
 export class RaceRanking {
     public trackRecords: StockableRecord[];
     public timing: number;

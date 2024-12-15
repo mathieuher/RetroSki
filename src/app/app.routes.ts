@@ -53,7 +53,8 @@ export const routes: Routes = [
     },
     {
         path: 'create-online-event/:serverId',
-        loadComponent: () =>import('./pages/create-online-event/create-online-event.component').then(m => m.CreateOnlineEventComponent),
+        loadComponent: () =>
+            import('./pages/create-online-event/create-online-event.component').then(m => m.CreateOnlineEventComponent),
         canActivate: [AuthGuard]
     },
     {

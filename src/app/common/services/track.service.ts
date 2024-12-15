@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { from, map, of, switchMap, type Observable } from 'rxjs';
+import { from, map, of, switchMap, take, type Observable } from 'rxjs';
 import type { Track } from '../../game/models/track';
 import { RETROSKI_DB } from '../db/db';
 import { StockableTrack } from '../../game/models/stockable-track';
@@ -13,7 +13,7 @@ import { AuthService } from './auth.service';
     providedIn: 'root'
 })
 export class TrackService {
-    private user = inject(AuthService).getUser();
+    private authService = inject(AuthService);
 
     public getTrack$(type: TrackType, id: string): Observable<Track> {
         if (type === 'local') {
@@ -43,8 +43,8 @@ export class TrackService {
         return type === 'local' ? this.getLocalTrackRecords$(trackId) : this.getOnlineTrackRecords$(trackId);
     }
 
-    public getTrackGhost$(type: TrackType, trackId: string): Observable<StockableGhost | undefined> {
-        return type === 'local' ? this.getLocalTrackGhost$(trackId) : this.getOnlineTrackGhost$(trackId);
+    public getTrackGhost$(type: TrackType, trackId: string, eventId?: string): Observable<StockableGhost | undefined> {
+        return type === 'local' ? this.getLocalTrackGhost$(trackId) : this.getOnlineTrackGhost$(trackId, eventId);
     }
 
     public updateTrackGhost$(type: TrackType, eventId: string, ghost: StockableGhost): Observable<string> {
@@ -103,29 +103,67 @@ export class TrackService {
     }
 
     private addOnlineTrackRecord$(eventId: string, record: StockableRecord): Observable<string> {
-        return from(environment.pb.collection('records').create({
-            track: record.trackId,
-            event: eventId,
-            rider: this.user!.id,
-            timing: record.timing
-        })).pipe(map(record => record.id));
+        return from(
+            environment.pb.collection('records').create({
+                track: record.trackId,
+                event: eventId,
+                rider: this.authService.getUser()!.id,
+                timing: record.timing
+            })
+        ).pipe(map(record => record.id));
     }
 
     private getOnlineTrackRecords$(trackId: string): Observable<StockableRecord[]> {
-        return from(environment.pb.collection('public_records').getFullList({ query: { track: trackId }, sort: 'timing' })).pipe(
-            // biome-ignore lint/complexity/useLiteralKeys: <explanation>
-            map(records => records.map(record => new StockableRecord(trackId, record['name'], new Date(record['updated']), record['timing'])))
+        return from(
+            environment.pb.collection('public_records').getFullList({ query: { track: trackId }, sort: 'timing' })
+        ).pipe(
+            map(records =>
+                records.map(
+                    record =>
+                        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+                        new StockableRecord(trackId, record['name'], new Date(record['updated']), record['timing'])
+                )
+            )
         );
     }
 
-    private getOnlineTrackGhost$(trackId: string): Observable<StockableGhost | undefined> {
-        // TODO
-        return of(undefined);
+    private getOnlineTrackGhost$(trackId: string, eventId?: string): Observable<StockableGhost | undefined> {
+        const query = { track: trackId, event: eventId || undefined };
+        return from(environment.pb.collection('ghosts').getFullList({ query: query, sort: 'totalTime' })).pipe(
+            map(records => records[0]),
+            map(record => {
+                if (!record) {
+                    return undefined;
+                }
+                const ghost = new StockableGhost();
+                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+                ghost.date = new Date(record['created']);
+                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+                ghost.rider = record['rider'];
+                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+                ghost.totalTime = record['totalTime'];
+                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+                ghost.timedSectors = record['timedSectors'];
+                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+                ghost.positions = record['positions'];
+                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+                ghost.eventId = record['event'];
+                return ghost;
+            })
+        );
     }
 
     private updateOnlineTrackGhost$(eventId: string, ghost: StockableGhost): Observable<string> {
-        // TODO
-        return of('');
+        return from(
+            environment.pb.collection('ghosts').create({
+                track: ghost.trackId,
+                event: eventId,
+                rider: this.authService.getUser()!.id,
+                totalTime: ghost.totalTime,
+                timedSectors: ghost.timedSectors,
+                positions: ghost.positions
+            })
+        ).pipe(map(ghost => ghost.id));
     }
 
     private addLocalTrack$(track: Track): Observable<string> {

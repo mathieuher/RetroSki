@@ -10,12 +10,12 @@ import { RankingLineComponent } from '../../common/components/ranking-line/ranki
 import { LocalEventService } from '../../common/services/local-event.service';
 import type { LocalEvent } from '../../common/models/local-event';
 import { TrackService } from '../../common/services/track.service';
-import { concatMap, filter, from, map, type Observable, of, switchMap, takeUntil, tap } from 'rxjs';
+import { concatMap, filter, from, map, type Observable, of, takeUntil, tap } from 'rxjs';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
 import { RaceRanking } from '../../common/models/race-ranking';
-import { Location } from '@angular/common';
 import { EventService } from '../../common/services/event.service';
 import { AuthService } from '../../common/services/auth.service';
+import type { StockableGhost } from '../../game/models/stockable-ghost';
 
 @Component({
     selector: 'app-race',
@@ -32,7 +32,6 @@ export class RaceComponent extends Destroyable implements OnInit {
     private trackService = inject(TrackService);
     private route = inject(ActivatedRoute);
     private settingsService = inject(SettingsService);
-    private location = inject(Location);
 
     protected raceConfig = signal<RaceConfig | undefined>(undefined);
     protected raceRanking = signal<RaceRanking | undefined>(undefined);
@@ -53,17 +52,21 @@ export class RaceComponent extends Destroyable implements OnInit {
     }
 
     ngOnInit(): void {
-        const config$: Observable<RaceConfig> = this.type === 'local' ? this.buildLocalRaceConfig$(this.localEventService.getEvent()!) : this.buildOnlineRaceConfig$(this.eventId);
-
-        config$.pipe(
-            tap(config => {
-                this.game = new Game(config, this.settingsService);
-                this.game.initialize();
-            }),
-            tap(config => this.raceConfig.set(config)),
-            tap(() => this.listenToRaceStop()),
-            takeUntil(this.destroyed$)
-        ).subscribe();
+        const config$: Observable<RaceConfig> =
+            this.type === 'local'
+                ? this.buildLocalRaceConfig$(this.localEventService.getEvent()!)
+                : this.buildOnlineRaceConfig$(this.eventId);
+        config$
+            .pipe(
+                tap(config => {
+                    this.game = new Game(config, this.settingsService);
+                    this.game.initialize();
+                }),
+                tap(config => this.raceConfig.set(config)),
+                tap(() => this.listenToRaceStop()),
+                takeUntil(this.destroyed$)
+            )
+            .subscribe();
     }
 
     public override ngOnDestroy(): void {
@@ -91,9 +94,28 @@ export class RaceComponent extends Destroyable implements OnInit {
 
     private buildOnlineRaceConfig$(eventId: string): Observable<RaceConfig> {
         return this.eventService.getEvent$(eventId).pipe(
-            switchMap(event => this.trackService.getTrack$('online', event.trackId!).pipe(
-                map(track => new RaceConfig(event.id, this.user!.name!, track))
-            ))
+            concatMap(event =>
+                this.trackService
+                    .getTrack$('online', event.trackId!)
+                    .pipe(map(track => new RaceConfig(event.id, this.user!.name!, track)))
+            ),
+            concatMap(config =>
+                this.trackService.getTrackGhost$('online', config.track.id!).pipe(
+                    map(ghost => {
+                        config.globalGhost = ghost;
+                        return config;
+                    })
+                )
+            ),
+            concatMap(config =>
+                this.trackService.getTrackGhost$('online', config.track.id!, eventId).pipe(
+                    map(ghost => {
+                        config.eventGhost = ghost;
+                        return config;
+                    })
+                )
+            ),
+            tap(config => this.raceConfig.set(config))
         );
     }
 
@@ -122,29 +144,39 @@ export class RaceComponent extends Destroyable implements OnInit {
                 tap(results =>
                     this.raceRanking.set(new RaceRanking(results, raceResult.timing, raceResult.missedGates))
                 ),
-                concatMap(() => {
-                    if (
-                        !this.raceConfig()!.eventGhost?.totalTime ||
-                        raceResult.timing < this.raceConfig()!.eventGhost!.totalTime!
-                    ) {
-                        if (this.type === 'online') {
-                            return this.trackService.updateTrackGhost$(this.type, this.raceConfig()!.track.id!, raceResult.ghost);
+                concatMap(results => {
+                    if (this.type === 'online') {
+                        if (
+                            this.isEventBest(raceResult, this.raceConfig()!.eventGhost) ||
+                            this.isGlobalBest(raceResult, this.raceConfig()!.globalGhost)
+                        ) {
+                            return this.trackService.updateTrackGhost$(this.type, this.eventId, raceResult.ghost);
                         }
-                     this.localEventService.updateEventGhost(raceResult.ghost);
-                    }
-                    return of(null);
-                }),
-                concatMap(() => {
-                    if (
-                        !this.raceConfig()!.globalGhost?.totalTime ||
-                        raceResult.timing < this.raceConfig()!.globalGhost!.totalTime!
-                    ) {
-                        return this.trackService.updateTrackGhost$(this.type, this.raceConfig()!.track.id!, raceResult.ghost);
+                    } else {
+                        if (this.isEventBest(raceResult, this.raceConfig()!.eventGhost)) {
+                            this.localEventService.updateEventGhost(raceResult.ghost);
+                        }
+
+                        if (this.isGlobalBest(raceResult, this.raceConfig()!.globalGhost)) {
+                            return this.trackService.updateTrackGhost$(
+                                this.type,
+                                this.raceConfig()!.track.id!,
+                                raceResult.ghost
+                            );
+                        }
                     }
                     return of(null);
                 }),
                 takeUntil(this.destroyed$)
             )
             .subscribe();
+    }
+
+    private isEventBest(raceResult: RaceResult, eventGhost?: StockableGhost): boolean {
+        return !eventGhost?.totalTime || raceResult.timing < eventGhost.totalTime!;
+    }
+
+    private isGlobalBest(raceResult: RaceResult, globalGhost?: StockableGhost): boolean {
+        return !globalGhost?.totalTime || raceResult.timing < globalGhost.totalTime!;
     }
 }

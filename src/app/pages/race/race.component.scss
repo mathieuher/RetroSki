@@ -50,6 +50,8 @@
                 overflow: hidden;
                 max-width: 0px;
                 transition: max-width var(--transition-time) ease-in-out;
+                font-size: var(--text-small);
+                opacity: 0.9;
 
                 &.slow-sector > .time {
                     color: var(--color-error-darkest);
@@ -78,10 +80,14 @@
                     padding: 0.5rem 0.5rem;
                     flex-wrap: nowrap;
                     text-wrap: nowrap;
+                    
+                    &.label {
+                        width: 75px;
+                    }
 
                     &.time {
                         justify-content: flex-end;
-                        width: 90px;
+                        width: 70px;
                     }
                 }
             }

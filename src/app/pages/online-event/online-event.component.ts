@@ -51,7 +51,9 @@ export class OnlineEventComponent {
             loader: event => this.eventService.getResults$(event.request?.id!)
         }).value;
 
-        this.rankings = computed(() => this.eventService.buildRankings(this.event()!.racesLimit, this.results() ? [...this.results()!] : []));
+        this.rankings = computed(() =>
+            this.eventService.buildRankings(this.event()!.racesLimit, this.results() ? [...this.results()!] : [])
+        );
 
         this.remainingRaces = computed(() => this.getRemainingRaces(this.event(), this.results()));
     }
