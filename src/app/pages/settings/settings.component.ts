@@ -38,11 +38,6 @@ export class SettingsComponent implements OnDestroy {
         this.location.back();
     }
 
-    protected logout(): void {
-        this.authService.logout();
-        this.router.navigate(['/login']);
-    }
-
     protected restore(): void {
         this.settingsService.resetSettings();
         localStorage.clear();

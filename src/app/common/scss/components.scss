@@ -110,6 +110,13 @@
     padding: 1rem 0.5rem;
     text-align: center;
     color: var(--color-tertiary-light);
+
+    &.fill {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 .retro-form-section {

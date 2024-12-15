@@ -2,12 +2,6 @@
     <ng-container ngProjectAs="left-actions">
         <app-button-icon icon="close" routerLink="/"></app-button-icon>
     </ng-container>
-    <ng-container ngProjectAs="right-actions">
-        <app-button-icon
-            icon="settings"
-            routerLink="/settings"
-        ></app-button-icon>
-    </ng-container>
 </app-toolbar>
 <div class="retro-content">
     <div class="retro-title">Ride online</div>
@@ -38,6 +32,7 @@
         </button>
     </div>
     <div class="retro-subtitle">Create a new server</div>
+    @if(user?.premium) {
     <div class="retro-form-section">
         <div class="retro-form-line">
             <div class="label">Server name</div>
@@ -53,12 +48,15 @@
         }
         <button
             class="retro-button tertiary"
-            [disabled]="!serverName.valid"
+            [disabled]="!serverName.valid || !user?.premium"
             (click)="createServer()"
         >
             Create
         </button>
     </div>
+    } @else {
+    <div class="retro-placeholder">Limited to <a class="retro-link" routerLink="/profile">premium riders</a></div>
+    }
     <div class="retro-subtitle">Owned or ridden servers</div>
     <div class="retro-items-list no-scrollable">
         @for(server of userServers(); track server) {

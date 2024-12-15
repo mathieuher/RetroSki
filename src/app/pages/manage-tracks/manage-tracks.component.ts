@@ -21,7 +21,7 @@ interface TrackForm {
 @Component({
     selector: 'app-manage-tracks',
     standalone: true,
-    imports: [ButtonIconComponent, ReactiveFormsModule, RouterLink, ToolbarComponent],
+    imports: [ButtonIconComponent, ReactiveFormsModule, ToolbarComponent],
     templateUrl: './manage-tracks.component.html',
     styleUrl: './manage-tracks.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

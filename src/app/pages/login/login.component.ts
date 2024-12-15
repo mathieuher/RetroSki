@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, type Signal, signal } from '@angular/core';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { Router, RouterLink } from '@angular/router';
@@ -14,6 +14,7 @@ import {
 import { AuthService } from '../../common/services/auth.service';
 import { catchError, of, switchMap, takeUntil, tap } from 'rxjs';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 interface LoginForm {
     email: FormControl<string | null>;
@@ -49,6 +50,7 @@ export class LoginComponent extends Destroyable {
 
     protected loginForm!: FormGroup<LoginForm>;
     protected registerForm!: FormGroup<RegisterForm>;
+    protected serverAvailable: Signal<boolean | undefined> = toSignal(this.authService.isAvailable$());
 
     protected loginError = signal<string | null>(null);
     protected registerError = signal<string | null>(null);

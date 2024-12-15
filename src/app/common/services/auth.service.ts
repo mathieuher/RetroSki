@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { from, map, type Observable } from 'rxjs';
+import { catchError, from, map, of, type Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import type { RecordAuthResponse, RecordModel } from 'pocketbase';
+import type { HealthCheckResponse, RecordAuthResponse, RecordModel } from 'pocketbase';
 import { User } from '../models/user';
 import { FormatterUtils } from '../utils/formatter.utils';
 
@@ -15,6 +15,17 @@ export class AuthService {
 
     public logout(): void {
         environment.pb.authStore.clear();
+    }
+
+    public isAvailable$(): Observable<boolean> {
+        return from(environment.pb.health.check()).pipe(
+            map(x => x.code === 200),
+            catchError(() => of(false))
+        );
+    }
+
+    public isAuth$(): Observable<boolean> {
+        return from(environment.pb.collection('users').authRefresh()).pipe(map(() => environment.pb.authStore.isValid));
     }
 
     public login$(email: string, password: string): Observable<RecordAuthResponse> {

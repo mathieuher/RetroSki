@@ -64,6 +64,7 @@ export class RideOnlineComponent extends Destroyable {
             this.serverService
                 .getServer$(this.serverCode.value!)
                 .pipe(
+                    tap(server => this.openServer(server.id)),
                     catchError(() => {
                         this.connectionError.set('Unable to connect to this server');
                         return EMPTY;
