@@ -40,7 +40,6 @@ export class RideOnlineComponent extends Destroyable {
         super();
 
         this.user = this.authService.getUser();
-        console.log(this.user);
         this.userServers = toSignal(this.serverService.getUserServers$());
     }
 
