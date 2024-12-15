@@ -45,3 +45,4 @@ Thumbs.db
 # Pocketbase
 backend/*
 !backend/pb_migrations
+!backend/pb_hooks
