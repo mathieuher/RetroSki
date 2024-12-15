@@ -129,8 +129,8 @@ export class TrackService {
 
     private getOnlineTrackGhost$(trackId: string, eventId?: string): Observable<StockableGhost | undefined> {
         const query = { track: trackId, event: eventId || undefined };
-        return from(environment.pb.collection('ghosts').getFullList({ query: query, sort: 'totalTime' })).pipe(
-            map(records => records[0]),
+        return from(environment.pb.collection('ghosts').getList(1, 1, { query: query, sort: 'totalTime' })).pipe(
+            map(records => records.items[0]),
             map(record => {
                 if (!record) {
                     return undefined;

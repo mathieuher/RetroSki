@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { catchError, from, map, of, type Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import type { HealthCheckResponse, RecordAuthResponse, RecordModel } from 'pocketbase';
+import type { RecordAuthResponse, RecordModel } from 'pocketbase';
 import { User } from '../models/user';
 import { FormatterUtils } from '../utils/formatter.utils';
 
@@ -29,14 +29,18 @@ export class AuthService {
     }
 
     public login$(email: string, password: string): Observable<RecordAuthResponse> {
-        return from(environment.pb.collection('users').authWithPassword(FormatterUtils.valueFormatter(email, 'lower')!, password));
+        return from(
+            environment.pb
+                .collection('users')
+                .authWithPassword(FormatterUtils.valueFormatter(email, 'lower')!, password)
+        );
     }
 
     public register$(email: string, name: string, password: string): Observable<User> {
         return from(
             environment.pb.collection('users').create({
                 email: FormatterUtils.valueFormatter(email, 'lower'),
-                name: FormatterUtils.valueFormatter(name, 'name'),
+                name: name,
                 password,
                 passwordConfirm: password
             })
