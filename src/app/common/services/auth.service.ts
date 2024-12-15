@@ -29,7 +29,7 @@ export class AuthService {
     }
 
     public login$(email: string, password: string): Observable<RecordAuthResponse> {
-        return from(environment.pb.collection('users').authWithPassword(email, password));
+        return from(environment.pb.collection('users').authWithPassword(FormatterUtils.valueFormatter(email, 'lower')!, password));
     }
 
     public register$(email: string, name: string, password: string): Observable<User> {
