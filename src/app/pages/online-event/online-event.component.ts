@@ -2,10 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, inject, type Signal } fro
 import { RankingLineComponent } from '../../common/components/ranking-line/ranking-line.component';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { EventService } from '../../common/services/event.service';
-import { Location } from '@angular/common';
 import type { OnlineEvent } from '../../common/models/online-event';
 import { TrackService } from '../../common/services/track.service';
 import { ResultLineComponent } from '../../common/components/result-line/result-line.component';
@@ -33,7 +32,7 @@ export class OnlineEventComponent {
 
     private eventService = inject(EventService);
     private route = inject(ActivatedRoute);
-    private location = inject(Location);
+    private router = inject(Router);
     private trackService = inject(TrackService);
     private authService = inject(AuthService);
 
@@ -58,7 +57,7 @@ export class OnlineEventComponent {
     }
 
     public goBack() {
-        this.location.back();
+        this.router.navigate(['/server', this.event()?.serverId]);
     }
 
     private getRemainingRaces(event: OnlineEvent | undefined, results: EventResult[] | undefined): number[] {
