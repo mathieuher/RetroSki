@@ -74,7 +74,12 @@
             }
         </div>
         }
-        @if(!userServers()?.length) {
+
+        @if(!userServers()) {
+        <div class="retro-placeholder">
+            Loading servers
+        </div>
+        } @else if(!userServers()?.length) {
         <div class="retro-placeholder">
             Join or create a server to start riding
         </div>

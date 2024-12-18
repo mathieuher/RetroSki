@@ -27,7 +27,9 @@
                 >
                 </app-ranking-line>
             }
-            @if (!rankings()?.length) {
+            @if (!rankings()) {
+                <div class="retro-placeholder">Loading ranking</div>
+            } @else if(!rankings()?.length) {
                 @if (event()!.racesLimit) {
                     <div class="retro-placeholder">No riders have finished all races yet</div>
                 } @else {
@@ -46,7 +48,9 @@
                     [current]="result.rider === user?.name"
                 ></app-result-line>
             }
-            @if (!results()?.length) {
+            @if (!results()) {
+                <div class="retro-placeholder">Loading results</div>
+            } @else if(!results()?.length) {
                 <div class="retro-placeholder">No results yet</div>
             }
         </div>
@@ -64,10 +68,14 @@
                     [track]="track()?.fullName"
                 ></app-result-line>
             }
-            @if (!remainingRaces()?.length) {
+            @if (!remainingRaces()) {
+                <div class="retro-placeholder">Loading remaining races</div>
+            } @else if(!remainingRaces()?.length) {
                 <div class="retro-placeholder">You have completed all races</div>
             }
         }
+    } @else {
+        <div class="retro-placeholder">Loading event</div>
     }
 </div>
 <div class="retro-footer">

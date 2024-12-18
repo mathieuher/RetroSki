@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^19.0.4",
     "@angular/platform-browser-dynamic": "^19.0.4",
     "@angular/router": "^19.0.4",
+    "@angular/service-worker": "^19.0.4",
     "date-fns": "4.1.0",
     "dexie": "^4.0.9",
     "excalibur": "0.29.3",
