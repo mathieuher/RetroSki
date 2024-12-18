@@ -77,7 +77,9 @@ export class Game extends Engine {
             backgroundColor: Color.White,
             fixedUpdateFps: 60,
             maxFps: 60,
-            canvasElementId: 'game'
+            canvasElementId: 'game',
+            suppressConsoleBootMessage: true,
+            antialiasing: false
         });
 
         this.raceConfig = raceConfig;
