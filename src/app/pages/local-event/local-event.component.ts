@@ -16,7 +16,7 @@ import { LocalEventService } from '../../common/services/local-event.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LocalEventComponent {
-    protected event: LocalEvent;
+    protected event?: LocalEvent;
 
     private router = inject(Router);
     private localEventService = inject(LocalEventService);
