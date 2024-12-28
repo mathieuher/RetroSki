@@ -36,11 +36,14 @@ export class Game extends Engine {
         Resources.PoleCheckRed,
         Resources.PoleCheckBlue,
         Resources.FinalGate,
+        Resources.PoleShadow,
+        Resources.PoleSlShadow,
 
         Resources.Spectator1,
         Resources.Spectator2,
         Resources.Spectator3,
         Resources.Spectator4,
+        Resources.SpectatorShadow,
 
         Resources.WinterSound,
         Resources.StartRaceSound,

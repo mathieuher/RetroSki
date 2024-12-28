@@ -25,11 +25,14 @@ const Resources = {
     PoleCheckRed: new ImageSource('./assets/images/sprites/pole_check_red.png'),
     PoleCheckBlue: new ImageSource('./assets/images/sprites/pole_check_blue.png'),
     FinalGate: new ImageSource('./assets/images/sprites/final_gate.png'),
+    PoleShadow: new ImageSource('./assets/images/sprites/pole_shadow.png'),
+    PoleSlShadow: new ImageSource('./assets/images/sprites/pole_sl_shadow.png'),
 
     Spectator1: new ImageSource('./assets/images/sprites/spectator_1.png'),
     Spectator2: new ImageSource('./assets/images/sprites/spectator_2.png'),
     Spectator3: new ImageSource('./assets/images/sprites/spectator_3.png'),
     Spectator4: new ImageSource('./assets/images/sprites/spectator_4.png'),
+    SpectatorShadow: new ImageSource('./assets/images/sprites/spectator_shadow.png'),
 
     WinterSound: new Sound('./assets/sounds/winter.mp3'),
     FinishRaceSound: new Sound('./assets/sounds/finish_race.mp3'),

@@ -7,12 +7,14 @@ import {
     type CollisionStartEvent,
     type Sound,
     CircleCollider,
-    ColliderComponent
+    ColliderComponent,
+    GraphicsGroup
 } from 'excalibur';
 import { Config } from '../config';
 import { Skier } from './skier';
 import type { Game } from '../game';
 import type { Race } from '../scenes/race';
+import { Resources } from '../resources';
 
 export class Spectator extends Actor {
     private hitSound!: Sound;
@@ -50,7 +52,15 @@ export class Spectator extends Actor {
 
     private useRandomSpectatorGraphic(randomizer: number): void {
         const spriteNumber = ~~(randomizer * Config.SPECTATOR_SPRITES.length);
-        this.graphics.use(Config.SPECTATOR_SPRITES[spriteNumber]);
+        const graphics = new GraphicsGroup({
+            members: [
+                {
+                    graphic: Config.SPECTATOR_SPRITES[spriteNumber],
+                    offset: vec(0, 0)
+                }
+            ]
+        });
+        this.graphics.use(graphics);
     }
 
     private useRandomHitSound(randomizer: number): void {

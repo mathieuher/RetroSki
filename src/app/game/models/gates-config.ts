@@ -14,4 +14,5 @@ export interface GatesConfig {
     poleHeight: number;
     poleSprites: Map<string, Sprite>;
     poleCheckSprites: Map<string, Sprite>;
+    poleShadow: Sprite;
 }

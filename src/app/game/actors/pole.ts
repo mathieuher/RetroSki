@@ -29,6 +29,11 @@ export class Pole extends Actor {
                 {
                     graphic: gatesConfig.poleSprites.get(color)!,
                     offset: vec(0, 0)
+                },
+                {
+                    graphic: gatesConfig.poleShadow,
+                    useBounds: false,
+                    offset: vec(0, 0)
                 }
             ]
         });
