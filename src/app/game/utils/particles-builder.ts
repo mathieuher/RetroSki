@@ -1,8 +1,8 @@
-import { Color, EmitterType, ParticleEmitter, vec } from 'excalibur';
+import { Color, EmitterType, GpuParticleEmitter, ParticleEmitter, vec } from 'excalibur';
 
 export class ParticlesBuilder {
-    public static getParticlesEmitter(): ParticleEmitter {
-        return new ParticleEmitter({
+    public static getParticlesEmitter(): GpuParticleEmitter {
+        return new GpuParticleEmitter({
             pos: vec(0, -20),
             emitterType: EmitterType.Circle,
             particle: {

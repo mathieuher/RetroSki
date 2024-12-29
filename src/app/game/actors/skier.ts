@@ -1,4 +1,4 @@
-import { Actor, CollisionType, type Engine, type ParticleEmitter, vec } from 'excalibur';
+import { Actor, CollisionType, type Engine, GpuParticleConfig, GpuParticleEmitter, type ParticleEmitter, vec } from 'excalibur';
 import { Config } from '../config';
 import { Resources } from '../resources';
 import type { Race } from '../scenes/race';
@@ -16,7 +16,7 @@ export class Skier extends Actor {
     public racing = false;
     public finish = false;
 
-    private particlesEmitter!: ParticleEmitter;
+    private particlesEmitter!: GpuParticleEmitter;
 
     constructor(skierName: string, skierConfig: SkierConfig) {
         super({
