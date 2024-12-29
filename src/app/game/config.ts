@@ -189,8 +189,8 @@ export class Config {
 
     // POLES
     static POLE_DETECTOR_MARGIN = 18;
-    static FINAL_POLE_WIDTH = 30;
-    static FINAL_POLE_HEIGHT = 60;
+    static FINAL_POLE_WIDTH = 40;
+    static FINAL_POLE_HEIGHT = 70;
 
     // SPECTATORS
     static SPECTATOR_HEIGHT = 18;

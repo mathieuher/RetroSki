@@ -25,6 +25,7 @@ const Resources = {
     PoleCheckRed: new ImageSource('./assets/images/sprites/pole_check_red.png'),
     PoleCheckBlue: new ImageSource('./assets/images/sprites/pole_check_blue.png'),
     FinalGate: new ImageSource('./assets/images/sprites/final_gate.png'),
+    FinalGateShadow: new ImageSource('./assets/images/sprites/final_gate_shadow.png'),
     PoleShadow: new ImageSource('./assets/images/sprites/pole_shadow.png'),
     PoleSlShadow: new ImageSource('./assets/images/sprites/pole_sl_shadow.png'),
 

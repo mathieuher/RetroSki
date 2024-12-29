@@ -36,6 +36,7 @@ export class Game extends Engine {
         Resources.PoleCheckRed,
         Resources.PoleCheckBlue,
         Resources.FinalGate,
+        Resources.FinalGateShadow,
         Resources.PoleShadow,
         Resources.PoleSlShadow,
 
