@@ -9,6 +9,10 @@
         <div class="name">{{ user?.name }}</div>
         <div class="account-badge">{{ user?.premium ? 'Premium rider' : 'Standard rider' }}</div>
     </div>
+    @if(!user?.premium) {
+        <button class="retro-button" disabled>Upgrade to premium</button>
+        <div class="retro-text secondary">Profile upgrade will soon be available to all riders</div>
+    }
 </div>
 <div class="retro-footer">
     <button class="retro-button" (click)="logout()">
