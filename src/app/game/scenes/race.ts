@@ -293,7 +293,7 @@ export class Race extends Scene {
             this.add(gate);
         }
 
-        if (track.decorations?.length) {
+        if ((this.engine as Game).settingsService.getSettings().decorations && track.decorations?.length) {
             for (const stockableDecoration of track.decorations) {
                 const decoration = new Decoration(
                     vec(stockableDecoration.x, stockableDecoration.y),

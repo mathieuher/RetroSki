@@ -85,7 +85,7 @@ export class Game extends Engine {
             maxFps: 60,
             canvasElementId: 'game',
             suppressConsoleBootMessage: true,
-            antialiasing: true,
+            antialiasing: false,
             suppressHiDPIScaling: true
         });
 

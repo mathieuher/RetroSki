@@ -20,7 +20,6 @@ import { User } from '../../common/models/user';
 })
 export class SettingsComponent implements OnDestroy {
     private location = inject(Location);
-    private router = inject(Router);
 
     protected authService = inject(AuthService);
     protected settingsService = inject(SettingsService);
