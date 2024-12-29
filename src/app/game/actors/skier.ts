@@ -1,4 +1,10 @@
-import { Actor, CollisionType, type Engine, GpuParticleConfig, GpuParticleEmitter, type ParticleEmitter, vec } from 'excalibur';
+import {
+    Actor,
+    CollisionType,
+    type Engine,
+    type GpuParticleEmitter,
+    vec
+} from 'excalibur';
 import { Config } from '../config';
 import { Resources } from '../resources';
 import type { Race } from '../scenes/race';
