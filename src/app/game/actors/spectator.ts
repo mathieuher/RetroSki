@@ -29,7 +29,6 @@ export class Spectator extends Actor {
             rotation: toRadians(rotation),
             collisionType: CollisionType.Active
         });
-
         this.collider = new ColliderComponent(new CircleCollider({ radius: Config.SPECTATOR_WIDTH / 2 }));
 
         this.originalPos = this.pos;

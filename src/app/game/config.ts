@@ -223,4 +223,11 @@ export class Config {
         Resources.SpectatorHit2Sound,
         Resources.SpectatorHit3Sound
     ];
+
+    static DECORATIONS_AMOUNT_MAX_AMOUNT = 100;
+    static DECORATIONS_SPRITES = {
+        tree: Resources.Tree.toSprite()
+    };
+
+    static DECORATION_TREE_SIZE = 65;
 }

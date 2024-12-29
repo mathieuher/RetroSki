@@ -12,9 +12,9 @@ export class ParticlesBuilder {
                 maxAngle: 6,
                 opacity: 0.7,
                 life: 1000,
-                maxSize: 5,
-                minSize: 5,
-                startSize: 5,
+                maxSize: 2,
+                minSize: 2,
+                startSize: 2,
                 endSize: 1,
                 beginColor: Color.fromRGB(23, 106, 170, 0.1),
                 endColor: Color.Transparent

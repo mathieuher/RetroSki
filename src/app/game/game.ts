@@ -45,6 +45,9 @@ export class Game extends Engine {
         Resources.Spectator4,
         Resources.SpectatorShadow,
 
+        Resources.Tree,
+        Resources.TreeShadow,
+
         Resources.WinterSound,
         Resources.StartRaceSound,
         Resources.FinishRaceSound,
@@ -82,7 +85,8 @@ export class Game extends Engine {
             maxFps: 60,
             canvasElementId: 'game',
             suppressConsoleBootMessage: true,
-            antialiasing: false
+            antialiasing: true,
+            suppressHiDPIScaling: true
         });
 
         this.raceConfig = raceConfig;

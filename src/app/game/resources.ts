@@ -34,6 +34,9 @@ const Resources = {
     Spectator4: new ImageSource('./assets/images/sprites/spectator_4.png'),
     SpectatorShadow: new ImageSource('./assets/images/sprites/spectator_shadow.png'),
 
+    Tree: new ImageSource('./assets/images/sprites/tree.png'),
+    TreeShadow: new ImageSource('./assets/images/sprites/tree_shadow.png'),
+
     WinterSound: new Sound('./assets/sounds/winter.mp3'),
     FinishRaceSound: new Sound('./assets/sounds/finish_race.mp3'),
     StartRaceSound: new Sound('./assets/sounds/start_race.mp3'),

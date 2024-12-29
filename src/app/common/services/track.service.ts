@@ -84,6 +84,8 @@ export class TrackService {
                     stockableTrack.builderVersion = track['builderVersion'];
                     // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                     stockableTrack.gates = track['gates'];
+                    // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+                    stockableTrack.decorations = track['decorations'] || [];
                     return stockableTrack.toTrack();
                 });
             })

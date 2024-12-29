@@ -1,4 +1,5 @@
 import { TrackBuilder } from '../utils/track-builder';
+import type { StockableDecoration } from './stockable-decoration';
 import type { StockableGate } from './stockable-gate';
 import type { Track } from './track';
 import type { TrackStyles } from './track-styles.enum';
@@ -10,6 +11,7 @@ export class StockableTrack {
     public style: TrackStyles;
     public date: Date;
     public gates: StockableGate[];
+    public decorations: StockableDecoration[];
 
     constructor(
         id?: string,
@@ -17,7 +19,8 @@ export class StockableTrack {
         name?: string,
         style?: TrackStyles,
         date?: Date,
-        gates?: StockableGate[]
+        gates?: StockableGate[],
+        decorations?: StockableDecoration[]
     ) {
         this.id = id;
         this.name = name!;
@@ -25,6 +28,7 @@ export class StockableTrack {
         this.style = style!;
         this.date = date!;
         this.gates = gates!;
+        this.decorations = decorations!;
     }
 
     public toTrack(): Track {

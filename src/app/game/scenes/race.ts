@@ -19,6 +19,7 @@ import { SpectatorGroup } from '../actors/spectator-group';
 import { RaceUiManager } from '../utils/race-ui-manager';
 import type { RaceConfig } from '../models/race-config';
 import { TrackBuilder } from '../utils/track-builder';
+import { Decoration } from '../actors/decoration';
 
 export class Race extends Scene {
     public skier?: Skier;
@@ -290,6 +291,18 @@ export class Race extends Scene {
             );
             this.gates.push(gate);
             this.add(gate);
+        }
+
+        if (track.decorations?.length) {
+            for (const stockableDecoration of track.decorations) {
+                const decoration = new Decoration(
+                    vec(stockableDecoration.x, stockableDecoration.y),
+                    stockableDecoration.type,
+                    stockableDecoration.sizeRatio
+                );
+
+                this.add(decoration);
+            }
         }
     }
 
