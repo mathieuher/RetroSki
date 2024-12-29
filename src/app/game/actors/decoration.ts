@@ -1,14 +1,12 @@
 import {
     Actor,
-    type Engine,
     type Vector,
     vec,
     GraphicsGroup,
     CircleCollider,
     ColliderComponent,
     CollisionType,
-    Sprite,
-    Color
+    Sprite
 } from 'excalibur';
 import { ScreenManager } from '../utils/screen-manager';
 import { Resources } from '../resources';
@@ -24,13 +22,11 @@ export class Decoration extends Actor {
             height: treeSize,
             width: treeSize,
             collisionType: CollisionType.Active,
-            z: treeSize,
-            color: Color.Pink
+            z: treeSize
         });
 
         this.collider = new ColliderComponent(new CircleCollider({ radius: treeSize }));
 
-        /*
         const graphicsGroup = new GraphicsGroup({
             members: [
                 {
@@ -42,7 +38,7 @@ export class Decoration extends Actor {
                         }
                     }),
                     useBounds: false,
-                    offset: vec(0, - (shadowSize - treeSize))
+                    offset: vec(0, -(shadowSize - treeSize))
                 },
                 {
                     graphic: new Sprite({
@@ -58,15 +54,7 @@ export class Decoration extends Actor {
         });
 
         this.graphics.use(graphicsGroup);
-        */
-
         this.listenExitViewportEvent();
-    }
-
-    override update(): void {
-        if (ScreenManager.isNearScreen(this, this.scene!.camera) && !this.children?.length) {
-            // this.buildSpectators();
-        }
     }
 
     private listenExitViewportEvent(): void {
