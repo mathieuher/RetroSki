@@ -1,0 +1,14 @@
+:host {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 1rem;
+
+    .server-infos {
+        padding: 0.25rem;
+        background-color: var(--color-tertiary-lightest);
+        color: var(--color-tertiary);        
+        border-radius: var(--border-radius-large);
+        font-size: var(--text-small);
+    }
+}

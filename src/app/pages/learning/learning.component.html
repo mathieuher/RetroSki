@@ -1,13 +1,7 @@
 <app-toolbar>
-    <div ngProjectAs="left-actions">
+    <ng-container ngProjectAs="left-actions">
         <app-button-icon icon="close" routerLink="/"></app-button-icon>
-    </div>
-    <div ngProjectAs="right-actions">
-        <app-button-icon
-            icon="settings"
-            routerLink="/settings"
-        ></app-button-icon>
-    </div>
+    </ng-container>
 </app-toolbar>
 <div class="retro-content">
     @if(currentPage() === 1) {
@@ -116,9 +110,10 @@
         Here, you can customize various settings:
         <ul>
             <li>Sounds</li>
-            <li>Ghosts (may affect performance)</li>
-            <li>Spectators (may affect performance)</li>
+            <li>Ghosts</li>
+            <li>Spectators</li>
             <li>Particles (may affect performance)</li>
+            <li>Decorations</li>
         </ul>
         You can also restore the game to its default settings and erase all
         data.

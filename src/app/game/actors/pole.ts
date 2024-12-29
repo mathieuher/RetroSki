@@ -29,6 +29,11 @@ export class Pole extends Actor {
                 {
                     graphic: gatesConfig.poleSprites.get(color)!,
                     offset: vec(0, 0)
+                },
+                {
+                    graphic: gatesConfig.poleShadow,
+                    useBounds: false,
+                    offset: vec(0, 0)
                 }
             ]
         });
@@ -51,7 +56,7 @@ export class Pole extends Actor {
     }
 
     private onPreCollision(evt: CollisionStartEvent): void {
-        if (evt.other instanceof Skier) {
+        if (evt.other.owner instanceof Skier) {
             (this.scene!.engine as Game).soundPlayer.playSound(
                 Resources.PoleHittingSound,
                 Config.POLE_HIT_SOUND_VOLUME

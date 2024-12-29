@@ -1,0 +1,61 @@
+<app-toolbar>
+    <ng-container ngProjectAs="left-actions">
+        <app-button-icon
+            icon="logout"
+            class="flipped"
+            routerLink="/ride-online"
+        ></app-button-icon>
+    </ng-container>
+    <ng-container ngProjectAs="right-actions">
+        <app-button-icon
+            icon="share"
+            (click)="shareServer()"
+        ></app-button-icon>
+    </ng-container>
+</app-toolbar>
+<div class="retro-content">
+    <div class="retro-title">
+        Server : <span class="tertiary">{{ server()?.name }}</span>
+    </div>
+    <div class="retro-subtitle">Active riders</div>
+    <div class="riders-list">
+        @for (rider of riders(); track rider.name) {
+        <div class="rider" [class.active]="rider.name === user?.name">
+            <div class="name">{{ rider.name }}</div>
+            <div class="rides">{{ rider.rides }} ride{{ rider.rides > 1 ? 's' : '' }}</div>
+        </div>
+        }
+        @if(!riders()) {
+        <div class="retro-placeholder">
+            Loading active riders
+        </div>
+        } @else if(!riders()?.length) {
+        <div class="retro-placeholder">
+            No active riders yet
+        </div>
+        }
+    </div>
+    <div class="retro-subtitle">Events</div>
+    <div class="retro-items-list">
+        @for (event of events(); track event.id) {
+        <div class="retro-item" routerLink="/online-event/{{ event.id }}">
+            <div class="name">{{ event.name }}</div>
+            <div class="type">{{ event.racesLimit !== 0 ? 'Race' : 'Time-attack' }}</div>
+        </div>
+        }
+        @if(!events()) {
+        <div class="retro-placeholder">
+            Loading events
+        </div>
+        } @else if(!events()?.length) {
+        <div class="retro-placeholder">
+            No events available yet
+        </div>
+        }
+    </div>
+</div>
+@if(user?.id === server()?.owner) {
+<div class="retro-footer">
+    <button class="retro-button" routerLink="/create-online-event/{{ server()?.id }}">Create an event</button>
+</div>
+}

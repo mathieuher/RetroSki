@@ -1,4 +1,4 @@
-import { Actor, Color, Line, type Vector, vec } from 'excalibur';
+import { Actor, CollisionType, Color, GraphicsGroup, Line, type Vector, vec } from 'excalibur';
 import { Config } from '../config';
 import { Pole } from './pole';
 import { GateDetector } from './gate-detector';
@@ -46,7 +46,20 @@ export class Gate extends Actor {
         this.gateNumber = gateNumber;
 
         if (this.isFinalGate) {
-            this.graphics.use(Resources.FinalGate.toSprite());
+            const graphics = new GraphicsGroup({
+                members: [
+                    {
+                        graphic: Resources.FinalGateShadow.toSprite(),
+                        offset: vec(0, 0),
+                        useBounds: false
+                    },
+                    {
+                        graphic: Resources.FinalGate.toSprite(),
+                        offset: vec(0, 0)
+                    }
+                ]
+            });
+            this.graphics.use(graphics);
         }
 
         this.on('passed', () => this.onGatePassed());
@@ -103,18 +116,26 @@ export class Gate extends Actor {
         const gatePoleWidth = this.isFinalGate ? Config.FINAL_POLE_WIDTH : this.config.poleWidth;
         const gatePoleHeight = this.isFinalGate ? Config.FINAL_POLE_HEIGHT : this.config.poleHeight;
 
-        this.leftPole = new Pole(vec(0, 0), this.polesColor, this.config, this.isFinalGate);
         this.gateDetector = new GateDetector(
             vec(gatePoleWidth + Config.POLE_DETECTOR_MARGIN, 0),
             this.width - 2 * (gatePoleWidth + Config.POLE_DETECTOR_MARGIN),
             this.isFinalGate ? gatePoleHeight : gatePoleHeight / 2,
             this.isFinalGate
         );
-        this.rightPole = new Pole(vec(this.width - gatePoleWidth, 0), this.polesColor, this.config, this.isFinalGate);
 
-        this.addChild(this.leftPole!);
+        if (!this.isFinalGate) {
+            this.leftPole = new Pole(vec(0, 0), this.polesColor, this.config, this.isFinalGate);
+            this.rightPole = new Pole(
+                vec(this.width - gatePoleWidth, 0),
+                this.polesColor,
+                this.config,
+                this.isFinalGate
+            );
+            this.addChild(this.leftPole!);
+            this.addChild(this.rightPole!);
+        }
+
         this.addChild(this.gateDetector!);
-        this.addChild(this.rightPole!);
 
         if (this.sectorNumber) {
             this.sectorLine = new Actor({ anchor: vec(0, 0), z: 0 });

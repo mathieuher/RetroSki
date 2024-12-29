@@ -5,6 +5,7 @@ import type { StockableTrack } from '../models/stockable-track';
 import { TrackStyles } from '../models/track-styles.enum';
 import type { GatesConfig } from '../models/gates-config';
 import { StockableGate } from '../models/stockable-gate';
+import { StockableDecoration } from '../models/stockable-decoration';
 
 export class TrackBuilder {
     /**
@@ -14,12 +15,55 @@ export class TrackBuilder {
      * @returns new track
      */
     public static designTrack(name: string, trackStyle: TrackStyles): Track {
-        const gates = [];
         const gatesConfig = TrackBuilder.getGatesConfig(trackStyle);
         const numberOfGates = TrackBuilder.getRandomGatesNumber(gatesConfig);
         const sectorGateNumbers = TrackBuilder.getSectorGateNumbers(numberOfGates);
         console.log('TrackBuilder - Designing a new track of ', numberOfGates, ' gates');
 
+        const gates = TrackBuilder.designGates(trackStyle, gatesConfig, numberOfGates, sectorGateNumbers);
+        const decorations = TrackBuilder.designDecorations(gates);
+
+        return new Track(undefined, Config.CURRENT_BUILDER_VERSION, name, trackStyle, new Date(), gates, decorations);
+    }
+
+    /**
+     * Rebuild an existing track from the storage format
+     * @param stockableTrack stockable version of the track
+     * @returns the track
+     */
+    public static buildTrack(stockableTrack: StockableTrack): Track {
+        ('TrackBuilder - Rebuilding an existing track');
+        return new Track(
+            stockableTrack.id,
+            stockableTrack.builderVersion,
+            stockableTrack.name,
+            stockableTrack.style,
+            stockableTrack.date,
+            stockableTrack.gates,
+            stockableTrack.decorations
+        );
+    }
+
+    public static getGatesConfig(trackStyle: TrackStyles): GatesConfig {
+        if (trackStyle === TrackStyles.SL) {
+            return Config.SL_GATES_CONFIG;
+        }
+        if (trackStyle === TrackStyles.GS) {
+            return Config.GS_GATES_CONFIG;
+        }
+        if (trackStyle === TrackStyles.SG) {
+            return Config.SG_GATES_CONFIG;
+        }
+        return Config.DH_GATES_CONFIG;
+    }
+
+    private static designGates(
+        trackStyle: TrackStyles,
+        gatesConfig: GatesConfig,
+        numberOfGates: number,
+        sectorGateNumbers: number[]
+    ): StockableGate[] {
+        const gates = [];
         let nextGateWidth = TrackBuilder.getRandomGateWidth(gatesConfig);
         let nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, gatesConfig);
 
@@ -39,38 +83,34 @@ export class TrackBuilder {
         }
 
         gates.push(TrackBuilder.generateFinalGate(nextGatePosition.y, numberOfGates + 1, gatesConfig));
-
-        return new Track(undefined, Config.CURRENT_BUILDER_VERSION, name, trackStyle, new Date(), gates);
+        return gates;
     }
 
-    /**
-     * Rebuild an existing track from the storage format
-     * @param stockableTrack stockable version of the track
-     * @returns the track
-     */
-    public static buildTrack(stockableTrack: StockableTrack): Track {
-        ('TrackBuilder - Rebuilding an existing track');
-        return new Track(
-            stockableTrack.id,
-            stockableTrack.builderVersion,
-            stockableTrack.name,
-            stockableTrack.style,
-            stockableTrack.date,
-            stockableTrack.gates
-        );
-    }
+    private static designDecorations(gates: StockableGate[]): StockableDecoration[] {
+        const amount = 50 + Math.floor(Math.random() * (Config.DECORATIONS_AMOUNT_MAX_AMOUNT - 50));
+        const firstGatePosition = gates[0].y;
+        const distanceAvailable = gates[gates.length - 3].y - firstGatePosition;
+        const decorations = [];
 
-    public static getGatesConfig(trackStyle: TrackStyles): GatesConfig {
-        if (trackStyle === TrackStyles.SL) {
-            return Config.SL_GATES_CONFIG;
+        for (let i = 0; i <= amount; i++) {
+            let xPosition = Config.DISPLAY_WIDTH / 2;
+            const yPosition = Math.floor(Math.random() * distanceAvailable) + firstGatePosition;
+            const sizeRatio = 20 + Math.random() * 80;
+            const left = Math.random() < 0.5;
+
+            const availableOffset = Math.max(
+                0,
+                Config.DISPLAY_MIN_MARGIN - (sizeRatio / 100) * Config.DECORATION_TREE_SIZE
+            );
+            const offset = Math.random() * availableOffset;
+            xPosition = left ? -xPosition + offset : xPosition - (Config.DISPLAY_MIN_MARGIN + offset);
+
+            const decoration = new StockableDecoration(xPosition, yPosition, 'tree', sizeRatio);
+            decorations.push(decoration);
         }
-        if (trackStyle === TrackStyles.GS) {
-            return Config.GS_GATES_CONFIG;
-        }
-        if (trackStyle === TrackStyles.SG) {
-            return Config.SG_GATES_CONFIG;
-        }
-        return Config.DH_GATES_CONFIG;
+
+        decorations.sort((d1, d2) => d2.y - d1.y);
+        return decorations;
     }
 
     private static getRandomGatesNumber(gatesConfig: GatesConfig): number {

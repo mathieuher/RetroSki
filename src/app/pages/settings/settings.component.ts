@@ -7,6 +7,8 @@ import { Location } from '@angular/common';
 import { SettingsService } from '../../common/services/settings.service';
 import type { Settings } from '../../common/models/settings';
 import { RETROSKI_DB } from '../../common/db/db';
+import { AuthService } from '../../common/services/auth.service';
+import { User } from '../../common/models/user';
 
 @Component({
     selector: 'app-settings',
@@ -18,9 +20,9 @@ import { RETROSKI_DB } from '../../common/db/db';
 })
 export class SettingsComponent implements OnDestroy {
     private location = inject(Location);
-    private router = inject(Router);
-    protected settingsService = inject(SettingsService);
 
+    protected authService = inject(AuthService);
+    protected settingsService = inject(SettingsService);
     protected settings: Signal<Settings>;
 
     constructor() {
@@ -39,6 +41,6 @@ export class SettingsComponent implements OnDestroy {
         this.settingsService.resetSettings();
         localStorage.clear();
         RETROSKI_DB.delete({ disableAutoOpen: false });
-        this.router.navigate(['/']);
+        window.location.reload();
     }
 }

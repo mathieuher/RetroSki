@@ -4,9 +4,9 @@ import type { StockableGhost } from '../../game/models/stockable-ghost';
 import type { StockableRecord } from '../../game/models/stockable-record';
 
 export class RetroskiDB extends Dexie {
-    tracks!: Table<StockableTrack, number>;
-    ghosts!: Table<StockableGhost, number>;
-    records!: Table<StockableRecord, number>;
+    tracks!: Table<StockableTrack, string>;
+    ghosts!: Table<StockableGhost, string>;
+    records!: Table<StockableRecord, string>;
 
     constructor() {
         super('retroski');

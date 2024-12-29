@@ -36,11 +36,18 @@ export class Game extends Engine {
         Resources.PoleCheckRed,
         Resources.PoleCheckBlue,
         Resources.FinalGate,
+        Resources.FinalGateShadow,
+        Resources.PoleShadow,
+        Resources.PoleSlShadow,
 
         Resources.Spectator1,
         Resources.Spectator2,
         Resources.Spectator3,
         Resources.Spectator4,
+        Resources.SpectatorShadow,
+
+        Resources.Tree,
+        Resources.TreeShadow,
 
         Resources.WinterSound,
         Resources.StartRaceSound,
@@ -77,7 +84,10 @@ export class Game extends Engine {
             backgroundColor: Color.White,
             fixedUpdateFps: 60,
             maxFps: 60,
-            canvasElementId: 'game'
+            canvasElementId: 'game',
+            suppressConsoleBootMessage: true,
+            antialiasing: false,
+            suppressHiDPIScaling: true
         });
 
         this.raceConfig = raceConfig;

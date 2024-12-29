@@ -1,18 +1,13 @@
 <app-toolbar>
-    <div ngProjectAs="left-actions">
+    <ng-container ngProjectAs="left-actions">
         <app-button-icon
             icon="logout"
             routerLink="/ride-local"
             [flipped]="true"
         ></app-button-icon>
-    </div>
-    <div ngProjectAs="right-actions">
-        <app-button-icon
-            icon="settings"
-            routerLink="/settings"
-        ></app-button-icon>
-    </div>
+    </ng-container>
 </app-toolbar>
+@if(event) {
 <div class="retro-content">
     <div class="retro-title">Local event</div>
     <div class="retro-subtitle">Actual ranking</div>
@@ -79,3 +74,4 @@
     </button>
     }
 </div>
+}

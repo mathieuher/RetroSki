@@ -1,7 +1,7 @@
-<app-toolbar>
-    <div ngProjectAs="left-actions">
+<app-toolbar [hideSettings]="true">
+    <ng-container ngProjectAs="left-actions">
         <app-button-icon icon="close" (click)="goBack()"></app-button-icon>
-    </div>
+    </ng-container>
 </app-toolbar>
 <div class="retro-content">
     <div class="retro-title">Settings</div>
@@ -40,9 +40,10 @@
             <app-checkbox [(checked)]="settings().particles"></app-checkbox>
         </div>
     </div>
-    <div class="retro-footer">
-        <button class="retro-button error" (click)="restore()">
-            Erase content and restore
-        </button>
+    <div class="setting-item">
+        <div class="name">Decorations</div>
+        <div class="value">
+            <app-checkbox [(checked)]="settings().decorations"></app-checkbox>
+        </div>
     </div>
 </div>

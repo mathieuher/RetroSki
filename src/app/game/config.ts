@@ -126,7 +126,8 @@ export class Config {
         poleCheckSprites: new Map([
             ['red', Resources.PoleCheckRed.toSprite()],
             ['blue', Resources.PoleCheckBlue.toSprite()]
-        ])
+        ]),
+        poleShadow: Resources.PoleSlShadow.toSprite()
     };
     static GS_GATES_CONFIG = {
         trackStyle: TrackStyles.GS,
@@ -146,7 +147,8 @@ export class Config {
         poleCheckSprites: new Map([
             ['red', Resources.PoleCheckRed.toSprite()],
             ['blue', Resources.PoleCheckBlue.toSprite()]
-        ])
+        ]),
+        poleShadow: Resources.PoleShadow.toSprite()
     };
     static SG_GATES_CONFIG = {
         trackStyle: TrackStyles.SG,
@@ -166,7 +168,8 @@ export class Config {
         poleCheckSprites: new Map([
             ['red', Resources.PoleCheckRed.toSprite()],
             ['blue', Resources.PoleCheckBlue.toSprite()]
-        ])
+        ]),
+        poleShadow: Resources.PoleShadow.toSprite()
     };
     static DH_GATES_CONFIG = {
         trackStyle: TrackStyles.DH,
@@ -180,13 +183,14 @@ export class Config {
         poleWidth: 12,
         poleHeight: 12,
         poleSprites: new Map([['red', Resources.PoleRed.toSprite()]]),
-        poleCheckSprites: new Map([['red', Resources.PoleCheckRed.toSprite()]])
+        poleCheckSprites: new Map([['red', Resources.PoleCheckRed.toSprite()]]),
+        poleShadow: Resources.PoleShadow.toSprite()
     };
 
     // POLES
     static POLE_DETECTOR_MARGIN = 18;
-    static FINAL_POLE_WIDTH = 30;
-    static FINAL_POLE_HEIGHT = 60;
+    static FINAL_POLE_WIDTH = 40;
+    static FINAL_POLE_HEIGHT = 70;
 
     // SPECTATORS
     static SPECTATOR_HEIGHT = 18;
@@ -197,6 +201,7 @@ export class Config {
         Resources.Spectator3.toSprite(),
         Resources.Spectator4.toSprite()
     ];
+    static SPECTATOR_SHADOW = Resources.SpectatorShadow.toSprite();
     static SPECTATORS_MAX_DENSITY = 20;
     static SPECTATORS_MAX_SOUND_DISTANCE = 600;
     static SPECTATORS_SOUND_INTENSITY = 0.15;
@@ -218,4 +223,11 @@ export class Config {
         Resources.SpectatorHit2Sound,
         Resources.SpectatorHit3Sound
     ];
+
+    static DECORATIONS_AMOUNT_MAX_AMOUNT = 100;
+    static DECORATIONS_SPRITES = {
+        tree: Resources.Tree.toSprite()
+    };
+
+    static DECORATION_TREE_SIZE = 65;
 }

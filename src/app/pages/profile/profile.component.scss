@@ -1,0 +1,43 @@
+:host {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 1rem;
+
+    .profile-card {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1.5rem;
+        background-color: var(--color-primary-lightest);
+        color: var(--color-primary);
+        align-items: center;
+        border-radius: var(--border-radius-large);  
+        margin-bottom: 1rem;
+
+        &.premium {
+            color: var(--color-tertiary);
+            background-color: var(--color-tertiary-lightest);
+
+            .account-badge {
+                color: var(--color-surface);
+                background-color: var(--color-tertiary);
+            }
+        }
+
+        .name {
+            font-size: var(--text-big);
+            font-weight: 500;
+        }
+
+        .account-badge {
+            font-size: var(--text-small);
+            font-weight: 500;
+            color: var(--color-surface);
+            background-color: var(--color-primary);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+        }
+    }
+}

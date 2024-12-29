@@ -1,21 +1,23 @@
 <app-toolbar>
-    <div ngProjectAs="left-actions">
+    <ng-container ngProjectAs="left-actions">
         <app-button-icon icon="arrow_back" (click)="goBack()"></app-button-icon>
-    </div>
-    <div ngProjectAs="right-actions">
-        <app-button-icon
-            icon="settings"
-            routerLink="/settings"
-        ></app-button-icon>
-    </div>
+    </ng-container>
 </app-toolbar>
 <div class="retro-content">
     <div class="retro-title">Track manager</div>
-    <div class="retro-subtitle">Build a new track</div>
+    @if(managerType === 'local') {
+    <div class="retro-subtitle">Build a new local track</div>
     <div class="retro-text">
         This new track will be stored on your device and will be available for
-        local and online events
+        local events
     </div>
+    } @if(managerType === 'online') {
+    <div class="retro-subtitle">Build a new online track</div>
+    <div class="retro-text">
+        This new track will be stored on the server and will be available for
+        online events
+    </div>
+    }
     <div class="retro-form-section" [formGroup]="form">
         <div class="retro-form-line">
             <div class="label">Name</div>
@@ -42,12 +44,12 @@
         }
     </div>
     <div class="retro-title">
-        Existing tracks @if(existingTracks()?.length) { ({{
-            existingTracks()?.length
+        Existing tracks @if(tracks().length) { ({{
+            tracks().length
         }}) }
     </div>
     <div class="tracks-container">
-        @for(track of existingTracks() ?? []; track track.id) {
+        @for(track of tracks(); track track.id) {
         <div class="track-line">
             <span class="label">{{ track.fullName }}</span>
             <span class="gates">{{ track.gates.length }} gates</span>
@@ -59,7 +61,7 @@
                 ></app-button-icon>
             </div>
         </div>
-        } @if(!existingTracks()?.length) {
+        } @if(!tracks().length) {
         <div class="retro-placeholder">No existing track, build one !</div>
         }
     </div>

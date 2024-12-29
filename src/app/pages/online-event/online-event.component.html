@@ -1,0 +1,83 @@
+<app-toolbar>
+    <ng-container ngProjectAs="left-actions">
+        <app-button-icon
+            icon="close"
+            (click)="goBack()"
+        ></app-button-icon>
+    </ng-container>
+</app-toolbar>
+<div class="retro-content">
+    @if (event()) {
+        <div class="retro-title">Event : <span class="tertiary">{{ event()!.name }}</span></div>
+        <div class="retro-text">Track : <span class="tertiary">{{ track()?.fullName }}</span></div>
+        <div class="retro-text">Event type : <span class="tertiary">{{ event()!.racesLimit ? 'Race' : 'Time-attack' }}</span></div>
+        @if (!event()!.racesLimit) {
+            <div class="retro-subtitle">Ranking</div>
+        } @else {
+            <div class="retro-subtitle">Race final ranking</div>
+        }
+        <div class="retro-list">
+            @for (ranking of rankings(); track ranking; let index = $index) {
+                <app-ranking-line
+                    [class.current]="ranking.name === user?.name"
+                    [position]="index + 1"
+                    [name]="ranking.name"
+                    [time]="index === 0 ? ranking.formattedTime : ranking.getDiffTime(rankings()![0].time)"
+                    [isDiff]="index > 0"
+                >
+                </app-ranking-line>
+            }
+            @if (!rankings()) {
+                <div class="retro-placeholder">Loading ranking</div>
+            } @else if(!rankings()?.length) {
+                @if (event()!.racesLimit) {
+                    <div class="retro-placeholder">No riders have finished all races yet</div>
+                } @else {
+                    <div class="retro-placeholder">No riders have completed a ride yet</div>
+                }
+            }
+        </div>
+        <div class="retro-subtitle">All results</div>
+        <div class="retro-list">
+            @for (result of results(); track result) {
+                <app-result-line
+                    [type]="event()!.racesLimit ? 'race' : 'time-attack'"
+                    [rideNumber]="result.rideNumber"
+                    [name]="result.rider"
+                    [time]="result.formattedTime"
+                    [current]="result.rider === user?.name"
+                ></app-result-line>
+            }
+            @if (!results()) {
+                <div class="retro-placeholder">Loading results</div>
+            } @else if(!results()?.length) {
+                <div class="retro-placeholder">No results yet</div>
+            }
+        </div>
+        @if (event()!.racesLimit) {
+            <div class="retro-subtitle">Remaining races 
+                @if (remainingRaces()?.length) {
+                    ({{ remainingRaces()?.length }}/{{ event()!.racesLimit }})
+                }
+            </div>
+            @for (race of remainingRaces(); track race; let index = $index) {
+                <app-result-line
+                    type="race"
+                    [rideNumber]="race"
+                    [current]="index === 0"
+                    [track]="track()?.fullName"
+                ></app-result-line>
+            }
+            @if (!remainingRaces()) {
+                <div class="retro-placeholder">Loading remaining races</div>
+            } @else if(!remainingRaces()?.length) {
+                <div class="retro-placeholder">You have completed all races</div>
+            }
+        }
+    } @else {
+        <div class="retro-placeholder">Loading event</div>
+    }
+</div>
+<div class="retro-footer">
+    <button class="retro-button" routerLink="/online-race/{{ event()?.id }}" [disabled]="event()?.racesLimit && !remainingRaces()?.length">Start riding</button>
+</div>

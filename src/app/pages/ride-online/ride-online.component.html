@@ -1,0 +1,88 @@
+<app-toolbar>
+    <ng-container ngProjectAs="left-actions">
+        <app-button-icon icon="close" routerLink="/"></app-button-icon>
+    </ng-container>
+</app-toolbar>
+<div class="retro-content">
+    <div class="retro-title">Ride online</div>
+    <div class="retro-text">
+        Welcome on the mountain
+        <a class="retro-link">{{ user?.name }}</a> !
+    </div>
+    <div class="retro-subtitle">Connect to a server</div>
+    <div class="retro-form-section">
+        <div class="retro-form-line">
+            <div class="label">Server code</div>
+            <input
+                type="text"
+                class="retro-input"
+                placeholder="Valid server code"
+                [formControl]="serverCode"
+            />
+        </div>
+        @if(connectionError()) {
+        <div class="retro-text error">{{ connectionError() }}</div>
+        }
+        <button
+            class="retro-button tertiary"
+            [disabled]="!serverCode.valid"
+            (click)="connectServer()"
+        >
+            Connect
+        </button>
+    </div>
+    <div class="retro-subtitle">Create a new server</div>
+    @if(user?.premium) {
+    <div class="retro-form-section">
+        <div class="retro-form-line">
+            <div class="label">Server name</div>
+            <input
+                type="text"
+                class="retro-input"
+                placeholder="3 to 16 char."
+                [formControl]="serverName"
+            />
+        </div>
+        @if(creationError()) {
+        <div class="retro-text error">{{ creationError() }}</div>
+        }
+        <button
+            class="retro-button tertiary"
+            [disabled]="!serverName.valid || !user?.premium"
+            (click)="createServer()"
+        >
+            Create
+        </button>
+    </div>
+    } @else {
+    <div class="retro-placeholder">Limited to <a class="retro-link" routerLink="/profile">premium riders</a></div>
+    }
+    <div class="retro-subtitle">Owned or ridden servers</div>
+    <div class="retro-items-list no-scrollable">
+        @for(server of userServers(); track server) {
+        <div class="retro-item" (click)="openServer(server.id)">
+            <div class="server-name">
+                @if(server.owner === user?.id) {
+                <span class="icon material-symbols-outlined">crown</span> 
+                }
+                {{ server.name }}
+            </div>
+            @if(server.riders) {
+            <div class="server-infos">
+                {{ server.riders }} rider{{ server.riders > 1 ? 's' : '' }}
+            </div>
+            }
+        </div>
+        }
+
+        @if(!userServers()) {
+        <div class="retro-placeholder">
+            Loading servers
+        </div>
+        } @else if(!userServers()?.length) {
+        <div class="retro-placeholder">
+            Join or create a server to start riding
+        </div>
+        }
+    </div>
+</div>
