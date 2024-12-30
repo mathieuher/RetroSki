@@ -63,6 +63,10 @@ Enter a few details to get started:<br>
 2. Enter rider names.
 3. Select the number of races (1 to 10).
 
+### Ride online
+1. Create or join servers with your friends
+2. Ride, compete and share records with them
+
 ### Race
 You’re at the top of the hill. <br>
 Time to carve some turns!<br>
