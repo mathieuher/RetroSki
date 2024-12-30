@@ -1,27 +1,52 @@
 import { Color, EmitterType, GpuParticleEmitter, ParticleEmitter, vec } from 'excalibur';
 
 export class ParticlesBuilder {
-    public static getParticlesEmitter(): GpuParticleEmitter {
-        return new GpuParticleEmitter({
-            pos: vec(0, -20),
+    public static getCpuParticlesEmitter(side: 'left' | 'right'): ParticleEmitter {
+        return new ParticleEmitter({
+            pos: vec(side === 'left' ? -8 : 8, -4),
             emitterType: EmitterType.Circle,
+            radius: 1,
+            emitRate: 100,
+            isEmitting: true,
             particle: {
-                minSpeed: 1,
+                minSpeed: 0,
                 maxSpeed: 10,
-                minAngle: 3.4,
-                maxAngle: 6,
-                opacity: 0.7,
+                minAngle: side === 'left' ? 3 : 0.1,
+                maxAngle: side === 'left' ? 3 : 0.1,
                 life: 1000,
+                maxSize: 4,
+                minSize: 1,
+                startSize: 4,
+                endSize: 1,
+                beginColor: Color.fromRGB(120, 194, 250),
+                endColor: Color.Transparent,
+                opacity: 0.7
+            }
+        });
+    }
+
+    public static getGpuParticlesEmitter(side: 'left' | 'right'): GpuParticleEmitter {
+        return new GpuParticleEmitter({
+            pos: vec(side === 'left' ? -8 : 8, -4),
+            emitterType: EmitterType.Circle,
+            radius: 1,
+            emitRate: 100,
+            maxParticles: 5_000,
+            isEmitting: false,
+            particle: {
+                minSpeed: 0,
+                maxSpeed: 10,
+                minAngle: side === 'left' ? 3 : 0.1,
+                maxAngle: side === 'left' ? 3 : 0.1,
+                life: 2000,
                 maxSize: 2,
-                minSize: 2,
+                minSize: 1,
                 startSize: 2,
                 endSize: 1,
-                beginColor: Color.fromRGB(23, 106, 170, 0.1),
-                endColor: Color.Transparent
-            },
-            radius: 1,
-            emitRate: 1,
-            isEmitting: false
+                beginColor: Color.fromRGB(120, 194, 250),
+                endColor: Color.Transparent,
+                opacity: 0.8
+            }
         });
     }
 }
