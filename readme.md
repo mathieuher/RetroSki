@@ -6,8 +6,8 @@
 Welcome to a fun, small game development project!
 Put on your skis and race down randomly generated alpine ski tracks with friends.
 
-## 💻 Demo
-<a href="https://une-entreprise.ch/retroski">Play RetroSki</a>
+## 💻 Play the official game
+<a href="https://retro-ski.ch">RetroSki</a>
 
 ## 🎮 Controls
 <table>
