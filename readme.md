@@ -76,7 +76,8 @@ Here you can enable or disable few settings for your race:
   <li>🔊 Sounds</li>
   <li>🧑‍🤝‍🧑 Spectators</li>
   <li>👻 Ghosts</li>
-  <li> Particles (may affect performance)</li>
+  <li>🫧 Particles (may affect performance)</li>
+  <li>🌲 Decorations</li>
 </ul>
 You can also reset the game to default settings, restoring all tracks, ghosts, and records.
 
