@@ -26,6 +26,6 @@ jobs:
       with:
         server: ${{ vars.FTP_HOST }}
         username: ${{ vars.FTP_USER }}
-        password: ${{ secrets.UNE_PASSWORD }}
+        password: ${{ secrets.RETROSKI_PASSWORD }}
         local-dir: ./dist/
-        server-dir: ./retroski/preview/
+        server-dir: ./preview/
