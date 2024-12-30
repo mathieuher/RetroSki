@@ -31,21 +31,21 @@ export class ParticlesBuilder {
             emitterType: EmitterType.Circle,
             radius: 1,
             emitRate: 100,
-            maxParticles: 10_000,
+            maxParticles: 5_000,
             isEmitting: false,
             particle: {
                 minSpeed: 0,
                 maxSpeed: 10,
                 minAngle: side === 'left' ? 3 : 0.1,
                 maxAngle: side === 'left' ? 3 : 0.1,
-                life: 1000,
-                maxSize: 4,
+                life: 2000,
+                maxSize: 2,
                 minSize: 1,
-                startSize: 4,
+                startSize: 2,
                 endSize: 1,
                 beginColor: Color.fromRGB(120, 194, 250),
                 endColor: Color.Transparent,
-                opacity: 0.7
+                opacity: 0.8
             }
         });
     }

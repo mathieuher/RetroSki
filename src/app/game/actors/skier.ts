@@ -233,7 +233,7 @@ export class Skier extends Actor {
     }
 
     private emitSlidingParticles(speedPercentage: number, slidingIntensity: number, skierAction: SkierActions): void {
-        const emittingRate = speedPercentage * slidingIntensity * 40;
+        const emittingRate = speedPercentage * slidingIntensity * 50;
         if (skierAction === SkierActions.SLIDE_LEFT) {
             this.rightParticlesEmitter.particle.minSpeed = 10;
             this.rightParticlesEmitter.particle.maxSpeed = speedPercentage * 200;
@@ -246,7 +246,7 @@ export class Skier extends Actor {
     }
 
     private emitCarvingParticles(speedPercentage: number, carvingIntensity: number, skierAction: SkierActions): void {
-        const emittingRate = carvingIntensity * speedPercentage * 10;
+        const emittingRate = carvingIntensity * speedPercentage * 20;
         if (skierAction === SkierActions.CARVE_RIGHT) {
             this.leftParticlesEmitter.particle.minSpeed = 0;
             this.leftParticlesEmitter.particle.maxSpeed = 0;
