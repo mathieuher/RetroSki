@@ -80,7 +80,7 @@
                     padding: 0.5rem 0.5rem;
                     flex-wrap: nowrap;
                     text-wrap: nowrap;
-                    
+
                     &.label {
                         width: 75px;
                     }
@@ -157,6 +157,7 @@
 
         .retro-footer {
             padding: 0.5rem;
+            width: inherit;
             .retro-button {
                 margin-bottom: 1rem;
             }
