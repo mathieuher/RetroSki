@@ -115,8 +115,9 @@ Ghost mode is activated by default so you can view your best time as you race.<b
 </table>
 
 ### Performance
-RetroSki is playable on any modern device with an updated browser.<br>
-If you experience performance issues, try disabling spectators, ghosts, and particles in the game setup and reload the game.
+RetroSki is designed to run smoothly on any modern device with an updated browser.<br>
+If you encounter performance issues, try reloading the game first.<br>
+For further performance improvements, consider disabling particles and other game objects in the game settings.
 
 ### Crash
 If the game crashes, try resetting and erasing all content via the game setup menu to reload the original content.
