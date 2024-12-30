@@ -92,7 +92,10 @@ Track style also impacts skier dynamics, mimicking real-world conditions.<br>
 <b>Note:</b> Giant Slalom is a great track style to start gaining experience!
 
 ### Keep your records
-RetroSki uses localStorage and indexedDB to save generated tracks and your records.
+#### Local
+RetroSki uses localStorage and indexedDB to save local generated tracks and records.
+#### Online
+Online records, ghosts, tracks and events are persisted on servers.
 
 ### Follow your path
 Ghost mode is activated by default so you can view your best time as you race.<br>
