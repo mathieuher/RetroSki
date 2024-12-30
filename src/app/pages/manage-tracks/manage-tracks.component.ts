@@ -35,7 +35,7 @@ export class ManageTracksComponent extends Destroyable {
     protected tracks = signal<Track[]>([]);
 
     protected form = new FormGroup<TrackForm>({
-        name: new FormControl(null, [Validators.required, Validators.maxLength(20)]),
+        name: new FormControl(null, [Validators.required, Validators.maxLength(16)]),
         style: new FormControl(TrackStyles.SG, [Validators.required])
     });
 

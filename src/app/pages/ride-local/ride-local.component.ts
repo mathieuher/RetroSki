@@ -80,7 +80,12 @@ export class RideLocalComponent implements OnDestroy {
         this.form = new FormGroup<LocalEventForm>({
             track: new FormControl(defaultTrack, [Validators.required, Validators.min(1)]),
             riders: new FormArray(
-                [new FormControl<string | null>(defaultRiders.splice(0, 1)[0], [Validators.required])],
+                [
+                    new FormControl<string | null>(defaultRiders.splice(0, 1)[0], [
+                        Validators.required,
+                        Validators.maxLength(16)
+                    ])
+                ],
                 [Validators.required]
             ),
             races: new FormControl(defaultRaces, [Validators.required, Validators.min(1), Validators.max(10)])

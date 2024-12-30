@@ -21,7 +21,12 @@
     <div class="retro-form-section" [formGroup]="form">
         <div class="retro-form-line">
             <div class="label">Name</div>
-            <input type="text" class="retro-input" formControlName="name" />
+            <input
+                type="text"
+                class="retro-input"
+                formControlName="name"
+                placeholder="1 to 16 char."
+            />
         </div>
         <div class="retro-form-line">
             <div class="label">Style</div>
@@ -44,9 +49,7 @@
         }
     </div>
     <div class="retro-title">
-        Existing tracks @if(tracks().length) { ({{
-            tracks().length
-        }}) }
+        Existing tracks @if(tracks().length) { ({{ tracks().length }}) }
     </div>
     <div class="tracks-container">
         @for(track of tracks(); track track.id) {
