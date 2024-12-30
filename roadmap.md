@@ -3,8 +3,8 @@
 ## :calendar: Planning for the 2.0.0
 - Improve particles and performance
 - Improve skier sprites when turning
-- Implement async multiplayer
 - Define new default tracks, records and ghosts
+- ✔️ ~~Implement async multiplayer~~
 - ✔️ ~~Improve spectators dynamic and animation~~
 - ✔️ ~~Rework skier dynamic~~
 - ✔️ ~~Update excaliburjs core version~~
@@ -40,7 +40,6 @@
 
 ## :bulb: Further ideas
 - Implement local multiplayer (same game or dual game)
-- Provide API for tracks and records sharing
 - Build more advanced track with variable slopes
 - Implement jumping mechanic when playing with slopes
 - Reproduce real world downhill tracks
