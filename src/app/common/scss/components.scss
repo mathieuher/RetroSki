@@ -60,6 +60,7 @@
     justify-content: center;
     padding-bottom: 0.5rem;
     padding-top: 0.5rem;
+    width: 100%;
 }
 
 .retro-title {
@@ -253,7 +254,7 @@
             font-size: var(--icon-small);
         }
 
-        >div {
+        > div {
             display: flex;
             align-items: center;
             gap: 0.5rem;

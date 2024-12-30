@@ -27,15 +27,17 @@
     <div class="retro-title">Introduction</div>
     <div class="retro-text">
         Retroski is a small game development project designed for peaceful
-        mountain rides and friendly competition. Challenge your friends on
-        randomly generated 2D alpine ski tracks!
+        mountain rides and friendly competition.
     </div>
     <div class="retro-title">Game modes</div>
     <div class="retro-subtitle">Ride local</div>
     <div class="retro-text">
         Choose from existing tracks or generate a custom one, and keep track of
-        your best rides on this device. You can also play with up to 4 friends
-        by taking turns on the same device.
+        your best rides on this device.
+    </div>
+    <div class="retro-text">
+        You can also play with up to 4 friends by taking turns on the same
+        device.
     </div>
     <div class="retro-subtitle">Ride Online</div>
     <div class="retro-text">
@@ -43,12 +45,8 @@
         for the best times!
     </div>
     <div class="retro-text">
-        To access online features, you’ll need to create a basic profile.
-    </div>
-    <div class="retro-text">
-        Basic profiles allow you to join servers, while
-        <span class="tertiary">premium profile</span> unlock the ability to
-        create and manage your own servers.
+        Standard profiles allow you to join servers, while premium profile
+        unlock the ability to create and manage your own servers.
     </div>
 </ng-template>
 
@@ -62,7 +60,25 @@
         You can use various devices to ride the mountain:
     </div>
     <div class="retro-title">Devices</div>
-    <app-expander title="Keyboard" [expanded]="true">
+    <app-expander title="Gamepad (recommanded)" [expanded]="true">
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_a.png" /> Start riding
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_left_stick.png" /> Carve left /
+            right
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_b.png" /> Brake / slide
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_select.png" /> Leave the race
+        </div>
+        <div class="retro-command">
+            <img src="./assets/icons/gamepad_left_bumper.png" /> Toggle ghosts
+        </div>
+    </app-expander>
+    <app-expander title="Keyboard">
         <div class="retro-command">
             <img src="./assets/icons/keyboard_arrow_up.png" /> Start riding
         </div>
@@ -83,24 +99,6 @@
         </div>
         <div class="retro-command">
             <img src="./assets/icons/keyboard_d.png" /> Toggle debug mode
-        </div>
-    </app-expander>
-    <app-expander title="Gamepad (recommanded)">
-        <div class="retro-command">
-            <img src="./assets/icons/gamepad_a.png" /> Start riding
-        </div>
-        <div class="retro-command">
-            <img src="./assets/icons/gamepad_left_stick.png" /> Carve left /
-            right
-        </div>
-        <div class="retro-command">
-            <img src="./assets/icons/gamepad_b.png" /> Brake / slide
-        </div>
-        <div class="retro-command">
-            <img src="./assets/icons/gamepad_select.png" /> Leave the race
-        </div>
-        <div class="retro-command">
-            <img src="./assets/icons/gamepad_left_bumper.png" /> Toggle ghosts
         </div>
     </app-expander>
     <app-expander title="Touch device">
@@ -157,6 +155,16 @@
         updated browser. If you encounter performance issues, try reloading the
         game first. For further performance improvements, consider disabling
         particles and other game objects in the game settings.
+    </div>
+    <div class="retro-subtitle">Competition</div>
+    <div class="retro-text">
+        RetroSki offers a platform for friendly competition and memorable
+        moments with your friends.
+    </div>
+    <div class="retro-text">
+        Keep in mind that online cheating is possible, as timing mechanics
+        depend on device performance. Make sure to ride with trustworthy
+        companions!
     </div>
     <div class="retro-subtitle">Have fun and keep riding !</div>
     <div class="retro-text">
