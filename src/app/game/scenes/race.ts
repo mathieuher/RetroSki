@@ -162,7 +162,7 @@ export class Race extends Scene {
                 this.skier!.pos.x,
                 this.skier!.pos.y,
                 this.skier!.rotation,
-                this.skier!.getSkierCurrentAction(this.engine)
+                this.skier!.getSkierCurrentAction()
             )
         );
     }

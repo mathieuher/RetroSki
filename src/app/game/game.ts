@@ -1,4 +1,4 @@
-import { Color, DisplayMode, Engine, Loader } from 'excalibur';
+import { Color, DisplayMode, Engine, Loader, PointerScope } from 'excalibur';
 import { Resources } from './resources';
 import { SoundPlayer } from './utils/sounds-player';
 import { LogoManager } from './utils/logo-manager';
