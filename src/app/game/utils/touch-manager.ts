@@ -40,6 +40,9 @@ export class TouchManager {
 
     private listenTouch(): void {
         this.engine.input.pointers.on('down', event => {
+            if (this.engine.input.pointers.count() > 2) {
+                this.engine.input.pointers.clear();
+            }
             this.recomputeTouchStatus('down', event.pagePos);
         });
 
