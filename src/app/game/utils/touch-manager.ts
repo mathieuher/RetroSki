@@ -5,9 +5,6 @@ export class TouchManager {
     private engine: Engine;
 
     public isTouching = false;
-    // public isTouchingBack = false;
-    // public isTouchingLeft = false;
-    // public isTouchingRight = false;
 
     constructor(engine: Engine) {
         this.engine = engine;

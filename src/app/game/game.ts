@@ -87,8 +87,7 @@ export class Game extends Engine {
             canvasElementId: 'game',
             suppressConsoleBootMessage: true,
             antialiasing: true,
-            suppressHiDPIScaling: true,
-            pointerScope: PointerScope.Document
+            suppressHiDPIScaling: true
         });
 
         this.raceConfig = raceConfig;
