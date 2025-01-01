@@ -1,4 +1,4 @@
-import type { Engine, GlobalCoordinates, Vector } from 'excalibur';
+import type { Engine, Vector } from 'excalibur';
 import { Config } from '../config';
 
 export class TouchManager {
@@ -12,27 +12,27 @@ export class TouchManager {
     }
 
     public get isTouchingBack(): boolean {
-        const value = Array.from(this.engine.input.pointers.currentFramePointerCoords).findIndex(
-            v => v[1].pagePos.y > window.innerHeight - Config.TOUCH_BRAKE_ZONE_RATIO * window.innerHeight
+        const value = Array.from(this.engine.input.pointers.lastFramePointerCoords).findIndex(
+            p => p[1].pagePos.y > window.innerHeight - Config.TOUCH_BRAKE_ZONE_RATIO * window.innerHeight
         );
         return value > -1;
     }
 
     public get isTouchingRight(): boolean {
-        const value = Array.from(this.engine.input.pointers.currentFramePointerCoords).findIndex(v => {
+        const value = Array.from(this.engine.input.pointers.lastFramePointerCoords).findIndex(p => {
             return (
-                v[1].pagePos.y < window.innerHeight - Config.TOUCH_BRAKE_ZONE_RATIO * window.innerHeight &&
-                v[1].pagePos.x > window.innerWidth / 2
+                p[1].pagePos.y < window.innerHeight - Config.TOUCH_BRAKE_ZONE_RATIO * window.innerHeight &&
+                p[1].pagePos.x > window.innerWidth / 2
             );
         });
         return value > -1;
     }
 
     public get isTouchingLeft(): boolean {
-        const value = Array.from(this.engine.input.pointers.currentFramePointerCoords).findIndex(v => {
+        const value = Array.from(this.engine.input.pointers.lastFramePointerCoords).findIndex(p => {
             return (
-                v[1].pagePos.y < window.innerHeight - Config.TOUCH_BRAKE_ZONE_RATIO * window.innerHeight &&
-                v[1].pagePos.x < window.innerWidth / 2
+                p[1].pagePos.y < window.innerHeight - Config.TOUCH_BRAKE_ZONE_RATIO * window.innerHeight &&
+                p[1].pagePos.x < window.innerWidth / 2
             );
         });
         return value > -1;
@@ -40,9 +40,6 @@ export class TouchManager {
 
     private listenTouch(): void {
         this.engine.input.pointers.on('down', event => {
-            if (this.engine.input.pointers.count() > 2) {
-                this.engine.input.pointers.clear();
-            }
             this.recomputeTouchStatus('down', event.pagePos);
         });
 
