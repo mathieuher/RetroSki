@@ -15,14 +15,14 @@ export class TouchManager {
     }
 
     public get isTouchingBack(): boolean {
-        const value = Array.from(this.engine.input.pointers.lastFramePointerCoords).findIndex(
+        const value = Array.from(this.engine.input.pointers.currentFramePointerCoords).findIndex(
             v => v[1].pagePos.y > window.innerHeight - Config.TOUCH_BRAKE_ZONE_RATIO * window.innerHeight
         );
         return value > -1;
     }
 
     public get isTouchingRight(): boolean {
-        const value = Array.from(this.engine.input.pointers.lastFramePointerCoords).findIndex(v => {
+        const value = Array.from(this.engine.input.pointers.currentFramePointerCoords).findIndex(v => {
             return (
                 v[1].pagePos.y < window.innerHeight - Config.TOUCH_BRAKE_ZONE_RATIO * window.innerHeight &&
                 v[1].pagePos.x > window.innerWidth / 2
@@ -32,7 +32,7 @@ export class TouchManager {
     }
 
     public get isTouchingLeft(): boolean {
-        const value = Array.from(this.engine.input.pointers.lastFramePointerCoords).findIndex(v => {
+        const value = Array.from(this.engine.input.pointers.currentFramePointerCoords).findIndex(v => {
             return (
                 v[1].pagePos.y < window.innerHeight - Config.TOUCH_BRAKE_ZONE_RATIO * window.innerHeight &&
                 v[1].pagePos.x < window.innerWidth / 2
