@@ -14,35 +14,6 @@ export class TouchManager {
         this.listenTouch();
     }
 
-    /*
-    public get isTouchingBack(): boolean {
-        const value = Array.from(this.engine.input.pointers.lastFramePointerCoords).findIndex(
-            p => p[1].pagePos.y > window.innerHeight - Config.TOUCH_BRAKE_ZONE_RATIO * window.innerHeight
-        );
-        return value > -1;
-    }
-
-    public get isTouchingRight(): boolean {
-        const value = Array.from(this.engine.input.pointers.lastFramePointerCoords).findIndex(p => {
-            return (
-                p[1].pagePos.y < window.innerHeight - Config.TOUCH_BRAKE_ZONE_RATIO * window.innerHeight &&
-                p[1].pagePos.x > window.innerWidth / 2
-            );
-        });
-        return value > -1;
-    }
-
-    public get isTouchingLeft(): boolean {
-        const value = Array.from(this.engine.input.pointers.lastFramePointerCoords).findIndex(p => {
-            return (
-                p[1].pagePos.y < window.innerHeight - Config.TOUCH_BRAKE_ZONE_RATIO * window.innerHeight &&
-                p[1].pagePos.x < window.innerWidth / 2
-            );
-        });
-        return value > -1;
-    }
-    */
-
     private listenTouch(): void {
         this.engine.input.pointers.on('down', event => {
             this.recomputeTouchStatus('down', event.pagePos);
