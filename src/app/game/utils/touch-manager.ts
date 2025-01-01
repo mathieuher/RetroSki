@@ -55,13 +55,28 @@ export class TouchManager {
 
     private recomputeTouchStatus(type: 'down' | 'up', position: Vector): void {
         if (this.getTouchZone(position) === 'back') {
+            if (!this.isTouchingBack && type === 'up') {
+                this.resetTouching();
+            }
             this.isTouchingBack = type === 'down';
         } else if (this.getTouchZone(position) === 'left') {
+            if (!this.isTouchingLeft && type === 'up') {
+                this.resetTouching();
+            }
             this.isTouchingLeft = type === 'down';
         } else if (this.getTouchZone(position) === 'right') {
+            if (!this.isTouchingRight && type === 'up') {
+                this.resetTouching();
+            }
             this.isTouchingRight = type === 'down';
         }
         this.isTouching = this.isTouchingBack || this.isTouchingLeft || this.isTouchingRight;
+    }
+
+    private resetTouching(): void {
+        this.isTouchingBack = false;
+        this.isTouchingLeft = false;
+        this.isTouchingRight = false;
     }
 
     private getTouchZone(position: Vector): 'back' | 'left' | 'right' {
