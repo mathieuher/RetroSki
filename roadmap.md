@@ -5,8 +5,10 @@
 - Improve skier sprites when turning
 - Define new default tracks, records and ghosts
 - Improve online data list to match big items list
-- Use mailing server
 - Define premium url & link
+- Add verification step 
+- ✔️ ~~Add password management step~~
+- ✔️ ~~Use mailing server~~
 - ✔️ ~~Implement async multiplayer~~
 - ✔️ ~~Improve spectators dynamic and animation~~
 - ✔️ ~~Rework skier dynamic~~

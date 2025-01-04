@@ -25,7 +25,7 @@ interface RegisterForm extends LoginForm {
     name: FormControl<string | null>;
 }
 
-const emailValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+export const emailValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     let email: string = control?.value;
     if (email?.length) {
         const regex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;

@@ -58,4 +58,12 @@ export class AuthService {
             ? User.buildFromRecord(environment.pb.authStore.record as RecordModel)
             : null;
     }
+
+    public sendResetPasswordMail(email: string): Promise<boolean> {
+        return environment.pb.collection('users').requestPasswordReset(email);
+    }
+
+    public changePassword(password: string, passwordConfirm: string, token: string): Promise<boolean> {
+        return environment.pb.collection('users').confirmPasswordReset(token, password, passwordConfirm);
+    }
 }

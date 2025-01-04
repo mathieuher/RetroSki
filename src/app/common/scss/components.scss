@@ -17,6 +17,10 @@
     border: 1px solid var(--color-primary);
     color: var(--color-primary);
 
+    &.placeholder {
+        margin-top: 1rem;
+    }
+
     &.tertiary {
         border: 1px solid var(--color-tertiary);
         color: var(--color-tertiary);
@@ -73,6 +77,11 @@
     position: sticky;
     top: 0;
     background-color: var(--color-surface);
+
+    &.placeholder {
+        color: var(--color-tertiary);
+        text-align: center;
+    }
 }
 
 .retro-subtitle {
@@ -92,6 +101,10 @@
     color: var(--color-primary);
     font-weight: 400;
 
+    &.placeholder {
+        text-align: center;
+    }
+
     &.tertiary {
         color: var(--color-tertiary);
     }
@@ -101,9 +114,26 @@
     }
 }
 
+.retro-hint {
+    font-size: var(--text-small);
+    color: var(--color-primary-light);
+    text-align: right;
+}
+
 .retro-link {
     color: var(--color-tertiary);
     font-weight: 500;
+}
+
+.retro-placeholder-image {
+    display: flex;
+    padding: 2rem;
+    justify-content: center;
+    align-items: center;
+    img {
+        fill: var(--color-tertiary);
+        color: var(--color-tertiary);
+    }
 }
 
 .retro-placeholder {

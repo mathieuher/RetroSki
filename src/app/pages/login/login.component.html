@@ -5,7 +5,9 @@
 </app-toolbar>
 <div class="retro-content">
     @if(!serverAvailable()) {
-    <div class="retro-placeholder fill">Unfortunately online services are not available, please try again later.</div>
+    <div class="retro-placeholder fill">
+        Unfortunately online services are not available, please try again later.
+    </div>
     } @else {
     <div class="retro-title">Ride online</div>
     <div class="retro-text">
@@ -32,6 +34,11 @@
                     formControlName="password"
                     placeholder="6 to 16 char."
                 />
+            </div>
+            <div class="retro-hint">
+                <a class="retro-link" routerLink="/reset-password">
+                    Forgot password ?
+                </a>
             </div>
             @if(loginError()) {
             <div class="retro-text error">{{ loginError() }}</div>
