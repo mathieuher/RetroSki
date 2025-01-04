@@ -26,7 +26,7 @@ export class ResetPasswordComponent {
         Validators.minLength(6),
         Validators.maxLength(16)
     ]);
-    protected readonly token = this.route.snapshot.params['token'];
+    protected readonly token = (this.route.snapshot.params as { token: string }).token;
 
     protected sendMail(): void {
         if (this.email.valid) {
