@@ -88,5 +88,17 @@ export const routes: Routes = [
         data: { type: 'online' },
         canActivate: [AuthGuard, AvailableGuard]
     },
+    {
+        path: 'reset-password',
+        loadComponent: () =>
+            import('./pages/reset-password/reset-password.component').then(m => m.ResetPasswordComponent),
+        canActivate: [AvailableGuard]
+    },
+    {
+        path: 'reset-password/:token',
+        loadComponent: () =>
+            import('./pages/reset-password/reset-password.component').then(m => m.ResetPasswordComponent),
+        canActivate: [AvailableGuard]
+    },
     { path: '**', pathMatch: 'full', redirectTo: '' }
 ];
