@@ -1,0 +1,45 @@
+<app-toolbar>
+    <ng-container ngProjectAs="left-actions">
+        <app-button-icon icon="arrow_back" routerLink="/"></app-button-icon>
+    </ng-container>
+</app-toolbar>
+<div class="retro-content">
+    @if(token && verificationDone()) {
+    <div class="retro-placeholder-image">
+        <img src="assets/icons/verified.svg" alt="mail sent icon" />
+    </div>
+    <div class="retro-title placeholder">Profile verified</div>
+    <div class="retro-text placeholder">
+        Thank you for completing the verification process!
+    </div>
+    <div class="retro-text placeholder">
+        Welcome to the mountains, you’re now officially a RetroSki community
+        rider! Enjoy online adventures and connect with your friends.
+    </div>
+    <div class="retro-text placeholder">
+        Start your online riding experience by joining your friends on their
+        servers. Or take your experience to the next level by
+        <a class="retro-link" routerLink="/profile"
+            >upgrading to a premium profile</a
+        >
+        to create your own servers, host events, and design custom tracks.
+    </div>
+    <button class="retro-button placeholder tertiary" routerLink="/login">
+        Ride online
+    </button>
+    } @else {
+    <div class="retro-placeholder-image">
+        <img src="assets/icons/safety_check.svg" alt="mail sent icon" />
+    </div>
+    <div class="retro-title placeholder">Almost there!</div>
+    <div class="retro-text placeholder">
+        Thank you for joining the RetroSki online community! We’re thrilled to
+        have you on board.
+    </div>
+    <div class="retro-text placeholder">
+        A verification email has been sent to your inbox. Please check your
+        email and click the verification button to activate your account. Once
+        verified, you’ll be ready to hit the slopes and ride with us!
+    </div>
+    }
+</div>

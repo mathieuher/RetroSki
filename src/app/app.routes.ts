@@ -13,6 +13,17 @@ export const AuthGuard = () => {
     return auth;
 };
 
+export const VerifiedGuard = () => {
+    const authService = inject(AuthService);
+    const router = inject(Router);
+
+    const user = authService.getUser();
+    if (!user?.verified) {
+        router.navigate(['/verification']);
+    }
+    return true;
+};
+
 export const AvailableGuard = () => {
     const authService = inject(AuthService);
     return authService.isAvailable$();
@@ -44,12 +55,12 @@ export const routes: Routes = [
     {
         path: 'ride-online',
         loadComponent: () => import('./pages/ride-online/ride-online.component').then(m => m.RideOnlineComponent),
-        canActivate: [AuthGuard, AvailableGuard]
+        canActivate: [AuthGuard, VerifiedGuard, AvailableGuard]
     },
     {
         path: 'server/:id',
         loadComponent: () => import('./pages/server/server.component').then(m => m.ServerComponent),
-        canActivate: [AuthGuard, AvailableGuard]
+        canActivate: [AuthGuard, VerifiedGuard, AvailableGuard]
     },
     {
         path: 'local-event',
@@ -58,13 +69,13 @@ export const routes: Routes = [
     {
         path: 'online-event/:id',
         loadComponent: () => import('./pages/online-event/online-event.component').then(m => m.OnlineEventComponent),
-        canActivate: [AuthGuard, AvailableGuard]
+        canActivate: [AuthGuard, VerifiedGuard, AvailableGuard]
     },
     {
         path: 'create-online-event/:serverId',
         loadComponent: () =>
             import('./pages/create-online-event/create-online-event.component').then(m => m.CreateOnlineEventComponent),
-        canActivate: [AuthGuard, AvailableGuard]
+        canActivate: [AuthGuard, VerifiedGuard, AvailableGuard]
     },
     {
         path: 'manage-tracks',
@@ -75,7 +86,7 @@ export const routes: Routes = [
         path: 'manage-online-tracks',
         loadComponent: () => import('./pages/manage-tracks/manage-tracks.component').then(m => m.ManageTracksComponent),
         data: { type: 'online' },
-        canActivate: [AuthGuard, AvailableGuard]
+        canActivate: [AuthGuard, VerifiedGuard, AvailableGuard]
     },
     {
         path: 'race',
@@ -86,7 +97,7 @@ export const routes: Routes = [
         path: 'online-race/:eventId',
         loadComponent: () => import('./pages/race/race.component').then(m => m.RaceComponent),
         data: { type: 'online' },
-        canActivate: [AuthGuard, AvailableGuard]
+        canActivate: [AuthGuard, VerifiedGuard, AvailableGuard]
     },
     {
         path: 'reset-password',
@@ -98,6 +109,16 @@ export const routes: Routes = [
         path: 'reset-password/:token',
         loadComponent: () =>
             import('./pages/reset-password/reset-password.component').then(m => m.ResetPasswordComponent),
+        canActivate: [AvailableGuard]
+    },
+    {
+        path: 'verification',
+        loadComponent: () => import('./pages/verification/verification.component').then(m => m.VerificationComponent),
+        canActivate: [AvailableGuard]
+    },
+    {
+        path: 'verification/:token',
+        loadComponent: () => import('./pages/verification/verification.component').then(m => m.VerificationComponent),
         canActivate: [AvailableGuard]
     },
     { path: '**', pathMatch: 'full', redirectTo: '' }

@@ -5,17 +5,40 @@
 </app-toolbar>
 <div class="retro-content">
     <div class="retro-title">Profile</div>
-    <div class="profile-card" [class.premium]="user!.premium">
-        <div class="name">{{ user?.name }}</div>
-        <div class="account-badge">{{ user?.premium ? 'Premium rider' : 'Standard rider' }}</div>
+    <div class="profile-card" [class.premium]="user()?.premium">
+        <div class="name">{{ user()?.name }}</div>
+        <div class="email">{{ user()?.email }}</div>
     </div>
-    @if(!user?.premium) {
-        <button class="retro-button" disabled>Upgrade to premium</button>
-        <div class="retro-text secondary">Profile upgrade will soon be available to all riders</div>
+    <div class="retro-subtitle">Verification status</div>
+    @if(user()?.verified) {
+    <div class="retro-text">
+        Your profile is <span class="tertiary">verified</span>.
+    </div>
+    } @else {
+    <div class="retro-text">
+        You still need to complete the verification process.
+    </div>
+    <button class="retro-button tertiary" routerLink="/verification">
+        Continue verification
+    </button>
+    }
+    <div class="retro-subtitle">Profile type</div>
+    @if(user()?.premium) {
+    <div class="retro-text">
+        You ride with a <span class="tertiary">premium profile</span>.
+    </div>
+    } @else { } @if(!user()?.premium) {
+    <div class="retro-text">
+        You’re currently riding with a standard profile.
+    </div>
+    <div class="retro-text">
+        Upgrade to Premium to unlock the full community experience! Enjoy
+        creating your own servers, events and tracks to ride the slopes with
+        your friends like never before.
+    </div>
+    <button class="retro-button tertiary" disabled>Upgrade to premium</button>
     }
 </div>
 <div class="retro-footer">
-    <button class="retro-button" (click)="logout()">
-        Logout
-    </button>
+    <button class="retro-button" (click)="logout()">Logout</button>
 </div>
