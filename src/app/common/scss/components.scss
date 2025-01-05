@@ -85,6 +85,9 @@
 }
 
 .retro-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: var(--text-subtitle);
     margin-top: 0.5rem;
     margin-bottom: 0.25rem;
@@ -93,6 +96,22 @@
     position: sticky;
     top: 26px;
     background-color: var(--color-surface);
+
+    .alternative {
+        cursor: pointer;
+        transition: color ease-in-out var(--transition-time);
+
+        &:not(:first-child) {
+            border-left: 1px solid var(--color-tertiary);
+            padding-left: 0.5rem;
+            font-size: var(--text-small);
+        }
+
+        &:not(.active) {
+            color: var(--color-tertiary-light);
+            font-weight: 300 !important;
+        }
+    }
 }
 
 .retro-text {
@@ -277,6 +296,15 @@
 
             &:hover {
                 background-color: var(--color-tertiary-lightest);
+            }
+        }
+
+        &.inactive {
+            border: 1px solid var(--color-disabled);
+            color: var(--color-disabled);
+
+            &:hover {
+                background-color: var(--color-disabled-lightest);
             }
         }
 

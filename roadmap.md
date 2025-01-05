@@ -4,9 +4,9 @@
 - Improve particles and performance
 - Improve skier sprites when turning
 - Define new default tracks, records and ghosts
-- Improve online data list to match big items list
 - Define premium url & link
-- Add verification step 
+- ✔️ ~~Improve online data list to match big items list~~
+- ✔️ ~~Add verification step~~ 
 - ✔️ ~~Add password management step~~
 - ✔️ ~~Use mailing server~~
 - ✔️ ~~Implement async multiplayer~~

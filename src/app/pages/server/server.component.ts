@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, type WritableSignal } from '@angular/core';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -29,8 +29,12 @@ export class ServerComponent {
 
     protected server = signal<Server | null>(null);
     protected riders = signal<ServerRider[] | null>(null);
+    protected activeRiders = computed(() => this.riders()?.slice(0, 5));
     protected events = signal<ServerEvent[] | null>(null);
+    protected activeEvents = computed(() => this.events());
     protected user = this.authService.getUser();
+    protected ridersDisplay: WritableSignal<'active' | 'all'> = signal('active');
+    protected eventsDisplay: WritableSignal<'active' | 'all'> = signal('active');
 
     constructor() {
         this.serverService
@@ -55,8 +59,8 @@ export class ServerComponent {
     protected shareServer() {
         navigator
             .share({
-                title: 'RetroSki invitation',
-                text: `Come ride with us by clicking on the link or using the server access code : ${this.serverId}`,
+                title: "Let's ride on RetroSki",
+                text: `A RetroSki server is live, and you’re invited to hit the slopes! 🎿\nClick the link to join the server or use the server code : ${this.serverId}.\nRace, challenge your friends, or simply enjoy the ride on some of the most exciting 2D alpine tracks.\nDon’t miss out, see you on the mountain! 🏁`,
                 url: window.location.href
             })
             .catch(() => void 0);

@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, type Signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    inject,
+    signal,
+    type WritableSignal,
+    type Signal
+} from '@angular/core';
 import { RankingLineComponent } from '../../common/components/ranking-line/ranking-line.component';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
@@ -26,9 +34,13 @@ export class OnlineEventComponent {
     protected event: Signal<OnlineEvent | undefined>;
     protected track: Signal<Track | undefined>;
     protected results: Signal<EventResult[] | undefined>;
+    protected lastResults = computed(() => this.results()?.slice(0, 10));
     protected rankings: Signal<EventRanking[] | undefined>;
+    protected topRankings = computed(() => this.rankings()?.slice(0, 10));
     protected remainingRaces: Signal<number[] | undefined>;
     protected user: User | null;
+    protected rankingsDisplay: WritableSignal<'top' | 'full'> = signal('top');
+    protected resultsDisplay: WritableSignal<'last' | 'all'> = signal('last');
 
     private eventService = inject(EventService);
     private route = inject(ActivatedRoute);
