@@ -8,12 +8,12 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
-        padding: 2rem;
-        gap: 1.5rem;
+        padding: 1rem;
+        gap: 1rem;
         background-color: var(--color-primary-lightest);
         color: var(--color-primary);
         align-items: center;
-        border-radius: var(--border-radius-large);  
+        border-radius: var(--border-radius-large);
         margin-bottom: 1rem;
 
         &.premium {
@@ -29,6 +29,10 @@
         .name {
             font-size: var(--text-big);
             font-weight: 500;
+        }
+
+        .email {
+            font-size: var(--text-small);
         }
 
         .account-badge {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, from, map, of, type Observable } from 'rxjs';
+import { catchError, from, map, of, switchMap, type Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import type { RecordAuthResponse, RecordModel } from 'pocketbase';
 import { User } from '../models/user';
@@ -49,7 +49,8 @@ export class AuthService {
             map(newUser => {
                 newUser.email = email;
                 return newUser;
-            })
+            }),
+            switchMap(user => of(this.sendVerificationMail(user.email)).pipe(map(() => user)))
         );
     }
 
@@ -59,11 +60,29 @@ export class AuthService {
             : null;
     }
 
+    public getRefreshedUser$(): Observable<User | null> {
+        return from(environment.pb.collection('users').authRefresh()).pipe(
+            map(() => User.buildFromRecord(environment.pb.authStore.record as RecordModel)),
+            catchError(() => of(null))
+        );
+    }
+
     public sendResetPasswordMail(email: string): Promise<boolean> {
         return environment.pb.collection('users').requestPasswordReset(email);
     }
 
     public changePassword(password: string, passwordConfirm: string, token: string): Promise<boolean> {
         return environment.pb.collection('users').confirmPasswordReset(token, password, passwordConfirm);
+    }
+
+    public verifyUser(token: string): Promise<boolean> {
+        return environment.pb.collection('users').confirmVerification(token);
+    }
+
+    private sendVerificationMail(email: string): Promise<boolean> {
+        return environment.pb
+            .collection('users')
+            .requestVerification(email)
+            .catch(() => false);
     }
 }
