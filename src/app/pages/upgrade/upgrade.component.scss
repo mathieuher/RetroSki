@@ -1,0 +1,25 @@
+:host {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 1rem;
+
+    .plans-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+
+        .button-price {
+            justify-content: space-between;
+
+            .badge-price {
+                padding: 0.3rem 1rem;
+                font-size: var(--text-small);
+                color: var(--color-surface);
+                background-color: var(--color-tertiary-light);
+                border-radius: var(--border-radius);
+            }
+        }
+    }
+}

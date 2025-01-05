@@ -121,5 +121,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/verification/verification.component').then(m => m.VerificationComponent),
         canActivate: [AvailableGuard]
     },
+    {
+        path: 'upgrade',
+        loadComponent: () => import('./pages/upgrade/upgrade.component').then(m => m.UpgradeComponent),
+        canActivate: [AuthGuard, AvailableGuard]
+    },
     { path: '**', pathMatch: 'full', redirectTo: '' }
 ];
