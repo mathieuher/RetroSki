@@ -1,0 +1,14 @@
+{
+    "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+    "index": "/index.html",
+    "assetGroups": [
+        {
+            "name": "assets",
+            "installMode": "lazy",
+            "updateMode": "prefetch",
+            "resources": {
+                "files": ["/assets/**/*.(png|svg|mp3)"]
+            }
+        }
+    ]
+}
