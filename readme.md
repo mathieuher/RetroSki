@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/assets/logos/logo.png"/>
+  <img src="src/assets/logos/logo.png" alt="RetroSki logo"/>
 </p>
 
 # ❄️ Retro Ski game

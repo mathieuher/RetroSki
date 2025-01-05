@@ -2,14 +2,20 @@
     <ng-content select="left-actions"></ng-content>
 </div>
 <div class="logo-container">
-    <img class="small-logo" src="./assets/logos/small_logo.png" />
+    <img
+        class="small-logo"
+        src="./assets/logos/small_logo.png"
+        alt="RetroSki logo"
+    />
 </div>
 <div class="right-actions-container">
     <ng-content select="right-actions"></ng-content>
     @if(authService.isAuth()) {
-        <app-button-icon icon="account_circle" routerLink="/profile"></app-button-icon>
-    }
-    @if(!hideSettings()) {
-        <app-button-icon icon="settings" routerLink="/settings"></app-button-icon>
+    <app-button-icon
+        icon="account_circle"
+        routerLink="/profile"
+    ></app-button-icon>
+    } @if(!hideSettings()) {
+    <app-button-icon icon="settings" routerLink="/settings"></app-button-icon>
     }
 </div>

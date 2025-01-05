@@ -6,7 +6,7 @@
 <div class="retro-content">
     @if(token && verificationDone()) {
     <div class="retro-placeholder-image">
-        <img src="assets/icons/verified.svg" alt="mail sent icon" />
+        <img src="assets/icons/verified.svg" alt="verified icon" />
     </div>
     <div class="retro-title placeholder">Profile verified</div>
     <div class="retro-text placeholder">
@@ -29,7 +29,10 @@
     </button>
     } @else {
     <div class="retro-placeholder-image">
-        <img src="assets/icons/safety_check.svg" alt="mail sent icon" />
+        <img
+            src="assets/icons/safety_check.svg"
+            alt="verification process icon"
+        />
     </div>
     <div class="retro-title placeholder">Almost there!</div>
     <div class="retro-text placeholder">
