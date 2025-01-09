@@ -40,9 +40,3 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-
-
-# Pocketbase
-backend/*
-!backend/pb_migrations
-!backend/pb_hooks

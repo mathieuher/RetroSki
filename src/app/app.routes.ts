@@ -50,7 +50,7 @@ export const routes: Routes = [
     {
         path: 'profile',
         loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent),
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, AvailableGuard]
     },
     {
         path: 'ride-online',
