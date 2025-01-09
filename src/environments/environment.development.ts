@@ -1,5 +1,5 @@
 import PocketBase from 'pocketbase';
 
 export const environment = {
-    pb: new PocketBase('https://server.retro-ski.ch')
+    pb: new PocketBase('http://127.0.0.1:8090')
 };
