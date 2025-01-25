@@ -7,6 +7,17 @@
     </ng-container>
 </app-toolbar>
 <div class="retro-content">
+    @if(transactionDone) {
+    <div class="retro-placeholder-image">
+        <span class="icon material-symbols-outlined">sentiment_satisfied</span>
+    </div>
+    <div class="retro-title placeholder">Thank you for the support!</div>
+    <div class="retro-text placeholder">
+        Your transaction is cruising through the system and may take a few
+        minutes to reach the finish line. We’ve sent a confirmation email to
+        your inbox. Feel free to explore while we finalize everything!
+    </div>
+    } @else {
     <div class="retro-title">Upgrade to Premium</div>
     <div class="retro-text">
         Elevate your RetroSki experience and unlock exclusive features!
@@ -35,17 +46,15 @@
         Choose from three flexible Premium membership plans to suit your needs:
     </div>
     <div class="plans-container">
-        <button class="retro-button tertiary button-price">
-            Explorer: 2-Month Premium plan
-            <span class="badge-price">2 CHF</span>
+        @for(membership of memberships(); track membership.id) {
+        <button
+            class="retro-button tertiary button-price"
+            (click)="upgrade(membership.id)"
+        >
+            {{ membership.name }}: {{ membership.description }}
+            <span class="badge-price">{{ membership.price }} CHF</span>
         </button>
-        <button class="retro-button tertiary button-price">
-            Pro rider: 1-Year Premium plan
-            <span class="badge-price">10 CHF</span>
-        </button>
-        <button class="retro-button tertiary button-price">
-            Legend: Lifetime Premium plan
-            <span class="badge-price">20 CHF</span>
-        </button>
+        }
     </div>
+    }
 </div>

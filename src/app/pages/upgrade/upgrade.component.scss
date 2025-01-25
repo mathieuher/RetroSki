@@ -10,11 +10,19 @@
         gap: 0.5rem;
         padding: 0.5rem 0;
 
+        .retro-button {
+            text-align: left;
+            font-size: 0.8rem;
+        }
+
         .button-price {
             justify-content: space-between;
 
             .badge-price {
-                padding: 0.3rem 1rem;
+                display: flex;
+                width: 50px;
+                padding: 0.3rem;
+                justify-content: flex-end;
                 font-size: var(--text-small);
                 color: var(--color-surface);
                 background-color: var(--color-tertiary-light);
