@@ -5,8 +5,12 @@
 </app-toolbar>
 <div class="retro-content">
     <div class="retro-title">Profile</div>
-    <div class="profile-card" [class.premium]="user()?.premium">
+    <div class="profile-card">
         <div class="name">{{ user()?.name }}</div>
+        <div class="rides">
+            <strong>{{ rides() ?? 0 }}</strong> online ride@if(rides() ?? 0 > 1)
+            {s}
+        </div>
         <div class="email">{{ user()?.email }}</div>
     </div>
     <div class="retro-subtitle">Verification status</div>
@@ -21,25 +25,34 @@
     <button class="retro-button tertiary" routerLink="/verification">
         Continue verification
     </button>
-    }
-    <div class="retro-subtitle">Profile type</div>
-    @if(user()?.premium) {
-    <div class="retro-text">
-        You ride with a <span class="tertiary">premium profile</span>.
+    } @if(user()?.verified) {
+    <div class="retro-subtitle">Membership</div>
+    @if(user()?.premium) { @if(membershipStatus()) {
+    <div class="membership-card">
+        <span class="icon material-symbols-outlined">workspace_premium</span>
+        <div class="label">
+            {{ membershipStatus()!.membershipName }} membership
+        </div>
+        <div class="expire">
+            @if(membershipStatus()?.endDate) { Valid until:
+            {{ membershipStatus()!.endDate | date : "d MMMM YYY" }}
+            } @else { Lifetime validity }
+        </div>
     </div>
-    } @else { } @if(!user()?.premium) {
+    } } @else { } @if(!user()?.premium) {
     <div class="retro-text">
-        You’re currently riding with a standard profile.
+        You’re currently riding with a free standard membership.
     </div>
+    <button class="retro-button tertiary" routerLink="/upgrade">
+        Upgrade to premium
+    </button>
     <div class="retro-text">
         Upgrade to Premium to unlock the full community experience! Enjoy
         creating your own servers, events and tracks to ride the slopes with
         your friends like never before.
     </div>
-    <button class="retro-button tertiary" routerLink="/upgrade">
-        Upgrade to premium
-    </button>
-    }
+
+    } }
 </div>
 <div class="retro-footer">
     <button class="retro-button" (click)="logout()">Logout</button>

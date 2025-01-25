@@ -16,21 +16,12 @@
         border-radius: var(--border-radius-large);
         margin-bottom: 1rem;
 
-        &.premium {
-            color: var(--color-tertiary);
-            background-color: var(--color-tertiary-lightest);
-
-            .account-badge {
-                color: var(--color-surface);
-                background-color: var(--color-tertiary);
-            }
-        }
-
         .name {
             font-size: var(--text-big);
             font-weight: 500;
         }
 
+        .rides,
         .email {
             font-size: var(--text-small);
         }
@@ -42,6 +33,31 @@
             background-color: var(--color-primary);
             padding: 0.5rem 1rem;
             border-radius: var(--border-radius);
+        }
+    }
+
+    .membership-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--color-tertiary-lightest);
+        border-radius: var(--border-radius-large);
+        color: var(--color-tertiary);
+        padding: 1rem;
+        gap: 0.5rem;
+
+        > .icon {
+            scale: 1.5;
+            margin-bottom: 0.5rem;
+        }
+
+        > .label {
+            font-size: 1.5rem;
+        }
+
+        > .expire {
+            font-size: 0.7rem;
         }
     }
 }
