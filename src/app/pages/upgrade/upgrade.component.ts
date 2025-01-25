@@ -8,11 +8,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import type { Membership } from '../../common/models/membership';
 import { TransactionService } from '../../common/services/transaction.service';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
-import { PagePlaceholderComponent } from '../../common/components/page-placeholder/page-placeholder.component';
 
 @Component({
     selector: 'app-upgrade',
-    imports: [ButtonIconComponent, RouterLink, ToolbarComponent, PagePlaceholderComponent],
+    imports: [ButtonIconComponent, RouterLink, ToolbarComponent],
     templateUrl: './upgrade.component.html',
     styleUrl: './upgrade.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -21,12 +20,7 @@ export class UpgradeComponent extends Destroyable {
     private route = inject(ActivatedRoute);
     private transactionService = inject(TransactionService);
 
-    constructor() {
-        super();
-        console.log((this.route.snapshot.params as { status: 'waiting' }).status);
-    }
     protected readonly transactionDone = (this.route.snapshot.params as { status: 'waiting' }).status === 'waiting';
-
     protected memberships = toSignal(
         from(environment.pb.collection('memberships').getFullList<Membership>({ sort: 'price' }))
     );
