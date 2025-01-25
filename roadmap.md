@@ -4,7 +4,7 @@
 - Improve particles and performance
 - Improve skier sprites when turning
 - Define new default tracks, records and ghosts
-- Define premium url & link
+- ✔️ ~~Define premium url & link~~
 - ✔️ ~~Improve online data list to match big items list~~
 - ✔️ ~~Add verification step~~ 
 - ✔️ ~~Add password management step~~

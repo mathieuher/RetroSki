@@ -120,6 +120,10 @@
     color: var(--color-primary);
     font-weight: 400;
 
+    ul {
+        margin: 0;
+    }
+
     &.placeholder {
         text-align: center;
     }
@@ -152,6 +156,11 @@
     img {
         fill: var(--color-tertiary);
         color: var(--color-tertiary);
+    }
+
+    .icon {
+        color: var(--color-tertiary);
+        scale: 1.5;
     }
 }
 

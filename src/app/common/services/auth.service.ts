@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import type { RecordAuthResponse, RecordModel } from 'pocketbase';
 import { User } from '../models/user';
 import { FormatterUtils } from '../utils/formatter.utils';
+import { MembershipStatus } from '../models/membership-status';
 
 @Injectable({
     providedIn: 'root'
@@ -77,6 +78,31 @@ export class AuthService {
 
     public verifyUser(token: string): Promise<boolean> {
         return environment.pb.collection('users').confirmVerification(token);
+    }
+
+    public getMembershipStatus(): Observable<MembershipStatus> {
+        return from(environment.pb.collection('public_active_memberships').getFirstListItem('')).pipe(
+            map(response => MembershipStatus.buildFromRecord(response)),
+            switchMap(membershipStatus =>
+                this.getMembershipName$(membershipStatus.membershipId).pipe(
+                    map(membershipName => {
+                        membershipStatus.membershipName = membershipName;
+                        return membershipStatus;
+                    })
+                )
+            )
+        );
+    }
+
+    public getRiderRides$(riderId: string): Observable<number> {
+        return from(environment.pb.collection('records').getFullList()).pipe(map(response => response.length));
+    }
+
+    private getMembershipName$(membershipId: string): Observable<string> {
+        return from(environment.pb.collection('memberships').getOne(membershipId)).pipe(
+            // biome-ignore lint/complexity/useLiteralKeys: <explanation>
+            map(membership => membership['name'])
+        );
     }
 
     private sendVerificationMail(email: string): Promise<boolean> {

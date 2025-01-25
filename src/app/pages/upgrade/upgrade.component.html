@@ -1,0 +1,66 @@
+<app-toolbar>
+    <ng-container ngProjectAs="left-actions">
+        <app-button-icon
+            icon="arrow_back"
+            routerLink="/profile"
+        ></app-button-icon>
+    </ng-container>
+</app-toolbar>
+<div class="retro-content">
+    @if(transactionDone) {
+    <div class="retro-placeholder-image">
+        <span class="icon material-symbols-outlined">sentiment_satisfied</span>
+    </div>
+    <div class="retro-title placeholder">Thank you for the support!</div>
+    <div class="retro-text placeholder">
+        Your transaction is cruising through the system and may take a few
+        minutes to reach the finish line.
+    </div>
+    <div class="retro-text placeholder">
+        We’ll sent a confirmation email to your inbox when your premium account
+        is ready.
+    </div>
+    <div class="retro-text placeholder">
+        Feel free to explore while we finalize everything!
+    </div>
+    } @else {
+    <div class="retro-title">Upgrade to Premium</div>
+    <div class="retro-text">
+        Elevate your RetroSki experience and unlock exclusive features!
+    </div>
+    <div class="retro-text">
+        Host unforgettable rides, organize custom events, design unique tracks,
+        and become an integral part of the RetroSki community.
+    </div>
+    <div class="retro-subtitle">Why upgrade to Premium?</div>
+    <div class="retro-text">
+        <ul>
+            <li>Create and manage your own private servers and events.</li>
+            <li>
+                Organize events for friends or communities, and share memorable
+                moments together.
+            </li>
+            <li>Build, save, and share custom tracks across servers.</li>
+            <li>
+                Support RetroSki’s ad-free policy and contribute to future
+                development.
+            </li>
+        </ul>
+    </div>
+    <div class="retro-subtitle">Join the Premium Community</div>
+    <div class="retro-text">
+        Choose from three flexible Premium membership plans to suit your needs:
+    </div>
+    <div class="plans-container">
+        @for(membership of memberships(); track membership.id) {
+        <button
+            class="retro-button tertiary button-price"
+            (click)="upgrade(membership.id)"
+        >
+            {{ membership.name }}: {{ membership.description }}
+            <span class="badge-price">{{ membership.price }} CHF</span>
+        </button>
+        }
+    </div>
+    }
+</div>
