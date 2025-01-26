@@ -7,7 +7,10 @@
     <div class="retro-title">Ride local</div>
     <div class="retro-subtitle">Track setup</div>
     <div class="retro-form-section">
-        <div class="retro-form-line">
+        <div
+            class="retro-form-line"
+            [class.invalid]="form.get('track')?.invalid"
+        >
             @if(availableTracks()?.length) {
             <div class="label">Track</div>
             <select class="retro-input" formControlName="track">
@@ -19,13 +22,17 @@
             }
         </div>
         <button class="retro-button" routerLink="/manage-tracks">
-            Manage local tracks
+            @if(availableTracks()?.length) { Manage local tracks } @else { Build
+            your first track }
         </button>
     </div>
     <div class="retro-subtitle">Rider setup</div>
     <div class="retro-form-section" formArrayName="riders">
         @for(rider of form.controls.riders.controls; track $index) {
-        <div class="retro-form-line">
+        <div
+            class="retro-form-line"
+            [class.invalid]="form.controls.riders.get($index + '')?.invalid"
+        >
             <div class="label">
                 Rider {{ $index + 1 }}
                 @if(form.value.riders?.length! > 1) {
@@ -52,9 +59,14 @@
         </button>
     </div>
     <div class="retro-subtitle">Event setup</div>
-    <div class="retro-form-line">
+    <div class="retro-form-line" [class.invalid]="form.get('races')?.invalid">
         <div class="label">Number of races</div>
-        <input type="number" class="retro-input" formControlName="races" />
+        <input
+            type="number"
+            class="retro-input"
+            placeholder="1 to 10"
+            formControlName="races"
+        />
     </div>
 </div>
 <div class="retro-footer">

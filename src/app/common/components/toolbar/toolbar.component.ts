@@ -14,4 +14,5 @@ export class ToolbarComponent {
     protected readonly authService = inject(AuthService);
 
     public hideSettings = input<boolean>(false);
+    public hideProfile = input<boolean>(true);
 }

@@ -11,7 +11,7 @@ import { Location } from '@angular/common';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
 import { switchMap, takeUntil, tap } from 'rxjs';
 import { RideLocalComponent } from '../ride-local/ride-local.component';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 interface TrackForm {
     name: FormControl<string | null>;
@@ -80,15 +80,15 @@ export class ManageTracksComponent extends Destroyable {
                 }),
                 switchMap(() => this.trackService.getTracks$(this.managerType)),
                 tap(tracks => this.tracks.set(tracks)),
-                tap(() => this.form.patchValue({ name: '' })),
+                tap(() => this.form.controls.name.reset()),
                 takeUntil(this.destroyed$)
             )
             .subscribe();
     }
 
-    protected checkSimilarTrack(name: string, style: TrackStyles): void {
+    protected checkSimilarTrack(name: string | undefined, style: TrackStyles): void {
         const track = this.tracks().find(
-            track => track.name.toLocaleLowerCase() === name.toLocaleLowerCase() && track.style === style
+            track => track.name.toLocaleLowerCase() === name?.toLocaleLowerCase() && track.style === style
         );
         this.trackAlreadyUse.set(!!track);
     }

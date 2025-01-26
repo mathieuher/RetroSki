@@ -17,7 +17,13 @@
     <div class="retro-subtitle">Login</div>
     <form [formGroup]="loginForm">
         <div class="retro-form-section">
-            <div class="retro-form-line">
+            <div
+                class="retro-form-line"
+                [class.invalid]="
+                    loginForm.get('email')?.invalid &&
+                    !loginForm.get('email')?.pristine
+                "
+            >
                 <div class="label">Email</div>
                 <input
                     class="retro-input"
@@ -26,7 +32,13 @@
                     placeholder="Valid email"
                 />
             </div>
-            <div class="retro-form-line">
+            <div
+                class="retro-form-line"
+                [class.invalid]="
+                    loginForm.get('password')?.invalid &&
+                    !loginForm.get('password')?.pristine
+                "
+            >
                 <div class="label">Password</div>
                 <input
                     class="retro-input"
@@ -55,7 +67,13 @@
     <div class="retro-subtitle">Register</div>
     <form [formGroup]="registerForm">
         <div class="retro-form-section">
-            <div class="retro-form-line">
+            <div
+                class="retro-form-line"
+                [class.invalid]="
+                    registerForm.get('name')?.invalid &&
+                    registerForm.get('name')?.touched
+                "
+            >
                 <div class="label">Username</div>
                 <input
                     class="retro-input"
@@ -64,7 +82,13 @@
                     placeholder="3 to 16 char."
                 />
             </div>
-            <div class="retro-form-line">
+            <div
+                class="retro-form-line"
+                [class.invalid]="
+                    registerForm.get('email')?.invalid &&
+                    !registerForm.get('email')?.pristine
+                "
+            >
                 <div class="label">Email</div>
                 <input
                     class="retro-input"
@@ -73,7 +97,13 @@
                     placeholder="Valid email"
                 />
             </div>
-            <div class="retro-form-line">
+            <div
+                class="retro-form-line"
+                [class.invalid]="
+                    registerForm.get('password')?.invalid &&
+                    !registerForm.get('password')?.pristine
+                "
+            >
                 <div class="label">Password</div>
                 <input
                     class="retro-input"

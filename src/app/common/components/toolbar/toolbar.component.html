@@ -11,7 +11,7 @@
 </div>
 <div class="right-actions-container">
     <ng-content select="right-actions"></ng-content>
-    @if(authService.isAuth()) {
+    @if(!hideProfile() && authService.isAuth()) {
     <app-button-icon
         icon="account_circle"
         routerLink="/profile"

@@ -9,23 +9,42 @@
         <div class="retro-subtitle">Event track</div>
         <div class="retro-form-section">
             @if(tracks()?.length) {
-            <div class="retro-form-line">
+            <div
+                class="retro-form-line"
+                [class.invalid]="form.get('track')?.invalid"
+            >
                 <div class="label">Track</div>
                 <select class="retro-input" formControlName="track">
-                    <option value=null>Select a track</option>
+                    <option value="null">Select a track</option>
                     @for (track of tracks(); track track.id) {
                     <option value="{{ track.id }}">{{ track.fullName }}</option>
                     }
                 </select>
             </div>
             }
-            <button class="retro-button tertiary" routerLink="/manage-online-tracks">Manage online tracks</button>
+            <button
+                class="retro-button tertiary"
+                routerLink="/manage-online-tracks"
+            >
+                @if(tracks()?.length) { Manage online tracks } @else { Build
+                your first track}
+            </button>
         </div>
         <div class="retro-subtitle">Event details</div>
         <div class="retro-form-section">
-            <div class="retro-form-line">
+            <div
+                class="retro-form-line"
+                [class.invalid]="
+                    form.get('name')?.invalid && !form.get('name')?.pristine
+                "
+            >
                 <div class="label">Name</div>
-                <input type="text" class="retro-input" formControlName="name" placeholder="3 to 16 char." />
+                <input
+                    type="text"
+                    class="retro-input"
+                    formControlName="name"
+                    placeholder="3 to 16 char."
+                />
             </div>
             <div class="retro-form-line">
                 <div class="label">Type</div>
@@ -35,14 +54,30 @@
                 </select>
             </div>
             @if(form.get('type')?.value === 'race') {
-            <div class="retro-form-line">
+            <div
+                class="retro-form-line"
+                [class.invalid]="
+                    form.get('races')?.invalid && !form.get('races')?.pristine
+                "
+            >
                 <div class="label">Number of races</div>
-                    <input type="number" class="retro-input" formControlName="races" placeholder="1 to 10" />
+                <input
+                    type="number"
+                    class="retro-input"
+                    formControlName="races"
+                    placeholder="1 to 10"
+                />
             </div>
             }
         </div>
     </form>
 </div>
 <div class="retro-footer">
-    <button class="retro-button" (click)="createEvent()" [disabled]="!form.valid">Create event</button>
+    <button
+        class="retro-button"
+        (click)="createEvent()"
+        [disabled]="!form.valid"
+    >
+        Create event
+    </button>
 </div>

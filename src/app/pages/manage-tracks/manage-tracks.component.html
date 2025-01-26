@@ -19,7 +19,10 @@
     </div>
     }
     <div class="retro-form-section" [formGroup]="form">
-        <div class="retro-form-line">
+        <div
+            class="retro-form-line"
+            [class.invalid]="form.invalid && !form.pristine"
+        >
             <div class="label">Name</div>
             <input
                 type="text"
@@ -39,13 +42,13 @@
         </div>
         <button
             class="retro-button tertiary"
-            [disabled]="!form.valid || trackAlreadyUse()"
+            [disabled]="form.invalid || trackAlreadyUse()"
             (click)="generateTrack()"
         >
             Build the track
         </button>
         @if(trackAlreadyUse()) {
-        <div class="retro-text tertiary">A similar track already exist</div>
+        <div class="retro-text error">A similar track already exist</div>
         }
     </div>
     <div class="retro-title">
