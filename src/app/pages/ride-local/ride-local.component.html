@@ -18,7 +18,7 @@
             </select>
             }
         </div>
-        <button class="retro-button tertiary" routerLink="/manage-tracks">
+        <button class="retro-button" routerLink="/manage-tracks">
             Manage local tracks
         </button>
     </div>
@@ -31,7 +31,6 @@
                 @if(form.value.riders?.length! > 1) {
                 <app-button-icon
                     icon="delete"
-                    class="tertiary"
                     (click)="removeRider($index)"
                 ></app-button-icon>
                 }
@@ -45,7 +44,7 @@
         </div>
         }
         <button
-            class="retro-button tertiary"
+            class="retro-button"
             (click)="addRider()"
             [disabled]="form.value.riders?.length! >= 4"
         >
@@ -60,7 +59,7 @@
 </div>
 <div class="retro-footer">
     <button
-        class="retro-button"
+        class="retro-button tertiary"
         (click)="startEvent()"
         [disabled]="!form.valid"
     >

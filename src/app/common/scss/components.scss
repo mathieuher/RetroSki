@@ -7,44 +7,36 @@
     background-color: transparent;
     box-shadow: none;
     height: 40px;
-    font-size: var(--text-subtitle);
+    font-size: var(--text-standard);
     font-family: "Kode mono", monospace;
     text-align: center;
     border-radius: var(--border-radius-large);
     cursor: pointer;
-    transition: background-color var(--transition-time) ease-in-out;
+    transition: var(--transition-time) ease-in-out;
+    border: 0px;
 
-    border: 1px solid var(--color-primary);
-    color: var(--color-primary);
+    background-color: var(--color-primary);
+    color: var(--color-surface);
 
     &.placeholder {
         margin-top: 1rem;
     }
 
     &.tertiary {
-        border: 1px solid var(--color-tertiary);
-        color: var(--color-tertiary);
+        background-color: var(--color-tertiary);
+        color: var(--color-surface);
 
         &:hover:not([disabled]) {
-            background-color: var(--color-tertiary-lightest);
-        }
-    }
-
-    &.error {
-        border: 1px solid var(--color-error);
-        color: var(--color-error);
-
-        &:hover:not([disabled]) {
-            background-color: var(--color-error-lightest);
+            background-color: var(--color-tertiary-hover);
         }
     }
 
     &:hover:not([disabled]) {
-        background-color: var(--color-primary-lightest);
+        background-color: var(--color-primary-hover);
     }
 
     &[disabled] {
-        border-color: var(--color-disabled);
+        background-color: var(--color-disabled-lightest);
         color: var(--color-disabled);
         cursor: initial;
     }
@@ -244,8 +236,8 @@
 .retro-input {
     font-size: var(--text-standard);
     border-radius: var(--border-radius-large);
-    border-color: var(--color-tertiary);
-    color: var(--color-tertiary);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
     font-family: var(--text-font-family);
     height: 40px;
     padding: 0 0.5rem;
@@ -287,34 +279,31 @@
         display: flex;
         flex-direction: row;
         padding: 0.5rem;
-        border: 1px solid var(--color-primary);
+        border: 0px;
         border-radius: var(--border-radius);
         font-size: var(--text-standard);
-        color: var(--color-primary);
+        color: var(--color-surface);
+        background-color: var(--color-primary);
         justify-content: space-between;
         align-items: center;
-        transition: background-color var(--transition-time) ease-in-out;
+        transition: var(--transition-time) ease-in-out;
 
         &:hover {
-            background-color: var(--color-primary-lightest);
+            background-color: var(--color-primary-hover);
         }
 
         &.tertiary {
-            border: 1px solid var(--color-tertiary);
-            color: var(--color-tertiary);
+            color: var(--color-surface);
+            background-color: var(--color-tertiary);
 
             &:hover {
-                background-color: var(--color-tertiary-lightest);
+                background-color: var(--color-tertiary-hover);
             }
         }
 
         &.inactive {
-            border: 1px solid var(--color-disabled);
+            background-color: var(--color-disabled-lightest);
             color: var(--color-disabled);
-
-            &:hover {
-                background-color: var(--color-disabled-lightest);
-            }
         }
 
         .icon {

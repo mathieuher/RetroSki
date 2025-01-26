@@ -13,6 +13,9 @@
         .retro-button {
             text-align: left;
             font-size: 0.8rem;
+            /* background-color: var(--color-primary-lightest);
+            color: var(--color-primary);
+            */
         }
 
         .button-price {
@@ -25,7 +28,7 @@
                 justify-content: flex-end;
                 font-size: var(--text-small);
                 color: var(--color-surface);
-                background-color: var(--color-tertiary-light);
+                background-color: var(--color-primary);
                 border-radius: var(--border-radius);
             }
         }
