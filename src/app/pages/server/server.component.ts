@@ -23,7 +23,6 @@ export class ServerComponent {
     private readonly authService = inject(AuthService);
     private readonly route = inject(ActivatedRoute);
     private readonly serverService = inject(ServerService);
-    // biome-ignore lint/complexity/useLiteralKeys: <explanation>
     private readonly serverId = this.route.snapshot.params['id'];
     private readonly router = inject(Router);
 

@@ -76,15 +76,10 @@ export class TrackService {
                 return tracks.map(track => {
                     const stockableTrack = new StockableTrack();
                     stockableTrack.id = track.id;
-                    // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                     stockableTrack.name = track['name'];
-                    // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                     stockableTrack.style = track['style'];
-                    // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                     stockableTrack.builderVersion = track['builderVersion'];
-                    // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                     stockableTrack.gates = track['gates'];
-                    // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                     stockableTrack.decorations = track['decorations'] || [];
                     return stockableTrack.toTrack();
                 });
@@ -122,7 +117,6 @@ export class TrackService {
             map(records =>
                 records.map(
                     record =>
-                        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                         new StockableRecord(trackId, record['name'], new Date(record['updated']), record['timing'])
                 )
             )
@@ -138,17 +132,11 @@ export class TrackService {
                     return undefined;
                 }
                 const ghost = new StockableGhost();
-                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                 ghost.date = new Date(record['created']);
-                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                 ghost.rider = record['rider'];
-                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                 ghost.totalTime = record['totalTime'];
-                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                 ghost.timedSectors = record['timedSectors'];
-                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                 ghost.positions = record['positions'];
-                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                 ghost.eventId = record['event'];
                 return ghost;
             })

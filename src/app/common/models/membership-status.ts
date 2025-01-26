@@ -15,13 +15,9 @@ export class MembershipStatus {
 
     public static buildFromRecord(record: RecordModel): MembershipStatus {
         return new MembershipStatus(
-            // biome-ignore lint/complexity/useLiteralKeys: <explanation>
             record['membership'],
-            // biome-ignore lint/complexity/useLiteralKeys: <explanation>
             new Date(record['created']),
-            // biome-ignore lint/complexity/useLiteralKeys: <explanation>
             record['endDate'] ? new Date(record['endDate']) : undefined,
-            // biome-ignore lint/complexity/useLiteralKeys: <explanation>
             record['membershipName']
         );
     }
