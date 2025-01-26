@@ -7,6 +7,7 @@ import type { Server } from '../models/server';
 import type { ServerRider } from '../models/server-rider';
 import type { ServerEvent } from '../models/server-event';
 import type { ServerTrack } from '../models/server-track';
+import { DateUtils } from '../utils/date.utils';
 
 @Injectable({
     providedIn: 'root'
@@ -43,10 +44,18 @@ export class ServerService {
         ).pipe(
             map(records =>
                 records.map(record => {
+                    const endingDate = record['endingDate'];
+                    const endingDateLabel = endingDate
+                        ? DateUtils.dateDiffLabel(new Date(endingDate), new Date())
+                        : undefined;
+
                     return {
                         id: record['id'],
                         name: record['name'],
-                        racesLimit: record['racesLimit']
+                        racesLimit: record['racesLimit'],
+                        startingDate: record['startingDate'],
+                        endingDate: record['endingDate'],
+                        endingDateLabel: endingDateLabel
                     };
                 })
             )

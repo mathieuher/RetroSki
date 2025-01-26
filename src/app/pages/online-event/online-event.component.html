@@ -17,6 +17,21 @@
             event()!.racesLimit ? "Race" : "Time-attack"
         }}</span>
     </div>
+    @if (event()?.endingDate) { @if(event()?.isClosed) {
+    <div class="retro-text error">
+        Closed since :
+        <span class="">{{
+            event()?.endingDate | date : "d MMMM YYY HH:mm"
+        }}</span>
+    </div>
+    } @else {
+    <div class="retro-text">
+        Open until :
+        <span class="tertiary">{{
+            event()?.endingDate | date : "d MMMM YYY HH:mm"
+        }}</span>
+    </div>
+    } }
     <div class="retro-subtitle">
         <span
             class="alternative"
@@ -111,6 +126,7 @@
     <div class="retro-placeholder">Loading event</div>
     }
 </div>
+@if(!event()?.isClosed) {
 <div class="retro-footer">
     <button
         class="retro-button tertiary"
@@ -120,3 +136,4 @@
         Start riding
     </button>
 </div>
+}

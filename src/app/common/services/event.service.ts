@@ -20,8 +20,8 @@ export class EventService {
                         record['racesLimit'],
                         record['server'],
                         record['track'],
-                        record['endingDate'],
-                        record['startingDate']
+                        record['endingDate'] ? new Date(record['endingDate']) : undefined,
+                        record['startinGate'] ? new Date(record['startingGate']) : undefined
                     )
             )
         );

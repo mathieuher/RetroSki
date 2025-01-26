@@ -27,10 +27,13 @@ export class ServerComponent {
     private readonly router = inject(Router);
 
     protected server = signal<Server | null>(null);
+    protected readonly now = new Date().getTime();
     protected riders = signal<ServerRider[] | null>(null);
     protected activeRiders = computed(() => this.riders()?.slice(0, 5));
     protected events = signal<ServerEvent[] | null>(null);
-    protected activeEvents = computed(() => this.events());
+    protected activeEvents = computed(() =>
+        this.events()?.filter(event => !event.endingDate || new Date(event.endingDate).getTime() > this.now)
+    );
     protected user = this.authService.getUser();
     protected ridersDisplay: WritableSignal<'active' | 'all'> = signal('active');
     protected eventsDisplay: WritableSignal<'active' | 'all'> = signal('active');

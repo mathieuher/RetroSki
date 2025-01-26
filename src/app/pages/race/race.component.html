@@ -29,7 +29,25 @@
     </div>
 </div>
 
-@if(raceRanking(); as raceRanking) {
+@if(rankingError()) {
+<div class="error-overlay">
+    <div class="retro-content">
+        <span class="icon material-symbols-outlined"
+            >sentiment_dissatisfied</span
+        >
+        <div class="retro-text error">
+            Oops! We couldn't save your ride for this event.
+        </div>
+        <div class="retro-text error">
+            Make sure the event is still open and give it another shot!
+        </div>
+        <div class="retro-button error" (click)="exitRace()">
+            Back to the event
+        </div>
+    </div>
+</div>
+
+} @if(raceRanking(); as raceRanking) {
 <div class="timing-overlay">
     <div class="ranking">
         <div class="position">{{ raceRanking.positionLabel }}</div>

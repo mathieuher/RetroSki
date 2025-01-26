@@ -10,7 +10,7 @@ import { RankingLineComponent } from '../../common/components/ranking-line/ranki
 import { LocalEventService } from '../../common/services/local-event.service';
 import type { LocalEvent } from '../../common/models/local-event';
 import { TrackService } from '../../common/services/track.service';
-import { concatMap, filter, from, map, type Observable, of, takeUntil, tap } from 'rxjs';
+import { catchError, concatMap, EMPTY, filter, from, map, type Observable, of, takeUntil, tap } from 'rxjs';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
 import { RaceRanking } from '../../common/models/race-ranking';
 import { EventService } from '../../common/services/event.service';
@@ -35,7 +35,7 @@ export class RaceComponent extends Destroyable implements OnInit {
 
     protected raceConfig = signal<RaceConfig | undefined>(undefined);
     protected raceRanking = signal<RaceRanking | undefined>(undefined);
-
+    protected rankingError = signal<boolean>(false);
     private game?: Game;
 
     private type = (this.route.snapshot.data as { type: 'local' | 'online' }).type;
@@ -166,6 +166,10 @@ export class RaceComponent extends Destroyable implements OnInit {
                         }
                     }
                     return of(null);
+                }),
+                catchError(() => {
+                    this.rankingError.set(true);
+                    return EMPTY;
                 }),
                 takeUntil(this.destroyed$)
             )

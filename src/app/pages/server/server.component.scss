@@ -25,22 +25,32 @@
         }
     }
 
-    .events-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-        padding: 0.5rem 0;
-
-        .event {
-            cursor: pointer;
+    .retro-item {
+        .badge {
             display: flex;
-            flex-direction: row;
-            gap: 0.5rem;
-            padding: 0.5rem;
-            justify-content: space-between;
-            font-size: var(--text-standard);
-            border-radius: var(--border-radius);
-            border: 1px solid var(--color-primary);
+            align-items: center;
+            gap: 0.1rem;
+            padding: 0 0.3rem;
+            background-color: var(--color-primary-light);
+            color: var(--color-surface);
+            border-radius: var(--border-radius-large);
+            font-size: var(--text-mini);
+            text-transform: capitalize;
+
+            .icon {
+                scale: 0.7;
+            }
+        }
+
+        .type {
+            font-size: var(--text-small);
+        }
+
+        &.inactive {
+            .badge {
+                background-color: var(--color-error-lightest);
+                color: var(--color-error-darkest);
+            }
         }
     }
 }

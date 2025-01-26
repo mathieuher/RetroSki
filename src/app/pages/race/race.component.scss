@@ -109,6 +109,41 @@
         }
     }
 
+    .error-overlay {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 0px;
+        opacity: 0.95;
+        width: 100%;
+        padding: 2rem 0;
+        left: 0;
+        align-items: center;
+        text-align: center;
+        background-color: var(--color-error-lightest);
+        color: var(--color-error-darkest);
+
+        .icon {
+            font-size: var(--text-big);
+            margin-bottom: 1rem;
+        }
+
+        .retro-content {
+            padding: 1rem;
+
+            .retro-text {
+                color: var(--color-error-darkest);
+            }
+
+            .retro-button {
+                margin-top: 1rem;
+                background-color: var(--color-error-darkest);
+                color: var(--color-surface);
+            }
+        }
+    }
+
     .timing-overlay {
         display: flex;
         flex-direction: column;
