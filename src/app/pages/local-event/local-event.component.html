@@ -62,7 +62,7 @@
 <div class="retro-footer">
     @if(event.type !== 'race' || event.incomingRaces.length) {
     <button
-        class="retro-button"
+        class="retro-button tertiary"
         [disabled]="event.type === 'race' && !event.incomingRaces.length"
         (click)="startRace()"
     >
