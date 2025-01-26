@@ -26,6 +26,6 @@ export class OnlineEvent {
     }
 
     public get isClosed(): boolean {
-        return (this.endingDate?.getTime() || 0) < new Date().getTime();
+        return this.endingDate ? this.endingDate.getTime() < new Date().getTime() : false;
     }
 }
