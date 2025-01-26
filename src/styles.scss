@@ -15,4 +15,24 @@ body {
         align-items: center;
         justify-content: center;
     }
+
+    ::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: var(--color-surface);
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: var(--color-tertiary-lightest);
+        border-radius: var(--border-radius);
+        cursor: pointer;
+
+        &:hover {
+            background: var(--color-tertiary-light);
+        }
+    }
 }

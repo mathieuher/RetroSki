@@ -7,7 +7,7 @@ Welcome to a fun, small game development project!
 Put on your skis and race down randomly generated alpine ski tracks with friends.
 
 ## 💻 Play the official game
-<a href="https://retro-ski.ch">RetroSki</a>
+<a href="https://retro-ski.ch">retro-ski.ch</a>
 
 ## 🎮 Controls
 <table>
@@ -127,7 +127,7 @@ If the game crashes, try resetting and erasing all content via the game setup me
 
 ## ❤️ Support the project
 Be sure to enjoy your time on the mountain with us 😃<br>
-Feel free to support the project 🙏 :
+Feel free to support the project or upgrading to a premium account 🙏 :
 <a href="https://donate.stripe.com/7sIaGu2wO52K9S8aEE">Support the project via Stripe</a>
 
 ## ⚫ Developer guide
