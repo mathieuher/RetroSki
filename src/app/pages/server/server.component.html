@@ -58,13 +58,21 @@
         >
     </div>
     <div class="retro-items-list">
-        @for (event of events(); track event.id) {
+        @for (event of (eventsDisplay() === 'active' ? activeEvents(): events()
+        ); track event.id) {
         <div
             class="retro-item"
-            [class.inactive]="false"
+            [class.inactive]="event.endingDateLabel === 'closed'"
             routerLink="/online-event/{{ event.id }}"
         >
-            <div class="name">{{ event.name }}</div>
+            <div class="name">
+                {{ event.name }} @if(event.endingDate) {
+                <span class="badge"
+                    ><span class="icon material-symbols-outlined">schedule</span
+                    >{{ event.endingDateLabel }}</span
+                >
+                }
+            </div>
             <div class="type">
                 {{ event.racesLimit !== 0 ? "Race" : "Time-attack" }}
             </div>

@@ -14,8 +14,15 @@ export class EventService {
         return from(environment.pb.collection('events').getOne(id)).pipe(
             map(
                 record =>
-                    // biome-ignore lint/complexity/useLiteralKeys: <explanation>
-                    new OnlineEvent(record.id, record['name'], record['racesLimit'], record['server'], record['track'])
+                    new OnlineEvent(
+                        record.id,
+                        record['name'],
+                        record['racesLimit'],
+                        record['server'],
+                        record['track'],
+                        record['endingDate'] ? new Date(record['endingDate']) : undefined,
+                        record['startinGate'] ? new Date(record['startingGate']) : undefined
+                    )
             )
         );
     }
@@ -30,7 +37,6 @@ export class EventService {
             })
         ).pipe(
             map(records =>
-                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                 records.map(record => new EventResult(0, record['name'], record['timing'], toDate(record['updated'])))
             ),
             map(records =>

@@ -100,7 +100,6 @@ export class AuthService {
 
     private getMembershipName$(membershipId: string): Observable<string> {
         return from(environment.pb.collection('memberships').getOne(membershipId)).pipe(
-            // biome-ignore lint/complexity/useLiteralKeys: <explanation>
             map(membership => membership['name'])
         );
     }

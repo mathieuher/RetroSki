@@ -7,6 +7,7 @@ import type { Server } from '../models/server';
 import type { ServerRider } from '../models/server-rider';
 import type { ServerEvent } from '../models/server-event';
 import type { ServerTrack } from '../models/server-track';
+import { DateUtils } from '../utils/date.utils';
 
 @Injectable({
     providedIn: 'root'
@@ -43,13 +44,18 @@ export class ServerService {
         ).pipe(
             map(records =>
                 records.map(record => {
+                    const endingDate = record['endingDate'];
+                    const endingDateLabel = endingDate
+                        ? DateUtils.dateDiffLabel(new Date(endingDate), new Date())
+                        : undefined;
+
                     return {
-                        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                         id: record['id'],
-                        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                         name: record['name'],
-                        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
-                        racesLimit: record['racesLimit']
+                        racesLimit: record['racesLimit'],
+                        startingDate: record['startingDate'],
+                        endingDate: record['endingDate'],
+                        endingDateLabel: endingDateLabel
                     };
                 })
             )
@@ -79,9 +85,7 @@ export class ServerService {
             map(records =>
                 records.map(record => {
                     return {
-                        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                         name: record['name'],
-                        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                         rides: records.filter(r => r['name'] === record['name'])?.length
                     };
                 })
@@ -94,7 +98,6 @@ export class ServerService {
     public getTracks$(): Observable<ServerTrack[]> {
         return from(environment.pb.collection('tracks').getFullList()).pipe(
             map(records =>
-                // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                 records.map(record => ({ id: record['id'], name: `${record['name']} - (${record['style']})` }))
             )
         );
@@ -105,11 +108,8 @@ export class ServerService {
             map(participations =>
                 participations.map(participation => {
                     return {
-                        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                         id: participation['server'] as string,
-                        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                         name: participation['name'] as string,
-                        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
                         owner: participation['owner'] as string
                     };
                 })
@@ -119,7 +119,6 @@ export class ServerService {
 
     private getOwnedServers$(): Observable<Server[]> {
         return from(environment.pb.collection('servers').getFullList({ sort: '-updated' })).pipe(
-            // biome-ignore lint/complexity/useLiteralKeys: <explanation>
             map(servers => servers.map(server => ({ id: server['id'], name: server['name'], owner: server['owner'] })))
         );
     }

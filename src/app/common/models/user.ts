@@ -16,7 +16,6 @@ export class User {
     }
 
     public static buildFromRecord(record: RecordModel): User {
-        // biome-ignore lint/complexity/useLiteralKeys: <explanation>
         return new User(record.id, record['name'], record['email'], record['verified'], record['premium']);
     }
 }

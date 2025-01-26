@@ -21,16 +21,18 @@ import type { EventResult } from '../../common/models/event-result';
 import type { EventRanking } from '../../common/models/event-ranking';
 import { AuthService } from '../../common/services/auth.service';
 import type { User } from '../../common/models/user';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-online-event',
     standalone: true,
-    imports: [ButtonIconComponent, ToolbarComponent, RankingLineComponent, ResultLineComponent, RouterLink],
+    imports: [ButtonIconComponent, DatePipe, ToolbarComponent, RankingLineComponent, ResultLineComponent, RouterLink],
     templateUrl: './online-event.component.html',
     styleUrl: './online-event.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OnlineEventComponent {
+    protected now = new Date().getTime();
     protected event: Signal<OnlineEvent | undefined>;
     protected track: Signal<Track | undefined>;
     protected results: Signal<EventResult[] | undefined>;
