@@ -67,7 +67,7 @@ export class ServerService {
         racesLimit: number,
         serverId: string,
         trackId: string,
-        endDate: Date | null
+        endingDate: Date | null
     ): Observable<RecordModel> {
         return from(
             environment.pb.collection('events').create({
@@ -75,7 +75,7 @@ export class ServerService {
                 racesLimit: racesLimit,
                 server: serverId,
                 track: trackId,
-                endDate: endDate
+                endingDate: endingDate
             })
         );
     }

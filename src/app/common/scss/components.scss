@@ -242,6 +242,10 @@
             min-width: 75px;
             max-width: 25%;
         }
+
+        &[type="datetime-local"] {
+            max-width: calc(60% - 2rem);
+        }
     }
 }
 

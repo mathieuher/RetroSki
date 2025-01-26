@@ -9,7 +9,7 @@ export class DateUtils {
         const duration = intervalToDuration({ start: date, end: reference });
         const timeDiff = date.getTime() - reference.getTime();
         if (timeDiff < 0) {
-            return 'closed';
+            return 'Closed';
         }
 
         if (duration.years || duration.months || duration.weeks || Math.abs(duration.days!) > 1) {
@@ -21,6 +21,6 @@ export class DateUtils {
         if (Math.abs(duration.minutes!) > 1) {
             return `${Math.floor(timeDiff / DateUtils.MINUTE)} min.`;
         }
-        return 'closing';
+        return 'Closing';
     }
 }
