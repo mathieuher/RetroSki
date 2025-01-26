@@ -40,21 +40,22 @@ export class ServerService {
 
     public getEvents$(serverId: string): Observable<ServerEvent[]> {
         return from(
-            environment.pb.collection('public_events').getFullList({ query: { server: serverId }, sort: '-created' })
+            environment.pb
+                .collection('public_events')
+                .getFullList({ query: { server: serverId }, sort: '-startingDate, -created' })
         ).pipe(
             map(records =>
                 records.map(record => {
-                    const endingDate = record['endingDate'];
-                    const endingDateLabel = endingDate
-                        ? DateUtils.dateDiffLabel(new Date(endingDate), new Date())
-                        : undefined;
+                    const endingDate = record['endingDate'] ? new Date(record['endingDate']) : undefined;
+                    const startingDate = record['startingDate'] ? new Date(record['startingDate']) : undefined;
+                    const endingDateLabel = endingDate ? DateUtils.dateDiffLabel(endingDate, new Date()) : undefined;
 
                     return {
                         id: record['id'],
                         name: record['name'],
                         racesLimit: record['racesLimit'],
-                        startingDate: record['startingDate'],
-                        endingDate: record['endingDate'],
+                        startingDate: startingDate,
+                        endingDate: endingDate,
                         endingDateLabel: endingDateLabel
                     };
                 })
@@ -67,6 +68,7 @@ export class ServerService {
         racesLimit: number,
         serverId: string,
         trackId: string,
+        startingDate: Date | null,
         endingDate: Date | null
     ): Observable<RecordModel> {
         return from(
@@ -75,6 +77,7 @@ export class ServerService {
                 racesLimit: racesLimit,
                 server: serverId,
                 track: trackId,
+                startingDate: startingDate,
                 endingDate: endingDate
             })
         );

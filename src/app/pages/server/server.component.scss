@@ -26,10 +26,15 @@
     }
 
     .retro-item {
+        justify-content: flex-start;
+        .name {
+            flex: 1 1 auto;
+        }
+
         .badge {
             display: flex;
             align-items: center;
-            gap: 0.1rem;
+            justify-content: space-between;
             padding: 0 0.3rem;
             background-color: var(--color-primary-light);
             color: var(--color-surface);
@@ -43,12 +48,15 @@
 
         .type {
             font-size: var(--text-small);
+            justify-content: flex-end;
+            width: 90px;
         }
 
-        &.inactive {
+        &.inactive,
+        &.planned {
             .badge {
-                background-color: var(--color-error-lightest);
-                color: var(--color-error-darkest);
+                background-color: var(--color-tertiary-light);
+                color: var(--color-tertiary-lightest);
             }
         }
     }

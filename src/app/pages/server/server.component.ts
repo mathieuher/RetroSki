@@ -32,7 +32,12 @@ export class ServerComponent {
     protected activeRiders = computed(() => this.riders()?.slice(0, 5));
     protected events = signal<ServerEvent[] | null>(null);
     protected activeEvents = computed(() =>
-        this.events()?.filter(event => !event.endingDate || new Date(event.endingDate).getTime() > this.now)
+        this.events()?.filter(event => {
+            return (
+                (!event.endingDate || event.endingDate.getTime() > this.now) &&
+                (!event.startingDate || event.startingDate.getTime() < this.now)
+            );
+        })
     );
     protected user = this.authService.getUser();
     protected ridersDisplay: WritableSignal<'active' | 'all'> = signal('active');

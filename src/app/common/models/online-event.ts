@@ -25,6 +25,10 @@ export class OnlineEvent {
         this.startingDate = startingDate;
     }
 
+    public get isPlanned(): boolean {
+        return this.startingDate ? this.startingDate.getTime() > new Date().getTime() : false;
+    }
+
     public get isClosed(): boolean {
         return this.endingDate ? this.endingDate.getTime() < new Date().getTime() : false;
     }

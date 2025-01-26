@@ -16,6 +16,7 @@ interface OnlineEventForm {
     type: FormControl<'time-attack' | 'race' | null>;
     races: FormControl<number | null>;
     track: FormControl<string | null>;
+    startingDate: FormControl<string | null>;
     endingDate: FormControl<string | null>;
 }
 
@@ -51,10 +52,17 @@ export class CreateOnlineEventComponent extends Destroyable {
     protected createEvent() {
         if (this.form.valid) {
             let endingDate = null;
+            let startingDate = null;
             try {
                 endingDate = this.form.value.endingDate ? new Date(this.form.value.endingDate) : null;
             } catch (error) {
                 console.warn('Unable to determine ending date, will note use it', error);
+            }
+
+            try {
+                startingDate = this.form.value.startingDate ? new Date(this.form.value.startingDate) : null;
+            } catch (error) {
+                console.warn('Unable to determine starting date, will note use it', error);
             }
             this.serverService
                 .addEvent$(
@@ -62,6 +70,7 @@ export class CreateOnlineEventComponent extends Destroyable {
                     this.form.value.races ?? 0,
                     this.serverId,
                     this.form.value.track!,
+                    startingDate,
                     endingDate
                 )
                 .pipe(
@@ -78,6 +87,7 @@ export class CreateOnlineEventComponent extends Destroyable {
             type: new FormControl('race', Validators.required),
             races: new FormControl(2, [Validators.required, Validators.min(1), Validators.max(10)]),
             track: new FormControl(null, Validators.required),
+            startingDate: new FormControl(null),
             endingDate: new FormControl(null)
         });
     }

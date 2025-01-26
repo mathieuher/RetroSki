@@ -21,7 +21,7 @@ export class EventService {
                         record['server'],
                         record['track'],
                         record['endingDate'] ? new Date(record['endingDate']) : undefined,
-                        record['startinGate'] ? new Date(record['startingGate']) : undefined
+                        record['startingDate'] ? new Date(record['startingDate']) : undefined
                     )
             )
         );
