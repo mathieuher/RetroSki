@@ -67,7 +67,7 @@ export class ServerComponent {
         navigator
             .share({
                 title: "Let's ride on RetroSki",
-                text: `A RetroSki server is live, and you’re invited to hit the slopes! 🎿\nClick the link to join the server or use the server code : ${this.serverId}.\nRace, challenge your friends, or simply enjoy the ride on some of the most exciting 2D alpine tracks.\nDon’t miss out, see you on the mountain! 🏁`,
+                text: `A RetroSki server is live, and you’re invited to hit the slopes! 🎿\nClick the link to join the server or use the server code :\n\n${this.serverId}\n\nRace, challenge your friends, or simply enjoy the ride on some of the most exciting 2D alpine tracks.\nDon’t miss out, see you on the mountain! 🏁`,
                 url: window.location.href
             })
             .catch(() => void 0);
