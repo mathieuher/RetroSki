@@ -38,6 +38,24 @@ export class ServerService {
         );
     }
 
+    public getPublicServers$(): Observable<Server[]> {
+        return from(environment.pb.collection('public_servers').getFullList()).pipe(
+            map(servers =>
+                servers.map(server => ({ id: server['id'], name: server['name'], owner: server['owner'], riders: 0 }))
+            ),
+            mergeAll(),
+            concatMap(server => {
+                return this.getRiders$(server.id).pipe(
+                    map(riders => {
+                        server.riders = riders.length;
+                        return server;
+                    })
+                );
+            }),
+            reduce((acc, server) => [...acc, server], [] as Server[])
+        );
+    }
+
     public getEvents$(serverId: string): Observable<ServerEvent[]> {
         return from(
             environment.pb

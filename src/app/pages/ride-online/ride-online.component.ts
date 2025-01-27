@@ -32,6 +32,7 @@ export class RideOnlineComponent extends Destroyable {
         Validators.maxLength(16)
     ]);
     protected userServers: Signal<Server[] | undefined>;
+    protected publicServers = toSignal(this.serverService.getPublicServers$());
 
     protected connectionError = signal<string | null>(null);
     protected creationError = signal<string | null>(null);
