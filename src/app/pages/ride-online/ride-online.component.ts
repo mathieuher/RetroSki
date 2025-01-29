@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal, type Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, type Signal } from '@angular/core';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { Router, RouterLink } from '@angular/router';
@@ -24,25 +24,20 @@ export class RideOnlineComponent extends Destroyable {
     private router = inject(Router);
     private serverService = inject(ServerService);
 
-    protected user: User | null;
+    protected user = this.authService.getUser();
     protected serverCode = new FormControl<string>('', [Validators.required]);
     protected serverName = new FormControl<string>('', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(16)
     ]);
-    protected userServers: Signal<Server[] | undefined>;
-    protected publicServers = toSignal(this.serverService.getPublicServers$());
+
+    private servers = toSignal(this.serverService.getUserServers$());
+    protected userServers = computed(() => this.servers()?.filter(s => s.owner === this.user?.id || s.ridden));
+    protected publicServers = computed(() => this.servers()?.filter(s => s.public));
 
     protected connectionError = signal<string | null>(null);
     protected creationError = signal<string | null>(null);
-
-    constructor() {
-        super();
-
-        this.user = this.authService.getUser();
-        this.userServers = toSignal(this.serverService.getUserServers$());
-    }
 
     protected createServer(): void {
         if (this.serverName.valid && this.user) {

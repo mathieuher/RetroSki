@@ -22,9 +22,8 @@ export class ServerService {
     }
 
     public getUserServers$(): Observable<Server[]> {
-        return combineLatest([this.getOwnedServers$(), this.getRiddenServers$()]).pipe(
-            map(([owned, ridden]) => [...owned, ...ridden]),
-            map(servers => servers.filter((server, index, self) => index === self.findIndex(t => t.id === server.id))),
+        return combineLatest([this.getPublicServers$(), this.getOwnedServers$(), this.getRiddenServers$()]).pipe(
+            map(([publics, owned, ridden]) => this.combineServers([...publics, ...owned, ...ridden])),
             mergeAll(),
             concatMap(server => {
                 return this.getRiders$(server.id).pipe(
@@ -35,12 +34,6 @@ export class ServerService {
                 );
             }),
             reduce((acc, server) => [...acc, server], [] as Server[])
-        );
-    }
-
-    public getPublicServers$(): Observable<Server[]> {
-        return from(environment.pb.collection('public_servers').getFullList()).pipe(
-            map(servers => servers.map(server => ({ id: server['id'], name: server['name'], owner: server['owner'] })))
         );
     }
 
@@ -119,7 +112,8 @@ export class ServerService {
                     return {
                         id: participation['server'] as string,
                         name: participation['name'] as string,
-                        owner: participation['owner'] as string
+                        owner: participation['owner'] as string,
+                        ridden: true
                     };
                 })
             )
@@ -128,7 +122,41 @@ export class ServerService {
 
     private getOwnedServers$(): Observable<Server[]> {
         return from(environment.pb.collection('servers').getFullList({ sort: '-updated' })).pipe(
-            map(servers => servers.map(server => ({ id: server['id'], name: server['name'], owner: server['owner'] })))
+            map(servers =>
+                servers.map(server => ({
+                    id: server['id'],
+                    name: server['name'],
+                    owner: server['owner']
+                }))
+            )
         );
+    }
+
+    private getPublicServers$(): Observable<Server[]> {
+        return from(environment.pb.collection('public_servers').getFullList()).pipe(
+            map(servers =>
+                servers.map(server => ({
+                    id: server['id'],
+                    name: server['name'],
+                    owner: server['owner'],
+                    public: true
+                }))
+            )
+        );
+    }
+
+    private combineServers(servers: Server[]): Server[] {
+        const combinedServers: Map<string, Server> = new Map();
+        for (const server of servers) {
+            const existing = combinedServers.get(server.id);
+            if (existing) {
+                existing.ridden = existing.ridden || server.ridden;
+                existing.public = existing.public || server.public;
+                combinedServers.set(existing.id, existing);
+            } else {
+                combinedServers.set(server.id, server);
+            }
+        }
+        return Array.from(combinedServers.values());
     }
 }

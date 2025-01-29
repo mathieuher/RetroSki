@@ -3,4 +3,6 @@ export interface Server {
     name: string;
     owner: string;
     riders?: number;
+    ridden?: boolean;
+    public?: boolean;
 }
