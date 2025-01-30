@@ -32,6 +32,10 @@ export const AvailableGuard = () => {
 export const routes: Routes = [
     { path: '', loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent) },
     {
+        path: 'introduction',
+        loadComponent: () => import('./pages/introduction/introduction.component').then(m => m.IntroductionComponent)
+    },
+    {
         path: 'learning',
         loadComponent: () => import('./pages/learning/learning.component').then(m => m.LearningComponent)
     },

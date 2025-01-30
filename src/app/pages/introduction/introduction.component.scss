@@ -1,0 +1,36 @@
+:host {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 1rem;
+
+    .retro-content {
+        .header {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            width: calc(100% - 2rem);
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            background-color: var(--color-tertiary-lightest);
+            border-radius: var(--border-radius-large);
+            line-height: 1.5rem;
+
+            .avatar {
+                border-radius: 100px;
+                width: 75px;
+            }
+        }
+
+        > .retro-text {
+            line-height: 1.3rem;
+            text-align: justify;
+
+            > strong {
+                color: var(--color-tertiary-darkest);
+            }
+        }
+    }
+}
