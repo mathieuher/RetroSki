@@ -57,7 +57,7 @@
             >All events</span
         >
     </div>
-    <div class="retro-items-list">
+    <div class="retro-items-list no-scrollable">
         @for (event of (eventsDisplay() === 'active' ? activeEvents(): events()
         ); track event.id) {
         <div
