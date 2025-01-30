@@ -7,13 +7,17 @@ import { StockableRecord } from '../../game/models/stockable-record';
 import { StockableGhost } from '../../game/models/stockable-ghost';
 import type { TrackType } from '../models/track-type';
 import { environment } from '../../../environments/environment';
-import { AuthService } from './auth.service';
+import { HttpClient } from '@angular/common/http';
 
+interface TrackRecordResponse {
+    recordSaved: boolean;
+    ghostSaved: boolean;
+}
 @Injectable({
     providedIn: 'root'
 })
 export class TrackService {
-    private authService = inject(AuthService);
+    private http = inject(HttpClient);
 
     public getTrack$(type: TrackType, id: string): Observable<Track> {
         if (type === 'local') {
@@ -35,8 +39,19 @@ export class TrackService {
         return type === 'local' ? this.removeLocalTrack$(track) : this.removeOnlineTrack$(track);
     }
 
-    public addTrackRecord$(type: TrackType, eventId: string, record: StockableRecord): Observable<string> {
-        return type === 'local' ? this.addLocalTrackRecord$(record) : this.addOnlineTrackRecord$(eventId, record);
+    public addTrackRecord$(
+        type: TrackType,
+        eventId: string,
+        record: StockableRecord,
+        ghost: StockableGhost
+    ): Observable<string | TrackRecordResponse> {
+        return type === 'local'
+            ? this.addLocalTrackRecord$(record)
+            : this.addOnlineTrackRecord$(eventId, record, ghost);
+    }
+
+    public updateLocalTrackGhost$(ghost: StockableGhost): Observable<string> {
+        return from(RETROSKI_DB.ghosts.put(ghost, ghost.trackId));
     }
 
     public getTrackRecords$(type: TrackType, trackId: string): Observable<StockableRecord[]> {
@@ -45,10 +60,6 @@ export class TrackService {
 
     public getTrackGhost$(type: TrackType, trackId: string, eventId?: string): Observable<StockableGhost | undefined> {
         return type === 'local' ? this.getLocalTrackGhost$(trackId) : this.getOnlineTrackGhost$(trackId, eventId);
-    }
-
-    public updateTrackGhost$(type: TrackType, eventId: string, ghost: StockableGhost): Observable<string> {
-        return type === 'local' ? this.updateLocalTrackGhost$(ghost) : this.updateOnlineTrackGhost$(eventId, ghost);
     }
 
     private getLocalTrack$(id: string): Observable<Track> {
@@ -99,15 +110,24 @@ export class TrackService {
         ).pipe(switchMap(() => this.getTracks$('online')));
     }
 
-    private addOnlineTrackRecord$(eventId: string, record: StockableRecord): Observable<string> {
-        return from(
-            environment.pb.collection('records').create({
-                track: record.trackId,
-                event: eventId,
-                rider: this.authService.getUser()!.id,
-                timing: record.timing
-            })
-        ).pipe(map(record => record.id));
+    private addOnlineTrackRecord$(
+        eventId: string,
+        record: StockableRecord,
+        ghost: StockableGhost
+    ): Observable<TrackRecordResponse> {
+        return this.http.post<TrackRecordResponse>(
+            `${environment.apiUrl}/track-record`,
+            {
+                eventId: eventId,
+                record: record,
+                ghost: ghost
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${environment.pb.authStore.token}`
+                }
+            }
+        );
     }
 
     private getOnlineTrackRecords$(trackId: string): Observable<StockableRecord[]> {
@@ -143,19 +163,6 @@ export class TrackService {
         );
     }
 
-    private updateOnlineTrackGhost$(eventId: string, ghost: StockableGhost): Observable<string> {
-        return from(
-            environment.pb.collection('ghosts').create({
-                track: ghost.trackId,
-                event: eventId,
-                rider: this.authService.getUser()!.id,
-                totalTime: ghost.totalTime,
-                timedSectors: ghost.timedSectors,
-                positions: ghost.positions
-            })
-        ).pipe(map(ghost => ghost.id));
-    }
-
     private addLocalTrack$(track: Track): Observable<string> {
         return from(RETROSKI_DB.tracks.add(track.toStockable()));
     }
@@ -171,7 +178,7 @@ export class TrackService {
     private getLocalTrackRecords$(trackId: string): Observable<StockableRecord[]> {
         return from(RETROSKI_DB.records.where({ trackId: trackId }).sortBy('timing')).pipe(
             map(records =>
-                records.map(record => new StockableRecord(record.trackId, record.player, record.date, record.timing))
+                records.map(record => new StockableRecord(record.trackId, record.rider, record.date, record.timing))
             )
         );
     }
@@ -180,9 +187,5 @@ export class TrackService {
         return from(RETROSKI_DB.ghosts.get(trackId)).pipe(
             map(ghost => (ghost ? Object.assign(new StockableGhost(), ghost) : undefined))
         );
-    }
-
-    private updateLocalTrackGhost$(ghost: StockableGhost): Observable<string> {
-        return from(RETROSKI_DB.ghosts.put(ghost, ghost.trackId));
     }
 }

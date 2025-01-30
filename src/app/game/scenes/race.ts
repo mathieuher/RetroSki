@@ -109,7 +109,8 @@ export class Race extends Scene {
             this.timedSectors,
             this.skierPositions
         );
-        const result = new RaceResult(this.raceConfig.rider, new Date(), timing, missedGates, ghost);
+        const ck = this.skierPositions.length / ((timing - missedGates * Config.MISSED_GATE_PENALTY_TIME) / 1000);
+        const result = new RaceResult(this.raceConfig.rider, new Date(), timing, missedGates, ghost, ck);
         (this.engine as Game).raceStopped.emit(result);
         (this.engine as Game).soundPlayer.playSound(Resources.FinishRaceSound, Config.FINISH_SOUND_VOLUME);
     }
