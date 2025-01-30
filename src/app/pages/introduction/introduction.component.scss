@@ -16,7 +16,11 @@
             padding: 1rem;
             background-color: var(--color-tertiary-lightest);
             border-radius: var(--border-radius-large);
-            line-height: 1.5rem;
+
+            .retro-text {
+                text-align: left;
+                line-height: 1.5rem;
+            }
 
             .avatar {
                 border-radius: 100px;
@@ -24,7 +28,7 @@
             }
         }
 
-        > .retro-text {
+        .retro-text {
             line-height: 1.3rem;
             text-align: justify;
 
