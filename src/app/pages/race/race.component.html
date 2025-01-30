@@ -29,7 +29,7 @@
     </div>
 </div>
 
-@if(rankingError()) {
+@if(processingError()) {
 <div class="error-overlay">
     <div class="retro-content">
         <span class="icon material-symbols-outlined"
@@ -38,8 +38,9 @@
         <div class="retro-text error">
             Oops! We couldn't save your ride for this event.
         </div>
+        <div class="retro-text code">Reason : "{{ processingError() }}"</div>
         <div class="retro-text error">
-            Make sure the event is open and give it another shot!
+            If you think this is a mistake, go back to the event and try again!
         </div>
         <div class="retro-button error" (click)="exitRace()">
             Back to the event
@@ -47,26 +48,26 @@
     </div>
 </div>
 
-} @if(raceRanking(); as raceRanking) {
+} @else if(raceRanking()) {
 <div class="timing-overlay">
     <div class="ranking">
-        <div class="position">{{ raceRanking.positionLabel }}</div>
-        <div class="timing">{{ raceRanking.formattedTime }}</div>
-        <div class="penalties">{{ raceRanking.penaltiesLabel }}</div>
+        <div class="position">{{ raceRanking()!.positionLabel }}</div>
+        <div class="timing">{{ raceRanking()!.formattedTime }}</div>
+        <div class="penalties">{{ raceRanking()!.penaltiesLabel }}</div>
     </div>
     <div class="retro-content">
         <div class="retro-title">Global track ranking</div>
         <div class="ranking-list">
-            @for (record of raceRanking.trackRecords; track $index) {
+            @for (record of raceRanking()!.trackRecords; track $index) {
             <app-ranking-line
                 [position]="$index + 1"
-                [name]="record.player"
+                [name]="record.rider"
                 [time]="
                     $index > 0
-                        ? raceRanking.getDiffTime(record.timing)
+                        ? raceRanking()!.getDiffTime(record.timing)
                         : record.formattedTime
                 "
-                [currentRider]="$index + 1 === raceRanking.position"
+                [currentRider]="$index + 1 === raceRanking()!.position"
                 [isDiff]="$index > 0"
             ></app-ranking-line>
             }
@@ -77,5 +78,9 @@
             Back to the event
         </button>
     </div>
+</div>
+} @else if (processingRide()) {
+<div class="loading-placeholder">
+    Hang tight! We're verifying your ride on the server.
 </div>
 }

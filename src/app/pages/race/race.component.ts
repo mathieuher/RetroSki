@@ -16,6 +16,7 @@ import { RaceRanking } from '../../common/models/race-ranking';
 import { EventService } from '../../common/services/event.service';
 import { AuthService } from '../../common/services/auth.service';
 import type { StockableGhost } from '../../game/models/stockable-ghost';
+import type { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-race',
@@ -35,7 +36,8 @@ export class RaceComponent extends Destroyable implements OnInit {
 
     protected raceConfig = signal<RaceConfig | undefined>(undefined);
     protected raceRanking = signal<RaceRanking | undefined>(undefined);
-    protected rankingError = signal<boolean>(false);
+    protected processingError = signal<string | undefined>(undefined);
+    protected processingRide = signal<boolean>(false);
     private game?: Game;
 
     private type = (this.route.snapshot.data as { type: 'local' | 'online' }).type;
@@ -127,6 +129,7 @@ export class RaceComponent extends Destroyable implements OnInit {
                     if (!result) {
                         this.exitRace();
                     }
+                    this.processingRide.set(true);
                 }),
                 filter(Boolean),
                 tap(result => (raceResult = result)),
@@ -137,38 +140,36 @@ export class RaceComponent extends Destroyable implements OnInit {
                 }),
                 map(
                     result =>
-                        new StockableRecord(this.raceConfig()!.track.id!, result.rider, result.date, result.timing)
+                        new StockableRecord(
+                            this.raceConfig()!.track.id!,
+                            result.rider,
+                            result.date,
+                            result.timing,
+                            result.missedGates,
+                            result.avgCheck
+                        )
                 ),
-                concatMap(result => this.trackService.addTrackRecord$(this.type, this.eventId, result)),
+                concatMap(result =>
+                    this.trackService.addTrackRecord$(this.type, this.eventId, result, raceResult.ghost)
+                ),
                 concatMap(() => this.trackService.getTrackRecords$(this.type, this.raceConfig()!.track.id!)),
                 tap(results =>
                     this.raceRanking.set(new RaceRanking(results, raceResult.timing, raceResult.missedGates))
                 ),
-                concatMap(results => {
-                    if (this.type === 'online') {
-                        if (
-                            this.isEventBest(raceResult, this.raceConfig()!.eventGhost) ||
-                            this.isGlobalBest(raceResult, this.raceConfig()!.globalGhost)
-                        ) {
-                            return this.trackService.updateTrackGhost$(this.type, this.eventId, raceResult.ghost);
-                        }
-                    } else {
+                concatMap(() => {
+                    if (this.type === 'local') {
                         if (this.isEventBest(raceResult, this.raceConfig()!.eventGhost)) {
                             this.localEventService.updateEventGhost(raceResult.ghost);
                         }
 
                         if (this.isGlobalBest(raceResult, this.raceConfig()!.globalGhost)) {
-                            return this.trackService.updateTrackGhost$(
-                                this.type,
-                                this.raceConfig()!.track.id!,
-                                raceResult.ghost
-                            );
+                            return this.trackService.updateLocalTrackGhost$(raceResult.ghost);
                         }
                     }
                     return of(null);
                 }),
-                catchError(() => {
-                    this.rankingError.set(true);
+                catchError((errorResponse: HttpErrorResponse) => {
+                    this.processingError.set(errorResponse?.error?.message || 'Unknown error');
                     return EMPTY;
                 }),
                 takeUntil(this.destroyed$)

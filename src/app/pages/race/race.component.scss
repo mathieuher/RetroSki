@@ -9,6 +9,10 @@
         max-height: 100dvh;
     }
 
+    .loading-placeholder {
+        font-size: 1rem;
+    }
+
     .ui-overlay {
         display: flex;
         flex-direction: column;
@@ -130,10 +134,18 @@
         }
 
         .retro-content {
-            padding: 1rem;
+            padding: 0 1rem;
 
             .retro-text {
                 color: var(--color-error-darkest);
+
+                &.code {
+                    background-color: rgba(0, 0, 0, 0.95);
+                    color: var(--color-error-lightest);
+                    padding: 1rem;
+                    font-size: 0.7rem;
+                    margin: 1rem 0;
+                }
             }
 
             .retro-button {
