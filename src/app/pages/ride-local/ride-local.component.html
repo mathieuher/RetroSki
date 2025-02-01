@@ -3,6 +3,7 @@
         <app-button-icon icon="close" routerLink="/"></app-button-icon>
     </ng-container>
 </app-toolbar>
+@if(availableTracks()) {
 <div class="retro-content" [formGroup]="form">
     <div class="retro-title">Ride local</div>
     <div class="retro-subtitle">Track setup</div>
@@ -11,7 +12,7 @@
             class="retro-form-line"
             [class.invalid]="form.get('track')?.invalid"
         >
-            @if(availableTracks()?.length) {
+            @if(availableTracks()!.length) {
             <div class="label">Track</div>
             <select class="retro-input" formControlName="track">
                 <option selected [ngValue]="0">Select a track</option>
@@ -22,7 +23,7 @@
             }
         </div>
         <button class="retro-button" routerLink="/manage-tracks">
-            @if(availableTracks()?.length) { Manage local tracks } @else { Build
+            @if(availableTracks()!.length) { Manage local tracks } @else { Build
             your first track }
         </button>
     </div>
@@ -78,3 +79,4 @@
         Start the event
     </button>
 </div>
+}

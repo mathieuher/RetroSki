@@ -8,6 +8,7 @@ import type { Track } from '../../game/models/track';
 import { TrackService } from '../../common/services/track.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { StorageManager } from '../../game/utils/storage-manager';
+import { tap } from 'rxjs';
 
 interface LocalEventForm {
     track: FormControl<number | null>;
@@ -37,8 +38,9 @@ export class RideLocalComponent implements OnDestroy {
     private localEventService = inject(LocalEventService);
 
     constructor() {
-        this.availableTracks = toSignal(this.trackService.getTracks$('local'));
-        this.initForm();
+        this.availableTracks = toSignal(
+            this.trackService.getTracks$('local').pipe(tap(tracks => this.initForm(tracks)))
+        );
     }
 
     ngOnDestroy(): void {
@@ -67,12 +69,11 @@ export class RideLocalComponent implements OnDestroy {
         }
     }
 
-    private initForm(): void {
+    private initForm(tracks: Track[]): void {
         // Load default riders
         const defaultRiders = localStorage.getItem(RideLocalComponent.RIDERS_KEY)?.split(';') ?? [''];
-        const defaultTrack = localStorage.getItem(RideLocalComponent.TRACK_KEY)
-            ? +localStorage.getItem(RideLocalComponent.TRACK_KEY)!
-            : null;
+        const trackKey = localStorage.getItem(RideLocalComponent.TRACK_KEY);
+        const defaultTrack = trackKey && tracks.some(track => +track.id! === +trackKey) ? +trackKey : 0;
         const defaultRaces = localStorage.getItem(RideLocalComponent.RACES_KEY)
             ? +localStorage.getItem(RideLocalComponent.RACES_KEY)!
             : 2;

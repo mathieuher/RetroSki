@@ -1,6 +1,8 @@
 import { inject } from '@angular/core';
 import { Router, type Routes } from '@angular/router';
 import { AuthService } from './common/services/auth.service';
+import { from } from 'rxjs';
+import { RETROSKI_DB } from './common/db/db';
 
 export const AuthGuard = () => {
     const authService = inject(AuthService);
@@ -29,6 +31,10 @@ export const AvailableGuard = () => {
     return authService.isAvailable$();
 };
 
+export const DatabaseReady = () => {
+    return from(RETROSKI_DB.populate());
+};
+
 export const routes: Routes = [
     { path: '', loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent) },
     {
@@ -45,7 +51,8 @@ export const routes: Routes = [
     },
     {
         path: 'ride-local',
-        loadComponent: () => import('./pages/ride-local/ride-local.component').then(m => m.RideLocalComponent)
+        loadComponent: () => import('./pages/ride-local/ride-local.component').then(m => m.RideLocalComponent),
+        canActivate: [DatabaseReady]
     },
     {
         path: 'login',

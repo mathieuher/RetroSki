@@ -15,10 +15,22 @@ export class RetroskiDB extends Dexie {
             ghosts: 'trackId, eventId',
             records: '++id, trackId, rider'
         });
-        this.on('populate', () => this.populate());
     }
 
-    async populate() {}
+    public async populate() {
+        const count = await this.tracks.count();
+        if (count === 0) {
+            try {
+                // Charger le fichier JSON depuis les assets
+                const response = await fetch('/assets/tracks/tracks.json');
+                const defaultTracks: StockableTrack[] = await response.json();
+                await this.tracks.bulkAdd(defaultTracks);
+                console.log('Default tracks added to the local DB');
+            } catch (error) {
+                console.warn('Unable to load default tracks', error);
+            }
+        }
+    }
 }
 
 export const RETROSKI_DB = new RetroskiDB();
