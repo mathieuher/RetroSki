@@ -183,14 +183,15 @@ export class Race extends Scene {
             ghost.pos = vec(position.x, position.y);
             ghost.rotation = position.rotation;
             this.updateGhostGraphics(ghost, position.action, type);
+            this.updateGhostOpacity(ghost);
         } else {
-            ghost.graphics.visible = false;
+            ghost.graphics.isVisible = false;
         }
     }
 
     private updateGhostGraphics(ghost: Actor, action: SkierActions, type: 'global' | 'event'): void {
-        if (!ghost.graphics.visible) {
-            ghost.graphics.visible = true;
+        if (!ghost.graphics.isVisible) {
+            ghost.graphics.isVisible = true;
         }
         const graphic = SkierGraphics.getSpriteForAction(
             type === 'global' ? 'globalRecordGhost' : 'eventRecordGhost',
@@ -198,6 +199,13 @@ export class Race extends Scene {
         );
         ghost.graphics.use(graphic.sprite);
         ghost.graphics.flipHorizontal = !!graphic.flipHorizontal;
+    }
+
+    private updateGhostOpacity(ghost: Actor) {
+        if (this.skier) {
+            const distance = ghost.pos.distance(this.skier.pos);
+            ghost.graphics.opacity = Math.min(1, distance * 0.01);
+        }
     }
 
     private prepareRace(raceConfig: RaceConfig): void {
