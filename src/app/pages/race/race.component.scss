@@ -4,9 +4,6 @@
     flex-direction: column;
     position: relative;
 
-    user-select: none;
-    -webkit-user-select: none;
-
     canvas#game {
         max-width: 100dvw;
         max-height: 100dvh;
