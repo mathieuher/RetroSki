@@ -340,10 +340,12 @@
 .loading-placeholder {
     display: flex;
     position: absolute;
-    width: 100%;
+    padding: 0 1rem;
+    width: calc(100% - 2rem);
     height: 100%;
     align-items: center;
     justify-content: center;
+    text-align: center;
     background-color: rgba(255, 255, 255, 0.8);
     color: var(--color-tertiary);
     font-size: var(--text-title);
