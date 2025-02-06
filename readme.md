@@ -2,103 +2,67 @@
   <img src="src/assets/logos/logo.png" alt="RetroSki logo"/>
 </p>
 
-# ❄️ Retro Ski game
-Welcome to a fun, small game development project!
-Put on your skis and race down randomly generated alpine ski tracks with friends.
+# ❄️ **RetroSki** – A Thrilling Retro 2D Skiing Adventure! 🎿  
+Welcome to **RetroSki**, a small but exciting game where you can carve down randomly generated alpine ski tracks with your friends! Put on your skis, feel the rush of the slopes, and race to victory!
 
-## 💻 Play the official game
+## 💻 **Play the official game**  
+Hop on the slopes now!  
 <a href="https://retro-ski.ch">retro-ski.ch</a>
 
-## 🎮 Controls
-<table>
-  <tr>
-    <th>Action</th>
-    <th align="left">⌨️ Keyboard</th>
-    <th align="left">🎮 Gamepad</th>
-    <th align="left">📱 Touch device</th>
-  </tr>
-  <tr>
-    <td>Start riding (1x)</td>
-    <td><img src="src/assets/icons/keyboard_arrow_up.png" valign="bottom"/></td>
-    <td><img src="src/assets/icons/gamepad_a.png" valign="bottom"/></td>
-    <td>Touch the screen</td>
-  </tr>
-  <tr>
-    <td>Carve</td>
-    <td><img src="src/assets/icons/keyboard_arrow_left.png" valign="bottom"/><img src="src/assets/icons/keyboard_arrow_right.png" valign="bottom"/></td>
-    <td><img src="src/assets/icons/gamepad_left_stick.png" valign="bottom"/></td>
-    <td>Touch left/right</td>
-  </tr>
-  <tr>
-    <td>Brake / slide</td>
-    <td><img src="src/assets/icons/keyboard_space.png" valign="bottom"/></td>
-    <td><img src="src/assets/icons/gamepad_b.png" valign="bottom"/></td>
-    <td>Touch bottom</td>
-  </tr>
-  <tr>
-    <td>Leave the race</td>
-    <td><img src="src/assets/icons/keyboard_exit.png" valign="bottom"/></td>
-    <td><img src="src/assets/icons/gamepad_select.png" valign="bottom"/></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Toggle ghosts</td>
-    <td><img src="src/assets/icons/keyboard_g.png" valign="bottom"/></td>
-    <td><img src="src/assets/icons/gamepad_left_bumper.png" valign="bottom"/></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Toggle debug mode</td>
-    <td><img src="src/assets/icons/keyboard_d.png" valign="bottom"/></td>
-    <td></td>
-    <td></td>
-  </tr>
-</table>
+## 🎮 **Controls – Master Your Ride!**  
+| **Action**           | **⌨️ Keyboard**         | **🎮 Gamepad**          | **📱 Touch device**     |
+|----------------------|-------------------------|------------------------|------------------------|
+| **Start riding (1x)** | <img src="src/assets/icons/keyboard_arrow_up.png" valign="bottom"/> | <img src="src/assets/icons/gamepad_a.png" valign="bottom"/> | Touch the screen       |
+| **Carve**             | <img src="src/assets/icons/keyboard_arrow_left.png" valign="bottom"/> <img src="src/assets/icons/keyboard_arrow_right.png" valign="bottom"/> | <img src="src/assets/icons/gamepad_left_stick.png" valign="bottom"/> | Touch left/right       |
+| **Brake / slide**    | <img src="src/assets/icons/keyboard_space.png" valign="bottom"/> | <img src="src/assets/icons/gamepad_b.png" valign="bottom"/> | Touch bottom           |
+| **Leave the race**   | <img src="src/assets/icons/keyboard_exit.png" valign="bottom"/> | <img src="src/assets/icons/gamepad_select.png" valign="bottom"/> |                        |
+| **Toggle ghosts**    | <img src="src/assets/icons/keyboard_g.png" valign="bottom"/> | <img src="src/assets/icons/gamepad_left_bumper.png" valign="bottom"/> |                        |
+| **Toggle debug mode**| <img src="src/assets/icons/keyboard_d.png" valign="bottom"/> |                        |                        |
 
-## 📘 Gamer guide
-### Ride local
-Set up your event here!<br>
-Enter a few details to get started:<br>
-1. Choose a track (or create a new one if it doesn’t exist).
-2. Enter rider names.
-3. Select the number of races (1 to 10).
+## 📘 **Gamer's Guide – Conquer the Slopes!**
 
-### Ride online
-1. Create or join servers with your friends
-2. Ride, compete and share records with them
+### **Ride Local**  
+Create your own race tracks and challenge your friends locally!  
+Just follow these simple steps:  
+1. Choose a track or create a new one.  
+2. Add your rider names.  
+3. Select the number of races (from 1 to 10).  
 
-### Race
-You’re at the top of the hill. <br>
-Time to carve some turns!<br>
-Press (1x) ⌨️<img src="src/assets/icons/keyboard_arrow_up.png" valign="bottom"/>, 🎮<img src="src/assets/icons/gamepad_a.png" valign="bottom"/> or 📱touch to start skiing and see you at the finish line !<br>
-⚠️ Don't miss a gate or you'll receive a penalty of <b>3 seconds</b>
+### **Ride Online**  
+Race against friends and other players online.  
+1. Set up your server or join one.  
+2. Race, compete, and share your records with the world.  
 
-### Game setup
-You can access to specific game setup by clicking the ⚙️ on the top right in the interface<br>
-Here you can enable or disable few settings for your race:
-<ul>
-  <li>🔊 Sounds</li>
-  <li>🧑‍🤝‍🧑 Spectators</li>
-  <li>👻 Ghosts</li>
-  <li>🫧 Particles (may affect performance)</li>
-  <li>🌲 Decorations</li>
-</ul>
-You can also reset the game to default settings, restoring all tracks, ghosts, and records.
+### **Race – It’s Time to Shred!**  
+You’re at the top of the hill, ready to carve your way to the finish line.  
+Press (1x) ⌨️<img src="src/assets/icons/keyboard_arrow_up.png" valign="bottom"/>, 🎮<img src="src/assets/icons/gamepad_a.png" valign="bottom"/>, or 📱touch to start skiing.  
+⚠️ Don’t miss any gates or face a penalty of **3 seconds**!
 
-## 💡 Tips
-### Different track styles
-Each track style follows unique rules when generating a new track.<br> 
-Track style also impacts skier dynamics, mimicking real-world conditions.<br>
-<b>Note:</b> Giant Slalom is a great track style to start gaining experience!
+### **Game Setup**  
+Click the ⚙️ icon on the top right to access your game settings!  
+Here, you can adjust a few options for your race:  
+- 🔊 Sounds  
+- 🧑‍🤝‍🧑 Spectators  
+- 👻 Ghosts  
+- 🫧 Particles (might affect performance)  
+- 🌲 Decorations  
 
-### Keep your records
-#### Local
-RetroSki uses localStorage and indexedDB to save local generated tracks and records.
-#### Online
-Online records, ghosts, tracks and events are persisted on servers.
+You can also reset everything back to default settings to restore tracks, ghosts, and records.
 
-### Follow your path
-Ghost mode is activated by default so you can view your best time as you race.<br>
+## 💡 **Tips for Mastering the Slopes!**
+
+### **Different Track Styles**  
+Each track type follows unique rules when generating new slopes, mimicking real-world conditions.  
+**Pro Tip:** The Giant Slalom track is perfect for beginners to hone their skills!
+
+### **Keep Your Records**  
+#### **Local**  
+Retro-Ski stores your local records and tracks using localStorage and IndexedDB.  
+#### **Online**  
+Online records, ghosts, tracks, and events are saved on our servers for you to track your progress.
+
+### **Follow Your Path**  
+Ghost mode lets you race against your best times or the best global or event records!  
 <table>
   <tr>
     <th>Ghost</th>
@@ -114,23 +78,24 @@ Ghost mode is activated by default so you can view your best time as you race.<b
   </tr>
 </table>
 
-### Performance
-RetroSki is designed to run smoothly on any modern device with an updated browser.<br>
-If you encounter performance issues, try reloading the game first.<br>
-For further performance improvements, consider disabling particles and other game objects in the game settings.
+### **Performance Tips**  
+Retro-Ski is optimized to run smoothly on any modern device with an up-to-date browser.  
+If you experience lag, try refreshing the game.  
+For better performance, consider disabling particles and other heavy game objects in the settings.
 
-### Crash
-If the game crashes, try resetting and erasing all content via the game setup menu to reload the original content.
+### **Crash Recovery**  
+In case of a crash, try resetting the game via the settings menu to reload the original content and keep shredding!
 
-## 👷‍♂️ What's next ?
-<a href="roadmap.md">Draft of a roadmap</a>
+## 👷‍♂️ **What’s Next?**  
+Check out our **roadmap** to see the exciting features coming soon!  
+<a href="roadmap.md">Draft of the roadmap</a>
 
-## ❤️ Support the project
-Be sure to enjoy your time on the mountain with us 😃<br>
-Feel free to support the project or upgrading to a premium account 🙏 :
+## ❤️ **Support the Project**  
+Enjoying your time on the slopes? Help us keep improving the game!  
+Consider supporting the project or upgrading to a premium account. 🙏  
 <a href="https://donate.stripe.com/7sIaGu2wO52K9S8aEE">Support the project via Stripe</a>
 
-## ⚫ Developer guide
-1. Run `yarn install` to install dependencies
-2. Run `yarn start` to start in local!
-3. Have fun!
+## ⚫ **Developer Guide**  
+1. Run `yarn install` to install dependencies.  
+2. Run `yarn start` to start locally and begin your development journey.  
+3. And most importantly, **have fun!**
