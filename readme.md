@@ -6,7 +6,6 @@
 Welcome to **RetroSki**, a small but exciting game where you can carve down randomly generated alpine ski tracks with your friends! Put on your skis, feel the rush of the slopes, and race to victory!
 
 ## 💻 **Play the official game**  
-Hop on the slopes now!  
 <a href="https://retro-ski.ch">retro-ski.ch</a>
 
 ## 🎮 **Controls – Master Your Ride!**  
@@ -19,26 +18,26 @@ Hop on the slopes now!
 | **Toggle ghosts**    | <img src="src/assets/icons/keyboard_g.png" valign="bottom"/> | <img src="src/assets/icons/gamepad_left_bumper.png" valign="bottom"/> |                        |
 | **Toggle debug mode**| <img src="src/assets/icons/keyboard_d.png" valign="bottom"/> |                        |                        |
 
-## 📘 **Gamer's Guide – Conquer the Slopes!**
+## 📘 **Gamer's guide – Conquer the slopes!**
 
-### **Ride Local**  
+### **Ride local**  
 Create your own race tracks and challenge your friends locally!  
 Just follow these simple steps:  
 1. Choose a track or create a new one.  
 2. Add your rider names.  
 3. Select the number of races (from 1 to 10).  
 
-### **Ride Online**  
+### **Ride online**  
 Race against friends and other players online.  
 1. Set up your server or join one.  
 2. Race, compete, and share your records with the world.  
 
-### **Race – It’s Time to Shred!**  
+### **Race – It’s time to shred!**  
 You’re at the top of the hill, ready to carve your way to the finish line.  
 Press (1x) ⌨️<img src="src/assets/icons/keyboard_arrow_up.png" valign="bottom"/>, 🎮<img src="src/assets/icons/gamepad_a.png" valign="bottom"/>, or 📱touch to start skiing.  
 ⚠️ Don’t miss any gates or face a penalty of **3 seconds**!
 
-### **Game Setup**  
+### **Game setup**  
 Click the ⚙️ icon on the top right to access your game settings!  
 Here, you can adjust a few options for your race:  
 - 🔊 Sounds  
@@ -49,19 +48,19 @@ Here, you can adjust a few options for your race:
 
 You can also reset everything back to default settings to restore tracks, ghosts, and records.
 
-## 💡 **Tips for Mastering the Slopes!**
+## 💡 **Tips for mastering the slopes!**
 
-### **Different Track Styles**  
-Each track type follows unique rules when generating new slopes, mimicking real-world conditions.  
+### **Different track styles**  
+Each track type follows unique rules when generating new slopes, mimicking real-world conditions and impacting rider dynamic.  
 **Pro Tip:** Giant slalom tracks are perfect for beginners to hone their skills!
 
-### **Keep Your Records**  
+### **Keep your records**  
 #### **Local**  
-Retro-Ski stores your local records and tracks using localStorage and IndexedDB.  
+RetroSki stores your local records and tracks using localStorage and IndexedDB.  
 #### **Online**  
 Online records, ghosts, tracks, and events are saved on our servers for you to track your progress.
 
-### **Follow Your Path**  
+### **Follow your path**  
 Ghost mode lets you race against your best times or the best global or event records!  
 <table>
   <tr>
@@ -78,21 +77,21 @@ Ghost mode lets you race against your best times or the best global or event rec
   </tr>
 </table>
 
-### **Performance Tips**  
+### **Performance tips**  
 Retro-Ski is optimized to run smoothly on any modern device with an up-to-date browser.  
 If you experience lag, try refreshing the game.  
 For better performance, consider disabling particles and other heavy game objects in the settings.
 
-### **Crash Recovery**  
+### **Crash recovery**  
 In case of a crash, try resetting the game via the settings menu to reload the original content and keep shredding!
 
-## 👷‍♂️ **What’s Next?**  
+## 👷‍♂️ **What’s next?**  
 Check out our **roadmap** to see the exciting features coming soon!  
 <a href="roadmap.md">Draft of the roadmap</a>
 
-## ❤️ **Support the Project**  
+## ❤️ **Support the project**  
 Enjoying your time on the slopes? Help us keep improving the game!  
-Consider supporting the project or upgrading to a premium account. 🙏  
+Consider upgrading to a premium membership or supporting the project. 🙏  
 <a href="https://donate.stripe.com/7sIaGu2wO52K9S8aEE">Support the project via Stripe</a>
 
 ## ⚫ **Developer Guide**  
