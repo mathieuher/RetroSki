@@ -7,22 +7,16 @@
 
     .subtitle {
         color: var(--color-primary-light);
-        font-size: var(--text-small);
-        border-radius: var(--border-radius);
     }
 
     ul {
         margin: 0.5rem 0;
-        font-size: var(--text-small);
+        font-size: var(--text-standard);
         color: var(--color-primary-light);
         padding-inline-start: 2rem;
         ::marker {
             color: var(--color-primary-light);
         }
-    }
-
-    .retro-text {
-        font-size: var(--text-small);
     }
 
     .retro-hint {
