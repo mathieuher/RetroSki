@@ -1,4 +1,4 @@
-import { Actor, CollisionType, type Engine, type GpuParticleEmitter, vec } from 'excalibur';
+import { Actor, CollisionType, Color, EdgeCollider, type Engine, type GpuParticleEmitter, vec } from 'excalibur';
 import { Config } from '../config';
 import { Resources } from '../resources';
 import type { Race } from '../scenes/race';
@@ -7,6 +7,7 @@ import type { SkierConfig } from '../models/skier-config';
 import type { Game } from '../game';
 import { SkierActions } from '../models/skier-actions.enum';
 import { SkierGraphics } from '../utils/skier-graphics';
+import { SkierFrontCollider } from './skier-front-collider';
 
 class SkierIntentions {
     public leftCarvingIntention: number;
@@ -53,6 +54,7 @@ export class Skier extends Actor {
         this.rightParticlesEmitter = ParticlesBuilder.getGpuParticlesEmitter('right');
         this.addChild(this.leftParticlesEmitter);
         this.addChild(this.rightParticlesEmitter);
+        this.addChild(new SkierFrontCollider());
     }
 
     override update(engine: Engine): void {

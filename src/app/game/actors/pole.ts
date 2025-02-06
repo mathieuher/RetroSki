@@ -5,6 +5,7 @@ import { Skier } from './skier';
 import type { Game } from '../game';
 import type { GatesConfig } from '../models/gates-config';
 import { TrackStyles } from '../models/track-styles.enum';
+import { SkierFrontCollider } from './skier-front-collider';
 
 export class Pole extends Actor {
     private poleColor: 'red' | 'blue';
@@ -56,6 +57,9 @@ export class Pole extends Actor {
     }
 
     private onPreCollision(evt: CollisionStartEvent): void {
+        if (evt.other.owner instanceof SkierFrontCollider) {
+            this.parent?.emit('straddled');
+        }
         if (evt.other.owner instanceof Skier) {
             (this.scene!.engine as Game).soundPlayer.playSound(
                 Resources.PoleHittingSound,

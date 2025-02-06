@@ -188,7 +188,7 @@ export class Config {
     };
 
     // POLES
-    static POLE_DETECTOR_MARGIN = 18;
+    static POLE_DETECTOR_MARGIN = 10;
     static FINAL_POLE_WIDTH = 40;
     static FINAL_POLE_HEIGHT = 70;
 

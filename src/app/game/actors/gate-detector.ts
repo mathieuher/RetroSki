@@ -7,7 +7,7 @@ export class GateDetector extends Actor {
             pos: position,
             width: width,
             height: height,
-            anchor: vec(0, isFinalDetection ? 0.5 : 0),
+            anchor: vec(0, 0.5),
             collisionType: CollisionType.Passive
         });
     }

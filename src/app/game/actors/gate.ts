@@ -21,6 +21,7 @@ export class Gate extends Actor {
     private gateNumber: number;
     private polesColor: 'red' | 'blue';
     private missed = false;
+    private straddled = false;
 
     constructor(
         config: GatesConfig,
@@ -62,6 +63,7 @@ export class Gate extends Actor {
             this.graphics.use(graphics);
         }
 
+        this.on('straddled', () => this.onGateStraddled());
         this.on('passed', () => this.onGatePassed());
         this.on('exitviewport', () => {
             if (this.isBehind()) {
@@ -153,15 +155,23 @@ export class Gate extends Actor {
     }
 
     private onGatePassed(): void {
-        this.passed = true;
-        if (this.sectorNumber) {
-            (this.scene as Race).setSector(this.sectorNumber);
-        }
-        if (this.isFinalGate) {
-            (this.scene as Race).stopRace();
-        } else {
-            this.updatePassedPolesGraphics();
-        }
+        setTimeout(() => {
+            if (!this.straddled) {
+                this.passed = true;
+                if (this.sectorNumber) {
+                    (this.scene as Race).setSector(this.sectorNumber);
+                }
+                if (this.isFinalGate) {
+                    (this.scene as Race).stopRace();
+                } else {
+                    this.updatePassedPolesGraphics();
+                }
+            }
+        }, 30);
+    }
+
+    private onGateStraddled(): void {
+        this.straddled = true;
     }
 
     private updatePassedPolesGraphics(): void {
