@@ -15,4 +15,5 @@ export class ToolbarComponent {
 
     public hideSettings = input<boolean>(false);
     public hideProfile = input<boolean>(true);
+    public hideLogo = input<boolean>(false);
 }

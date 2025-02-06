@@ -1,13 +1,16 @@
 <div class="left-actions-container">
     <ng-content select="left-actions"></ng-content>
 </div>
+
 <div class="logo-container">
+    @if(!hideLogo()) {
     <img
         class="small-logo"
         src="./assets/logos/small_logo.png"
         alt="RetroSki logo"
         routerLink="/"
     />
+    }
 </div>
 <div class="right-actions-container">
     <ng-content select="right-actions"></ng-content>

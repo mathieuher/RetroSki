@@ -1,0 +1,151 @@
+<app-toolbar [hideSettings]="true">
+    <ng-container ngProjectAs="left-actions">
+        <app-button-icon icon="close" routerLink="/"></app-button-icon>
+    </ng-container>
+</app-toolbar>
+<div class="retro-content">
+    <div class="retro-title">About RetroSki</div>
+    <div class="retro-text">
+        Here, you'll find the latest <strong>game updates</strong>, important
+        <strong>terms of service</strong>, and everything you need to keep
+        shredding the slopes with confidence. Stay informed and ride on! 🎿❄️
+    </div>
+    <app-expander title="Latest updates" class="updates" [expanded]="true">
+        @for(update of updates(); track $index){
+        <div class="retro-text subtitle">{{ update.date | date }}</div>
+        <ul>
+            @for(item of update.items; track $index) {
+            <li>{{ item }}</li>
+            }
+        </ul>
+        }
+        <div class="retro-hint">
+            Check out the full project updates here:
+            <a
+                class="retro-link"
+                href="https://github.com/mathieuher/RetroSki/commits/master/"
+                >RetroSki on GitHub</a
+            >
+        </div>
+    </app-expander>
+    <app-expander title="Keep in touch">
+        <div class="retro-text">
+            E-mail:
+            <a class="retro-link" href="mailto:team@retro-ski.ch"
+                >team&#64;retro-ski.ch</a
+            >
+        </div>
+        <div class="retro-text">
+            Reddit:
+            <a class="retro-link" href="https://www.reddit.com/r/RetroSki/"
+                >r/RetroSki</a
+            >
+        </div>
+        <div class="retro-text">
+            GitHub:
+            <a
+                class="retro-link"
+                href="https://www.github.com/mathieuher/RetroSki"
+                >RetroSki</a
+            >
+        </div>
+        <div class="retro-text">
+            Instagram:
+            <a class="retro-link" href="https://instagram.com/retroski_game"
+                >retroski_game</a
+            >
+        </div>
+    </app-expander>
+    <app-expander title="Terms of service">
+        <div class="retro-text subtitle">Using the service</div>
+        <ul>
+            <li>
+                RetroSki is an online game designed for all ski lovers looking
+                for a retro 2D experience on the slopes.
+            </li>
+            <li>
+                By playing, you agree to respect fair play, enjoy the ride, and
+                avoid any unfair advantage.
+            </li>
+            <li>
+                The game is constantly evolving, new features, events, and
+                optimizations will hit the slopes over time!
+            </li>
+        </ul>
+
+        <div class="retro-text subtitle">Accounts & data</div>
+        <ul>
+            <li>
+                Your RetroSki account is personal, keep it safe and secure to
+                enjoy uninterrupted access.
+            </li>
+            <li>Online features require a verified account.</li>
+            <li>
+                We do our best to keep your data safe, but remember that
+                leaderboard stats and online races are public.
+            </li>
+        </ul>
+
+        <div class="retro-text subtitle">Memberships & purchases</div>
+        <ul>
+            <li>
+                Premium accounts unlock extra perks, giving you more ways to
+                share the slopes with friends.
+            </li>
+            <li>Any purchase you make is final and non-refundable.</li>
+            <li>
+                Membreships do not auto-renew, you decide when to extend your
+                premium advantages!
+            </li>
+        </ul>
+
+        <div class="retro-text subtitle">Security & Fair-Play</div>
+        <ul>
+            <li>
+                RetroSki is all about skill and fun, using third-party software,
+                cheats, or exploits is strictly prohibited.
+            </li>
+            <li>
+                If suspicious activity is detected, your rides may be
+                invalidated, and repeated offenses could lead to permanent
+                exclusion.
+            </li>
+            <li>
+                Respect your fellow riders, keep the competition friendly and
+                the slopes fun for everyone.
+            </li>
+        </ul>
+
+        <div class="retro-text subtitle">
+            Online events & server availability
+        </div>
+        <ul>
+            <li>
+                Online events may be time-limited, make sure to check if an
+                event is still open before jumping in.
+            </li>
+            <li>
+                Server availability may vary depending on demand, maintenance,
+                or unexpected snowstorms.
+            </li>
+            <li>
+                If you experience connection issues, try again later or check
+                our updates for server status.
+            </li>
+        </ul>
+
+        <div class="retro-text subtitle">Need help?</div>
+        <ul>
+            <li>
+                Something feels off? Contact us at
+                <a class="retro-link" href="mailto:team@retro-ski.ch"
+                    >team&#64;retro-ski.ch</a
+                >, we’re here to help!
+            </li>
+            <li>
+                Stay tuned for updates and new features by checking our official
+                channels.
+            </li>
+        </ul>
+    </app-expander>
+</div>

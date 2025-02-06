@@ -1,3 +1,8 @@
+<app-toolbar [hideLogo]="true" [hideSettings]="true">
+    <ng-container ngProjectAs="right-actions">
+        <app-button-icon icon="info" routerLink="/about"></app-button-icon>
+    </ng-container>
+</app-toolbar>
 <div class="retro-content">
     <img class="logo" src="./assets/logos/logo.png" alt="RetroSki logo" />
     <div class="title">Welcome!</div>

@@ -1,0 +1,17 @@
+[
+    {
+        "date": "2025-02-06",
+        "items": [
+            "Improve gate detection mechanism and add straddled gate",
+            "Add page to present latest updates, terms of service and socials"
+        ]
+    },
+    {
+        "date": "2025-02-05",
+        "items": ["Reduce ghost opacity when close to rider", "Fix alignment on ranking overlay"]
+    },
+    {
+        "date": "2025-02-01",
+        "items": ["Add 4 default tracks to ride local", "Limit auto-translate features"]
+    }
+]
