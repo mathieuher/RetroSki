@@ -53,7 +53,7 @@ You can also reset everything back to default settings to restore tracks, ghosts
 
 ### **Different Track Styles**  
 Each track type follows unique rules when generating new slopes, mimicking real-world conditions.  
-**Pro Tip:** The Giant Slalom track is perfect for beginners to hone their skills!
+**Pro Tip:** Giant slalom tracks are perfect for beginners to hone their skills!
 
 ### **Keep Your Records**  
 #### **Local**  
