@@ -2,7 +2,7 @@
   <img src="src/assets/logos/logo.png" alt="RetroSki logo"/>
 </p>
 
-# ❄️ **RetroSki** – A Thrilling Retro 2D Skiing Adventure! 🎿  
+# ❄️ **RetroSki** – A thrilling retro 2D skiing adventure! 🎿  
 Welcome to **RetroSki**, a small but exciting game where you can carve down randomly generated alpine ski tracks with your friends! Put on your skis, feel the rush of the slopes, and race to victory!
 
 ## 💻 **Play the official game**  
@@ -10,7 +10,7 @@ Hop on the slopes now!
 <a href="https://retro-ski.ch">retro-ski.ch</a>
 
 ## 🎮 **Controls – Master Your Ride!**  
-| **Action**           | **⌨️ Keyboard**         | **🎮 Gamepad**          | **📱 Touch device**     |
+| **Action**           | **⌨️ Keyboard**         | **🎮 Gamepad (recommended)**          | **📱 Touch device**     |
 |----------------------|-------------------------|------------------------|------------------------|
 | **Start riding (1x)** | <img src="src/assets/icons/keyboard_arrow_up.png" valign="bottom"/> | <img src="src/assets/icons/gamepad_a.png" valign="bottom"/> | Touch the screen       |
 | **Carve**             | <img src="src/assets/icons/keyboard_arrow_left.png" valign="bottom"/> <img src="src/assets/icons/keyboard_arrow_right.png" valign="bottom"/> | <img src="src/assets/icons/gamepad_left_stick.png" valign="bottom"/> | Touch left/right       |
