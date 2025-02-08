@@ -64,19 +64,19 @@ export class TrackService {
 
     private getLocalTrack$(id: string): Observable<Track> {
         return from(RETROSKI_DB.tracks.get(id)).pipe(
-            map(track => Object.assign(new StockableTrack(), track).toTrack())
+            map(track => Object.assign(new StockableTrack(track!['builderVersion']), track).toTrack())
         );
     }
 
     private getOnlineTrack$(id: string): Observable<Track> {
         return from(environment.pb.collection('tracks').getOne(id)).pipe(
-            map(track => Object.assign(new StockableTrack(), track).toTrack())
+            map(track => Object.assign(new StockableTrack(track['builderVersion']), track).toTrack())
         );
     }
 
     private getLocalTracks$(): Observable<Track[]> {
         return from(RETROSKI_DB.tracks.toArray()).pipe(
-            map(tracks => tracks.map(track => Object.assign(new StockableTrack(), track))),
+            map(tracks => tracks.map(track => Object.assign(new StockableTrack(track['builderVersion']), track))),
             map(stockableTracks => stockableTracks.map(stockableTrack => stockableTrack.toTrack()))
         );
     }
@@ -85,11 +85,10 @@ export class TrackService {
         return from(environment.pb.collection('tracks').getFullList({ filter: 'active = true' })).pipe(
             map(tracks => {
                 return tracks.map(track => {
-                    const stockableTrack = new StockableTrack();
+                    const stockableTrack = new StockableTrack(track['builderVersion']);
                     stockableTrack.id = track.id;
                     stockableTrack.name = track['name'];
                     stockableTrack.style = track['style'];
-                    stockableTrack.builderVersion = track['builderVersion'];
                     stockableTrack.gates = track['gates'];
                     stockableTrack.decorations = track['decorations'] || [];
                     return stockableTrack.toTrack();

@@ -23,7 +23,7 @@ export class TrackBuilder {
         const gates = TrackBuilder.designGates(trackStyle, gatesConfig, numberOfGates, sectorGateNumbers);
         const decorations = TrackBuilder.designDecorations(gates);
 
-        return new Track(undefined, Config.CURRENT_BUILDER_VERSION, name, trackStyle, new Date(), gates, decorations);
+        return new Track(Config.CURRENT_BUILDER_VERSION, undefined, name, trackStyle, new Date(), gates, decorations);
     }
 
     /**
@@ -34,8 +34,8 @@ export class TrackBuilder {
     public static buildTrack(stockableTrack: StockableTrack): Track {
         ('TrackBuilder - Rebuilding an existing track');
         return new Track(
-            stockableTrack.id,
             stockableTrack.builderVersion,
+            stockableTrack.id,
             stockableTrack.name,
             stockableTrack.style,
             stockableTrack.date,
@@ -75,6 +75,8 @@ export class TrackBuilder {
                 nextGateWidth,
                 index,
                 false,
+                'none',
+                false,
                 sectorGateNumbers.indexOf(index) + 1
             );
             gates.push(gate);
@@ -82,7 +84,7 @@ export class TrackBuilder {
             nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, gatesConfig, nextGatePosition);
         }
 
-        gates.push(TrackBuilder.generateFinalGate(nextGatePosition.y, numberOfGates + 1, gatesConfig));
+        gates.push(TrackBuilder.generateFinalGate(nextGatePosition.y, numberOfGates + 1));
         return gates;
     }
 
@@ -128,11 +130,7 @@ export class TrackBuilder {
         return gatesConfig.minWidth + Math.random() * (gatesConfig.maxWidth - gatesConfig.minWidth);
     }
 
-    private static generateFinalGate(
-        verticalPosition: number,
-        gateNumber: number,
-        gatesConfig: GatesConfig
-    ): StockableGate {
+    private static generateFinalGate(verticalPosition: number, gateNumber: number): StockableGate {
         return new StockableGate(
             Config.FINAL_GATE_POSITION,
             verticalPosition,
@@ -140,6 +138,8 @@ export class TrackBuilder {
             Config.FINAL_GATE_WIDTH,
             gateNumber,
             true,
+            'none',
+            false,
             Config.SECTORS_PER_RACE + 1
         );
     }

@@ -1,9 +1,9 @@
-import { Actor, CollisionType, Color, GraphicsGroup, Line, type Vector, vec } from 'excalibur';
+import { Actor, Color, GraphicsGroup, Line, type Vector, vec } from 'excalibur';
 import { Config } from '../config';
 import { Pole } from './pole';
 import { GateDetector } from './gate-detector';
 import type { Race } from '../scenes/race';
-import { StockableGate } from '../models/stockable-gate';
+import { type Pivot, StockableGate } from '../models/stockable-gate';
 import { Resources } from '../resources';
 import type { GatesConfig } from '../models/gates-config';
 import { ScreenManager } from '../utils/screen-manager';
@@ -14,6 +14,7 @@ export class Gate extends Actor {
     public sectorNumber?: number;
     public passed = false;
 
+    private builderVersion: number;
     private leftPole?: Pole;
     private rightPole?: Pole;
     private gateDetector?: GateDetector;
@@ -23,28 +24,37 @@ export class Gate extends Actor {
     private missed = false;
     private straddled = false;
 
+    private pivot: Pivot;
+    private vertical: boolean;
+
     constructor(
         config: GatesConfig,
+        builderVersion: number,
         position: Vector,
         width: number,
         color: 'red' | 'blue',
         gateNumber: number,
+        pivot: Pivot,
+        vertical: boolean,
         isFinalGate = false,
         sectorNumber?: number
     ) {
         super({
             pos: position,
             width: width,
-            height: isFinalGate ? Config.FINAL_POLE_HEIGHT : config.poleHeight,
-            anchor: vec(0, 0.5),
+            height: Config.GATE_DEFAULT_HEIGHT,
+            anchor: vec(0, 1),
             z: 5
         });
 
         this.config = config;
+        this.builderVersion = builderVersion;
         this.isFinalGate = isFinalGate;
         this.sectorNumber = sectorNumber;
         this.polesColor = color;
         this.gateNumber = gateNumber;
+        this.pivot = pivot;
+        this.vertical = vertical;
 
         if (this.isFinalGate) {
             const graphics = new GraphicsGroup({
@@ -99,6 +109,8 @@ export class Gate extends Actor {
             this.width,
             this.gateNumber,
             this.isFinalGate,
+            this.pivot,
+            this.vertical,
             this.sectorNumber
         );
     }
@@ -121,8 +133,7 @@ export class Gate extends Actor {
         this.gateDetector = new GateDetector(
             vec(gatePoleWidth + Config.POLE_DETECTOR_MARGIN, 0),
             this.width - 2 * (gatePoleWidth + Config.POLE_DETECTOR_MARGIN),
-            this.isFinalGate ? gatePoleHeight : gatePoleHeight / 2,
-            this.isFinalGate
+            this.height / 2
         );
 
         if (!this.isFinalGate) {
@@ -143,8 +154,8 @@ export class Gate extends Actor {
             this.sectorLine = new Actor({ anchor: vec(0, 0), z: 0 });
             this.sectorLine.graphics.use(
                 new Line({
-                    start: vec(gatePoleWidth - 5, gatePoleHeight / 2),
-                    end: vec(this.width - gatePoleWidth + 5, gatePoleHeight / 2),
+                    start: vec(gatePoleWidth, 0),
+                    end: vec(this.width - gatePoleWidth, 0),
                     color: Color.Red,
                     thickness: 3.5
                 })

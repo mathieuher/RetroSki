@@ -17,7 +17,7 @@ export class Pole extends Actor {
             pos: position,
             width: isFinalPole ? Config.FINAL_POLE_WIDTH : gatesConfig.poleWidth,
             height: isFinalPole ? Config.FINAL_POLE_HEIGHT : gatesConfig.poleHeight,
-            anchor: vec(0, 0.5),
+            anchor: vec(0, 1),
             collisionType: CollisionType.Active,
             color: isFinalPole ? Color.fromHex('#DA2F2F') : Color.Transparent,
             z: 5

@@ -29,7 +29,7 @@ export class Config {
     static FORMAT_TIMING = 'mm:ss:SS';
 
     // TRACKS
-    static CURRENT_BUILDER_VERSION = 4;
+    static CURRENT_BUILDER_VERSION = 5;
     static DEFAULT_TRACKS = ['soelden', 'davos', 'wengen', 'adelboden', 'zermatt'];
 
     // CONTROLS
@@ -102,6 +102,7 @@ export class Config {
     };
 
     // GATES
+    static GATE_DEFAULT_HEIGHT = 10;
     static GATE_MAX_LEFT_POSITION = Config.DISPLAY_MAX_LEFT_POSITION;
     static GATE_MAX_RIGHT_POSITION = Config.DISPLAY_MAX_RIGHT_POSITION;
     static FINAL_GATE_WIDTH = Config.DISPLAY_WIDTH - 2 * Config.DISPLAY_MIN_MARGIN;
@@ -118,7 +119,7 @@ export class Config {
         minNumber: 41,
         maxNumber: 51,
         poleWidth: 3,
-        poleHeight: 20,
+        poleHeight: 3,
         poleSprites: new Map([
             ['red', Resources.PoleSlRed.toSprite()],
             ['blue', Resources.PoleSlBlue.toSprite()]
@@ -139,7 +140,7 @@ export class Config {
         minNumber: 44,
         maxNumber: 54,
         poleWidth: 12,
-        poleHeight: 12,
+        poleHeight: 3,
         poleSprites: new Map([
             ['red', Resources.PoleRed.toSprite()],
             ['blue', Resources.PoleBlue.toSprite()]
@@ -160,7 +161,7 @@ export class Config {
         minNumber: 46,
         maxNumber: 56,
         poleWidth: 12,
-        poleHeight: 12,
+        poleHeight: 3,
         poleSprites: new Map([
             ['red', Resources.PoleRed.toSprite()],
             ['blue', Resources.PoleBlue.toSprite()]
@@ -181,7 +182,7 @@ export class Config {
         minNumber: 48,
         maxNumber: 58,
         poleWidth: 12,
-        poleHeight: 12,
+        poleHeight: 3,
         poleSprites: new Map([['red', Resources.PoleRed.toSprite()]]),
         poleCheckSprites: new Map([['red', Resources.PoleCheckRed.toSprite()]]),
         poleShadow: Resources.PoleShadow.toSprite()
