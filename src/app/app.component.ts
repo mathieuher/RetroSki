@@ -28,5 +28,7 @@ export class AppComponent {
         this.screenCompatible = signal(screen.height >= 500);
 
         addEventListener('resize', () => this.screenCompatible.set(screen.height >= 500));
+
+        addEventListener('gesturestart', event => event.preventDefault());
     }
 }
