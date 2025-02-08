@@ -29,6 +29,11 @@ export class AppComponent {
 
         addEventListener('resize', () => this.screenCompatible.set(screen.height >= 500));
 
+        addEventListener('contextmenu', event => {
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        });
         addEventListener('gesturestart', event => event.preventDefault());
     }
 }
