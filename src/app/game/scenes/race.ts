@@ -99,7 +99,7 @@ export class Race extends Scene {
         this.globalRecordGhost?.kill();
         this.eventRecordGhost?.kill();
 
-        const missedGates = this.gates.filter(gate => !gate.passed).length;
+        const missedGates = this.gates.filter(gate => gate.missed).length;
         const ghost = new StockableGhost(
             this.raceConfig.track.id!,
             new Date(),

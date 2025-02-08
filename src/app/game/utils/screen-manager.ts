@@ -6,7 +6,7 @@ export class ScreenManager {
         return Math.abs(camera.y - item.pos.y) < item.scene!.engine.canvasHeight;
     }
 
-    public static isBehind(cameraPosition: Vector, itemPosition: Vector): boolean {
-        return cameraPosition.y < itemPosition.y + Config.FRONT_GHOST_DISTANCE;
+    public static isBehind(cameraPositionY: number, itemPositionY: number): boolean {
+        return cameraPositionY < itemPositionY + Config.FRONT_GHOST_DISTANCE;
     }
 }

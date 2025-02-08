@@ -12,7 +12,7 @@ export class Gate extends Actor {
     public config: GatesConfig;
     public isFinalGate!: boolean;
     public sectorNumber?: number;
-    public passed = false;
+    public missed = false;
 
     private leftPole?: Pole;
     private rightPole?: Pole;
@@ -20,9 +20,9 @@ export class Gate extends Actor {
     private sectorLine?: Actor;
     private gateNumber: number;
     private polesColor: 'red' | 'blue';
-    private missed = false;
     private straddled = false;
-
+    private passed = false;
+    private gateProcessed = false;
     private polesAmount: number;
     private pivot: Pivot;
     private vertical: boolean;
@@ -49,7 +49,7 @@ export class Gate extends Actor {
 
         this.config = config;
         this.isFinalGate = isFinalGate;
-        this.sectorNumber = gateNumber;
+        this.sectorNumber = sectorNumber;
         this.polesColor = color;
         this.gateNumber = gateNumber;
         this.polesAmount = polesAmount;
@@ -88,9 +88,16 @@ export class Gate extends Actor {
             this.buildComponents();
         }
 
-        if (!this.passed && !this.missed && this.shouldBePassed()) {
-            (this.scene as Race).addPenalty();
-            this.missed = true;
+        // TODO : Rework this
+        if (!this.gateProcessed && this.shouldBePassed()) {
+            this.gateProcessed = true;
+
+            if (this.passed && !this.straddled) {
+                this.updatePassedPolesGraphics();
+            } else {
+                (this.scene as Race).addPenalty();
+                this.missed = true;
+            }
 
             if (this.sectorNumber) {
                 (this.scene as Race).setSector(this.sectorNumber);
@@ -125,11 +132,15 @@ export class Gate extends Actor {
     }
 
     private isBehind(): boolean {
-        return ScreenManager.isBehind(this.scene!.camera.pos, this.pos);
+        return ScreenManager.isBehind(this.scene!.camera.pos.y, this.pos.y - this.height);
     }
 
     private buildComponents(): void {
         const gatePoleWidth = this.isFinalGate ? Config.FINAL_POLE_WIDTH : this.config.poleWidth;
+
+        if (!this.isFinalGate) {
+            this.buildPoles(this.width, this.height, gatePoleWidth, this.pivot, this.vertical);
+        }
 
         this.buildGateDetector(
             this.width,
@@ -140,32 +151,13 @@ export class Gate extends Actor {
             this.pivot
         );
 
-        if (!this.isFinalGate) {
-            this.buildPoles(this.width, this.height, gatePoleWidth, this.pivot, this.vertical);
-        }
-
-        this.addChild(this.gateDetector!);
-
-        // TODO
         if (this.sectorNumber) {
             this.buildSectorLine(this.vertical, this.pivot, gatePoleWidth);
         }
     }
 
     private onGatePassed(): void {
-        setTimeout(() => {
-            if (!this.straddled) {
-                this.passed = true;
-                if (this.sectorNumber) {
-                    (this.scene as Race).setSector(this.sectorNumber);
-                }
-                if (this.isFinalGate) {
-                    (this.scene as Race).stopRace();
-                } else {
-                    this.updatePassedPolesGraphics();
-                }
-            }
-        }, 30);
+        this.passed = true;
     }
 
     private onGateStraddled(): void {
@@ -203,6 +195,7 @@ export class Gate extends Actor {
             }
 
             this.gateDetector = new GateDetector(detectorStartPosition, detectorSize, gateHeight);
+            this.addChild(this.gateDetector);
         }
     }
 
