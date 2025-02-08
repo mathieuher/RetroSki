@@ -102,7 +102,7 @@ export class Config {
     };
 
     // GATES
-    static GATE_DEFAULT_HEIGHT = 10;
+    static GATE_DEFAULT_HEIGHT = 3;
     static GATE_MAX_LEFT_POSITION = Config.DISPLAY_MAX_LEFT_POSITION;
     static GATE_MAX_RIGHT_POSITION = Config.DISPLAY_MAX_RIGHT_POSITION;
     static FINAL_GATE_WIDTH = Config.DISPLAY_WIDTH - 2 * Config.DISPLAY_MIN_MARGIN;

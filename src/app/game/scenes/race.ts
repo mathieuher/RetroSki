@@ -291,11 +291,11 @@ export class Race extends Scene {
         for (const stockableGate of track.gates) {
             const gate = new Gate(
                 TrackBuilder.getGatesConfig(track.style),
-                track.builderVersion,
                 vec(stockableGate.x, stockableGate.y),
                 stockableGate.width,
                 stockableGate.color,
                 stockableGate.gateNumber,
+                stockableGate.polesAmount,
                 stockableGate.pivot,
                 stockableGate.vertical,
                 stockableGate.isFinal,

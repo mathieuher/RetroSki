@@ -13,8 +13,8 @@ export class Track {
     public decorations: StockableDecoration[];
 
     constructor(
-        builderVersion: number,
         id?: string,
+        builderVersion?: number,
         name?: string,
         style?: TrackStyles,
         date?: Date,
@@ -22,7 +22,7 @@ export class Track {
         decorations?: StockableDecoration[]
     ) {
         this.id = id;
-        this.builderVersion = builderVersion;
+        this.builderVersion = builderVersion!;
         this.name = name!;
         this.style = style!;
         this.date = date!;
@@ -36,8 +36,8 @@ export class Track {
 
     public toStockable(): StockableTrack {
         return new StockableTrack(
-            this.builderVersion,
             this.id,
+            this.builderVersion,
             this.name,
             this.style,
             this.date,

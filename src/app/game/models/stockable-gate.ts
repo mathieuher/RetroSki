@@ -8,6 +8,7 @@ export class StockableGate {
     public gateNumber: number;
     public isFinal: boolean;
     public sectorNumber?: number;
+    public polesAmount: number;
     public pivot: Pivot;
     public vertical: boolean;
 
@@ -18,7 +19,8 @@ export class StockableGate {
         width: number,
         gateNumber: number,
         isFinal: boolean,
-        pivot: Pivot = 'none',
+        polesAmount = 2,
+        pivot: Pivot = 'left',
         vertical = false,
         sectorNumber?: number
     ) {
@@ -28,6 +30,7 @@ export class StockableGate {
         this.width = width;
         this.gateNumber = gateNumber;
         this.isFinal = isFinal;
+        this.polesAmount = polesAmount;
         this.pivot = pivot;
         this.vertical = vertical;
         this.sectorNumber = sectorNumber;

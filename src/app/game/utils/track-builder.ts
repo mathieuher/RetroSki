@@ -23,7 +23,7 @@ export class TrackBuilder {
         const gates = TrackBuilder.designGates(trackStyle, gatesConfig, numberOfGates, sectorGateNumbers);
         const decorations = TrackBuilder.designDecorations(gates);
 
-        return new Track(Config.CURRENT_BUILDER_VERSION, undefined, name, trackStyle, new Date(), gates, decorations);
+        return new Track(undefined, Config.CURRENT_BUILDER_VERSION, name, trackStyle, new Date(), gates, decorations);
     }
 
     /**
@@ -34,12 +34,28 @@ export class TrackBuilder {
     public static buildTrack(stockableTrack: StockableTrack): Track {
         ('TrackBuilder - Rebuilding an existing track');
         return new Track(
-            stockableTrack.builderVersion,
             stockableTrack.id,
+            stockableTrack.builderVersion,
             stockableTrack.name,
             stockableTrack.style,
             stockableTrack.date,
-            stockableTrack.gates,
+            stockableTrack.gates.map(gate =>
+                Object.assign(
+                    new StockableGate(
+                        gate.x,
+                        gate.y,
+                        gate.color,
+                        gate.width,
+                        gate.gateNumber,
+                        gate.isFinal,
+                        gate.polesAmount,
+                        gate.pivot,
+                        gate.vertical,
+                        gate.sectorNumber
+                    ),
+                    gate
+                )
+            ),
             stockableTrack.decorations
         );
     }
@@ -75,7 +91,8 @@ export class TrackBuilder {
                 nextGateWidth,
                 index,
                 false,
-                'none',
+                2,
+                'left',
                 false,
                 sectorGateNumbers.indexOf(index) + 1
             );
@@ -138,7 +155,8 @@ export class TrackBuilder {
             Config.FINAL_GATE_WIDTH,
             gateNumber,
             true,
-            'none',
+            2,
+            'left',
             false,
             Config.SECTORS_PER_RACE + 1
         );
