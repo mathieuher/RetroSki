@@ -107,17 +107,18 @@ export class Config {
     static GATE_MAX_RIGHT_POSITION = Config.DISPLAY_MAX_RIGHT_POSITION;
     static FINAL_GATE_WIDTH = Config.DISPLAY_WIDTH - 2 * Config.DISPLAY_MIN_MARGIN;
     static FINAL_GATE_POSITION = Config.DISPLAY_MAX_LEFT_POSITION;
-    static GATE_OTHER_SIDE_PROBABILITY = 0.95;
+    static GATE_OTHER_SIDE_PROBABILITY = 0.93;
+    static GATE_FOLLOWING_DISTANCE_RATIO = 0.8;
     // SPECIFIC TRACK STYLE CONFIG
     static SL_GATES_CONFIG = {
         trackStyle: TrackStyles.SL,
-        maxWidth: 114,
-        minWidth: 90,
-        maxHorizontalDistance: 192,
-        minVerticalDistance: 102,
-        maxVerticalDistance: 162,
-        minNumber: 41,
-        maxNumber: 51,
+        maxWidth: 120,
+        minWidth: 80,
+        maxHorizontalDistance: 100,
+        minVerticalDistance: 120,
+        maxVerticalDistance: 150,
+        minNumber: 54,
+        maxNumber: 66,
         poleWidth: 3,
         poleHeight: 3,
         poleSprites: new Map([
@@ -133,12 +134,12 @@ export class Config {
     static GS_GATES_CONFIG = {
         trackStyle: TrackStyles.GS,
         maxWidth: 120,
-        minWidth: 96,
-        maxHorizontalDistance: 192,
-        minVerticalDistance: 120,
-        maxVerticalDistance: 210,
-        minNumber: 44,
-        maxNumber: 54,
+        minWidth: 100,
+        maxHorizontalDistance: 100,
+        minVerticalDistance: 140,
+        maxVerticalDistance: 200,
+        minNumber: 50,
+        maxNumber: 65,
         poleWidth: 12,
         poleHeight: 3,
         poleSprites: new Map([
@@ -153,10 +154,10 @@ export class Config {
     };
     static SG_GATES_CONFIG = {
         trackStyle: TrackStyles.SG,
-        maxWidth: 144,
-        minWidth: 114,
-        maxHorizontalDistance: 210,
-        minVerticalDistance: 192,
+        maxWidth: 150,
+        minWidth: 120,
+        maxHorizontalDistance: 115,
+        minVerticalDistance: 220,
         maxVerticalDistance: 300,
         minNumber: 46,
         maxNumber: 56,
@@ -174,11 +175,11 @@ export class Config {
     };
     static DH_GATES_CONFIG = {
         trackStyle: TrackStyles.DH,
-        maxWidth: 150,
-        minWidth: 120,
-        maxHorizontalDistance: 180,
-        minVerticalDistance: 252,
-        maxVerticalDistance: 318,
+        maxWidth: 160,
+        minWidth: 130,
+        maxHorizontalDistance: 90,
+        minVerticalDistance: 280,
+        maxVerticalDistance: 360,
         minNumber: 48,
         maxNumber: 58,
         poleWidth: 12,

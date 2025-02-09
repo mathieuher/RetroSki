@@ -211,7 +211,7 @@ export class Race extends Scene {
     private prepareRace(raceConfig: RaceConfig): void {
         this.addTimer(this.uiTimer);
         this.buildTrack(raceConfig.track);
-        this.skier = new Skier(raceConfig.rider, this.getSkierConfig(raceConfig.track.style));
+        this.skier = new Skier(raceConfig.rider, this.getSkierConfig(raceConfig.track.style), raceConfig.track);
         this.add(this.skier);
         this.startingHouse = new StartingHouse();
         this.add(this.startingHouse);

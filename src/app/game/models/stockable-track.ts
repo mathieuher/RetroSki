@@ -12,6 +12,7 @@ export class StockableTrack {
     public date: Date;
     public gates: StockableGate[];
     public decorations: StockableDecoration[];
+    public slope: number;
 
     constructor(
         id?: string,
@@ -20,7 +21,8 @@ export class StockableTrack {
         style?: TrackStyles,
         date?: Date,
         gates?: StockableGate[],
-        decorations?: StockableDecoration[]
+        decorations?: StockableDecoration[],
+        slope = 0.115
     ) {
         this.id = id;
         this.name = name!;
@@ -29,6 +31,7 @@ export class StockableTrack {
         this.date = date!;
         this.gates = gates!;
         this.decorations = decorations!;
+        this.slope = slope;
     }
 
     public toTrack(): Track {

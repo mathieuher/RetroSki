@@ -1,4 +1,4 @@
-import { Actor, CollisionType, Color, EdgeCollider, type Engine, type GpuParticleEmitter, vec } from 'excalibur';
+import { Actor, CollisionType, type Engine, type GpuParticleEmitter, vec } from 'excalibur';
 import { Config } from '../config';
 import { Resources } from '../resources';
 import type { Race } from '../scenes/race';
@@ -8,6 +8,7 @@ import type { Game } from '../game';
 import { SkierActions } from '../models/skier-actions.enum';
 import { SkierGraphics } from '../utils/skier-graphics';
 import { SkierFrontCollider } from './skier-front-collider';
+import type { Track } from '../models/track';
 
 class SkierIntentions {
     public leftCarvingIntention: number;
@@ -34,11 +35,12 @@ export class Skier extends Actor {
     public finish = false;
 
     private skierIntentions = new SkierIntentions();
+    private track: Track;
 
     private leftParticlesEmitter!: GpuParticleEmitter;
     private rightParticlesEmitter!: GpuParticleEmitter;
 
-    constructor(skierName: string, skierConfig: SkierConfig) {
+    constructor(skierName: string, skierConfig: SkierConfig, track: Track) {
         super({
             pos: vec(0, 0),
             width: 21,
@@ -49,6 +51,7 @@ export class Skier extends Actor {
         });
         this.skierName = skierName;
         this.skierConfig = skierConfig;
+        this.track = track;
 
         this.leftParticlesEmitter = ParticlesBuilder.getGpuParticlesEmitter('left');
         this.rightParticlesEmitter = ParticlesBuilder.getGpuParticlesEmitter('right');
@@ -163,7 +166,7 @@ export class Skier extends Actor {
             angleOfSkier = 360 - angleOfSkier;
         }
 
-        let acceleration = Config.ACCELERATION_RATE * Config.INITIAL_SLOPE;
+        let acceleration = Config.ACCELERATION_RATE * this.track.slope;
         acceleration -= (acceleration * angleOfSkier) / 90;
         acceleration -= this.skierConfig.windFrictionRate * this.speed;
         if (skierAction === SkierActions.SLIDE_LEFT || skierAction === SkierActions.SLIDE_RIGHT) {
