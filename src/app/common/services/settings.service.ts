@@ -45,7 +45,6 @@ export class SettingsService {
     }
 
     public persistSettings(): void {
-        console.log('persist');
         StorageManager.save(SettingsService.SOUND_KEY, this.settings.sound ? 'true' : 'false');
         StorageManager.save(SettingsService.SPECTATORS_KEY, this.settings.spectators ? 'true' : 'false');
         StorageManager.save(

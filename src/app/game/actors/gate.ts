@@ -195,8 +195,8 @@ export class Gate extends Actor {
             }
 
             this.gateDetector = new GateDetector(detectorStartPosition, detectorSize, gateHeight);
-            this.addChild(this.gateDetector);
         }
+        this.addChild(this.gateDetector);
     }
 
     private buildSectorLine(vertical: boolean, pivot: Pivot, poleWidth: number): void {

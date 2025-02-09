@@ -1,6 +1,7 @@
 import { Axes, Buttons, Keys } from 'excalibur';
 import { Resources } from './resources';
 import { TrackStyles } from './models/track-styles.enum';
+import type { GatesConfig } from './models/gates-config';
 
 export class Config {
     // DISPLAY
@@ -109,8 +110,10 @@ export class Config {
     static FINAL_GATE_POSITION = Config.DISPLAY_MAX_LEFT_POSITION;
     static GATE_OTHER_SIDE_PROBABILITY = 0.93;
     static GATE_FOLLOWING_DISTANCE_RATIO = 0.8;
+    static GATE_VERTICAL_HEIGHT = 90;
+    static GATE_VERTICAL_BETWEEN_MARGIN = 10;
     // SPECIFIC TRACK STYLE CONFIG
-    static SL_GATES_CONFIG = {
+    static SL_GATES_CONFIG: GatesConfig = {
         trackStyle: TrackStyles.SL,
         maxWidth: 120,
         minWidth: 80,
@@ -129,9 +132,12 @@ export class Config {
             ['red', Resources.PoleCheckRed.toSprite()],
             ['blue', Resources.PoleCheckBlue.toSprite()]
         ]),
-        poleShadow: Resources.PoleSlShadow.toSprite()
+        poleShadow: Resources.PoleSlShadow.toSprite(),
+        followingGateAmount: 3,
+        doubleGateAmount: 2,
+        tripleGateAmount: 2
     };
-    static GS_GATES_CONFIG = {
+    static GS_GATES_CONFIG: GatesConfig = {
         trackStyle: TrackStyles.GS,
         maxWidth: 120,
         minWidth: 100,
@@ -150,9 +156,12 @@ export class Config {
             ['red', Resources.PoleCheckRed.toSprite()],
             ['blue', Resources.PoleCheckBlue.toSprite()]
         ]),
-        poleShadow: Resources.PoleShadow.toSprite()
+        poleShadow: Resources.PoleShadow.toSprite(),
+        followingGateAmount: 3,
+        doubleGateAmount: 0,
+        tripleGateAmount: 0
     };
-    static SG_GATES_CONFIG = {
+    static SG_GATES_CONFIG: GatesConfig = {
         trackStyle: TrackStyles.SG,
         maxWidth: 150,
         minWidth: 120,
@@ -171,7 +180,10 @@ export class Config {
             ['red', Resources.PoleCheckRed.toSprite()],
             ['blue', Resources.PoleCheckBlue.toSprite()]
         ]),
-        poleShadow: Resources.PoleShadow.toSprite()
+        poleShadow: Resources.PoleShadow.toSprite(),
+        followingGateAmount: 3,
+        doubleGateAmount: 0,
+        tripleGateAmount: 0
     };
     static DH_GATES_CONFIG = {
         trackStyle: TrackStyles.DH,
@@ -186,7 +198,10 @@ export class Config {
         poleHeight: 3,
         poleSprites: new Map([['red', Resources.PoleRed.toSprite()]]),
         poleCheckSprites: new Map([['red', Resources.PoleCheckRed.toSprite()]]),
-        poleShadow: Resources.PoleShadow.toSprite()
+        poleShadow: Resources.PoleShadow.toSprite(),
+        followingGateAmount: 3,
+        doubleGateAmount: 0,
+        tripleGateAmount: 0
     };
 
     // POLES
