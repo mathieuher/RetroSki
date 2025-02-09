@@ -93,7 +93,8 @@
         </div>
         } @if(!events()) {
         <div class="retro-placeholder">Loading events</div>
-        } @else if(!events()?.length) {
+        } @else if(eventsDisplay() === 'active' ? !activeEvents()?.length :
+        !events()?.length) {
         <div class="retro-placeholder">No events available yet</div>
         }
     </div>
