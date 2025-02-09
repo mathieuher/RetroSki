@@ -140,7 +140,7 @@ export class Config {
         trackStyle: TrackStyles.GS,
         maxWidth: 120,
         minWidth: 100,
-        maxHorizontalDistance: 100,
+        maxHorizontalDistance: 115,
         minVerticalDistance: 140,
         maxVerticalDistance: 200,
         minNumber: 50,
