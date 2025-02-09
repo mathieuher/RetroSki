@@ -90,6 +90,7 @@ export class TrackService {
                     stockableTrack.name = track['name'];
                     stockableTrack.style = track['style'];
                     stockableTrack.builderVersion = track['builderVersion'];
+                    stockableTrack.slope = track['slope'];
                     stockableTrack.gates = track['gates'];
                     stockableTrack.decorations = track['decorations'] || [];
                     return stockableTrack.toTrack();
