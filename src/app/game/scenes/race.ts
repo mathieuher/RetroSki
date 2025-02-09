@@ -99,7 +99,7 @@ export class Race extends Scene {
         this.globalRecordGhost?.kill();
         this.eventRecordGhost?.kill();
 
-        const missedGates = this.gates.filter(gate => !gate.passed).length;
+        const missedGates = this.gates.filter(gate => gate.missed).length;
         const ghost = new StockableGhost(
             this.raceConfig.track.id!,
             new Date(),
@@ -211,7 +211,7 @@ export class Race extends Scene {
     private prepareRace(raceConfig: RaceConfig): void {
         this.addTimer(this.uiTimer);
         this.buildTrack(raceConfig.track);
-        this.skier = new Skier(raceConfig.rider, this.getSkierConfig(raceConfig.track.style));
+        this.skier = new Skier(raceConfig.rider, this.getSkierConfig(raceConfig.track.style), raceConfig.track);
         this.add(this.skier);
         this.startingHouse = new StartingHouse();
         this.add(this.startingHouse);
@@ -295,6 +295,9 @@ export class Race extends Scene {
                 stockableGate.width,
                 stockableGate.color,
                 stockableGate.gateNumber,
+                stockableGate.polesAmount,
+                stockableGate.pivot,
+                stockableGate.vertical,
                 stockableGate.isFinal,
                 stockableGate.sectorNumber
             );

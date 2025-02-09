@@ -15,7 +15,7 @@ export class DateUtils {
         if (duration.years || duration.months || duration.weeks || Math.abs(duration.days!) > 1) {
             return `${Math.floor(timeDiff / DateUtils.DAY)} days`;
         }
-        if (Math.abs(duration.hours!) > 1) {
+        if (Math.abs(duration.days!) === 1 || Math.abs(duration.hours!) > 1) {
             return `${Math.floor(timeDiff / DateUtils.HOUR)} hours`;
         }
         if (Math.abs(duration.minutes!) > 1) {

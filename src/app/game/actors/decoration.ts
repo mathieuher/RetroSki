@@ -62,7 +62,7 @@ export class Decoration extends Actor {
     }
 
     private checkForKill(): void {
-        if (ScreenManager.isBehind(this.scene!.camera.pos, this.pos)) {
+        if (ScreenManager.isBehind(this.scene!.camera.pos.y, this.pos.y)) {
             this.kill();
         }
     }

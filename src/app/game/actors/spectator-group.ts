@@ -49,10 +49,7 @@ export class SpectatorGroup extends Actor {
             this.adjustSoundVolume();
         }
 
-        if (
-            ScreenManager.isBehind(this.scene!.camera.pos, this.pos.add(vec(0, this.height))) &&
-            this.shouldPlayIntenseSound
-        ) {
+        if (ScreenManager.isBehind(this.scene!.camera.pos.y, this.pos.y + this.height) && this.shouldPlayIntenseSound) {
             this.shouldPlayIntenseSound = false;
             (this.engine as Game).soundPlayer.playSound(Resources.SpectatorsIntenseSound, 0.3, false, true);
         }
@@ -63,7 +60,7 @@ export class SpectatorGroup extends Actor {
     }
 
     private checkForKill(): void {
-        if (ScreenManager.isBehind(this.scene!.camera.pos, this.pos) && this.soundInstance?.volume! < 0.02) {
+        if (ScreenManager.isBehind(this.scene!.camera.pos.y, this.pos.y) && this.soundInstance?.volume! < 0.02) {
             this.kill();
         }
     }

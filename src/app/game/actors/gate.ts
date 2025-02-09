@@ -1,9 +1,9 @@
-import { Actor, CollisionType, Color, GraphicsGroup, Line, type Vector, vec } from 'excalibur';
+import { Actor, Color, GraphicsGroup, Line, type Vector, toRadians, vec } from 'excalibur';
 import { Config } from '../config';
 import { Pole } from './pole';
 import { GateDetector } from './gate-detector';
 import type { Race } from '../scenes/race';
-import { StockableGate } from '../models/stockable-gate';
+import { type Pivot, StockableGate } from '../models/stockable-gate';
 import { Resources } from '../resources';
 import type { GatesConfig } from '../models/gates-config';
 import { ScreenManager } from '../utils/screen-manager';
@@ -12,7 +12,7 @@ export class Gate extends Actor {
     public config: GatesConfig;
     public isFinalGate!: boolean;
     public sectorNumber?: number;
-    public passed = false;
+    public missed = false;
 
     private leftPole?: Pole;
     private rightPole?: Pole;
@@ -20,8 +20,12 @@ export class Gate extends Actor {
     private sectorLine?: Actor;
     private gateNumber: number;
     private polesColor: 'red' | 'blue';
-    private missed = false;
     private straddled = false;
+    private passed = false;
+    private gateProcessed = false;
+    private polesAmount: number;
+    private pivot: Pivot;
+    private vertical: boolean;
 
     constructor(
         config: GatesConfig,
@@ -29,14 +33,17 @@ export class Gate extends Actor {
         width: number,
         color: 'red' | 'blue',
         gateNumber: number,
+        polesAmount: number,
+        pivot: Pivot,
+        vertical: boolean,
         isFinalGate = false,
         sectorNumber?: number
     ) {
         super({
             pos: position,
-            width: width,
-            height: isFinalGate ? Config.FINAL_POLE_HEIGHT : config.poleHeight,
-            anchor: vec(0, 0.5),
+            width: vertical ? config.poleWidth : width,
+            height: vertical ? width : Config.GATE_DEFAULT_HEIGHT,
+            anchor: Gate.getAnchor(vertical, pivot),
             z: 5
         });
 
@@ -45,18 +52,22 @@ export class Gate extends Actor {
         this.sectorNumber = sectorNumber;
         this.polesColor = color;
         this.gateNumber = gateNumber;
+        this.polesAmount = polesAmount;
+        this.pivot = pivot;
+        this.vertical = vertical;
 
         if (this.isFinalGate) {
             const graphics = new GraphicsGroup({
                 members: [
                     {
                         graphic: Resources.FinalGateShadow.toSprite(),
-                        offset: vec(0, 0),
+                        offset: vec(0, -Config.FINAL_POLE_HEIGHT),
                         useBounds: false
                     },
                     {
                         graphic: Resources.FinalGate.toSprite(),
-                        offset: vec(0, 0)
+                        offset: vec(0, -Config.FINAL_POLE_HEIGHT),
+                        useBounds: false
                     }
                 ]
             });
@@ -77,9 +88,16 @@ export class Gate extends Actor {
             this.buildComponents();
         }
 
-        if (!this.passed && !this.missed && this.shouldBePassed()) {
-            (this.scene as Race).addPenalty();
-            this.missed = true;
+        // TODO : Rework this
+        if (!this.gateProcessed && this.shouldBePassed()) {
+            this.gateProcessed = true;
+
+            if (this.passed && !this.straddled) {
+                this.updatePassedPolesGraphics();
+            } else {
+                (this.scene as Race).addPenalty();
+                this.missed = true;
+            }
 
             if (this.sectorNumber) {
                 (this.scene as Race).setSector(this.sectorNumber);
@@ -99,6 +117,9 @@ export class Gate extends Actor {
             this.width,
             this.gateNumber,
             this.isFinalGate,
+            this.polesAmount,
+            this.pivot,
+            this.vertical,
             this.sectorNumber
         );
     }
@@ -111,63 +132,32 @@ export class Gate extends Actor {
     }
 
     private isBehind(): boolean {
-        return ScreenManager.isBehind(this.scene!.camera.pos, this.pos);
+        return ScreenManager.isBehind(this.scene!.camera.pos.y, this.pos.y - this.height);
     }
 
     private buildComponents(): void {
         const gatePoleWidth = this.isFinalGate ? Config.FINAL_POLE_WIDTH : this.config.poleWidth;
-        const gatePoleHeight = this.isFinalGate ? Config.FINAL_POLE_HEIGHT : this.config.poleHeight;
-
-        this.gateDetector = new GateDetector(
-            vec(gatePoleWidth + Config.POLE_DETECTOR_MARGIN, 0),
-            this.width - 2 * (gatePoleWidth + Config.POLE_DETECTOR_MARGIN),
-            this.isFinalGate ? gatePoleHeight : gatePoleHeight / 2,
-            this.isFinalGate
-        );
 
         if (!this.isFinalGate) {
-            this.leftPole = new Pole(vec(0, 0), this.polesColor, this.config, this.isFinalGate);
-            this.rightPole = new Pole(
-                vec(this.width - gatePoleWidth, 0),
-                this.polesColor,
-                this.config,
-                this.isFinalGate
-            );
-            this.addChild(this.leftPole!);
-            this.addChild(this.rightPole!);
+            this.buildPoles(this.width, this.height, gatePoleWidth, this.pivot, this.vertical);
         }
 
-        this.addChild(this.gateDetector!);
+        this.buildGateDetector(
+            this.width,
+            this.height,
+            gatePoleWidth,
+            this.config.poleHeight,
+            this.vertical,
+            this.pivot
+        );
 
         if (this.sectorNumber) {
-            this.sectorLine = new Actor({ anchor: vec(0, 0), z: 0 });
-            this.sectorLine.graphics.use(
-                new Line({
-                    start: vec(gatePoleWidth - 5, gatePoleHeight / 2),
-                    end: vec(this.width - gatePoleWidth + 5, gatePoleHeight / 2),
-                    color: Color.Red,
-                    thickness: 3.5
-                })
-            );
-            this.sectorLine.graphics.opacity = 0.3;
-            this.addChild(this.sectorLine);
+            this.buildSectorLine(this.vertical, this.pivot, gatePoleWidth);
         }
     }
 
     private onGatePassed(): void {
-        setTimeout(() => {
-            if (!this.straddled) {
-                this.passed = true;
-                if (this.sectorNumber) {
-                    (this.scene as Race).setSector(this.sectorNumber);
-                }
-                if (this.isFinalGate) {
-                    (this.scene as Race).stopRace();
-                } else {
-                    this.updatePassedPolesGraphics();
-                }
-            }
-        }, 30);
+        this.passed = true;
     }
 
     private onGateStraddled(): void {
@@ -180,5 +170,120 @@ export class Gate extends Actor {
                 child.displayPoleCheck();
             }
         }
+    }
+
+    private buildGateDetector(
+        gateWidth: number,
+        gateHeight: number,
+        poleWidth: number,
+        poleHeight: number,
+        vertical: boolean,
+        pivot: Pivot
+    ): void {
+        if (vertical) {
+            this.gateDetector = new GateDetector(vec(0, -poleHeight), gateWidth, gateHeight - poleHeight);
+        } else {
+            const detectorSize = gateWidth - 2 * (poleWidth + Config.POLE_DETECTOR_MARGIN);
+            let detectorStartPosition: Vector;
+
+            if (pivot === 'left') {
+                detectorStartPosition = vec(poleWidth + Config.POLE_DETECTOR_MARGIN, 0);
+            } else if (pivot === 'right') {
+                detectorStartPosition = vec(poleWidth + Config.POLE_DETECTOR_MARGIN - gateWidth, 0);
+            } else {
+                detectorStartPosition = vec(poleWidth + Config.POLE_DETECTOR_MARGIN - gateWidth / 2, 0);
+            }
+
+            this.gateDetector = new GateDetector(detectorStartPosition, detectorSize, gateHeight);
+        }
+        this.addChild(this.gateDetector);
+    }
+
+    private buildSectorLine(vertical: boolean, pivot: Pivot, poleWidth: number): void {
+        this.sectorLine = new Actor({ anchor: vec(vertical ? -0.5 : 0, 0), z: 0 });
+        let start: Vector;
+        let end: Vector;
+
+        if (vertical) {
+            start = vec(0, 0);
+            end = vec(0, -this.height);
+        } else if (pivot === 'left') {
+            start = vec(poleWidth, 0);
+            end = vec(this.width - poleWidth, 0);
+        } else if (pivot === 'right') {
+            start = vec(poleWidth - this.width, 0);
+            end = vec(-poleWidth, 0);
+        } else {
+            start = vec(this.width / 2 - poleWidth, 0);
+            end = vec(poleWidth - this.width / 2, 0);
+        }
+
+        this.sectorLine.graphics.use(
+            new Line({
+                start: start,
+                end: end,
+                color: Color.Red,
+                thickness: 3.5
+            })
+        );
+        this.sectorLine.graphics.opacity = 0.3;
+        this.addChild(this.sectorLine);
+    }
+
+    private buildPoles(
+        gateWidth: number,
+        gateHeight: number,
+        poleWidth: number,
+        pivot: Pivot,
+        vertical: boolean
+    ): void {
+        if (vertical) {
+            this.leftPole = new Pole(vec(0, 0), this.polesColor, this.config, this.isFinalGate);
+            this.rightPole = new Pole(vec(0, -this.height), this.polesColor, this.config, this.isFinalGate);
+        } else if (pivot === 'left') {
+            this.leftPole = new Pole(vec(0, 0), this.polesColor, this.config, this.isFinalGate);
+            if (this.polesAmount === 2) {
+                this.rightPole = new Pole(
+                    vec(gateWidth - poleWidth, 0),
+                    this.polesColor,
+                    this.config,
+                    this.isFinalGate
+                );
+            }
+        } else if (this.pivot === 'right') {
+            this.rightPole = new Pole(vec(-poleWidth, 0), this.polesColor, this.config, this.isFinalGate);
+            if (this.polesAmount === 2) {
+                this.leftPole = new Pole(vec(-gateWidth, 0), this.polesColor, this.config, this.isFinalGate);
+            }
+        } else {
+            this.leftPole = new Pole(vec(-gateWidth / 2, 0), this.polesColor, this.config, this.isFinalGate);
+            this.rightPole = new Pole(
+                vec(gateWidth / 2 - poleWidth, 0),
+                this.polesColor,
+                this.config,
+                this.isFinalGate
+            );
+        }
+
+        if (this.leftPole) {
+            this.addChild(this.leftPole);
+        }
+
+        if (this.rightPole) {
+            this.addChild(this.rightPole);
+        }
+    }
+
+    private static getAnchor(vertical: boolean, pivot: Pivot): Vector {
+        if (vertical) {
+            return vec(0, 1);
+        }
+        if (pivot === 'left') {
+            return vec(0, 1);
+        }
+        if (pivot === 'right') {
+            return vec(1, 1);
+        }
+        return vec(0.5, 1);
     }
 }

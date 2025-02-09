@@ -1,10 +1,9 @@
-import { type Vector, vec } from 'excalibur';
 import { Config } from '../config';
 import { Track } from '../models/track';
 import type { StockableTrack } from '../models/stockable-track';
 import { TrackStyles } from '../models/track-styles.enum';
 import type { GatesConfig } from '../models/gates-config';
-import { StockableGate } from '../models/stockable-gate';
+import { type Pivot, StockableGate } from '../models/stockable-gate';
 import { StockableDecoration } from '../models/stockable-decoration';
 
 export class TrackBuilder {
@@ -18,12 +17,37 @@ export class TrackBuilder {
         const gatesConfig = TrackBuilder.getGatesConfig(trackStyle);
         const numberOfGates = TrackBuilder.getRandomGatesNumber(gatesConfig);
         const sectorGateNumbers = TrackBuilder.getSectorGateNumbers(numberOfGates);
+        const followingGateNumbers = TrackBuilder.getFollowingGateNumbers(gatesConfig, numberOfGates);
+        const doubleGateNumbers = TrackBuilder.getDoubleGateNumbers(gatesConfig, numberOfGates, followingGateNumbers);
+        const tripleGateNumbers = TrackBuilder.getTripleGateNumbers(
+            gatesConfig,
+            numberOfGates,
+            followingGateNumbers,
+            doubleGateNumbers
+        );
         console.log('TrackBuilder - Designing a new track of ', numberOfGates, ' gates');
 
-        const gates = TrackBuilder.designGates(trackStyle, gatesConfig, numberOfGates, sectorGateNumbers);
+        const gates = TrackBuilder.designGates(
+            trackStyle,
+            gatesConfig,
+            numberOfGates,
+            sectorGateNumbers,
+            followingGateNumbers,
+            doubleGateNumbers,
+            tripleGateNumbers
+        );
         const decorations = TrackBuilder.designDecorations(gates);
 
-        return new Track(undefined, Config.CURRENT_BUILDER_VERSION, name, trackStyle, new Date(), gates, decorations);
+        return new Track(
+            undefined,
+            Config.CURRENT_BUILDER_VERSION,
+            name,
+            trackStyle,
+            new Date(),
+            gates,
+            decorations,
+            Config.DEFAULT_TRACK_SLOPE
+        );
     }
 
     /**
@@ -39,8 +63,25 @@ export class TrackBuilder {
             stockableTrack.name,
             stockableTrack.style,
             stockableTrack.date,
-            stockableTrack.gates,
-            stockableTrack.decorations
+            stockableTrack.gates.map(gate =>
+                Object.assign(
+                    new StockableGate(
+                        gate.x,
+                        gate.y,
+                        gate.color,
+                        gate.width,
+                        gate.gateNumber,
+                        gate.isFinal,
+                        gate.polesAmount,
+                        gate.pivot,
+                        gate.vertical,
+                        gate.sectorNumber
+                    ),
+                    gate
+                )
+            ),
+            stockableTrack.decorations,
+            stockableTrack.slope || Config.DEFAULT_TRACK_SLOPE
         );
     }
 
@@ -61,29 +102,117 @@ export class TrackBuilder {
         trackStyle: TrackStyles,
         gatesConfig: GatesConfig,
         numberOfGates: number,
-        sectorGateNumbers: number[]
+        sectorGateNumbers: number[],
+        followingGateNumbers: number[],
+        doubleGateNumbers: number[],
+        tripleGateNumbers: number[]
     ): StockableGate[] {
-        const gates = [];
-        let nextGateWidth = TrackBuilder.getRandomGateWidth(gatesConfig);
-        let nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, gatesConfig);
+        const gates: StockableGate[] = [];
+        let previous: StockableGate | undefined;
+        let secondPrevious: StockableGate | undefined;
 
         for (let index = 1; index < numberOfGates; index++) {
-            const gate = new StockableGate(
-                nextGatePosition.x,
-                nextGatePosition.y,
-                TrackBuilder.getGateColor(index, trackStyle),
-                nextGateWidth,
+            const gate = TrackBuilder.designGate(
                 index,
-                false,
-                sectorGateNumbers.indexOf(index) + 1
+                trackStyle,
+                gatesConfig,
+                sectorGateNumbers,
+                followingGateNumbers,
+                doubleGateNumbers,
+                tripleGateNumbers,
+                previous,
+                secondPrevious,
+                numberOfGates === index + 1
             );
             gates.push(gate);
-            nextGateWidth = TrackBuilder.getRandomGateWidth(gatesConfig);
-            nextGatePosition = TrackBuilder.getNextGatePosition(nextGateWidth, gatesConfig, nextGatePosition);
+            secondPrevious = previous || undefined;
+            previous = gate;
+        }
+        gates.push(TrackBuilder.generateFinalGate(gates[gates.length - 1], gatesConfig, numberOfGates + 1));
+        return gates;
+    }
+
+    private static designGate(
+        number: number,
+        trackStyle: TrackStyles,
+        config: GatesConfig,
+        sectorGateNumbers: number[],
+        followingGateNumbers: number[],
+        doubleGateNumbers: number[],
+        tripleGateNumbers: number[],
+        previousGate?: StockableGate,
+        secondPreviousGate?: StockableGate,
+        isLast?: boolean
+    ): StockableGate {
+        if (!previousGate) {
+            // First gate
+            return TrackBuilder.designFirstGate(config);
         }
 
-        gates.push(TrackBuilder.generateFinalGate(nextGatePosition.y, numberOfGates + 1, gatesConfig));
-        return gates;
+        // Determine gate pivot
+        const pivot = TrackBuilder.determineGatePivot(
+            number,
+            followingGateNumbers,
+            previousGate,
+            secondPreviousGate,
+            isLast
+        );
+
+        // Build vertical gate
+        let vertical = false;
+        let yOffset: number;
+        let yPosition: number;
+        let polesAmount: number;
+        let width: number;
+        let xPosition: number;
+
+        vertical = doubleGateNumbers.indexOf(number) !== -1 || tripleGateNumbers.indexOf(number) !== -1;
+
+        if (vertical) {
+            const isFirst = !previousGate.vertical;
+            yOffset = isFirst
+                ? TrackBuilder.determineGateVerticalOffset(pivot, config)
+                : Config.GATE_VERTICAL_HEIGHT + Config.GATE_VERTICAL_BETWEEN_MARGIN;
+            yPosition = previousGate.y - yOffset;
+            polesAmount = 2;
+            width = Config.GATE_VERTICAL_HEIGHT;
+            xPosition = previousGate.x;
+        } else {
+            // Determine gate vertical offset
+            yOffset = TrackBuilder.determineGateVerticalOffset(pivot, config);
+            // Adapt offset after vertical gate
+            yOffset += previousGate.vertical ? Config.GATE_VERTICAL_HEIGHT : 0;
+
+            // Determine gate vertical position
+            yPosition = previousGate.y - yOffset;
+
+            // Determine poles amount
+            polesAmount = TrackBuilder.getPolesAmount(trackStyle, pivot);
+
+            // Determine initial gate width
+            width = config.minWidth + Math.random() * (config.maxWidth - config.minWidth);
+
+            // Determine gate horizontal position
+            xPosition = TrackBuilder.determineHorizontalGatePosition(pivot, width, previousGate, config);
+
+            // Adapt gate width for 1 pole gate
+            if (polesAmount === 1) {
+                width = TrackBuilder.adaptOnePoleWidth(width, config, xPosition, pivot);
+            }
+        }
+
+        return new StockableGate(
+            xPosition,
+            yPosition,
+            TrackBuilder.getGateColor(number, trackStyle),
+            width,
+            number,
+            false,
+            polesAmount,
+            pivot,
+            vertical,
+            sectorGateNumbers.indexOf(number) + 1
+        );
     }
 
     private static designDecorations(gates: StockableGate[]): StockableDecoration[] {
@@ -113,6 +242,57 @@ export class TrackBuilder {
         return decorations;
     }
 
+    private static determineGatePivot(
+        number: number,
+        followingGateNumbers: number[],
+        previousGate: StockableGate,
+        secondPreviousGate?: StockableGate,
+        isLast?: boolean
+    ): Pivot {
+        if (isLast) {
+            return 'none';
+        }
+        if (previousGate.pivot === 'none') {
+            if (secondPreviousGate) {
+                // Change direction after following gate
+                return secondPreviousGate.pivot === 'left' ? 'right' : 'left';
+            }
+            // 50/50 left or right
+            return Math.random() > 0.5 ? 'left' : 'right';
+        }
+        // Change direction or make following gate
+        const changeDirection = followingGateNumbers.indexOf(number) === -1;
+        // const changeDirection = Math.random() < Config.GATE_OTHER_SIDE_PROBABILITY;
+        return changeDirection ? (previousGate.pivot === 'left' ? 'right' : 'left') : 'none';
+    }
+
+    private static determineGateVerticalOffset(pivot: Pivot, config: GatesConfig): number {
+        if (pivot === 'none') {
+            // Following gate
+            return config.minVerticalDistance * Config.GATE_FOLLOWING_DISTANCE_RATIO;
+        }
+        return config.minVerticalDistance + Math.random() * (config.maxVerticalDistance - config.minVerticalDistance);
+    }
+
+    private static determineHorizontalGatePosition(
+        pivot: Pivot,
+        width: number,
+        previousGate: StockableGate,
+        config: GatesConfig
+    ): number {
+        const offset = Math.random() * config.maxHorizontalDistance;
+        if (pivot === 'left') {
+            return Math.min(previousGate.x + offset, Config.GATE_MAX_RIGHT_POSITION - width);
+        }
+        if (pivot === 'right') {
+            return Math.max(previousGate.x - offset, Config.GATE_MAX_LEFT_POSITION + width);
+        }
+        if (previousGate.pivot === 'left') {
+            return Math.max(previousGate.x - offset, Config.GATE_MAX_LEFT_POSITION + width / 2);
+        }
+        return Math.min(previousGate.x + offset, Config.GATE_MAX_RIGHT_POSITION - width / 2);
+    }
+
     private static getRandomGatesNumber(gatesConfig: GatesConfig): number {
         return Math.floor(gatesConfig.minNumber + Math.random() * (gatesConfig.maxNumber - gatesConfig.minNumber));
     }
@@ -124,67 +304,23 @@ export class TrackBuilder {
         return 'blue';
     }
 
-    private static getRandomGateWidth(gatesConfig: GatesConfig): number {
-        return gatesConfig.minWidth + Math.random() * (gatesConfig.maxWidth - gatesConfig.minWidth);
+    private static designFirstGate(config: GatesConfig): StockableGate {
+        return new StockableGate(0, -config.minVerticalDistance, 'red', config.maxWidth, 1, false, 2, 'none', false, 0);
     }
 
-    private static generateFinalGate(
-        verticalPosition: number,
-        gateNumber: number,
-        gatesConfig: GatesConfig
-    ): StockableGate {
+    private static generateFinalGate(lastGate: StockableGate, config: GatesConfig, gateNumber: number): StockableGate {
+        const yPosition = lastGate.y - config.minVerticalDistance;
         return new StockableGate(
             Config.FINAL_GATE_POSITION,
-            verticalPosition,
+            yPosition,
             'red',
             Config.FINAL_GATE_WIDTH,
             gateNumber,
             true,
+            2,
+            'left',
+            false,
             Config.SECTORS_PER_RACE + 1
-        );
-    }
-
-    private static getNextGatePosition(
-        gateWidth: number,
-        gatesConfig: GatesConfig,
-        currentGatePosition?: Vector
-    ): Vector {
-        const randomizedValue = Math.random();
-        const maxRightPosition = Config.GATE_MAX_RIGHT_POSITION - gateWidth;
-
-        if (currentGatePosition) {
-            const currentGateSide = TrackBuilder.getGateSide(currentGatePosition);
-            const isLeftGate =
-                currentGateSide === 'left'
-                    ? randomizedValue >= Config.GATE_OTHER_SIDE_PROBABILITY
-                    : randomizedValue < Config.GATE_OTHER_SIDE_PROBABILITY;
-            const xProjectedPosition = isLeftGate
-                ? Config.GATE_MAX_LEFT_POSITION * Math.random()
-                : maxRightPosition * Math.random();
-            const xDistance = TrackBuilder.getDistance(xProjectedPosition, currentGatePosition.x);
-            let xRestrictedPosition: number;
-            if (xDistance > gatesConfig.maxHorizontalDistance) {
-                xRestrictedPosition = TrackBuilder.furtherAutorizedXPosition(
-                    currentGatePosition.x,
-                    isLeftGate ? 'left' : 'right',
-                    maxRightPosition,
-                    gatesConfig
-                );
-            } else {
-                xRestrictedPosition = xProjectedPosition;
-            }
-            const yPosition =
-                currentGatePosition.y -
-                (gatesConfig.minVerticalDistance +
-                    Math.random() * (gatesConfig.maxVerticalDistance - gatesConfig.minVerticalDistance));
-            return vec(xRestrictedPosition, yPosition);
-        }
-
-        const isLeftGate = randomizedValue > 0.5;
-        const xPosition = maxRightPosition * Math.random();
-        return vec(
-            isLeftGate ? -xPosition : xPosition,
-            -((gatesConfig.maxVerticalDistance + gatesConfig.minVerticalDistance) / 2)
         );
     }
 
@@ -197,36 +333,119 @@ export class TrackBuilder {
         return numbers;
     }
 
-    private static furtherAutorizedXPosition(
-        reference: number,
-        direction: 'left' | 'right',
-        maxRightPosition: number,
-        gatesConfig: GatesConfig
+    private static getFollowingGateNumbers(config: GatesConfig, gatesNumber: number): number[] {
+        const numbers: number[] = [];
+        const availableGates = new Array(gatesNumber)
+            .fill(null)
+            .map((_, index) => index + 1)
+            // Remove first 2 gate
+            .filter(number => number > 2)
+            // Remove last 2 gate
+            .filter(number => number < gatesNumber - 2)
+            // Limit to odd gate to avoid 2 consecutive following gate
+            .filter(number => number % 2 === 1);
+        for (let index = 0; index < config.followingGateAmount; index++) {
+            numbers.push(availableGates[Math.floor(Math.random() * availableGates.length)]);
+        }
+        return numbers.sort((a, b) => a - b);
+    }
+
+    private static getDoubleGateNumbers(
+        config: GatesConfig,
+        gatesNumber: number,
+        followingGateNumbers: number[]
+    ): number[] {
+        const numbers: number[] = [];
+        const availableGates = new Array(gatesNumber)
+            .fill(null)
+            .map((_, index) => index + 1)
+            // Remove first 2 gate
+            .filter(number => number > 2)
+            // Remove last 2 gate
+            .filter(number => number < gatesNumber - 2)
+            // Remove following gate
+            .filter(
+                number => followingGateNumbers.indexOf(number) === -1 && followingGateNumbers.indexOf(number + 1) === -1
+            );
+
+        for (let index = 0; index < config.doubleGateAmount; index++) {
+            const possibleGates = availableGates
+                // Avoid following another double
+                .filter(g => numbers.indexOf(g - 1) === -1)
+                // Avoid to be before another double
+                .filter(g => numbers.indexOf(g + 2) === -1)
+                // Be sur to have two consecutive gate available
+                .filter(a => availableGates.indexOf(a + 1) !== -1);
+
+            const startNumber = possibleGates[Math.floor(Math.random() * possibleGates.length)];
+            availableGates.splice(availableGates.indexOf(startNumber), 2);
+            numbers.push(startNumber, startNumber + 1);
+        }
+        return numbers.sort((a, b) => a - b);
+    }
+
+    private static getTripleGateNumbers(
+        config: GatesConfig,
+        gatesNumber: number,
+        followingGateNumbers: number[],
+        doubleGateNumbers: number[]
+    ): number[] {
+        const numbers: number[] = [];
+        const availableGates = new Array(gatesNumber)
+            .fill(null)
+            .map((_, index) => index + 1)
+            // Remove first 2 gate
+            .filter(number => number > 2)
+            // Remove last 2 gate
+            .filter(number => number < gatesNumber - 2)
+            // Remove following gate
+            .filter(
+                number => followingGateNumbers.indexOf(number) === -1 && followingGateNumbers.indexOf(number + 1) === -1
+            )
+            // Remove double gate and gate around them
+            .filter(
+                number =>
+                    doubleGateNumbers.indexOf(number - 1) +
+                        doubleGateNumbers.indexOf(number) +
+                        doubleGateNumbers.indexOf(number + 1) ===
+                    -3
+            );
+
+        for (let index = 0; index < config.tripleGateAmount; index++) {
+            const possibleGates = availableGates
+                // Avoid following another triple
+                .filter(g => numbers.indexOf(g - 1) === -1)
+                // Avoid to be before another triple
+                .filter(g => numbers.indexOf(g + 3) === -1)
+                // Be sur to have two consecutive gate available
+                .filter(a => availableGates.indexOf(a + 1) !== -1 && availableGates.indexOf(a + 2) !== -1);
+
+            const startNumber = possibleGates[Math.floor(Math.random() * possibleGates.length)];
+            availableGates.splice(availableGates.indexOf(startNumber), 3);
+            numbers.push(startNumber, startNumber + 1, startNumber + 2);
+        }
+        return numbers.sort((a, b) => a - b);
+    }
+
+    private static getPolesAmount(trackStyle: TrackStyles, pivot: Pivot): 1 | 2 {
+        if (trackStyle === 'SL' || trackStyle === 'GS') {
+            return pivot === 'none' ? 2 : 1;
+        }
+        return 2;
+    }
+
+    private static adaptOnePoleWidth(
+        originalWidth: number,
+        config: GatesConfig,
+        xPosition: number,
+        pivot: Pivot
     ): number {
-        if (direction === 'left') {
-            return Math.max(reference - gatesConfig.maxHorizontalDistance, Config.GATE_MAX_LEFT_POSITION);
+        if (pivot === 'right') {
+            return Math.max(config.minWidth, xPosition - Config.GATE_MAX_LEFT_POSITION);
         }
-        return Math.min(reference + gatesConfig.maxHorizontalDistance, maxRightPosition);
-    }
-
-    private static getDistance(x1: number, x2: number): number {
-        if (x1 >= 0 && x2 >= 0) {
-            return Math.abs(x1 - x2);
+        if (pivot === 'left') {
+            return Math.max(config.minWidth, Config.GATE_MAX_RIGHT_POSITION - xPosition);
         }
-        if (x1 >= 0 && x2 < 0) {
-            return x1 - x2;
-        }
-        return Math.abs(x2 - x1);
-    }
-
-    private static getGateSide(gatePosition: Vector): 'left' | 'right' | 'middle' {
-        const middlePosition = 0;
-        if (gatePosition.x < middlePosition) {
-            return 'left';
-        }
-        if (gatePosition.x > middlePosition) {
-            return 'right';
-        }
-        return 'middle';
+        return originalWidth;
     }
 }

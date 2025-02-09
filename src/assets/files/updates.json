@@ -1,5 +1,13 @@
 [
     {
+        "date": "2025-02-09",
+        "items": [
+            "Update track builder to improve track design",
+            "Add following, double and triple gates",
+            "Update default tracks to new track design"
+        ]
+    },
+    {
         "date": "2025-02-06",
         "items": [
             "Improve gate detection mechanism and add straddled gate",
