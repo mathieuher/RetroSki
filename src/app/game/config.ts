@@ -108,16 +108,15 @@ export class Config {
     static GATE_MAX_RIGHT_POSITION = Config.DISPLAY_MAX_RIGHT_POSITION;
     static FINAL_GATE_WIDTH = Config.DISPLAY_WIDTH - 2 * Config.DISPLAY_MIN_MARGIN;
     static FINAL_GATE_POSITION = Config.DISPLAY_MAX_LEFT_POSITION;
-    static GATE_OTHER_SIDE_PROBABILITY = 0.93;
     static GATE_FOLLOWING_DISTANCE_RATIO = 0.8;
-    static GATE_VERTICAL_HEIGHT = 90;
+    static GATE_VERTICAL_HEIGHT = 100;
     static GATE_VERTICAL_BETWEEN_MARGIN = 10;
     // SPECIFIC TRACK STYLE CONFIG
     static SL_GATES_CONFIG: GatesConfig = {
         trackStyle: TrackStyles.SL,
         maxWidth: 120,
         minWidth: 80,
-        maxHorizontalDistance: 100,
+        maxHorizontalDistance: 105,
         minVerticalDistance: 120,
         maxVerticalDistance: 150,
         minNumber: 54,
