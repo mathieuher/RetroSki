@@ -12,7 +12,7 @@ export class StockableTrack {
     public date: Date;
     public gates: StockableGate[];
     public decorations: StockableDecoration[];
-    public slope: number;
+    public slope?: number;
 
     constructor(
         id?: string,
@@ -22,7 +22,7 @@ export class StockableTrack {
         date?: Date,
         gates?: StockableGate[],
         decorations?: StockableDecoration[],
-        slope = 0.115
+        slope?: number
     ) {
         this.id = id;
         this.name = name!;

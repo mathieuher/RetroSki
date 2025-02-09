@@ -63,7 +63,7 @@ export class Config {
     static ROTATION_RECENTER_RATE = 0.2;
 
     // SLOPE
-    static INITIAL_SLOPE = 0.115;
+    static DEFAULT_TRACK_SLOPE = 0.115;
 
     // SKIER
     static ACCELERATION_RATE = 3;

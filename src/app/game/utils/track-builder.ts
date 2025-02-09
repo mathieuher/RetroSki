@@ -46,7 +46,7 @@ export class TrackBuilder {
             new Date(),
             gates,
             decorations,
-            Config.INITIAL_SLOPE
+            Config.DEFAULT_TRACK_SLOPE
         );
     }
 
@@ -81,7 +81,7 @@ export class TrackBuilder {
                 )
             ),
             stockableTrack.decorations,
-            stockableTrack.slope
+            stockableTrack.slope || Config.DEFAULT_TRACK_SLOPE
         );
     }
 
