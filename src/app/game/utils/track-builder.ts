@@ -428,7 +428,7 @@ export class TrackBuilder {
     }
 
     private static getPolesAmount(trackStyle: TrackStyles, pivot: Pivot): 1 | 2 {
-        if (trackStyle === 'SL' || trackStyle === 'GS') {
+        if (trackStyle === 'SL') {
             return pivot === 'none' ? 2 : 1;
         }
         return 2;

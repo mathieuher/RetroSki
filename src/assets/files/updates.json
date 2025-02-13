@@ -1,5 +1,13 @@
 [
     {
+        "date": "2025-02-13",
+        "items": [
+            "Update GS track to use 2 poles",
+            "Update default Sölden track",
+            "Reduce intense spectators sound probability"
+        ]
+    },
+    {
         "date": "2025-02-09",
         "items": [
             "Update track builder to improve track design",

@@ -227,7 +227,7 @@ export class Config {
         Resources.Spectators3Sound,
         Resources.Spectators4Sound
     ];
-    static SPECTATORS_INTENSE_SOUND_PROBABILITY = 0.15;
+    static SPECTATORS_INTENSE_SOUND_PROBABILITY = 0.05;
     static SPECTATORS_INTENSE_SOUND_INTENSITY = 0.2;
     static SPECTATORS_INTENSE_SOUNDS = [Resources.SpectatorsIntenseSound];
     static SPECTATORS_BELLS_SOUND_PROBABILITY = 0.4;
