@@ -7,6 +7,8 @@ import { type Pivot, StockableGate } from '../models/stockable-gate';
 import { Resources } from '../resources';
 import type { GatesConfig } from '../models/gates-config';
 import { ScreenManager } from '../utils/screen-manager';
+import type { Game } from '../game';
+import type { Settings } from '../../common/models/settings';
 
 export class Gate extends Actor {
     public config: GatesConfig;
@@ -14,6 +16,7 @@ export class Gate extends Actor {
     public sectorNumber?: number;
     public missed = false;
 
+    private engine: Game;
     private leftPole?: Pole;
     private rightPole?: Pole;
     private gateDetector?: GateDetector;
@@ -28,6 +31,7 @@ export class Gate extends Actor {
     private vertical: boolean;
 
     constructor(
+        engine: Game,
         config: GatesConfig,
         position: Vector,
         width: number,
@@ -44,9 +48,10 @@ export class Gate extends Actor {
             width: vertical ? config.poleWidth : width,
             height: vertical ? width : Config.GATE_DEFAULT_HEIGHT,
             anchor: Gate.getAnchor(vertical, pivot),
-            z: 5
+            z: isFinalGate ? 5 : 1
         });
 
+        this.engine = engine;
         this.config = config;
         this.isFinalGate = isFinalGate;
         this.sectorNumber = sectorNumber;
@@ -74,6 +79,11 @@ export class Gate extends Actor {
             this.graphics.use(graphics);
         }
 
+        // Show optionnal side indicator
+        if (this.shouldDisplaySideIndicators(this.engine.settingsService.getSettings())) {
+            this.displaySideIndicators();
+        }
+
         this.on('straddled', () => this.onGateStraddled());
         this.on('passed', () => this.onGatePassed());
         this.on('exitviewport', () => {
@@ -88,7 +98,6 @@ export class Gate extends Actor {
             this.buildComponents();
         }
 
-        // TODO : Rework this
         if (!this.gateProcessed && this.shouldBePassed()) {
             this.gateProcessed = true;
 
@@ -285,5 +294,29 @@ export class Gate extends Actor {
             return vec(1, 1);
         }
         return vec(0.5, 1);
+    }
+
+    private shouldDisplaySideIndicators(settings: Settings): boolean {
+        return (this.polesAmount === 1 || this.vertical) && settings?.sideIndicators;
+    }
+
+    private displaySideIndicators(): void {
+        const xOffset = this.pivot === 'left' ? 15 : -30;
+        const sprite =
+            this.polesColor === 'blue' ? Resources.PoleArrowBlue.toSprite() : Resources.PoleArrowRed.toSprite();
+        sprite.flipHorizontal = this.pivot === 'left';
+
+        const graphics = new GraphicsGroup({
+            members: [
+                {
+                    graphic: sprite,
+                    offset: vec(xOffset, -15),
+                    useBounds: false
+                }
+            ],
+            useAnchor: false,
+            opacity: 0.4
+        });
+        this.graphics.use(graphics);
     }
 }

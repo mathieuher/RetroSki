@@ -8,6 +8,7 @@
     <div class="retro-text">
         Settings are applied on the whole game whether you play local or online.
     </div>
+    <div class="retro-subtitle">General</div>
     <div class="setting-item">
         <div class="name">Sound</div>
         <div class="value">
@@ -46,4 +47,28 @@
             <app-checkbox [(checked)]="settings().decorations"></app-checkbox>
         </div>
     </div>
+    <div class="retro-subtitle">Slalom tracks</div>
+    <div class="setting-item">
+        <div class="name">Gate side indicators</div>
+        <div class="value">
+            <app-checkbox
+                [(checked)]="settings().sideIndicators"
+            ></app-checkbox>
+        </div>
+    </div>
+    <div class="retro-subtitle">Erase all game datas</div>
+    <div class="retro-text error">
+        This will erase all settings, local tracks, records, and ghosts,
+        restoring the game to its original state. This action cannot be undone.
+    </div>
+    @if(!resetAsked()) {
+    <button class="retro-button error" (click)="resetAsked.set(true)">
+        Erase all datas and reset
+    </button>
+    } @else {
+    <button class="retro-button error" (click)="restore()">
+        Press again to confirm reset
+    </button>
+    }
 </div>
+<div class="retro-footer"></div>

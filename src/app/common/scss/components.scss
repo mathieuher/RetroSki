@@ -31,6 +31,15 @@
         }
     }
 
+    &.error {
+        background-color: var(--color-error);
+        color: var(--color-surface);
+
+        &:hover:not([disabled]) {
+            background-color: var(--color-error-darkest);
+        }
+    }
+
     &:hover:not([disabled]) {
         background-color: var(--color-primary-hover);
     }
@@ -104,6 +113,10 @@
             color: var(--color-tertiary-light);
             font-weight: 300 !important;
         }
+    }
+
+    &.error {
+        color: var(--color-error);
     }
 }
 

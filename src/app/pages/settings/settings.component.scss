@@ -4,13 +4,10 @@
     flex-direction: column;
     padding: 1rem;
 
-    .retro-text {
-        margin-bottom: 1rem;
-    }
-
     .setting-item {
         display: flex;
         height: 40px;
+        align-items: center;
         justify-content: space-between;
         font-size: var(--text-subtitle);
 
@@ -21,5 +18,9 @@
                 display: none;
             }
         }
+    }
+
+    .retro-button.error {
+        margin-top: 0.5rem;
     }
 }

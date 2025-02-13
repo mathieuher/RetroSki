@@ -290,6 +290,7 @@ export class Race extends Scene {
     private buildTrack(track: Track): void {
         for (const stockableGate of track.gates) {
             const gate = new Gate(
+                this.engine as Game,
                 TrackBuilder.getGatesConfig(track.style),
                 vec(stockableGate.x, stockableGate.y),
                 stockableGate.width,

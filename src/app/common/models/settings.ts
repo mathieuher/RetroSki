@@ -5,6 +5,7 @@ export class Settings {
     public spectatorsAnimation: boolean;
     public particles: boolean;
     public decorations: boolean;
+    public sideIndicators: boolean;
 
     constructor(
         sound = true,
@@ -12,7 +13,8 @@ export class Settings {
         spectators = true,
         spectatorsAnimation = true,
         particles = true,
-        decorations = true
+        decorations = true,
+        sideIndicators = true
     ) {
         this.sound = sound;
         this.ghosts = ghosts;
@@ -20,5 +22,6 @@ export class Settings {
         this.spectatorsAnimation = spectatorsAnimation;
         this.particles = particles;
         this.decorations = decorations;
+        this.sideIndicators = sideIndicators;
     }
 }

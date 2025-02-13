@@ -25,6 +25,8 @@ export class SettingsComponent implements OnDestroy {
     protected settingsService = inject(SettingsService);
     protected settings: Signal<Settings>;
 
+    protected resetAsked = signal(false);
+
     constructor() {
         this.settings = signal(this.settingsService.getSettings());
     }

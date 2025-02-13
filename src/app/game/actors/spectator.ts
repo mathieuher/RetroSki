@@ -14,7 +14,6 @@ import { Config } from '../config';
 import { Skier } from './skier';
 import type { Game } from '../game';
 import type { Race } from '../scenes/race';
-import { Resources } from '../resources';
 
 export class Spectator extends Actor {
     private hitSound!: Sound;
