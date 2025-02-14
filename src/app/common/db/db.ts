@@ -21,7 +21,6 @@ export class RetroskiDB extends Dexie {
         const count = await this.tracks.count();
         if (count === 0) {
             try {
-                // Charger le fichier JSON depuis les assets
                 const response = await fetch('/assets/tracks/tracks.json');
                 const defaultTracks: StockableTrack[] = await response.json();
                 await this.tracks.bulkAdd(defaultTracks);

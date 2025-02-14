@@ -1,5 +1,9 @@
 [
     {
+        "date": "2025-02-14",
+        "items": ["Improve updates visibility"]
+    },
+    {
         "date": "2025-02-13",
         "items": [
             "Update GS track to use 2 poles",

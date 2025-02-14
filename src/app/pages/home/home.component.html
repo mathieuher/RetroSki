@@ -1,6 +1,12 @@
 <app-toolbar [hideLogo]="true" [hideSettings]="true">
     <ng-container ngProjectAs="right-actions">
-        <app-button-icon icon="info" routerLink="/about"></app-button-icon>
+        <app-button-icon
+            [class.tertiary]="hasNewUpdate()"
+            [filled]="hasNewUpdate()"
+            icon="info"
+            routerLink="/about"
+            [badge]="hasNewUpdate() ? 'New updates!' : ''"
+        ></app-button-icon>
     </ng-container>
 </app-toolbar>
 <div class="retro-content">

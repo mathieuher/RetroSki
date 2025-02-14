@@ -8,6 +8,7 @@
     color: var(--color-primary);
     cursor: pointer;
     transition: background-color var(--transition-time) ease-in-out;
+    position: relative;
 
     &.flipped > span {
         transform: scaleX(-1);
@@ -26,5 +27,17 @@
 
     &:hover {
         background-color: var(--color-primary-lightest);
+    }
+
+    .badge {
+        position: absolute;
+        right: 30px;
+        font-size: var(--text-small);
+        background-color: var(--color-tertiary-lightest);
+        color: var(--color-tertiary-darkest);
+        border-radius: var(--border-radius);
+        padding: 0.1rem 1rem;
+        text-align: center;
+        width: max-content;
     }
 }

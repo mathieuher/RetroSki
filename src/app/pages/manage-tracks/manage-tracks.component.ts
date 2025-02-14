@@ -29,7 +29,6 @@ interface TrackForm {
 export class ManageTracksComponent extends Destroyable {
     protected generatedTrack = signal<Track | undefined>(undefined);
     protected trackAlreadyUse = signal<boolean>(false);
-    // protected existingTracks = signal<Track[] | undefined>([]);
     protected managerType: 'local' | 'online';
 
     protected tracks = signal<Track[]>([]);

@@ -26,6 +26,7 @@
         "date-fns": "4.1.0",
         "dexie": "^4.0.9",
         "excalibur": "0.30.2",
+        "@fontsource-variable/material-symbols-outlined": "5.1.4",
         "pocketbase": "0.22.1",
         "rxjs": "~7.8.0",
         "tslib": "^2.3.0",

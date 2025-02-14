@@ -13,6 +13,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, input } from '@angular
 })
 export class ButtonIconComponent {
     public flipped = input<boolean>();
-
+    public badge = input<string>();
     public icon = input<string>();
+    public filled = input<boolean>();
 }
