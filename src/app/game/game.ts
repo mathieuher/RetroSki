@@ -1,4 +1,4 @@
-import { Color, DisplayMode, Engine, Loader, PointerScope } from 'excalibur';
+import { Color, DisplayMode, Engine, Loader } from 'excalibur';
 import { Resources } from './resources';
 import { SoundPlayer } from './utils/sounds-player';
 import { LogoManager } from './utils/logo-manager';
@@ -11,72 +11,13 @@ import type { RaceConfig } from './models/race-config';
 import type { RaceResult } from './models/race-result';
 
 export class Game extends Engine {
-    private resourcesToLoad = [
-        Resources.Skier,
-        Resources.SkierCarving,
-        Resources.SkierSliding,
-        Resources.SkierBraking,
-
-        Resources.GlobalGhostSkier,
-        Resources.GlobalGhostSkierCarving,
-        Resources.GlobalGhostSkierSliding,
-        Resources.GlobalGhostSkierBraking,
-
-        Resources.EventRecordGhost,
-        Resources.EventRecordGhostCarving,
-        Resources.EventRecordGhostSliding,
-        Resources.EventRecordGhostBraking,
-
-        Resources.StartingGate,
-        Resources.StartingHouse,
-        Resources.PoleRed,
-        Resources.PoleBlue,
-        Resources.PoleSlRed,
-        Resources.PoleSlBlue,
-        Resources.PoleCheckRed,
-        Resources.PoleCheckBlue,
-        Resources.PoleArrowRed,
-        Resources.PoleArrowBlue,
-        Resources.FinalGate,
-        Resources.FinalGateShadow,
-        Resources.PoleShadow,
-        Resources.PoleSlShadow,
-
-        Resources.Spectator1,
-        Resources.Spectator2,
-        Resources.Spectator3,
-        Resources.Spectator4,
-        Resources.SpectatorShadow,
-
-        Resources.Tree,
-        Resources.TreeShadow,
-
-        Resources.WinterSound,
-        Resources.StartRaceSound,
-        Resources.FinishRaceSound,
-        Resources.GateMissedSound,
-        Resources.PoleHittingSound,
-        Resources.TurningSound,
-        Resources.SpectatorsSound,
-        Resources.Spectators2Sound,
-        Resources.Spectators3Sound,
-        Resources.Spectators4Sound,
-        Resources.SpectatorsIntenseSound,
-        Resources.SpectatorHitSound,
-        Resources.SpectatorHit2Sound,
-        Resources.SpectatorHit3Sound,
-        Resources.SpectatorsBellsSound,
-        Resources.SpectatorsBells2Sound
-    ];
-
-    public raceStopped = new EventEmitter<RaceResult | undefined>();
-
     public settingsService: SettingsService;
-
     public soundPlayer: SoundPlayer;
     public gamepadsManager = new GamepadsManager(this);
+    public raceStopped = new EventEmitter<RaceResult | undefined>();
 
     private raceConfig: RaceConfig;
+    private resourcesToLoad = Object.values(Resources);
 
     constructor(raceConfig: RaceConfig, settingsService: SettingsService) {
         super({
@@ -99,7 +40,6 @@ export class Game extends Engine {
 
     initialize() {
         this.addScene('race', new Race(this, this.raceConfig));
-
         this.start(this.getLoader()).then(() => {
             this.goToScene('race');
         });
