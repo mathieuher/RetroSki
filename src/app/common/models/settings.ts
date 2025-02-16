@@ -1,5 +1,6 @@
 export class Settings {
     public sound: boolean;
+    public touchZones: boolean;
     public ghosts: boolean;
     public spectators: boolean;
     public spectatorsAnimation: boolean;
@@ -9,6 +10,7 @@ export class Settings {
 
     constructor(
         sound = true,
+        touchZones = false,
         ghosts = true,
         spectators = true,
         spectatorsAnimation = true,
@@ -17,6 +19,7 @@ export class Settings {
         sideIndicators = true
     ) {
         this.sound = sound;
+        this.touchZones = touchZones;
         this.ghosts = ghosts;
         this.spectators = spectators;
         this.spectatorsAnimation = spectatorsAnimation;

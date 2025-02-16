@@ -20,6 +20,16 @@ canvas#game {
     transition: var(--transition-time) ease-in-out;
     border: 0px;
 
+    &.outline {
+        background-color: transparent;
+        border: 1px solid var(--color-tertiary);
+        color: var(--color-tertiary);
+
+        &:hover:not([disabled]) {
+            background-color: var(--color-tertiary-lightest);
+        }
+    }
+
     background-color: var(--color-primary);
     color: var(--color-surface);
 
@@ -358,6 +368,7 @@ canvas#game {
 
 .retro-ui-overlay {
     position: absolute;
+    pointer-events: none;
     top: 0;
     left: 0;
     height: calc(100% - 1rem);
@@ -368,6 +379,7 @@ canvas#game {
 
     .retro-dialog {
         display: flex;
+        pointer-events: all;
         flex-direction: column;
         overflow-y: auto;
         width: calc(100% - 2rem);
@@ -379,8 +391,8 @@ canvas#game {
         transition: var(--transition-time) ease;
 
         &.tertiary {
-            background-color: var(--color-tertiary-lightest);
-            color: var(--color-tertiary-darkest);
+            background-color: var(--color-tertiary);
+            color: var(--color-surface);
         }
 
         .retro-title {
@@ -401,6 +413,35 @@ canvas#game {
             align-items: center;
             gap: 0.5rem;
         }
+    }
+}
+
+.touch-zone {
+    position: absolute;
+    pointer-events: none;
+    width: 40%;
+    height: 60%;
+    top: 20%;
+    background-color: var(--color-tertiary-lightest);
+    border-radius: 100px;
+    opacity: 0.2;
+
+    &.left {
+        left: 5%;
+        background-color: var(--color-primary-lightest);
+    }
+
+    &.right {
+        right: 5%;
+        background-color: var(--color-tertiary-lightest);
+    }
+
+    &.bottom {
+        background-color: var(--color-error-lightest);
+        top: 82%;
+        height: 16%;
+        width: 90%;
+        left: 5%;
     }
 }
 

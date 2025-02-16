@@ -17,11 +17,11 @@
 
         &.tertiary {
             .title {
-                color: var(--color-tertiary);
+                color: var(--color-surface);
             }
 
             .detail {
-                color: var(--color-tertiary-light);
+                color: var(--color-tertiary-lightest);
             }
         }
     }

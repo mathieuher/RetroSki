@@ -5,6 +5,14 @@
     <ng-container *ngTemplateOutlet="step_1"></ng-container>
     } @else if (lessonStep() === 2) {
     <ng-container *ngTemplateOutlet="step_2"></ng-container>
+    } @else if (lessonStep() === 3) {
+    <ng-container *ngTemplateOutlet="step_3"></ng-container>
+    } @else if (lessonStep() === 4) {
+    <ng-container *ngTemplateOutlet="step_4"></ng-container>
+    } @else if (lessonStep() === 5) {
+    <ng-container *ngTemplateOutlet="step_5"></ng-container>
+    } @else if (lessonStep() === 6) {
+    <ng-container *ngTemplateOutlet="step_6"></ng-container>
     }
 </div>
 
@@ -27,18 +35,120 @@
         </div>
 
         <div class="retro-text">Stay focused, and let's ride!</div>
-        <div class="retro-button" (click)="startStep2()">Start the lesson</div>
+
+        <div class="retro-subtitle">Choose your controller</div>
+        <div class="controllers-list">
+            <button
+                class="retro-button"
+                (click)="controller.set('gamepad')"
+                [class.outline]="controller() !== 'gamepad'"
+            >
+                🎮 Gamepad
+            </button>
+            <button
+                class="retro-button outline"
+                (click)="controller.set('keyboard')"
+                [class.outline]="controller() !== 'keyboard'"
+            >
+                ⌨ Keboard
+            </button>
+            <button
+                class="retro-button outline"
+                (click)="controller.set('touch')"
+                [class.outline]="controller() !== 'touch'"
+            >
+                📱 Smartphone
+            </button>
+        </div>
+
+        <button
+            class="retro-button tertiary"
+            [disabled]="!controller()"
+            (click)="startStep2()"
+        >
+            Start the lesson
+        </button>
     </div>
 </ng-template>
 
 <ng-template #step_2>
     <app-academy-objective
         title="Exit the gate and start riding"
-        detail="Touch the screen or press arrow up"
+        [detail]="step2Detail[controller()!]"
         [completed]="step2Completed()"
     >
-        @if(step2Completed()) {
-        <button class="retro-button">Next</button>
-        }</app-academy-objective
+    </app-academy-objective>
+</ng-template>
+
+<ng-template #step_3>
+    @if(controller() === 'touch') {
+    <div class="touch-zone left"></div>
+    <div class="touch-zone right"></div>
+    }
+    <app-academy-objective
+        title="Carve left and right"
+        [detail]="step3Detail[controller()!]"
+        [completed]="step3Completed().left && step3Completed().right"
     >
+    </app-academy-objective>
+</ng-template>
+
+<ng-template #step_4>
+    @if(controller() === 'touch') {
+    <div class="touch-zone bottom"></div>
+    }
+    <app-academy-objective
+        title="Brake"
+        [detail]="step4Detail[controller()!]"
+        [completed]="step4Completed()"
+    >
+    </app-academy-objective>
+</ng-template>
+
+<ng-template #step_5>
+    @if(controller() === 'touch') {
+    <div class="touch-zone left"></div>
+    <div class="touch-zone right"></div>
+    <div class="touch-zone bottom"></div>
+    }
+    <app-academy-objective
+        title="Slide"
+        detail="Carve and brake simultaneously to start sliding"
+        [completed]="step5Completed()"
+    >
+    </app-academy-objective>
+</ng-template>
+
+<ng-template #step_6>
+    <div class="retro-dialog">
+        <div class="retro-title">Lesson Completed! 🎉</div>
+
+        <div class="retro-text">
+            Nice work, rider! <strong>You've nailed the basics</strong>, but
+            every pro was once a beginner. Keep hitting the slopes, and soon
+            you'll be carving like a legend! ⛷️✨
+        </div>
+
+        <div class="retro-text">
+            The more you ride, the smoother your turns, the faster your
+            descents, and the bigger your skills! Don't stop now—every run makes
+            you better.
+        </div>
+
+        @if(controller() === 'touch') {
+        <div class="retro-text">
+            Need extra help? You can enable
+            <strong>touch zones visibility</strong> in the settings to see
+            exactly where to tap.
+        </div>
+        }
+
+        <button class="retro-button tertiary" routerLink="/academy">
+            Back to the Academy
+        </button>
+
+        <button class="retro-button" (click)="this.lessonStep.set(7)">
+            Stay practicing the basics
+        </button>
+    </div>
 </ng-template>

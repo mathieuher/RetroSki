@@ -25,30 +25,31 @@
         <span class="material-symbols-outlined">check</span>
         }
     </button>
+    <div class="retro-subtitle">Soon available</div>
     <button
         class="retro-button"
-        [class.tertiary]="!fasterCompleted"
-        [disabled]="!basicsCompleted"
-        routerLink="/academy-faster"
+        [class.tertiary]="!precisionCompleted"
+        [disabled]="true"
+        routerLink="/academy-precision"
     >
-        2. Key elements of getting faster @if(fasterCompleted) {
+        2. Precision and focus @if(precisionCompleted) {
         <span class="material-symbols-outlined">check</span>
         }
     </button>
     <button
         class="retro-button"
-        [class.tertiary]="!precisionCompleted"
-        [disabled]="!fasterCompleted"
-        routerLink="/academy-precision"
+        [class.tertiary]="!fasterCompleted"
+        [disabled]="true"
+        routerLink="/academy-faster"
     >
-        3. Precision and focus @if(precisionCompleted) {
+        3. Getting faster @if(fasterCompleted) {
         <span class="material-symbols-outlined">check</span>
         }
     </button>
     <button
         class="retro-button"
         [class.tertiary]="!slalomCompleted"
-        [disabled]="!precisionCompleted"
+        [disabled]="true"
         routerLink="/academy-slalom"
     >
         4. Slalom tracks and trajectory @if(slalomCompleted) {
@@ -58,7 +59,7 @@
     <button
         class="retro-button"
         [class.tertiary]="!testCompleted"
-        [disabled]="!slalomCompleted"
+        [disabled]="true"
         routerLink="/academy-final"
     >
         5. Ultimate speed test @if(testCompleted) {

@@ -11,11 +11,11 @@ import { RouterLink } from '@angular/router';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AcademyComponent {
-    private static readonly LESSON_BASICS_COMPLETED_KEY = 'lesson_basics_completed';
-    private static readonly LESSON_FASTER_COMPLETED_KEY = 'lesson_faster_completed';
-    private static readonly LESSON_PRECISION_COMPLETED_KEY = 'lesson_precision_completed';
-    private static readonly LESSON_SLALOM_COMPLETED_KEY = 'lesson_slalom_completed';
-    private static readonly LESSON_FINAL_COMPLETED_KEY = 'lesson_final_completed';
+    public static readonly LESSON_BASICS_COMPLETED_KEY = 'lesson_basics_completed';
+    public static readonly LESSON_FASTER_COMPLETED_KEY = 'lesson_faster_completed';
+    public static readonly LESSON_PRECISION_COMPLETED_KEY = 'lesson_precision_completed';
+    public static readonly LESSON_SLALOM_COMPLETED_KEY = 'lesson_slalom_completed';
+    public static readonly LESSON_FINAL_COMPLETED_KEY = 'lesson_final_completed';
 
     protected racing = signal(false);
     protected basicsCompleted = localStorage.getItem(AcademyComponent.LESSON_BASICS_COMPLETED_KEY) === 'true';

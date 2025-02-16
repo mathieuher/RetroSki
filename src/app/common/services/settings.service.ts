@@ -7,6 +7,7 @@ import { StorageManager } from '../../game/utils/storage-manager';
 })
 export class SettingsService {
     private static SOUND_KEY = 'settings_sound';
+    private static TOUCH_ZONES_KEY = 'settings_touch_zones';
     private static GHOSTS_KEY = 'settings_ghost';
     private static SPECTATORS_KEY = 'settings_spectators';
     private static SPECTATORS_ANIMATION_KEY = 'settings_spectators_animation';
@@ -19,6 +20,7 @@ export class SettingsService {
     constructor() {
         this.settings = new Settings(
             localStorage.getItem(SettingsService.SOUND_KEY) !== 'false',
+            localStorage.getItem(SettingsService.TOUCH_ZONES_KEY) === 'true',
             localStorage.getItem(SettingsService.GHOSTS_KEY) !== 'false',
             localStorage.getItem(SettingsService.SPECTATORS_KEY) !== 'false',
             localStorage.getItem(SettingsService.SPECTATORS_ANIMATION_KEY) !== 'false',
@@ -48,6 +50,7 @@ export class SettingsService {
 
     public persistSettings(): void {
         StorageManager.save(SettingsService.SOUND_KEY, this.settings.sound ? 'true' : 'false');
+        StorageManager.save(SettingsService.TOUCH_ZONES_KEY, this.settings.touchZones ? 'true' : 'false');
         StorageManager.save(SettingsService.SPECTATORS_KEY, this.settings.spectators ? 'true' : 'false');
         StorageManager.save(
             SettingsService.SPECTATORS_ANIMATION_KEY,
