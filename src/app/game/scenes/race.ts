@@ -22,6 +22,7 @@ import { TrackBuilder } from '../utils/track-builder';
 import { Decoration } from '../actors/decoration';
 
 export class Race extends Scene {
+    public config: RaceConfig;
     public skier?: Skier;
     public touchManager: TouchManager;
 
@@ -34,7 +35,6 @@ export class Race extends Scene {
         }
     });
 
-    private raceConfig: RaceConfig;
     private skierCameraGhost?: Actor;
     private skierPositions: SkierPositioning[] = [];
     private gates: Gate[] = [];
@@ -49,10 +49,10 @@ export class Race extends Scene {
     private eventRecordGhostDatas?: StockableGhost;
     private eventRecordGhost?: Actor;
 
-    constructor(engine: Engine, raceConfig: RaceConfig) {
+    constructor(engine: Engine, config: RaceConfig) {
         super();
         this.engine = engine;
-        this.raceConfig = raceConfig;
+        this.config = config;
         this.touchManager = new TouchManager(engine);
     }
 
@@ -65,13 +65,13 @@ export class Race extends Scene {
     }
 
     override onActivate(): void {
-        if (this.raceConfig) {
-            this.prepareRace(this.raceConfig);
+        if (this.config) {
+            this.prepareRace(this.config);
         }
     }
 
     override onDeactivate(_context: SceneActivationContext<undefined>): void {
-        this.cleanRace();
+        this.clean();
     }
 
     public setupCamera(): void {
@@ -79,7 +79,7 @@ export class Race extends Scene {
         this.camera.zoom = Config.CAMERA_ZOOM;
     }
 
-    public startRace(): void {
+    public start(): void {
         this.uiManager.hideGhostsUi();
         this.uiManager.displayRacingUi();
         this.startTime = this.engine.clock.now();
@@ -90,7 +90,7 @@ export class Race extends Scene {
         this.startingHouse?.openGate();
     }
 
-    public stopRace(): void {
+    public stop(): void {
         this.endTime = this.engine.clock.now();
         this.skier!.finishRace();
         this.uiTimer.stop();
@@ -101,21 +101,21 @@ export class Race extends Scene {
 
         const missedGates = this.gates.filter(gate => gate.missed).length;
         const ghost = new StockableGhost(
-            this.raceConfig.track.id!,
+            this.config.track.id!,
             new Date(),
-            this.raceConfig.eventId,
-            this.raceConfig.rider,
+            this.config.eventId,
+            this.config.skierInfos.name,
             timing,
             this.timedSectors,
             this.skierPositions
         );
         const ck = this.skierPositions.length / ((timing - missedGates * Config.MISSED_GATE_PENALTY_TIME) / 1000);
-        const result = new RaceResult(this.raceConfig.rider, new Date(), timing, missedGates, ghost, ck);
+        const result = new RaceResult(this.config.skierInfos.name, new Date(), timing, missedGates, ghost, ck);
         (this.engine as Game).raceStopped.emit(result);
         (this.engine as Game).soundPlayer.playSound(Resources.FinishRaceSound, Config.FINISH_SOUND_VOLUME);
     }
 
-    public cleanRace(): void {
+    public clean(): void {
         this.startTime = undefined;
         this.endTime = undefined;
         this.uiManager.hideUi();
@@ -211,7 +211,7 @@ export class Race extends Scene {
     private prepareRace(raceConfig: RaceConfig): void {
         this.addTimer(this.uiTimer);
         this.buildTrack(raceConfig.track);
-        this.skier = new Skier(raceConfig.rider, this.getSkierConfig(raceConfig.track.style), raceConfig.track);
+        this.skier = new Skier(raceConfig.skierInfos, this.getSkierConfig(raceConfig.track.style));
         this.add(this.skier);
         this.startingHouse = new StartingHouse();
         this.add(this.startingHouse);
@@ -280,7 +280,7 @@ export class Race extends Scene {
     }
 
     private listenStopRaceEvent(): void {
-        this.gates?.find(gate => gate.isFinalGate)!.on('stoprace', () => this.stopRace());
+        this.gates?.find(gate => gate.isFinalGate)!.on('stoprace', () => this.stop());
     }
 
     private updateRacingUi(): void {

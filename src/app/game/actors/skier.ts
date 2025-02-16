@@ -8,17 +8,24 @@ import type { Game } from '../game';
 import { SkierActions } from '../models/skier-actions.enum';
 import { SkierGraphics } from '../utils/skier-graphics';
 import { SkierFrontCollider } from './skier-front-collider';
-import type { Track } from '../models/track';
+import type { SkierInfos } from '../models/skier-infos';
 
-class SkierIntentions {
+export class SkierIntentions {
     public leftCarvingIntention: number;
     public rightCarvingIntention: number;
     public hasBrakingIntention: boolean;
+    public hasStartingIntention: boolean;
 
-    constructor(leftCarvingIntention?: number, rightCarvingIntention?: number, hasBrakingIntention?: boolean) {
+    constructor(
+        leftCarvingIntention?: number,
+        rightCarvingIntention?: number,
+        hasBrakingIntention?: boolean,
+        hasStartingIntention?: boolean
+    ) {
         this.leftCarvingIntention = leftCarvingIntention ?? 0;
         this.rightCarvingIntention = rightCarvingIntention ?? 0;
         this.hasBrakingIntention = hasBrakingIntention ?? false;
+        this.hasStartingIntention = hasStartingIntention ?? false;
     }
 }
 
@@ -28,19 +35,18 @@ const RADIAN_PI = 2 * Math.PI;
 
 export class Skier extends Actor {
     public speed = 0;
-    public skierName: string;
+    public skierInfos: SkierInfos;
     public skierConfig: SkierConfig;
 
     public racing = false;
     public finish = false;
 
     private skierIntentions = new SkierIntentions();
-    private track: Track;
 
     private leftParticlesEmitter!: GpuParticleEmitter;
     private rightParticlesEmitter!: GpuParticleEmitter;
 
-    constructor(skierName: string, skierConfig: SkierConfig, track: Track) {
+    constructor(skierInfos: SkierInfos, skierConfig: SkierConfig) {
         super({
             pos: vec(0, 0),
             width: 21,
@@ -49,9 +55,8 @@ export class Skier extends Actor {
             anchor: vec(0.5, 0.5),
             collisionType: CollisionType.Fixed
         });
-        this.skierName = skierName;
+        this.skierInfos = skierInfos;
         this.skierConfig = skierConfig;
-        this.track = track;
 
         this.leftParticlesEmitter = ParticlesBuilder.getGpuParticlesEmitter('left');
         this.rightParticlesEmitter = ParticlesBuilder.getGpuParticlesEmitter('right');
@@ -64,17 +69,22 @@ export class Skier extends Actor {
         this.updateSkierIntentions(engine);
         const skierAction = this.getSkierCurrentAction();
         this.updateGraphics(skierAction);
+
+        if (this.skierInfos.type === 'academy') {
+            if ((this.scene?.engine as Game).paused) {
+                return;
+            }
+            // Emit skier-actions for academy lessons
+            (this.scene?.engine as Game).customEvents.emit({ name: 'skier-actions', content: this.skierIntentions });
+        }
+
         if (this.racing || this.finish) {
             this.updateRotation(this.skierIntentions);
             this.updateSpeed(skierAction, this.skierIntentions);
             this.updateVelocity(this.skierIntentions);
         } else {
-            if (
-                engine.input.keyboard.wasPressed(Config.KEYBOARD_START_KEY) ||
-                (engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_RACE_BUTTON) ||
-                (this.scene as Race).touchManager.isTouching
-            ) {
-                (this.scene as Race).startRace();
+            if (this.skierIntentions.hasStartingIntention) {
+                (this.scene as Race).start();
             }
         }
         this.emitParticles(engine, skierAction, this.skierIntentions);
@@ -111,6 +121,7 @@ export class Skier extends Actor {
         this.skierIntentions.hasBrakingIntention = this.hasBreakingIntention(engine);
         this.skierIntentions.leftCarvingIntention = this.leftCarvingIntention(engine);
         this.skierIntentions.rightCarvingIntention = this.rightCarvingIntention(engine);
+        this.skierIntentions.hasStartingIntention = this.hasStartingIntention(engine);
     }
 
     private updateRotation(skierIntentions: SkierIntentions): void {
@@ -166,7 +177,7 @@ export class Skier extends Actor {
             angleOfSkier = 360 - angleOfSkier;
         }
 
-        let acceleration = Config.ACCELERATION_RATE * this.track.slope;
+        let acceleration = Config.ACCELERATION_RATE * (this.scene as Race).config.track.slope;
         acceleration -= (acceleration * angleOfSkier) / 90;
         acceleration -= this.skierConfig.windFrictionRate * this.speed;
         if (skierAction === SkierActions.SLIDE_LEFT || skierAction === SkierActions.SLIDE_RIGHT) {
@@ -301,6 +312,14 @@ export class Skier extends Actor {
             engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE) ||
             (engine as Game).gamepadsManager.isButtonHeld(Config.GAMEPAD_CONTROL_BRAKE) ||
             (this.scene as Race).touchManager.isTouchingBack
+        );
+    }
+
+    private hasStartingIntention(engine: Engine): boolean {
+        return (
+            engine.input.keyboard.wasPressed(Config.KEYBOARD_START_KEY) ||
+            (engine as Game).gamepadsManager.wasButtonPressed(Config.GAMEPAD_RACE_BUTTON) ||
+            (this.scene as Race).touchManager.isTouching
         );
     }
 

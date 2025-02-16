@@ -1,0 +1,44 @@
+<canvas id="game"></canvas>
+<div class="retro-ui-overlay">
+    <app-button-icon icon="arrow_back" (click)="exitLesson()"></app-button-icon>
+    @if(lessonStep() === 1) {
+    <ng-container *ngTemplateOutlet="step_1"></ng-container>
+    } @else if (lessonStep() === 2) {
+    <ng-container *ngTemplateOutlet="step_2"></ng-container>
+    }
+</div>
+
+<ng-template #step_1>
+    <div class="retro-dialog">
+        <div class="retro-title">1. Learn the basics</div>
+
+        <div class="retro-text">
+            Hey rider! Ready to hit the slopes? In this first lesson, we’ll
+            cover the <strong>fundamentals</strong> to get you skiing smoothly.
+        </div>
+
+        <div class="retro-text">
+            You’ll learn how to:
+            <ul>
+                <li>🚀 <strong>Start riding</strong></li>
+                <li>⛷️ <strong>Carve turns</strong></li>
+                <li>🛑 <strong>Brake & slide</strong></li>
+            </ul>
+        </div>
+
+        <div class="retro-text">Stay focused, and let's ride!</div>
+        <div class="retro-button" (click)="startStep2()">Start the lesson</div>
+    </div>
+</ng-template>
+
+<ng-template #step_2>
+    <app-academy-objective
+        title="Exit the gate and start riding"
+        detail="Touch the screen or press arrow up"
+        [completed]="step2Completed()"
+    >
+        @if(step2Completed()) {
+        <button class="retro-button">Next</button>
+        }</app-academy-objective
+    >
+</ng-template>

@@ -113,7 +113,7 @@ export class Gate extends Actor {
             }
 
             if (this.isFinalGate) {
-                (this.scene as Race).stopRace();
+                (this.scene as Race).stop();
             }
         }
     }

@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 1rem;
+    overflow: auto;
+
+    .retro-button {
+        margin-bottom: 1rem;
+        justify-content: space-between;
+    }
+
+    .retro-hint {
+        text-align: left;
+    }
+}

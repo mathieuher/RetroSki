@@ -1,3 +1,8 @@
+canvas#game {
+    max-width: 100dvw;
+    max-height: 100dvh;
+}
+
 .retro-button {
     display: flex;
     flex-shrink: 0;
@@ -344,6 +349,54 @@
         }
 
         > div {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    }
+}
+
+.retro-ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: calc(100% - 1rem);
+    width: calc(100% - 1rem);
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+
+    .retro-dialog {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        width: calc(100% - 2rem);
+        border-radius: var(--border-radius);
+        padding: 1rem;
+        background-color: var(--color-primary-lightest);
+        color: var(--color-primary-darkest);
+        opacity: 0.9;
+        transition: var(--transition-time) ease;
+
+        &.tertiary {
+            background-color: var(--color-tertiary-lightest);
+            color: var(--color-tertiary-darkest);
+        }
+
+        .retro-title {
+            margin-top: 0;
+            background-color: inherit;
+        }
+
+        .retro-subtitle {
+            background-color: inherit;
+        }
+
+        .retro-button {
+            margin-top: 1rem;
+        }
+
+        .objective {
             display: flex;
             align-items: center;
             gap: 0.5rem;

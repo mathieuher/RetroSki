@@ -1,0 +1,10 @@
+<div class="retro-dialog" [class.tertiary]="completed()">
+    <div class="title">
+        <span class="material-symbols-outlined">{{
+            completed() ? "check_circle" : "circle"
+        }}</span>
+        {{ title() }}
+    </div>
+    <div class="detail">{{ detail() }}</div>
+    <ng-content></ng-content>
+</div>
