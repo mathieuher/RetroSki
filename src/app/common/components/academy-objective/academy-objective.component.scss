@@ -1,0 +1,28 @@
+:host {
+    .retro-dialog {
+        .title {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            font-size: var(--text-standard);
+            color: var(--color-primary-darkest);
+            font-weight: 500;
+        }
+
+        .detail {
+            font-size: var(--text-small);
+            padding-left: calc(24px + 0.5rem);
+            color: var(--color-primary);
+        }
+
+        &.tertiary {
+            .title {
+                color: var(--color-surface);
+            }
+
+            .detail {
+                color: var(--color-tertiary-lightest);
+            }
+        }
+    }
+}

@@ -6,20 +6,32 @@ import { Race } from './scenes/race';
 import { GamepadsManager } from './utils/gamepads-manager';
 import type { SettingsService } from '../common/services/settings.service';
 import { Config } from './config';
-import { EventEmitter } from '@angular/core';
 import type { RaceConfig } from './models/race-config';
 import type { RaceResult } from './models/race-result';
+import type { RideConfig } from './models/ride-config';
+import { Academy } from './scenes/academy';
+import { EventEmitter } from '@angular/core';
+import type { SkierIntentions } from './actors/skier';
 
+export type GameMode = 'academy' | 'career' | 'race';
+
+export interface CustomGameEvent {
+    name: string;
+    content: SkierIntentions;
+}
 export class Game extends Engine {
     public settingsService: SettingsService;
     public soundPlayer: SoundPlayer;
     public gamepadsManager = new GamepadsManager(this);
     public raceStopped = new EventEmitter<RaceResult | undefined>();
+    public customEvents = new EventEmitter<CustomGameEvent>();
+    public paused = false;
 
-    private raceConfig: RaceConfig;
+    private mode: GameMode;
+    private rideConfig: RideConfig;
     private resourcesToLoad = Object.values(Resources);
 
-    constructor(raceConfig: RaceConfig, settingsService: SettingsService) {
+    constructor(mode: GameMode, rideConfig: RideConfig, settingsService: SettingsService) {
         super({
             displayMode: DisplayMode.FitContainerAndFill,
             width: 800,
@@ -33,16 +45,25 @@ export class Game extends Engine {
             suppressHiDPIScaling: true
         });
 
-        this.raceConfig = raceConfig;
+        this.mode = mode;
+        this.rideConfig = rideConfig;
         this.settingsService = settingsService;
         this.soundPlayer = new SoundPlayer(settingsService);
     }
 
     initialize() {
-        this.addScene('race', new Race(this, this.raceConfig));
-        this.start(this.getLoader()).then(() => {
-            this.goToScene('race');
-        });
+        if (this.mode === 'race') {
+            this.addScene('race', new Race(this, this.rideConfig as RaceConfig));
+            this.start(this.getLoader()).then(() => {
+                this.goToScene('race');
+            });
+        } else if (this.mode === 'academy') {
+            this.addScene('academy', new Academy(this, this.rideConfig));
+            this.start(this.getLoader()).then(() => {
+                this.goToScene('academy');
+                this.paused = true;
+            });
+        }
     }
 
     override onPreUpdate(_engine: Engine, _delta: number): void {
@@ -61,7 +82,7 @@ export class Game extends Engine {
 
     public stopProperly(): void {
         this.stop();
-        (this.currentScene as Race).cleanRace();
+        (this.currentScene as Race).clean();
     }
 
     private getLoader(): Loader {

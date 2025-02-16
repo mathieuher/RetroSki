@@ -21,6 +21,10 @@ export class Config {
     static GATE_MISSED_SOUND_VOLUME = 0.25;
     static POLE_HIT_SOUND_VOLUME = 0.08;
 
+    // ACADEMY
+    static AFTER_STEP_SMALL_WAITING_TIME = 2_500;
+    static AFTER_STEP_LONG_WAITING_TIME = 4_000;
+
     // RACE
     static MISSED_GATE_PENALTY_TIME = 3000;
     static SECTORS_PER_RACE = 2;

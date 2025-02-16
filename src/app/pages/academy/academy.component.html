@@ -1,0 +1,69 @@
+<app-toolbar>
+    <ng-container ngProjectAs="left-actions">
+        <app-button-icon icon="close" routerLink="/"></app-button-icon>
+    </ng-container>
+</app-toolbar>
+<div class="retro-content">
+    <div class="retro-title">RetroSki Academy</div>
+    <div class="retro-text">
+        Hey rider! Ready to hit the slopes like a pro? The RetroSki Academy is
+        here to take you from your first turns to mastering the mountain.
+    </div>
+    <div class="retro-subtitle">How It Works</div>
+    <div class="retro-text">
+        Each lesson focuses on a key aspect of skiing in RetroSki. Start with
+        the basics, then move on to advanced techniques to carve sharper turns,
+        stay in control, and chase record times!
+    </div>
+    <div class="retro-subtitle">Available Lessons</div>
+    <button
+        class="retro-button"
+        [class.tertiary]="!basicsCompleted"
+        routerLink="/academy-basics"
+    >
+        1. Learn the basics @if(basicsCompleted) {
+        <span class="material-symbols-outlined">check</span>
+        }
+    </button>
+    <div class="retro-subtitle">Soon available</div>
+    <button
+        class="retro-button"
+        [class.tertiary]="!precisionCompleted"
+        [disabled]="true"
+        routerLink="/academy-precision"
+    >
+        2. Precision and focus @if(precisionCompleted) {
+        <span class="material-symbols-outlined">check</span>
+        }
+    </button>
+    <button
+        class="retro-button"
+        [class.tertiary]="!fasterCompleted"
+        [disabled]="true"
+        routerLink="/academy-faster"
+    >
+        3. Getting faster @if(fasterCompleted) {
+        <span class="material-symbols-outlined">check</span>
+        }
+    </button>
+    <button
+        class="retro-button"
+        [class.tertiary]="!slalomCompleted"
+        [disabled]="true"
+        routerLink="/academy-slalom"
+    >
+        4. Slalom tracks and trajectory @if(slalomCompleted) {
+        <span class="material-symbols-outlined">check</span>
+        }
+    </button>
+    <button
+        class="retro-button"
+        [class.tertiary]="!testCompleted"
+        [disabled]="true"
+        routerLink="/academy-final"
+    >
+        5. Ultimate speed test @if(testCompleted) {
+        <span class="material-symbols-outlined">check</span>
+        }
+    </button>
+</div>

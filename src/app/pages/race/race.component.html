@@ -1,5 +1,10 @@
 <canvas id="game"></canvas>
 <div class="ui-overlay">
+    @if(displayTouchZones) {
+    <div class="touch-zone left"></div>
+    <div class="touch-zone right"></div>
+    <div class="touch-zone bottom"></div>
+    }
     <div class="header">
         <app-button-icon
             icon="arrow_back"

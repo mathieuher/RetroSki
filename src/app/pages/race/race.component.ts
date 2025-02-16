@@ -17,6 +17,7 @@ import { EventService } from '../../common/services/event.service';
 import { AuthService } from '../../common/services/auth.service';
 import type { StockableGhost } from '../../game/models/stockable-ghost';
 import type { HttpErrorResponse } from '@angular/common/http';
+import { SkierInfos } from '../../game/models/skier-infos';
 
 @Component({
     selector: 'app-race',
@@ -38,6 +39,7 @@ export class RaceComponent extends Destroyable implements OnInit {
     protected raceRanking = signal<RaceRanking | undefined>(undefined);
     protected processingError = signal<string | undefined>(undefined);
     protected processingRide = signal<boolean>(false);
+    protected displayTouchZones = this.settingsService.getSettings().touchZones;
     private game?: Game;
 
     private type = (this.route.snapshot.data as { type: 'local' | 'online' }).type;
@@ -61,7 +63,7 @@ export class RaceComponent extends Destroyable implements OnInit {
         config$
             .pipe(
                 tap(config => {
-                    this.game = new Game(config, this.settingsService);
+                    this.game = new Game('race', config, this.settingsService);
                     this.game.initialize();
                 }),
                 tap(config => this.raceConfig.set(config)),
@@ -89,7 +91,13 @@ export class RaceComponent extends Destroyable implements OnInit {
             .pipe(
                 map(
                     globalGhost =>
-                        new RaceConfig(event.id, event.incomingRaces[0].rider, event.track!, globalGhost, event.ghost)
+                        new RaceConfig(
+                            event.id,
+                            new SkierInfos(event.incomingRaces[0].rider, 'race'),
+                            event.track!,
+                            globalGhost,
+                            event.ghost
+                        )
                 )
             );
     }
@@ -99,7 +107,7 @@ export class RaceComponent extends Destroyable implements OnInit {
             concatMap(event =>
                 this.trackService
                     .getTrack$('online', event.trackId!)
-                    .pipe(map(track => new RaceConfig(event.id, this.user!.name!, track)))
+                    .pipe(map(track => new RaceConfig(event.id, new SkierInfos(this.user!.name!, 'race'), track)))
             ),
             concatMap(config =>
                 this.trackService.getTrackGhost$('online', config.track.id!).pipe(
