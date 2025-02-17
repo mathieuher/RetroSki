@@ -14,10 +14,11 @@ import { EventEmitter } from '@angular/core';
 import type { SkierIntentions } from './actors/skier';
 
 export type GameMode = 'academy' | 'career' | 'race';
-
+export type GateEvent = 'passed' | 'missed';
+export type AcademyEvent = 'stopped';
 export interface CustomGameEvent {
     name: string;
-    content: SkierIntentions;
+    content: SkierIntentions | GateEvent | AcademyEvent;
 }
 export class Game extends Engine {
     public settingsService: SettingsService;
@@ -26,8 +27,8 @@ export class Game extends Engine {
     public raceStopped = new EventEmitter<RaceResult | undefined>();
     public customEvents = new EventEmitter<CustomGameEvent>();
     public paused = false;
+    public mode: GameMode;
 
-    private mode: GameMode;
     private rideConfig: RideConfig;
     private resourcesToLoad = Object.values(Resources);
 

@@ -58,6 +58,11 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/academy/lessons/basics/basics.component').then(m => m.BasicsComponent)
     },
     {
+        path: 'academy-precision',
+        loadComponent: () =>
+            import('./pages/academy/lessons/precision/precision.component').then(m => m.PrecisionComponent)
+    },
+    {
         path: 'settings',
         loadComponent: () => import('./pages/settings/settings.component').then(m => m.SettingsComponent)
     },

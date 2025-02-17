@@ -1,0 +1,103 @@
+<canvas id="game"></canvas>
+<div class="retro-ui-overlay">
+    <app-button-icon icon="arrow_back" (click)="exitLesson()"></app-button-icon>
+    @if(lessonFailed()) {
+    <ng-container *ngTemplateOutlet="lesson_failed"></ng-container>
+    } @else { @if(lessonStep() === 1) {
+    <ng-container *ngTemplateOutlet="step_1"></ng-container>
+    } @else if (lessonStep() === 2) {
+    <ng-container *ngTemplateOutlet="step_2"></ng-container>
+    } @else if (lessonStep() === 3) {
+    <ng-container *ngTemplateOutlet="step_3"></ng-container>
+    } }
+</div>
+
+<ng-template #step_1>
+    <div class="retro-dialog">
+        <div class="retro-title">2. Precision and Focus</div>
+
+        <div class="retro-text">
+            Welcome back, rider! Now that you know how to ride, it’s time to
+            level up your skills.
+        </div>
+
+        <div class="retro-text">
+            In this lesson, you’ll train to
+            <strong>stay on course and pass every gate</strong>. Missing a gate
+            adds <strong>+3 seconds</strong> to your time, so precision is key
+            and the most efficient way to lower your times!
+        </div>
+
+        <div class="retro-text">
+            Your challenge: <strong>Pass 15 consecutive gates</strong> without
+            missing before reaching the finish line! Stay focused, time your
+            turns, and let’s ride! ⛷️🔥
+        </div>
+
+        <div class="retro-button tertiary" (click)="startStep2()">
+            Start the lesson
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #step_2>
+    <app-academy-objective
+        title="Pass 15 consecutive gates"
+        [detail]="gatesPassed() + '/15'"
+        [completed]="step2Completed()"
+    >
+    </app-academy-objective>
+</ng-template>
+
+<ng-template #step_3>
+    <div class="retro-dialog">
+        <div class="retro-title">Lesson completed!</div>
+
+        <div class="retro-text">
+            Nailed it! <strong>15 gates in a row</strong>, that’s some serious
+            precision, rider!
+        </div>
+
+        <div class="retro-text">
+            Keeping your line clean and passing every gate is the key to
+            crushing the slopes. The better your focus, the faster your runs!
+        </div>
+
+        <div class="retro-text">
+            Now, take this skill into your races and shave those seconds off
+            your time. Stay sharp, and we’ll see you in the next lesson!
+        </div>
+
+        <button class="retro-button" routerLink="/academy">
+            Back to the Academy
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #lesson_failed>
+    <div class="retro-dialog error">
+        <div class="retro-title">Lesson not completed!</div>
+
+        <div class="retro-text">
+            Whoa, tough break! You reached the finish line, but you need to pass
+            <strong>15 consecutive gates</strong> to complete this lesson.
+        </div>
+
+        <div class="retro-text">
+            Precision is everything, stay focused, keep your line clean, and
+            don’t let those gates slip by! The more you practice, the sharper
+            your turns will be.
+        </div>
+
+        <div class="retro-text">
+            Ready to give it another go? You’ve got this, rider! ⛷️🔥
+        </div>
+
+        <button class="retro-button tertiary" (click)="exitLesson(true)">
+            Try again
+        </button>
+        <button class="retro-button" (click)="exitLesson()">
+            Back to the Academy
+        </button>
+    </div>
+</ng-template>

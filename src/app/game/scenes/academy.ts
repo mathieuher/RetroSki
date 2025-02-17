@@ -6,15 +6,20 @@ import { TouchManager } from '../utils/touch-manager';
 import type { AcademyConfig } from '../models/academy-config';
 import type { Game } from '../game';
 import { Resources } from '../resources';
+import type { Track } from '../models/track';
+import { Gate } from '../actors/gate';
+import { TrackBuilder } from '../utils/track-builder';
+import { Decoration } from '../actors/decoration';
 
 export class Academy extends Scene {
     public touchManager: TouchManager;
     public config: AcademyConfig;
     private skier?: Skier;
     private cameraGhost?: Actor;
+    private gates: Gate[] = [];
     private startingHouse = new StartingHouse();
 
-    constructor(engine: Engine, config: AcademyConfig) {
+    constructor(engine: Game, config: AcademyConfig) {
         super();
         this.config = config;
         this.touchManager = new TouchManager(engine);
@@ -22,7 +27,7 @@ export class Academy extends Scene {
 
     override onActivate(): void {
         if (this.config) {
-            this.prepare();
+            this.prepare(this.config);
         }
     }
 
@@ -36,16 +41,25 @@ export class Academy extends Scene {
         (this.engine as Game).soundPlayer.playSound(Resources.StartRaceSound, 0.3);
     }
 
-    public stop(): void {}
+    public stop(): void {
+        this.skier?.finishRace();
+        (this.engine as Game).customEvents.emit({ name: 'academy-event', content: 'stopped' });
+    }
+
+    public addPenalty(): void {}
+
+    public setSector(): void {}
 
     public clean(): void {
         this.clear();
     }
 
-    private prepare(): void {
+    private prepare(config: AcademyConfig): void {
+        this.buildTrack(config.track);
         this.skier = new Skier(this.config.skierInfos, Config.GS_SKIER_CONFIG);
         this.add(this.skier);
         this.add(this.startingHouse);
+
         this.setupCamera();
     }
 
@@ -62,5 +76,37 @@ export class Academy extends Scene {
 
     private updateCameraGhost(): void {
         this.cameraGhost!.pos = vec(0, this.skier!.pos.y + Config.FRONT_GHOST_DISTANCE);
+    }
+
+    private buildTrack(track: Track): void {
+        for (const stockableGate of track.gates) {
+            const gate = new Gate(
+                this.engine as Game,
+                TrackBuilder.getGatesConfig(track.style),
+                vec(stockableGate.x, stockableGate.y),
+                stockableGate.width,
+                stockableGate.color,
+                stockableGate.gateNumber,
+                stockableGate.polesAmount,
+                stockableGate.pivot,
+                stockableGate.vertical,
+                stockableGate.isFinal,
+                stockableGate.sectorNumber
+            );
+            this.gates.push(gate);
+            this.add(gate);
+        }
+
+        if ((this.engine as Game).settingsService.getSettings().decorations && track.decorations?.length) {
+            for (const stockableDecoration of track.decorations) {
+                const decoration = new Decoration(
+                    vec(stockableDecoration.x, stockableDecoration.y),
+                    stockableDecoration.type,
+                    stockableDecoration.sizeRatio
+                );
+
+                this.add(decoration);
+            }
+        }
     }
 }

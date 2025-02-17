@@ -395,6 +395,16 @@ canvas#game {
             color: var(--color-surface);
         }
 
+        &.error {
+            background-color: var(--color-error-lightest);
+            color: var(--color-error-darkest);
+
+            .retro-title,
+            .retro-text {
+                color: var(--color-error-darkest);
+            }
+        }
+
         .retro-title {
             margin-top: 0;
             background-color: inherit;

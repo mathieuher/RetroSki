@@ -9,6 +9,7 @@ import type { GatesConfig } from '../models/gates-config';
 import { ScreenManager } from '../utils/screen-manager';
 import type { Game } from '../game';
 import type { Settings } from '../../common/models/settings';
+import type { Academy } from '../scenes/academy';
 
 export class Gate extends Actor {
     public config: GatesConfig;
@@ -50,7 +51,6 @@ export class Gate extends Actor {
             anchor: Gate.getAnchor(vertical, pivot),
             z: isFinalGate ? 5 : 1
         });
-
         this.engine = engine;
         this.config = config;
         this.isFinalGate = isFinalGate;
@@ -103,17 +103,19 @@ export class Gate extends Actor {
 
             if (this.passed && !this.straddled) {
                 this.updatePassedPolesGraphics();
+                this.engine.customEvents.emit({ name: 'gate-event', content: 'passed' });
             } else {
                 (this.scene as Race).addPenalty();
                 this.missed = true;
+                this.engine.customEvents.emit({ name: 'gate-event', content: 'missed' });
             }
 
-            if (this.sectorNumber) {
+            if (this.sectorNumber && this.engine.mode === 'race') {
                 (this.scene as Race).setSector(this.sectorNumber);
             }
 
             if (this.isFinalGate) {
-                (this.scene as Race).stop();
+                (this.scene as Race | Academy).stop();
             }
         }
     }

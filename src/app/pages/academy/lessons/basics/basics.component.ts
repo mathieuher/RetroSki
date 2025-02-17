@@ -11,6 +11,7 @@ import { Config } from '../../../../game/config';
 import { AcademyComponent } from '../../academy.component';
 import { Track } from '../../../../game/models/track';
 import { Resources } from '../../../../game/resources';
+import type { SkierIntentions } from '../../../../game/actors/skier';
 
 @Component({
     selector: 'app-basics',
@@ -77,7 +78,7 @@ export class BasicsComponent implements AfterViewInit, OnDestroy {
 
     protected startStep2(): void {
         this.lessonStep.set(2);
-        const listener = this.game!.customEvents.subscribe(event => {
+        const listener = this.game!.customEvents.subscribe((event: { name: string; content: SkierIntentions }) => {
             if (!this.step2Completed() && event.name === 'skier-actions' && event.content.hasStartingIntention) {
                 this.step2Completed.set(true);
                 setTimeout(() => {
@@ -91,7 +92,7 @@ export class BasicsComponent implements AfterViewInit, OnDestroy {
 
     protected startStep3(): void {
         this.lessonStep.set(3);
-        const listener = this.game!.customEvents.subscribe(event => {
+        const listener = this.game!.customEvents.subscribe((event: { name: string; content: SkierIntentions }) => {
             if ((!this.step3Completed().left || !this.step3Completed().right) && event.name === 'skier-actions') {
                 if (!this.step3Completed().right && event.content.rightCarvingIntention) {
                     this.step3Completed.set({ left: this.step3Completed().left, right: true });
@@ -113,7 +114,7 @@ export class BasicsComponent implements AfterViewInit, OnDestroy {
     protected startStep4(): void {
         this.lessonStep.set(4);
 
-        const listener = this.game!.customEvents.subscribe(event => {
+        const listener = this.game!.customEvents.subscribe((event: { name: string; content: SkierIntentions }) => {
             if (!this.step4Completed() && event.name === 'skier-actions' && event.content.hasBrakingIntention) {
                 this.step4Completed.set(true);
                 setTimeout(() => {
@@ -126,7 +127,7 @@ export class BasicsComponent implements AfterViewInit, OnDestroy {
 
     protected startStep5(): void {
         this.lessonStep.set(5);
-        const listener = this.game!.customEvents.subscribe(event => {
+        const listener = this.game!.customEvents.subscribe((event: { name: string; content: SkierIntentions }) => {
             if (
                 !this.step5Completed() &&
                 event.name === 'skier-actions' &&

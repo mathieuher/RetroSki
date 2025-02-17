@@ -13,9 +13,9 @@ export class TrackBuilder {
      * @param trackStyle style of the track
      * @returns new track
      */
-    public static designTrack(name: string, trackStyle: TrackStyles): Track {
+    public static designTrack(name: string, trackStyle: TrackStyles, gatesAmount?: number): Track {
         const gatesConfig = TrackBuilder.getGatesConfig(trackStyle);
-        const numberOfGates = TrackBuilder.getRandomGatesNumber(gatesConfig);
+        const numberOfGates = gatesAmount ?? TrackBuilder.getRandomGatesNumber(gatesConfig);
         const sectorGateNumbers = TrackBuilder.getSectorGateNumbers(numberOfGates);
         const followingGateNumbers = TrackBuilder.getFollowingGateNumbers(gatesConfig, numberOfGates);
         const doubleGateNumbers = TrackBuilder.getDoubleGateNumbers(gatesConfig, numberOfGates, followingGateNumbers);

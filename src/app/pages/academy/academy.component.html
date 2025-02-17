@@ -25,17 +25,17 @@
         <span class="material-symbols-outlined">check</span>
         }
     </button>
-    <div class="retro-subtitle">Soon available</div>
     <button
         class="retro-button"
         [class.tertiary]="!precisionCompleted"
-        [disabled]="true"
+        [disabled]="!basicsCompleted"
         routerLink="/academy-precision"
     >
         2. Precision and focus @if(precisionCompleted) {
         <span class="material-symbols-outlined">check</span>
         }
     </button>
+    <div class="retro-subtitle">Soon available</div>
     <button
         class="retro-button"
         [class.tertiary]="!fasterCompleted"
