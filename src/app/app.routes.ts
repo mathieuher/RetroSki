@@ -63,6 +63,10 @@ export const routes: Routes = [
             import('./pages/academy/lessons/precision/precision.component').then(m => m.PrecisionComponent)
     },
     {
+        path: 'academy-slalom',
+        loadComponent: () => import('./pages/academy/lessons/slalom/slalom.component').then(m => m.SlalomComponent)
+    },
+    {
         path: 'settings',
         loadComponent: () => import('./pages/settings/settings.component').then(m => m.SettingsComponent)
     },
