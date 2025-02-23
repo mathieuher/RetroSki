@@ -7,6 +7,10 @@
     .controllers-list {
         button {
             margin-top: 0.5rem;
+
+            .material-symbols-outlined {
+                margin-right: 0.5rem;
+            }
         }
     }
 }
