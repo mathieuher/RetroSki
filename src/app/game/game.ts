@@ -20,6 +20,10 @@ export interface CustomGameEvent {
     name: string;
     content: SkierIntentions | GateEvent | AcademyEvent;
 }
+
+export interface GameCustomSetup {
+    useOptimizedTrajectoryDetector: boolean;
+}
 export class Game extends Engine {
     public settingsService: SettingsService;
     public soundPlayer: SoundPlayer;
@@ -28,11 +32,17 @@ export class Game extends Engine {
     public customEvents = new EventEmitter<CustomGameEvent>();
     public paused = false;
     public mode: GameMode;
+    public customSetup?: GameCustomSetup;
 
     private rideConfig: RideConfig;
     private resourcesToLoad = Object.values(Resources);
 
-    constructor(mode: GameMode, rideConfig: RideConfig, settingsService: SettingsService) {
+    constructor(
+        mode: GameMode,
+        rideConfig: RideConfig,
+        settingsService: SettingsService,
+        customSetup?: GameCustomSetup
+    ) {
         super({
             displayMode: DisplayMode.FitContainerAndFill,
             width: 800,
@@ -46,6 +56,7 @@ export class Game extends Engine {
             suppressHiDPIScaling: true
         });
 
+        this.customSetup = customSetup;
         this.mode = mode;
         this.rideConfig = rideConfig;
         this.settingsService = settingsService;

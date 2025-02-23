@@ -1,0 +1,138 @@
+<canvas id="game"></canvas>
+<div class="retro-ui-overlay">
+    <app-button-icon icon="arrow_back" (click)="exitLesson()"></app-button-icon>
+    @if(lessonFailed()) {
+    <ng-container *ngTemplateOutlet="lesson_failed"></ng-container>
+    } @else { @if(lessonStep() === 1) {
+    <ng-container *ngTemplateOutlet="step_1"></ng-container>
+    } @else if(lessonStep() === 2) {
+    <ng-container *ngTemplateOutlet="step_2"></ng-container>
+    } @else if(lessonStep() === 3) {
+    <ng-container *ngTemplateOutlet="step_3"></ng-container>
+    } }
+</div>
+
+<ng-template #step_1>
+    <div class="retro-dialog">
+        <div class="retro-title">4. Getting Faster with trajectory</div>
+
+        <div class="retro-text">
+            Speed isn't just about going fast, it's about choosing the right
+            line!
+        </div>
+
+        <div class="retro-text">
+            In this lesson, you'll learn:
+            <ul>
+                <li>
+                    How to <strong>cut the perfect trajectory</strong> by
+                    passing close to the inside pole.
+                </li>
+                <li>
+                    <strong>Starting your turn early</strong> is key to setting
+                    up for the next gate.
+                </li>
+            </ul>
+        </div>
+
+        <div class="retro-text">
+            <strong>Your goal</strong>: Complete the 40-gate course and pass
+            <strong>at least {{ objectiveGateNumber }} gates</strong> on the
+            optimal (violet) line!
+        </div>
+
+        <div class="retro-text">
+            🟣
+            <strong>Touch the violet line at each gate</strong>, it shows the
+            best spot to pass!
+        </div>
+
+        <div class="retro-button" (click)="startStep2()">Start the lesson</div>
+    </div>
+</ng-template>
+
+<ng-template #step_2>
+    <app-academy-objective
+        [title]="
+            'Pass ' +
+            objectiveGateNumber +
+            ' gates on the optimal line and finish the race'
+        "
+        [detail]="gatesPassed() + '/' + objectiveGateNumber"
+        [completed]="step2Completed()"
+    >
+    </app-academy-objective>
+</ng-template>
+
+<ng-template #step_3>
+    <div class="retro-dialog">
+        <div class="retro-title">Lesson Completed!</div>
+
+        <div class="retro-text">
+            <strong>Great job, rider! 🏆</strong> You've learned how to optimize
+            your trajectory and keep your speed high!
+        </div>
+
+        <div class="retro-text">
+            By hugging the inside poles and starting your turns early, you're
+            carving like a pro. This technique will help you
+            <strong>shave seconds off your time</strong> and ride with more
+            control at top speed! 🚀
+        </div>
+
+        <div class="retro-text">
+            Remember: In this lesson, the <strong>violet line</strong> helped
+            you visualize the optimal path. Outside of the lesson, it's up to
+            you to feel the best line naturally as you ride. Keep practicing,
+            and soon you'll be setting records! ⏱️
+        </div>
+
+        <div class="retro-button" (click)="exitLesson()">
+            Back to the Academy
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #lesson_failed>
+    <div class="retro-dialog error">
+        <div class="retro-title">Lesson Failed</div>
+
+        <div class="retro-text">
+            <strong>Not quite there yet, rider! ⏳</strong>
+        </div>
+
+        <div class="retro-text">
+            To master high-speed skiing, you need to
+            <strong>follow the optimal trajectory</strong> and pass close to the
+            inside poles. Missing too many gates on the ideal line means lost
+            speed and time!
+        </div>
+
+        <div class="retro-text">
+            Try again and focus on:
+            <ul>
+                <li>
+                    🟣 Following the <strong>violet line</strong> for the best
+                    approach.
+                </li>
+                <li>
+                    🔄 <strong>Starting your turn early</strong> to stay ahead
+                    of the course.
+                </li>
+                <li>🚀 Controlling your speed</li>
+            </ul>
+        </div>
+
+        <div class="retro-text">
+            Keep practicing, and you'll soon carve through the gates like a pro!
+            ⛷️💨
+        </div>
+
+        <div class="retro-button tertiary" (click)="exitLesson(true)">
+            Try again
+        </div>
+        <div class="retro-button" (click)="exitLesson()">
+            Back to the Academy
+        </div>
+    </div>
+</ng-template>

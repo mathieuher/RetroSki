@@ -150,7 +150,7 @@ export class Gate extends Actor {
         const gatePoleWidth = this.isFinalGate ? Config.FINAL_POLE_WIDTH : this.config.poleWidth;
 
         if (!this.isFinalGate) {
-            this.buildPoles(this.width, this.height, gatePoleWidth, this.pivot, this.vertical);
+            this.buildPoles(this.width, gatePoleWidth, this.pivot, this.vertical);
         }
 
         this.buildGateDetector(
@@ -159,7 +159,8 @@ export class Gate extends Actor {
             gatePoleWidth,
             this.config.poleHeight,
             this.vertical,
-            this.pivot
+            this.pivot,
+            this.isFinalGate
         );
 
         if (this.sectorNumber) {
@@ -189,23 +190,37 @@ export class Gate extends Actor {
         poleWidth: number,
         poleHeight: number,
         vertical: boolean,
-        pivot: Pivot
+        pivot: Pivot,
+        isFinal: boolean
     ): void {
+        let detectorVisibility = false;
+        let adjustedGateWidth = gateWidth;
+
+        if ((this.engine as Game).customSetup?.useOptimizedTrajectoryDetector) {
+            detectorVisibility = true;
+            adjustedGateWidth = pivot !== 'none' && !vertical && !isFinal ? gateWidth * 0.6 : gateWidth;
+        }
+
         if (vertical) {
-            this.gateDetector = new GateDetector(vec(0, -poleHeight), gateWidth, gateHeight - poleHeight);
+            this.gateDetector = new GateDetector(
+                vec(0, -poleHeight),
+                adjustedGateWidth,
+                gateHeight - poleHeight,
+                detectorVisibility
+            );
         } else {
-            const detectorSize = gateWidth - 2 * (poleWidth + Config.POLE_DETECTOR_MARGIN);
+            const detectorSize = adjustedGateWidth - 2 * (poleWidth + Config.POLE_DETECTOR_MARGIN);
             let detectorStartPosition: Vector;
 
             if (pivot === 'left') {
                 detectorStartPosition = vec(poleWidth + Config.POLE_DETECTOR_MARGIN, 0);
             } else if (pivot === 'right') {
-                detectorStartPosition = vec(poleWidth + Config.POLE_DETECTOR_MARGIN - gateWidth, 0);
+                detectorStartPosition = vec(poleWidth + Config.POLE_DETECTOR_MARGIN - adjustedGateWidth, 0);
             } else {
-                detectorStartPosition = vec(poleWidth + Config.POLE_DETECTOR_MARGIN - gateWidth / 2, 0);
+                detectorStartPosition = vec(poleWidth + Config.POLE_DETECTOR_MARGIN - adjustedGateWidth / 2, 0);
             }
 
-            this.gateDetector = new GateDetector(detectorStartPosition, detectorSize, gateHeight);
+            this.gateDetector = new GateDetector(detectorStartPosition, detectorSize, gateHeight, detectorVisibility);
         }
         this.addChild(this.gateDetector);
     }
@@ -241,13 +256,7 @@ export class Gate extends Actor {
         this.addChild(this.sectorLine);
     }
 
-    private buildPoles(
-        gateWidth: number,
-        gateHeight: number,
-        poleWidth: number,
-        pivot: Pivot,
-        vertical: boolean
-    ): void {
+    private buildPoles(gateWidth: number, poleWidth: number, pivot: Pivot, vertical: boolean): void {
         if (vertical) {
             this.leftPole = new Pole(vec(0, 0), this.polesColor, this.config, this.isFinalGate);
             this.rightPole = new Pole(vec(0, -this.height), this.polesColor, this.config, this.isFinalGate);

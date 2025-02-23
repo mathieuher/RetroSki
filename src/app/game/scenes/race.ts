@@ -5,8 +5,6 @@ import type { Game } from '../game';
 import { Config } from '../config';
 import { RaceResult } from '../models/race-result';
 import { Resources } from '../resources';
-import { TrackStyles } from '../models/track-styles.enum';
-import type { SkierConfig } from '../models/skier-config';
 import type { Track } from '../models/track';
 import { SkierPositioning } from '../models/skier-positioning';
 import type { SkierActions } from '../models/skier-actions.enum';
