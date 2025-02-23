@@ -9,6 +9,7 @@ import { SkierActions } from '../models/skier-actions.enum';
 import { SkierGraphics } from '../utils/skier-graphics';
 import { SkierFrontCollider } from './skier-front-collider';
 import type { SkierInfos } from '../models/skier-infos';
+import { TrackStyles } from '../models/track-styles.enum';
 
 export class SkierIntentions {
     public leftCarvingIntention: number;
@@ -115,6 +116,19 @@ export class Skier extends Actor {
             return SkierActions.NOTHING;
         }
         return SkierActions.BRAKE;
+    }
+
+    public static getSkierConfig(trackStyle: TrackStyles): SkierConfig {
+        if (trackStyle === TrackStyles.SL) {
+            return Config.SL_SKIER_CONFIG;
+        }
+        if (trackStyle === TrackStyles.GS) {
+            return Config.GS_SKIER_CONFIG;
+        }
+        if (trackStyle === TrackStyles.SG) {
+            return Config.SG_SKIER_CONFIG;
+        }
+        return Config.DH_SKIER_CONFIG;
     }
 
     private updateSkierIntentions(engine: Engine): void {

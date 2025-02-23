@@ -56,7 +56,7 @@ export class Academy extends Scene {
 
     private prepare(config: AcademyConfig): void {
         this.buildTrack(config.track);
-        this.skier = new Skier(this.config.skierInfos, Config.GS_SKIER_CONFIG);
+        this.skier = new Skier(this.config.skierInfos, Skier.getSkierConfig(config.track.style));
         this.add(this.skier);
         this.add(this.startingHouse);
 

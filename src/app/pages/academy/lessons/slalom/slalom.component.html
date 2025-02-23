@@ -1,0 +1,119 @@
+<canvas id="game"></canvas>
+<div class="retro-ui-overlay">
+    <app-button-icon icon="arrow_back" (click)="exitLesson()"></app-button-icon>
+    @if(lessonFailed()) {
+    <ng-container *ngTemplateOutlet="lesson_failed"></ng-container>
+    } @else { @if(lessonStep() === 1) {
+    <ng-container *ngTemplateOutlet="step_1"></ng-container>
+    } @else if(lessonStep() === 2) {
+    <ng-container *ngTemplateOutlet="step_2"></ng-container>
+    } @else if(lessonStep() === 3) {
+    <ng-container *ngTemplateOutlet="step_3"></ng-container>
+    } }
+</div>
+
+<ng-template #step_1>
+    <div class="retro-dialog">
+        <div class="retro-title">3. Slalom tracks & Trajectory</div>
+
+        <div class="retro-text">
+            Welcome to the <strong>Slalom lesson</strong>! Slalom tracks demand
+            precision, quick reflexes, and the right trajectory to carve through
+            the gates like a pro.
+        </div>
+
+        <div class="retro-text">
+            In modern slalom, gates have a unique setup:
+            <ul>
+                <li>Most turns use a <strong>single pivot pole</strong>.</li>
+                <li>
+                    Only
+                    <strong>combinations, delays, first & last gates</strong>
+                    have two poles.
+                </li>
+            </ul>
+        </div>
+
+        <div class="retro-text">
+            Your goal?
+            <strong>Complete the 20-gate slalom course</strong> without missing
+            a gate! <strong>Follow the arrows</strong> to stay on track and
+            refine your turns.
+        </div>
+
+        <div class="retro-button" (click)="startStep2()">Start the lesson</div>
+    </div>
+</ng-template>
+
+<ng-template #step_2>
+    <app-academy-objective
+        title="Complete the slalom course without missing a gate!"
+        detail="Use the gate side indicators to guide your turns and pass each gate on the correct side."
+        [completed]="step2Completed()"
+    >
+    </app-academy-objective>
+</ng-template>
+
+<ng-template #step_3>
+    <div class="retro-dialog">
+        <div class="retro-title">Lesson Completed!</div>
+
+        <div class="retro-text">
+            Incredible run! 🎿🔥 You've successfully navigated the slalom course
+            and passed every gate.
+        </div>
+
+        <div class="retro-text">
+            Slalom is all about rhythm, precision, and finding the best
+            trajectory. Keep practicing, and soon you'll be carving through
+            gates like a pro!
+        </div>
+
+        <div class="retro-text">
+            Want an extra challenge? You can
+            <strong>disable the gate side indicators</strong>
+            in the settings.
+        </div>
+
+        <div class="retro-text">
+            Up for the next challenge? The mountain always has more to teach!
+        </div>
+
+        <div class="retro-button" routerLink="/academy">
+            Back to the Academy
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #lesson_failed>
+    <div class="retro-dialog error">
+        <div class="retro-title">Lesson failed</div>
+
+        <div class="retro-text">
+            You missed a gate before reaching the finish line.
+        </div>
+
+        <div class="retro-text">
+            Remember:
+            <ul>
+                <li>
+                    Follow the <strong>arrows</strong> to pass each gate
+                    correctly.
+                </li>
+                <li>Stay focused and keep your turns tight.</li>
+                <li>With practice, you'll master the perfect slalom rhythm!</li>
+            </ul>
+        </div>
+
+        <div class="retro-text">
+            Shake it off, adjust your line, and let's give it another shot!
+        </div>
+
+        <div class="retro-button tertiary" (click)="exitLesson(true)">
+            Try Again
+        </div>
+        <div class="retro-button" (click)="exitLesson()">
+            Back to the Academy
+        </div>
+    </div>
+</ng-template>

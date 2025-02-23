@@ -28,9 +28,9 @@
         <div class="retro-text">
             You’ll learn how to:
             <ul>
-                <li>🚀 <strong>Start riding</strong></li>
-                <li>⛷️ <strong>Carve turns</strong></li>
-                <li>🛑 <strong>Brake & slide</strong></li>
+                <li><strong>Start riding</strong></li>
+                <li><strong>Carve turns</strong></li>
+                <li><strong>Brake & slide</strong></li>
             </ul>
         </div>
 
@@ -43,21 +43,23 @@
                 (click)="controller.set('gamepad')"
                 [class.outline]="controller() !== 'gamepad'"
             >
-                🎮 Gamepad
+                <span class="material-symbols-outlined">stadia_controller</span>
+                Gamepad
             </button>
             <button
                 class="retro-button outline"
                 (click)="controller.set('keyboard')"
                 [class.outline]="controller() !== 'keyboard'"
             >
-                ⌨ Keboard
+                <span class="material-symbols-outlined">keyboard</span> Keyboard
             </button>
             <button
                 class="retro-button outline"
                 (click)="controller.set('touch')"
                 [class.outline]="controller() !== 'touch'"
             >
-                📱 Smartphone
+                <span class="material-symbols-outlined">smartphone</span>
+                Smartphone
             </button>
         </div>
 

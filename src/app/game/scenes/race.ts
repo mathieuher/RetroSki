@@ -211,7 +211,7 @@ export class Race extends Scene {
     private prepareRace(raceConfig: RaceConfig): void {
         this.addTimer(this.uiTimer);
         this.buildTrack(raceConfig.track);
-        this.skier = new Skier(raceConfig.skierInfos, this.getSkierConfig(raceConfig.track.style));
+        this.skier = new Skier(raceConfig.skierInfos, Skier.getSkierConfig(raceConfig.track.style));
         this.add(this.skier);
         this.startingHouse = new StartingHouse();
         this.add(this.startingHouse);
@@ -317,18 +317,5 @@ export class Race extends Scene {
                 this.add(decoration);
             }
         }
-    }
-
-    private getSkierConfig(trackStyle: TrackStyles): SkierConfig {
-        if (trackStyle === TrackStyles.SL) {
-            return Config.SL_SKIER_CONFIG;
-        }
-        if (trackStyle === TrackStyles.GS) {
-            return Config.GS_SKIER_CONFIG;
-        }
-        if (trackStyle === TrackStyles.SG) {
-            return Config.SG_SKIER_CONFIG;
-        }
-        return Config.DH_SKIER_CONFIG;
     }
 }

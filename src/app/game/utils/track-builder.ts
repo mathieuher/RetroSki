@@ -13,10 +13,17 @@ export class TrackBuilder {
      * @param trackStyle style of the track
      * @returns new track
      */
-    public static designTrack(name: string, trackStyle: TrackStyles, gatesAmount?: number): Track {
-        const gatesConfig = TrackBuilder.getGatesConfig(trackStyle);
+    public static designTrack(
+        name: string,
+        trackStyle: TrackStyles,
+        gatesAmount?: number,
+        decorationsAmount?: number,
+        disableSectors = false,
+        forcedGatesConfig?: GatesConfig
+    ): Track {
+        const gatesConfig = forcedGatesConfig ?? TrackBuilder.getGatesConfig(trackStyle);
         const numberOfGates = gatesAmount ?? TrackBuilder.getRandomGatesNumber(gatesConfig);
-        const sectorGateNumbers = TrackBuilder.getSectorGateNumbers(numberOfGates);
+        const sectorGateNumbers = disableSectors ? [] : TrackBuilder.getSectorGateNumbers(numberOfGates);
         const followingGateNumbers = TrackBuilder.getFollowingGateNumbers(gatesConfig, numberOfGates);
         const doubleGateNumbers = TrackBuilder.getDoubleGateNumbers(gatesConfig, numberOfGates, followingGateNumbers);
         const tripleGateNumbers = TrackBuilder.getTripleGateNumbers(
@@ -36,7 +43,7 @@ export class TrackBuilder {
             doubleGateNumbers,
             tripleGateNumbers
         );
-        const decorations = TrackBuilder.designDecorations(gates);
+        const decorations = TrackBuilder.designDecorations(gates, decorationsAmount);
 
         return new Track(
             undefined,
@@ -215,8 +222,8 @@ export class TrackBuilder {
         );
     }
 
-    private static designDecorations(gates: StockableGate[]): StockableDecoration[] {
-        const amount = 50 + Math.floor(Math.random() * (Config.DECORATIONS_AMOUNT_MAX_AMOUNT - 50));
+    private static designDecorations(gates: StockableGate[], fixedAmount?: number): StockableDecoration[] {
+        const amount = fixedAmount ?? 50 + Math.floor(Math.random() * (Config.DECORATIONS_AMOUNT_MAX_AMOUNT - 50));
         const firstGatePosition = gates[0].y;
         const distanceAvailable = gates[gates.length - 3].y - firstGatePosition;
         const decorations = [];

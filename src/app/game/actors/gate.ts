@@ -7,7 +7,7 @@ import { type Pivot, StockableGate } from '../models/stockable-gate';
 import { Resources } from '../resources';
 import type { GatesConfig } from '../models/gates-config';
 import { ScreenManager } from '../utils/screen-manager';
-import type { Game } from '../game';
+import type { Game, GameMode } from '../game';
 import type { Settings } from '../../common/models/settings';
 import type { Academy } from '../scenes/academy';
 
@@ -80,7 +80,7 @@ export class Gate extends Actor {
         }
 
         // Show optionnal side indicator
-        if (this.shouldDisplaySideIndicators(this.engine.settingsService.getSettings())) {
+        if (this.shouldDisplaySideIndicators(this.engine.mode, this.engine.settingsService.getSettings())) {
             this.displaySideIndicators();
         }
 
@@ -298,8 +298,8 @@ export class Gate extends Actor {
         return vec(0.5, 1);
     }
 
-    private shouldDisplaySideIndicators(settings: Settings): boolean {
-        return (this.polesAmount === 1 || this.vertical) && settings?.sideIndicators;
+    private shouldDisplaySideIndicators(mode: GameMode, settings: Settings): boolean {
+        return (this.polesAmount === 1 || this.vertical) && (settings?.sideIndicators || mode === 'academy');
     }
 
     private displaySideIndicators(): void {
