@@ -4,6 +4,7 @@ import { ToolbarComponent } from '../../common/components/toolbar/toolbar.compon
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { UpdatesService } from '../../common/services/updates.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { AcademyComponent } from '../academy/academy.component';
 
 @Component({
     selector: 'app-home',
@@ -15,5 +16,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class HomeComponent {
     private updatesService = inject(UpdatesService);
+    protected academyCompleted = localStorage.getItem(AcademyComponent.LESSON_FINAL_COMPLETED_KEY) === 'true';
     protected hasNewUpdate = toSignal(this.updatesService.hasNewUpdates$());
 }

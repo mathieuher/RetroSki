@@ -16,8 +16,8 @@ import type { SkierIntentions } from '../../../../game/actors/skier';
 @Component({
     selector: 'app-basics',
     imports: [ButtonIconComponent, NgTemplateOutlet, RouterLink, AcademyObjectiveComponent],
-    templateUrl: './basics.component.html',
-    styleUrl: './basics.component.scss',
+    templateUrl: './lesson-basics.component.html',
+    styleUrl: './lesson-basics.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BasicsComponent implements AfterViewInit, OnDestroy {

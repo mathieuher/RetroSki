@@ -1,0 +1,1066 @@
+{
+    "name": "Academy",
+    "style": "GS",
+    "builderVersion": "5",
+    "slope": "0.115",
+    "gates": [
+        {
+            "color": "red",
+            "gateNumber": 1,
+            "isFinal": false,
+            "pivot": "none",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 120,
+            "x": 0,
+            "y": -140
+        },
+        {
+            "color": "blue",
+            "gateNumber": 2,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 113.58923223835502,
+            "x": -45.098835526875774,
+            "y": -310.41183395961957
+        },
+        {
+            "color": "red",
+            "gateNumber": 3,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 102.80623598626265,
+            "x": 5.301590739574728,
+            "y": -505.0602199224552
+        },
+        {
+            "color": "blue",
+            "gateNumber": 4,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 117.02015319746786,
+            "x": -55.54542851807232,
+            "y": -645.0740624633574
+        },
+        {
+            "color": "red",
+            "gateNumber": 5,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 100.67836097882389,
+            "x": 28.11180335845163,
+            "y": -828.3497017491107
+        },
+        {
+            "color": "blue",
+            "gateNumber": 6,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 119.39155585780641,
+            "x": 1.5802250043998356,
+            "y": -984.6959057831568
+        },
+        {
+            "color": "red",
+            "gateNumber": 7,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 114.02375996208752,
+            "x": 40.660312025705366,
+            "y": -1171.707248158023
+        },
+        {
+            "color": "blue",
+            "gateNumber": 8,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 118.98719199442431,
+            "x": 31.392902485240448,
+            "y": -1322.385034877346
+        },
+        {
+            "color": "red",
+            "gateNumber": 9,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 105.6032432988407,
+            "x": 63.20144737629581,
+            "y": -1509.0492427724746
+        },
+        {
+            "color": "blue",
+            "gateNumber": 10,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 101.84597429737589,
+            "x": 15.321654924257274,
+            "y": -1704.7204429922972
+        },
+        {
+            "color": "red",
+            "gateNumber": 11,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 106.01888480723667,
+            "x": 65.4688547322042,
+            "y": -1868.3300914566448
+        },
+        {
+            "color": "blue",
+            "gateNumber": 12,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 107.91862951586704,
+            "x": -46.34532780458805,
+            "y": -2067.162692887074
+        },
+        {
+            "color": "red",
+            "gateNumber": 13,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 118.3024102540916,
+            "x": 16.108556433046083,
+            "y": -2226.4610709642625
+        },
+        {
+            "color": "blue",
+            "gateNumber": 14,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 104.92609572213442,
+            "x": -68.07247767098323,
+            "y": -2424.729283766995
+        },
+        {
+            "color": "red",
+            "gateNumber": 15,
+            "isFinal": false,
+            "pivot": "none",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 114.27599000580672,
+            "x": 8.87838233224609,
+            "y": -2536.729283766995
+        },
+        {
+            "color": "blue",
+            "gateNumber": 16,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 115.42244143723974,
+            "x": 122.21203913175536,
+            "y": -2716.525095210683
+        },
+        {
+            "color": "red",
+            "gateNumber": 17,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 102.62860391309233,
+            "x": 45.14580975851905,
+            "y": -2900.099365242563
+        },
+        {
+            "color": "blue",
+            "gateNumber": 18,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 102.34614789559217,
+            "x": 46.04763905384172,
+            "y": -3067.665721893503
+        },
+        {
+            "color": "red",
+            "gateNumber": 19,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 104.18309759235025,
+            "x": -21.67906366451409,
+            "y": -3236.8254707575443
+        },
+        {
+            "color": "blue",
+            "gateNumber": 20,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 104.88133333427292,
+            "x": 78.33478433913331,
+            "y": -3391.6960281391375
+        },
+        {
+            "color": "red",
+            "gateNumber": 21,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 114.69404892573186,
+            "x": -29.207659027210326,
+            "y": -3573.7052243804656
+        },
+        {
+            "color": "blue",
+            "gateNumber": 22,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 111.56729056086914,
+            "x": 57.98919927967371,
+            "y": -3732.712569103162
+        },
+        {
+            "color": "red",
+            "gateNumber": 23,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 104.5600911256435,
+            "x": -42.277990899754045,
+            "y": -3880.2240021893986
+        },
+        {
+            "color": "blue",
+            "gateNumber": 24,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 109.61504140868165,
+            "x": -24.441350826711766,
+            "y": -4023.4697605487922
+        },
+        {
+            "color": "red",
+            "gateNumber": 25,
+            "isFinal": false,
+            "pivot": "none",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 101.01914243472706,
+            "x": -71.83290439973814,
+            "y": -4135.469760548793
+        },
+        {
+            "color": "blue",
+            "gateNumber": 26,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 106.82977680253794,
+            "x": -124.22545530593723,
+            "y": -4289.108552836532
+        },
+        {
+            "color": "red",
+            "gateNumber": 27,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 106.6964370959485,
+            "x": -87.0588492836369,
+            "y": -4454.241754566868
+        },
+        {
+            "color": "blue",
+            "gateNumber": 28,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 107.12258429917904,
+            "x": -170.0775059882797,
+            "y": -4618.649859708794
+        },
+        {
+            "color": "red",
+            "gateNumber": 29,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 106.27344365620453,
+            "x": -161.74987326701134,
+            "y": -4763.3161876933955
+        },
+        {
+            "color": "blue",
+            "gateNumber": 30,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 110.25564584083997,
+            "x": -214.74435415916003,
+            "y": -4915.248230088492
+        },
+        {
+            "color": "red",
+            "gateNumber": 31,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 105.3914059412369,
+            "x": -113.14844028905499,
+            "y": -5060.883567620008
+        },
+        {
+            "color": "blue",
+            "gateNumber": 32,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 110.79806875274217,
+            "x": -180.60224176236412,
+            "y": -5209.274543947517
+        },
+        {
+            "color": "red",
+            "gateNumber": 33,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 109.14091360669535,
+            "x": -103.14002579431217,
+            "y": -5405.466715182354
+        },
+        {
+            "color": "blue",
+            "gateNumber": 34,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 114.34126879433357,
+            "x": -183.36604214555322,
+            "y": -5545.642395229545
+        },
+        {
+            "color": "red",
+            "gateNumber": 35,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 101.0942993167216,
+            "x": -166.41302522264706,
+            "y": -5736.965004713695
+        },
+        {
+            "color": "blue",
+            "gateNumber": 36,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 102.17844236841474,
+            "x": -190.88138030752344,
+            "y": -5924.405620955336
+        },
+        {
+            "color": "red",
+            "gateNumber": 37,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 111.15917645583231,
+            "x": -158.94272420609815,
+            "y": -6087.039719253169
+        },
+        {
+            "color": "blue",
+            "gateNumber": 38,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 114.03452761751151,
+            "x": -160.9576939442304,
+            "y": -6256.323324170603
+        },
+        {
+            "color": "red",
+            "gateNumber": 39,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 104.80342038368835,
+            "x": -112.07369424310065,
+            "y": -6437.906347429123
+        },
+        {
+            "color": "blue",
+            "gateNumber": 40,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 109.5808124900543,
+            "x": -158.08294562498918,
+            "y": -6582.9851156751365
+        },
+        {
+            "color": "red",
+            "gateNumber": 41,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 118.27932148919305,
+            "x": -122.61304528253342,
+            "y": -6756.772591859341
+        },
+        {
+            "color": "blue",
+            "gateNumber": 42,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 113.59537244891149,
+            "x": -148.02968485753632,
+            "y": -6919.698167426621
+        },
+        {
+            "color": "red",
+            "gateNumber": 43,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 105.82535417497091,
+            "x": -126.22215609190046,
+            "y": -7109.325966963272
+        },
+        {
+            "color": "blue",
+            "gateNumber": 44,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 112.26075999468652,
+            "x": -188.4165353704761,
+            "y": -7299.119586255187
+        },
+        {
+            "color": "red",
+            "gateNumber": 45,
+            "isFinal": false,
+            "pivot": "none",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 119.20557472243442,
+            "x": -100.47767773980776,
+            "y": -7411.119586255187
+        },
+        {
+            "color": "blue",
+            "gateNumber": 46,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 100.12815261862885,
+            "x": -69.89724821774468,
+            "y": -7601.924365304861
+        },
+        {
+            "color": "red",
+            "gateNumber": 47,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 109.2018225698548,
+            "x": -101.40806420940852,
+            "y": -7752.907542153432
+        },
+        {
+            "color": "blue",
+            "gateNumber": 48,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 101.26269648667056,
+            "x": -69.05571494158637,
+            "y": -7899.686808870454
+        },
+        {
+            "color": "red",
+            "gateNumber": 49,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 109.78722288811369,
+            "x": -150.36060999662,
+            "y": -8098.472430775801
+        },
+        {
+            "color": "blue",
+            "gateNumber": 50,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 114.93078733500187,
+            "x": -129.8062129970159,
+            "y": -8242.529717854803
+        },
+        {
+            "color": "red",
+            "gateNumber": 51,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 100.0225882910911,
+            "x": -162.78362804374154,
+            "y": -8388.80128423425
+        },
+        {
+            "color": "blue",
+            "gateNumber": 52,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 115.45095870097373,
+            "x": -147.1510179634704,
+            "y": -8545.087164191944
+        },
+        {
+            "color": "red",
+            "gateNumber": 53,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 108.93769812886228,
+            "x": -173.04157141777875,
+            "y": -8692.049155831914
+        },
+        {
+            "color": "blue",
+            "gateNumber": 54,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 118.6170447957567,
+            "x": -103.2962044222927,
+            "y": -8853.677653136827
+        },
+        {
+            "color": "red",
+            "gateNumber": 55,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 115.63720258647085,
+            "x": -159.7562450147518,
+            "y": -9020.362528760135
+        },
+        {
+            "color": "blue",
+            "gateNumber": 56,
+            "isFinal": false,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 115.4510066335179,
+            "x": -122.79823107686062,
+            "y": -9182.142465872741
+        },
+        {
+            "color": "red",
+            "gateNumber": 57,
+            "isFinal": false,
+            "pivot": "right",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 105.64981758035132,
+            "x": -167.62197736500227,
+            "y": -9330.919416940309
+        },
+        {
+            "color": "blue",
+            "gateNumber": 58,
+            "isFinal": false,
+            "pivot": "none",
+            "polesAmount": 2,
+            "sectorNumber": 0,
+            "vertical": false,
+            "width": 101.63473665211879,
+            "x": -121.8404742304538,
+            "y": -9442.919416940309
+        },
+        {
+            "color": "red",
+            "gateNumber": 60,
+            "isFinal": true,
+            "pivot": "left",
+            "polesAmount": 2,
+            "sectorNumber": 1,
+            "vertical": false,
+            "width": 650,
+            "x": -325,
+            "y": -9582.919416940309
+        }
+    ],
+    "decorations": [
+        {
+            "sizeRatio": 86.10895505153236,
+            "type": "tree",
+            "x": -399.37983397973017,
+            "y": -650
+        },
+        {
+            "sizeRatio": 87.60744830492123,
+            "type": "tree",
+            "x": -399.6772226180878,
+            "y": -863
+        },
+        {
+            "sizeRatio": 85.80835186220196,
+            "type": "tree",
+            "x": 314.04218218943606,
+            "y": -907
+        },
+        {
+            "sizeRatio": 74.41268800860885,
+            "type": "tree",
+            "x": 314.0352016491227,
+            "y": -1067
+        },
+        {
+            "sizeRatio": 36.94512405457368,
+            "type": "tree",
+            "x": 304.8599813003076,
+            "y": -1335
+        },
+        {
+            "sizeRatio": 58.957779219043886,
+            "type": "tree",
+            "x": -364.85724477101763,
+            "y": -1336
+        },
+        {
+            "sizeRatio": 39.79491161161418,
+            "type": "tree",
+            "x": 321.49957176648826,
+            "y": -1515
+        },
+        {
+            "sizeRatio": 34.28964781671412,
+            "type": "tree",
+            "x": -388.1720933323688,
+            "y": -1957
+        },
+        {
+            "sizeRatio": 35.58778787898659,
+            "type": "tree",
+            "x": 288.98969413065197,
+            "y": -2000
+        },
+        {
+            "sizeRatio": 76.2987681138676,
+            "type": "tree",
+            "x": -393.5411796745298,
+            "y": -2029
+        },
+        {
+            "sizeRatio": 37.87346115668097,
+            "type": "tree",
+            "x": 291.9083101996926,
+            "y": -2326
+        },
+        {
+            "sizeRatio": 30.645157213466643,
+            "type": "tree",
+            "x": -388.4520006869287,
+            "y": -2426
+        },
+        {
+            "sizeRatio": 78.27220768725945,
+            "type": "tree",
+            "x": -382.63523136911533,
+            "y": -3225
+        },
+        {
+            "sizeRatio": 68.708853283644,
+            "type": "tree",
+            "x": 313.8150512805811,
+            "y": -3350
+        },
+        {
+            "sizeRatio": 71.27204120232082,
+            "type": "tree",
+            "x": -388.4549457703564,
+            "y": -3466
+        },
+        {
+            "sizeRatio": 52.350515648138014,
+            "type": "tree",
+            "x": -382.16907930258566,
+            "y": -3738
+        },
+        {
+            "sizeRatio": 85.41332858709494,
+            "type": "tree",
+            "x": 323.2593609382492,
+            "y": -4010
+        },
+        {
+            "sizeRatio": 75.6517439846357,
+            "type": "tree",
+            "x": 317.2202167955776,
+            "y": -4306
+        },
+        {
+            "sizeRatio": 66.99841916204952,
+            "type": "tree",
+            "x": 318.06169532666405,
+            "y": -4627
+        },
+        {
+            "sizeRatio": 37.88475325819668,
+            "type": "tree",
+            "x": 310.40717370283824,
+            "y": -4717
+        },
+        {
+            "sizeRatio": 61.62813838819537,
+            "type": "tree",
+            "x": -385.75750809966127,
+            "y": -4781
+        },
+        {
+            "sizeRatio": 33.56335773828999,
+            "type": "tree",
+            "x": -382.27351012171073,
+            "y": -4955
+        },
+        {
+            "sizeRatio": 21.84915136253167,
+            "type": "tree",
+            "x": -391.19679793340356,
+            "y": -4955
+        },
+        {
+            "sizeRatio": 50.88648612135829,
+            "type": "tree",
+            "x": -377.514598699831,
+            "y": -4981
+        },
+        {
+            "sizeRatio": 23.823984193878562,
+            "type": "tree",
+            "x": -397.90761063845275,
+            "y": -5023
+        },
+        {
+            "sizeRatio": 92.34245458132168,
+            "type": "tree",
+            "x": 317.4002646898363,
+            "y": -5174
+        },
+        {
+            "sizeRatio": 81.51955259814679,
+            "type": "tree",
+            "x": 308.604551152998,
+            "y": -5414
+        },
+        {
+            "sizeRatio": 88.33942627381417,
+            "type": "tree",
+            "x": -397.91799803188576,
+            "y": -5476
+        },
+        {
+            "sizeRatio": 56.38918272204657,
+            "type": "tree",
+            "x": -392.07067016756343,
+            "y": -5614
+        },
+        {
+            "sizeRatio": 88.57276346893508,
+            "type": "tree",
+            "x": 320.53664924240456,
+            "y": -5648
+        },
+        {
+            "sizeRatio": 92.26768263960103,
+            "type": "tree",
+            "x": -398.99611310191034,
+            "y": -5789
+        },
+        {
+            "sizeRatio": 42.29835250928991,
+            "type": "tree",
+            "x": 319.5746676587517,
+            "y": -5822
+        },
+        {
+            "sizeRatio": 38.360031049761915,
+            "type": "tree",
+            "x": 304.64480931691577,
+            "y": -6069
+        },
+        {
+            "sizeRatio": 41.3458303448056,
+            "type": "tree",
+            "x": -387.53906469591004,
+            "y": -6139
+        },
+        {
+            "sizeRatio": 34.06587457892991,
+            "type": "tree",
+            "x": -390.0146899579378,
+            "y": -6272
+        },
+        {
+            "sizeRatio": 45.882367665889205,
+            "type": "tree",
+            "x": 315.52396808180157,
+            "y": -6393
+        },
+        {
+            "sizeRatio": 67.40038217888764,
+            "type": "tree",
+            "x": -376.4664529327405,
+            "y": -6443
+        },
+        {
+            "sizeRatio": 88.43288777291806,
+            "type": "tree",
+            "x": 313.27224774311094,
+            "y": -6467
+        },
+        {
+            "sizeRatio": 36.52876531439679,
+            "type": "tree",
+            "x": -376.1184612053572,
+            "y": -6635
+        },
+        {
+            "sizeRatio": 55.1451064956526,
+            "type": "tree",
+            "x": -379.585933233407,
+            "y": -6809
+        },
+        {
+            "sizeRatio": 92.95387496912319,
+            "type": "tree",
+            "x": 313.57864040977574,
+            "y": -6871
+        },
+        {
+            "sizeRatio": 77.72807368153053,
+            "type": "tree",
+            "x": -398.2911995891303,
+            "y": -7416
+        },
+        {
+            "sizeRatio": 88.78019517897171,
+            "type": "tree",
+            "x": -396.22932464804643,
+            "y": -7779
+        },
+        {
+            "sizeRatio": 48.27194239443969,
+            "type": "tree",
+            "x": -358.186793862391,
+            "y": -7891
+        },
+        {
+            "sizeRatio": 40.553263924150755,
+            "type": "tree",
+            "x": 320.28641274238237,
+            "y": -7939
+        },
+        {
+            "sizeRatio": 59.6746615253455,
+            "type": "tree",
+            "x": 318.972982728009,
+            "y": -8141
+        },
+        {
+            "sizeRatio": 62.4788073106167,
+            "type": "tree",
+            "x": -380.8473312291079,
+            "y": -8150
+        },
+        {
+            "sizeRatio": 79.02871658593197,
+            "type": "tree",
+            "x": 321.17555091283504,
+            "y": -8152
+        },
+        {
+            "sizeRatio": 86.82169130193294,
+            "type": "tree",
+            "x": -382.69405819823487,
+            "y": -8555
+        },
+        {
+            "sizeRatio": 48.33790317637483,
+            "type": "tree",
+            "x": 306.2232490428503,
+            "y": -8555
+        },
+        {
+            "sizeRatio": 45.12019037102039,
+            "type": "tree",
+            "x": -381.09997899171134,
+            "y": -8570
+        },
+        {
+            "sizeRatio": 55.51832704604941,
+            "type": "tree",
+            "x": -380.41189283071304,
+            "y": -8715
+        },
+        {
+            "sizeRatio": 75.50969717017934,
+            "type": "tree",
+            "x": -381.5218268712132,
+            "y": -8746
+        },
+        {
+            "sizeRatio": 31.19935007052492,
+            "type": "tree",
+            "x": -370.2293643620044,
+            "y": -8870
+        },
+        {
+            "sizeRatio": 36.90479524264981,
+            "type": "tree",
+            "x": 301.56357089741664,
+            "y": -8974
+        },
+        {
+            "sizeRatio": 63.09673696990123,
+            "type": "tree",
+            "x": -398.4227862229351,
+            "y": -9014
+        },
+        {
+            "sizeRatio": 70.66439733952294,
+            "type": "tree",
+            "x": 319.1071453673344,
+            "y": -9194
+        },
+        {
+            "sizeRatio": 66.44254836075004,
+            "type": "tree",
+            "x": 312.69417525536556,
+            "y": -9250
+        }
+    ]
+}

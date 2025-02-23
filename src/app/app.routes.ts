@@ -55,23 +55,32 @@ export const routes: Routes = [
     },
     {
         path: 'academy-basics',
-        loadComponent: () => import('./pages/academy/lessons/basics/basics.component').then(m => m.BasicsComponent)
+        loadComponent: () =>
+            import('./pages/academy/lessons/lesson-basics/lesson-basics.component').then(m => m.BasicsComponent)
     },
     {
         path: 'academy-precision',
         loadComponent: () =>
-            import('./pages/academy/lessons/precision/precision.component').then(m => m.PrecisionComponent)
+            import('./pages/academy/lessons/lesson-precision/lesson-precision.component').then(
+                m => m.PrecisionComponent
+            )
     },
     {
         path: 'academy-slalom',
-        loadComponent: () => import('./pages/academy/lessons/slalom/slalom.component').then(m => m.SlalomComponent)
+        loadComponent: () =>
+            import('./pages/academy/lessons/lesson-slalom/lesson-slalom.component').then(m => m.SlalomComponent)
     },
     {
         path: 'academy-optimizing-trajectory',
         loadComponent: () =>
-            import('./pages/academy/lessons/optimizing-trajectory/optimizing-trajectory.component').then(
+            import('./pages/academy/lessons/lesson-optimizing-trajectory/lesson-optimizing-trajectory.component').then(
                 m => m.OptimizingTrajectoryComponent
             )
+    },
+    {
+        path: 'academy-final',
+        loadComponent: () =>
+            import('./pages/academy/lessons/lesson-final/lesson-final.component').then(m => m.LessonFinalComponent)
     },
     {
         path: 'settings',

@@ -55,14 +55,13 @@
         <span class="material-symbols-outlined">check</span>
         }
     </button>
-    <div class="retro-subtitle">Soon available</div>
     <button
         class="retro-button"
-        [class.tertiary]="!testCompleted"
-        [disabled]="true"
+        [class.tertiary]="!finalCompleted"
+        [disabled]="!trajectoryCompleted"
         routerLink="/academy-final"
     >
-        5. Ultimate speed test @if(testCompleted) {
+        5. Final lesson: Race the ghost! @if(finalCompleted) {
         <span class="material-symbols-outlined">check</span>
         }
     </button>

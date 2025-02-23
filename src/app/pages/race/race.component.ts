@@ -140,8 +140,8 @@ export class RaceComponent extends Destroyable implements OnInit {
                     this.processingRide.set(true);
                 }),
                 filter(Boolean),
-                tap(result => (raceResult = result)),
                 tap(result => {
+                    raceResult = result;
                     if (this.type === 'local') {
                         this.localEventService.addEventResult(result);
                     }

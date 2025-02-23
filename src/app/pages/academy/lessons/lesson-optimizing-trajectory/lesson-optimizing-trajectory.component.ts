@@ -14,31 +14,29 @@ import { Config } from '../../../../game/config';
 import { AcademyComponent } from '../../academy.component';
 
 @Component({
-    selector: 'app-slalom',
+    selector: 'app-optimizing-trajectory',
     imports: [ButtonIconComponent, NgTemplateOutlet, AcademyObjectiveComponent],
-    templateUrl: './slalom.component.html',
-    styleUrl: './slalom.component.scss',
+    templateUrl: './lesson-optimizing-trajectory.component.html',
+    styleUrl: './lesson-optimizing-trajectory.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SlalomComponent implements AfterViewInit {
+export class OptimizingTrajectoryComponent implements AfterViewInit {
+    protected readonly objectiveGateNumber = 30;
     protected lessonStep = signal(0);
     protected lessonFailed = signal(false);
     protected step2Completed = signal(false);
+    protected gatesPassed = signal(0);
 
     private game?: Game;
     private settingsService = inject(SettingsService);
     private router = inject(Router);
     private trackFinished?: Subscription;
-    private gateMissed?: Subscription;
+    private gateEvents?: Subscription;
 
     ngAfterViewInit(): void {
-        const gatesConfig = TrackBuilder.getGatesConfig(TrackStyles.SL);
-        gatesConfig.doubleGateAmount = 1;
-        gatesConfig.tripleGateAmount = 1;
-        gatesConfig.followingGateAmount = 1;
-        const track = TrackBuilder.designTrack('Academy slalom', TrackStyles.SL, 20, 20, true, gatesConfig);
+        const track = TrackBuilder.designTrack('Academy slalom', TrackStyles.SG, 40, 40, true);
         const config = new AcademyConfig(track);
-        this.game = new Game('academy', config, this.settingsService);
+        this.game = new Game('academy', config, this.settingsService, { useOptimizedTrajectoryDetector: true });
         this.game.initialize();
         this.game.on('start', () => {
             this.lessonStep.set(1);
@@ -48,7 +46,7 @@ export class SlalomComponent implements AfterViewInit {
     protected exitLesson(restart = false): void {
         this.game?.stopProperly();
         this.trackFinished?.unsubscribe();
-        this.gateMissed?.unsubscribe();
+        this.gateEvents?.unsubscribe();
 
         if (restart) {
             window.location.reload();
@@ -61,27 +59,31 @@ export class SlalomComponent implements AfterViewInit {
         this.lessonStep.set(2);
         this.game!.paused = false;
 
-        this.gateMissed = this.game!.customEvents.subscribe(event => {
-            if (!this.step2Completed() && event.name === 'gate-event' && event.content === 'missed') {
-                this.lessonFailed.set(true);
-                this.game!.soundPlayer.playSound(Resources.GateMissedSound, Config.GATE_MISSED_SOUND_VOLUME);
-                this.gateMissed!.unsubscribe();
+        this.gateEvents = this.game!.customEvents.subscribe(event => {
+            if (event.name === 'gate-event') {
+                if (event.content === 'missed') {
+                    this.game!.soundPlayer.playSound(Resources.GateMissedSound, Config.GATE_MISSED_SOUND_VOLUME);
+                }
+
+                if (event.content === 'passed') {
+                    this.gatesPassed.set(this.gatesPassed() + 1);
+                    if (!this.step2Completed() && this.gatesPassed() >= this.objectiveGateNumber) {
+                        this.step2Completed.set(true);
+                    }
+                }
             }
         });
 
         this.trackFinished = this.game!.customEvents.subscribe(event => {
-            if (
-                !this.step2Completed() &&
-                !this.lessonFailed() &&
-                event.name === 'academy-event' &&
-                event.content === 'stopped'
-            ) {
-                this.step2Completed.set(true);
-                setTimeout(() => {
+            if (event.name === 'academy-event' && event.content === 'stopped') {
+                if (this.step2Completed()) {
                     this.startStep3();
-                    this.gateMissed!.unsubscribe();
-                    this.trackFinished!.unsubscribe();
-                }, Config.AFTER_STEP_SMALL_WAITING_TIME);
+                } else {
+                    this.lessonFailed.set(true);
+                }
+
+                this.gateEvents!.unsubscribe();
+                this.trackFinished!.unsubscribe();
             }
         });
     }
@@ -89,6 +91,6 @@ export class SlalomComponent implements AfterViewInit {
     protected startStep3(): void {
         this.lessonStep.set(3);
         this.game?.soundPlayer.playSound(Resources.FinishRaceSound, Config.FINISH_SOUND_VOLUME);
-        localStorage.setItem(AcademyComponent.LESSON_SLALOM_COMPLETED_KEY, 'true');
+        localStorage.setItem(AcademyComponent.LESSON_TRAJECTORY_COMPLETED_KEY, 'true');
     }
 }

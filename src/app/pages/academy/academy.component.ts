@@ -22,5 +22,5 @@ export class AcademyComponent {
     protected trajectoryCompleted = localStorage.getItem(AcademyComponent.LESSON_TRAJECTORY_COMPLETED_KEY) === 'true';
     protected precisionCompleted = localStorage.getItem(AcademyComponent.LESSON_PRECISION_COMPLETED_KEY) === 'true';
     protected slalomCompleted = localStorage.getItem(AcademyComponent.LESSON_SLALOM_COMPLETED_KEY) === 'true';
-    protected testCompleted = localStorage.getItem(AcademyComponent.LESSON_FINAL_COMPLETED_KEY) === 'true';
+    protected finalCompleted = localStorage.getItem(AcademyComponent.LESSON_FINAL_COMPLETED_KEY) === 'true';
 }
