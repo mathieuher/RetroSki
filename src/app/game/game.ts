@@ -18,7 +18,7 @@ export type GateEvent = 'passed' | 'missed';
 export type AcademyEvent = 'stopped';
 export interface CustomGameEvent {
     name: string;
-    content: SkierIntentions | GateEvent | AcademyEvent;
+    content: SkierIntentions | GateEvent | AcademyEvent | number;
 }
 
 export interface GameCustomSetup {

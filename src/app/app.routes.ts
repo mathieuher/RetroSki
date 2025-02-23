@@ -74,6 +74,11 @@ export const routes: Routes = [
             )
     },
     {
+        path: 'academy-final',
+        loadComponent: () =>
+            import('./pages/academy/lessons/lesson-final/lesson-final.component').then(m => m.LessonFinalComponent)
+    },
+    {
         path: 'settings',
         loadComponent: () => import('./pages/settings/settings.component').then(m => m.SettingsComponent)
     },

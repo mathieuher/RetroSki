@@ -1,0 +1,116 @@
+<canvas id="game"></canvas>
+<div class="retro-ui-overlay">
+    <app-button-icon icon="arrow_back" (click)="exitLesson()"></app-button-icon>
+    @if(lessonFailed()) {
+    <ng-container *ngTemplateOutlet="lesson_failed"></ng-container>
+    } @else { @if(lessonStep() === 1) {
+    <ng-container *ngTemplateOutlet="step_1"></ng-container>
+    } @else if(lessonStep() === 2) {
+    <ng-container *ngTemplateOutlet="step_2"></ng-container>
+    } @else if(lessonStep() === 3) {
+    <ng-container *ngTemplateOutlet="step_3"></ng-container>
+    } }
+</div>
+
+<ng-template #step_1>
+    <div class="retro-dialog">
+        <div class="retro-title">5. Final lesson: Race the ghost! 👻🏁</div>
+
+        <div class="retro-text">
+            You've mastered the fundamentals, sharpened your precision, and
+            optimized your trajectory. Now, it's time for the ultimate test:
+            <strong>a full-speed race against a ghost!</strong> 🏔️🔥
+        </div>
+
+        <div class="retro-text">
+            Your goal is simple:
+            <strong>Pass all the gates</strong> and
+            <strong>cross the finish line before the ghost</strong>.
+        </div>
+
+        <div class="retro-text">
+            Use everything you've learned, stay focused, push your limits, and
+            show what you're made of.
+        </div>
+
+        <div class="retro-text">Ready to race? Let's ride! ⛷️💨</div>
+
+        <div class="retro-button" (click)="startStep2()">Start the race</div>
+    </div>
+</ng-template>
+
+<ng-template #step_2>
+    <app-academy-objective
+        title="Pass all the gates and beat the ghost"
+        [completed]="step2Completed()"
+    >
+    </app-academy-objective>
+</ng-template>
+
+<ng-template #step_3>
+    <div class="retro-dialog">
+        <div class="retro-title">🏆 RetroSki Academy completed!</div>
+
+        <div class="retro-text">
+            Congratulations, rider! 🎉 You've conquered every lesson, refined
+            your technique, and just <strong>outraced the ghost</strong>, a true
+            champion on the slopes! ⛷️🔥
+        </div>
+
+        <div class="retro-text">
+            From your first turns to mastering precision and speed, you've
+            proven that dedication and practice make all the difference. But
+            remember, the journey doesn't end here. Every track is a new
+            challenge, every run a chance to improve. 🚀
+        </div>
+
+        <div class="retro-text">
+            Ready for the next challenge? Join the
+            <strong>online community</strong> to face real opponents, compete in
+            events, and keep honing your skills against the best riders out
+            there! 🏁🌍
+        </div>
+
+        <div class="retro-text">
+            Keep pushing your limits, chasing records, and enjoying the ride.
+            See you on the slopes, champ! ❄️
+        </div>
+
+        <button class="retro-button" (click)="exitLesson()">
+            Back to the Academy
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #lesson_failed>
+    <div class="retro-dialog error">
+        <div class="retro-title">So close! Try again! ⏳</div>
+
+        <div class="retro-text">
+            You gave it your best shot, but to complete this final challenge,
+            you need to
+            <strong>cross the finish line before the ghost</strong> and
+            <strong>pass every gate</strong> without missing one. Precision and
+            speed are key! ⛷️🏁
+        </div>
+
+        <div class="retro-text">
+            Stay focused, take smooth lines, and make sure to turn early to
+            maintain speed. Every gate you pass correctly keeps you on track for
+            victory!
+        </div>
+
+        <div class="retro-text">
+            The mountain is calling, let's give it another run and claim that
+            win! 🔥❄️
+        </div>
+
+        <button class="retro-button tertiary" (click)="exitLesson(true)">
+            Try again
+        </button>
+
+        <button class="retro-button" (click)="exitLesson()">
+            Back to the Academy
+        </button>
+    </div>
+</ng-template>

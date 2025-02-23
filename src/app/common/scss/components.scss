@@ -20,6 +20,10 @@ canvas#game {
     transition: var(--transition-time) ease-in-out;
     border: 0px;
 
+    > .material-symbols-outlined {
+        margin-right: 0.5rem;
+    }
+
     &.outline {
         background-color: transparent;
         border: 1px solid var(--color-tertiary);

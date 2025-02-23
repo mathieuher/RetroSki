@@ -10,6 +10,10 @@ import type { Track } from '../models/track';
 import { Gate } from '../actors/gate';
 import { TrackBuilder } from '../utils/track-builder';
 import { Decoration } from '../actors/decoration';
+import { StockableGhost } from '../models/stockable-ghost';
+import type { SkierPositioning } from '../models/skier-positioning';
+import type { SkierActions } from '../models/skier-actions.enum';
+import { SkierGraphics } from '../utils/skier-graphics';
 
 export class Academy extends Scene {
     public touchManager: TouchManager;
@@ -18,6 +22,9 @@ export class Academy extends Scene {
     private cameraGhost?: Actor;
     private gates: Gate[] = [];
     private startingHouse = new StartingHouse();
+    private ghostData?: StockableGhost;
+    private ghost?: Actor;
+    private startTime?: number;
 
     constructor(engine: Game, config: AcademyConfig) {
         super();
@@ -33,17 +40,28 @@ export class Academy extends Scene {
 
     override onPreUpdate(engine: Engine, elapsed: number): void {
         this.updateCameraGhost();
+        if (this.skier?.racing && this.ghost && this.ghostData?.positions?.length) {
+            this.updateGhostPosition(this.ghost, this.ghostData.positions);
+        }
     }
 
     public start(): void {
         this.skier!.startRace();
+        this.startTime = this.engine.clock.now();
         this.startingHouse.openGate();
         (this.engine as Game).soundPlayer.playSound(Resources.StartRaceSound, 0.3);
     }
 
     public stop(): void {
         this.skier?.finishRace();
+        const timing = this.engine.clock.now() - this.startTime!;
         (this.engine as Game).customEvents.emit({ name: 'academy-event', content: 'stopped' });
+        if (this.ghostData) {
+            (this.engine as Game).customEvents.emit({
+                name: 'result-event',
+                content: timing < this.ghostData.totalTime! ? 1 : 2
+            });
+        }
     }
 
     public addPenalty(): void {}
@@ -59,6 +77,8 @@ export class Academy extends Scene {
         this.skier = new Skier(this.config.skierInfos, Skier.getSkierConfig(config.track.style));
         this.add(this.skier);
         this.add(this.startingHouse);
+
+        this.buildGhost(config.eventGhost);
 
         this.setupCamera();
     }
@@ -107,6 +127,35 @@ export class Academy extends Scene {
 
                 this.add(decoration);
             }
+        }
+    }
+
+    private buildGhost(ghost?: StockableGhost): void {
+        if (ghost) {
+            this.ghostData = StockableGhost.duplicate(ghost);
+            this.ghost = new Actor({ width: 30, height: 50, pos: vec(0, 0) });
+            this.add(this.ghost);
+        }
+    }
+
+    private updateGhostPosition(ghost: Actor, positions: SkierPositioning[]): void {
+        const position = positions.splice(0, 1)[0];
+        ghost.pos = vec(position.x, position.y);
+        ghost.rotation = position.rotation;
+        this.updateGhostGraphics(ghost, position.action);
+        this.updateGhostOpacity(ghost);
+    }
+
+    private updateGhostGraphics(ghost: Actor, action: SkierActions): void {
+        const graphic = SkierGraphics.getSpriteForAction('globalRecordGhost', action);
+        ghost.graphics.use(graphic.sprite);
+        ghost.graphics.flipHorizontal = !!graphic.flipHorizontal;
+    }
+
+    private updateGhostOpacity(ghost: Actor) {
+        if (this.skier) {
+            const distance = ghost.pos.distance(this.skier.pos);
+            ghost.graphics.opacity = Math.min(1, distance * 0.01);
         }
     }
 }

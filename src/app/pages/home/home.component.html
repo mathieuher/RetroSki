@@ -22,16 +22,21 @@
 <div class="retro-footer">
     <div class="actions-container">
         <button class="retro-button" routerLink="/introduction">
+            <span class="material-symbols-outlined">description</span>
             Introduction
         </button>
-        <button class="retro-button" routerLink="/learning">
-            How to play ?
+        <button
+            class="retro-button"
+            [class.tertiary]="!academyCompleted"
+            routerLink="/academy"
+        >
+            <span class="material-symbols-outlined">school</span> Ski Academy
         </button>
         <button class="retro-button" routerLink="/ride-local">
-            Ride local
+            <span class="material-symbols-outlined">group</span> Ride local
         </button>
         <button class="retro-button tertiary" routerLink="/login">
-            Ride online
+            <span class="material-symbols-outlined">public</span> Ride online
         </button>
     </div>
 </div>
