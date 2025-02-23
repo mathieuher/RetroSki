@@ -8,14 +8,14 @@ import { SettingsService } from '../../../../common/services/settings.service';
 import type { Subscription } from 'rxjs';
 import { NgTemplateOutlet } from '@angular/common';
 import { AcademyObjectiveComponent } from '../../../../common/components/academy-objective/academy-objective.component';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Resources } from '../../../../game/resources';
 import { Config } from '../../../../game/config';
 import { AcademyComponent } from '../../academy.component';
 
 @Component({
     selector: 'app-slalom',
-    imports: [ButtonIconComponent, NgTemplateOutlet, AcademyObjectiveComponent],
+    imports: [ButtonIconComponent, NgTemplateOutlet, RouterLink, AcademyObjectiveComponent],
     templateUrl: './slalom.component.html',
     styleUrl: './slalom.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -48,7 +48,7 @@ export class SlalomComponent implements AfterViewInit {
     protected exitLesson(restart = false): void {
         this.game?.stopProperly();
         this.trackFinished?.unsubscribe();
-        // this.gateListener?.unsubscribe();
+        this.gateMissed?.unsubscribe();
 
         if (restart) {
             window.location.reload();
