@@ -8,7 +8,7 @@
     <div class="retro-text">
         Here, you'll find the latest <strong>game updates</strong>, important
         <strong>terms of service</strong>, and everything you need to keep
-        shredding the slopes with confidence. Stay informed and ride on! 🎿❄️
+        shredding the slopes with confidence. Stay informed and ride on!
     </div>
     <app-expander title="Latest updates" class="updates" [expanded]="true">
         @for(update of updates(); track $index){
@@ -27,6 +27,41 @@
                 >RetroSki on GitHub</a
             >
         </div>
+    </app-expander>
+    <app-expander title="Quick tips">
+        <div class="retro-text subtitle">Stay on the track !</div>
+        <ul>
+            <li>Don't miss a gate, or you'll receive a 3-second penalty.</li>
+        </ul>
+        <div class="retro-text subtitle">Track styles</div>
+        <ul>
+            <li>
+                Retroski simulates the four alpine skiing track styles, each
+                with unique track designs and rider abilities.
+            </li>
+        </ul>
+        <div class="retro-text subtitle">Performances</div>
+        <ul>
+            <li>
+                RetroSki is designed to run smoothly on any modern device with
+                an updated browser. If you encounter performance issues, try
+                reloading the game first. For further performance improvements,
+                consider disabling particles and other game objects in the game
+                settings.
+            </li>
+        </ul>
+        <div class="retro-text subtitle">Competition</div>
+        <ul>
+            <li>
+                RetroSki offers a platform for friendly competition and
+                memorable moments with your friends.
+            </li>
+            <li>
+                Keep in mind that online cheating is possible, as timing
+                mechanics depend on device performance. Make sure to ride with
+                trustworthy companions!
+            </li>
+        </ul>
     </app-expander>
     <app-expander title="Keep in touch">
         <div class="retro-text">
@@ -140,7 +175,7 @@
                 Something feels off? Contact us at
                 <a class="retro-link" href="mailto:team@retro-ski.ch"
                     >team&#64;retro-ski.ch</a
-                >, we’re here to help!
+                >, we're here to help!
             </li>
             <li>
                 Stay tuned for updates and new features by checking our official

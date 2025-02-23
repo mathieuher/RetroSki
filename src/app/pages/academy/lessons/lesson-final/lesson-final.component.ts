@@ -12,9 +12,9 @@ import { AcademyComponent } from '../../academy.component';
 import { HttpClient } from '@angular/common/http';
 import { Destroyable } from '../../../../common/components/destroyable/destroyable.component';
 import { StockableTrack } from '../../../../game/models/stockable-track';
-import { SkierInfos } from '../../../../game/models/skier-infos';
 import { AcademyConfig } from '../../../../game/models/academy-config';
 import { StockableGhost } from '../../../../game/models/stockable-ghost';
+import type { Track } from '../../../../game/models/track';
 
 @Component({
     selector: 'app-lesson-final',
@@ -36,11 +36,8 @@ export class LessonFinalComponent extends Destroyable implements AfterViewInit {
     private http = inject(HttpClient);
 
     ngAfterViewInit(): void {
-        this.http
-            .get('/assets/academy/track.json')
+        this.getTrack$()
             .pipe(
-                map(stockableTrack => Object.assign(new StockableTrack(), stockableTrack)),
-                map(stockableTrack => stockableTrack.toTrack()),
                 map(track => new AcademyConfig(track)),
                 switchMap(config =>
                     this.getGhost$().pipe(
@@ -51,13 +48,13 @@ export class LessonFinalComponent extends Destroyable implements AfterViewInit {
                     )
                 ),
                 map(config => new Game('academy', config, this.settingsService)),
-                tap(game => game.initialize()),
                 tap(game => {
+                    game.initialize();
                     game.on('start', () => {
                         this.lessonStep.set(1);
                     });
+                    this.game = game;
                 }),
-                tap(game => (this.game = game)),
                 takeUntil(this.destroyed$)
             )
             .subscribe();
@@ -101,6 +98,13 @@ export class LessonFinalComponent extends Destroyable implements AfterViewInit {
         this.lessonStep.set(3);
         this.game?.soundPlayer.playSound(Resources.FinishRaceSound, Config.FINISH_SOUND_VOLUME);
         localStorage.setItem(AcademyComponent.LESSON_FINAL_COMPLETED_KEY, 'true');
+    }
+
+    private getTrack$(): Observable<Track> {
+        return this.http.get('/assets/academy/track.json').pipe(
+            map(stockableTrack => Object.assign(new StockableTrack(), stockableTrack)),
+            map(stockableTrack => stockableTrack.toTrack())
+        );
     }
 
     private getGhost$(): Observable<StockableGhost> {

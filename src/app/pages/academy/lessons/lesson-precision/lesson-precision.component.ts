@@ -16,8 +16,8 @@ import type { Subscription } from 'rxjs';
 @Component({
     selector: 'app-precision',
     imports: [AcademyObjectiveComponent, ButtonIconComponent, NgTemplateOutlet, RouterLink],
-    templateUrl: './precision.component.html',
-    styleUrl: './precision.component.scss',
+    templateUrl: './lesson-precision.component.html',
+    styleUrl: './lesson-precision.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PrecisionComponent {
