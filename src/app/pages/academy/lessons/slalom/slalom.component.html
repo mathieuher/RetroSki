@@ -14,7 +14,7 @@
 
 <ng-template #step_1>
     <div class="retro-dialog">
-        <div class="retro-title">3. Slalom tracks & Trajectory</div>
+        <div class="retro-title">3. Slalom tracks</div>
 
         <div class="retro-text">
             Welcome to the <strong>Slalom lesson</strong>! Slalom tracks demand
@@ -79,7 +79,7 @@
             Up for the next challenge? The mountain always has more to teach!
         </div>
 
-        <div class="retro-button" routerLink="/academy">
+        <div class="retro-button" (click)="exitLesson()">
             Back to the Academy
         </div>
     </div>
@@ -110,7 +110,7 @@
         </div>
 
         <div class="retro-button tertiary" (click)="exitLesson(true)">
-            Try Again
+            Try again
         </div>
         <div class="retro-button" (click)="exitLesson()">
             Back to the Academy

@@ -41,21 +41,21 @@
         [disabled]="!precisionCompleted"
         routerLink="/academy-slalom"
     >
-        3. Slalom tracks and trajectory @if(slalomCompleted) {
+        3. Slalom tracks @if(slalomCompleted) {
+        <span class="material-symbols-outlined">check</span>
+        }
+    </button>
+    <button
+        class="retro-button"
+        [class.tertiary]="!trajectoryCompleted"
+        [disabled]="!slalomCompleted"
+        routerLink="/academy-optimizing-trajectory"
+    >
+        4. Getting faster with trajectory @if(trajectoryCompleted) {
         <span class="material-symbols-outlined">check</span>
         }
     </button>
     <div class="retro-subtitle">Soon available</div>
-    <button
-        class="retro-button"
-        [class.tertiary]="!fasterCompleted"
-        [disabled]="true"
-        routerLink="/academy-faster"
-    >
-        4. Getting faster @if(fasterCompleted) {
-        <span class="material-symbols-outlined">check</span>
-        }
-    </button>
     <button
         class="retro-button"
         [class.tertiary]="!testCompleted"

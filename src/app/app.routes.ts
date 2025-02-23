@@ -67,6 +67,13 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/academy/lessons/slalom/slalom.component').then(m => m.SlalomComponent)
     },
     {
+        path: 'academy-optimizing-trajectory',
+        loadComponent: () =>
+            import('./pages/academy/lessons/optimizing-trajectory/optimizing-trajectory.component').then(
+                m => m.OptimizingTrajectoryComponent
+            )
+    },
+    {
         path: 'settings',
         loadComponent: () => import('./pages/settings/settings.component').then(m => m.SettingsComponent)
     },
