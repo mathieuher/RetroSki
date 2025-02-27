@@ -1,3 +1,8 @@
 <div class="position">{{ position() }}.</div>
 <div class="name">{{ name() }}</div>
+@if(missedGates() && missedGates()! > 0) {
+<div class="penalties">
+    <span class="material-symbols-outlined">flag</span> {{ missedGates() }}
+</div>
+}
 <div class="time">{{ time() }}</div>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, type InputSignal } from '@angular/core';
 
 @Component({
     selector: 'app-ranking-line',
@@ -19,4 +19,5 @@ export class RankingLineComponent {
     public position = input(1);
     public name = input('');
     public time = input('');
+    public missedGates: InputSignal<number | undefined> = input();
 }

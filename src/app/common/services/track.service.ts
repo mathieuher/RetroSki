@@ -138,7 +138,13 @@ export class TrackService {
             map(records =>
                 records.map(
                     record =>
-                        new StockableRecord(trackId, record['name'], new Date(record['updated']), record['timing'])
+                        new StockableRecord(
+                            trackId,
+                            record['name'],
+                            new Date(record['updated']),
+                            record['timing'],
+                            record['missedGates']
+                        )
                 )
             )
         );
@@ -179,7 +185,16 @@ export class TrackService {
     private getLocalTrackRecords$(trackId: string): Observable<StockableRecord[]> {
         return from(RETROSKI_DB.records.where({ trackId: trackId }).sortBy('timing')).pipe(
             map(records =>
-                records.map(record => new StockableRecord(record.trackId, record.rider, record.date, record.timing))
+                records.map(
+                    record =>
+                        new StockableRecord(
+                            record.trackId,
+                            record.rider,
+                            record.date,
+                            record.timing,
+                            record.missedGates
+                        )
+                )
             )
         );
     }

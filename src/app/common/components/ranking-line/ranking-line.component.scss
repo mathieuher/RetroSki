@@ -16,11 +16,32 @@
         }
 
         &.name {
-            flex: 1 1 auto;
+            flex: 1 1 0;
+            display: inline;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
         }
 
         &.time {
             justify-content: flex-end;
+            width: 75px;
+        }
+    }
+
+    .penalties {
+        background-color: var(--color-error-lightest);
+        color: var(--color-error-darkest);
+        font-size: var(--text-mini);
+        padding: 0.1rem 0.4rem;
+        border-radius: var(--border-radius-large);
+        width: 27px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        .material-symbols-outlined {
+            font-size: var(--text-small);
         }
     }
 

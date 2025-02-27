@@ -72,6 +72,7 @@
                         ? raceRanking()!.getDiffTime(record.timing)
                         : record.formattedTime
                 "
+                [missedGates]="record.missedGates"
                 [currentRider]="$index + 1 === raceRanking()!.position"
                 [isDiff]="$index > 0"
             ></app-ranking-line>
