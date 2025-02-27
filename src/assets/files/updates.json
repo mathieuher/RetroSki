@@ -1,5 +1,9 @@
 [
     {
+        "date": "2025-02-27",
+        "items": ["Add the number of missed gates on the global track ranking"]
+    },
+    {
         "date": "2025-02-23",
         "items": ["Add the new RetroSki Academy", "Add option to display touch zones", "Update home page design"]
     },
