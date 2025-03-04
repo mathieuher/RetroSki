@@ -3,18 +3,17 @@
     flex: 1 1 auto;
     flex-direction: column;
     padding: 1rem;
+    overflow: auto;
 
     .retro-content {
         .header {
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            width: calc(100% - 2rem);
+            width: calc(100% - 1rem);
             display: flex;
             gap: 2rem;
             justify-content: center;
             align-items: center;
-            padding: 1rem;
-            background-color: var(--color-tertiary-lightest);
+            padding: 0.5rem;
+            background-color: var(--color-primary-lightest);
             border-radius: var(--border-radius-large);
 
             .retro-text {
@@ -28,12 +27,8 @@
             }
         }
 
-        .retro-text {
-            line-height: 1.3rem;
-
-            > strong {
-                color: var(--color-tertiary-darkest);
-            }
+        > .retro-button {
+            margin-top: 1rem;
         }
     }
 }

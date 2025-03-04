@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal, type Writ
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { switchMap, tap } from 'rxjs';
-import type { RecordModel } from 'pocketbase';
+import { catchError, EMPTY, switchMap, tap } from 'rxjs';
 import type { Server } from '../../common/models/server';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ServerService } from '../../common/services/server.service';
@@ -49,15 +48,18 @@ export class ServerComponent {
             .pipe(
                 tap(server => {
                     if (!server) {
-                        this.router.navigate(['/ride-online']);
-                    } else {
-                        this.server.set(server);
+                        throw new Error('Server not found');
                     }
+                    this.server.set(server);
                 }),
                 switchMap(() => this.serverService.getRiders$(this.serverId)),
                 tap(riders => this.riders.set(riders)),
                 switchMap(() => this.serverService.getEvents$(this.serverId)),
                 tap(events => this.events.set(events)),
+                catchError(() => {
+                    this.router.navigate(['/ride-online']);
+                    return EMPTY;
+                }),
                 takeUntilDestroyed()
             )
             .subscribe();
@@ -67,7 +69,7 @@ export class ServerComponent {
         navigator
             .share({
                 title: "Let's ride on RetroSki",
-                text: `A RetroSki server is live, and you’re invited to hit the slopes! 🎿\nClick the link to join the server or use the server code :\n\n${this.serverId}\n\nRace, challenge your friends, or simply enjoy the ride on some of the most exciting 2D alpine tracks.\nDon’t miss out, see you on the mountain! 🏁`,
+                text: `A RetroSki server is live, and you're invited to hit the slopes! 🎿\nClick the link to join the server or use the server code :\n\n${this.serverId}\n\nRace, challenge your friends, or simply enjoy the ride on some of the most exciting 2D alpine tracks.\nDon’t miss out, see you on the mountain! 🏁`,
                 url: window.location.href
             })
             .catch(() => void 0);

@@ -106,6 +106,18 @@ export const routes: Routes = [
         canActivate: [AuthGuard, VerifiedGuard, AvailableGuard]
     },
     {
+        path: 'official-community/:id',
+        loadComponent: () =>
+            import('./pages/official-community/official-community.component').then(m => m.OfficialCommunityComponent),
+        canActivate: [AvailableGuard]
+    },
+    {
+        path: 'official-community/:id/:status',
+        loadComponent: () =>
+            import('./pages/official-community/official-community.component').then(m => m.OfficialCommunityComponent),
+        canActivate: [AvailableGuard]
+    },
+    {
         path: 'server/:id',
         loadComponent: () => import('./pages/server/server.component').then(m => m.ServerComponent),
         canActivate: [AuthGuard, VerifiedGuard, AvailableGuard]

@@ -59,6 +59,23 @@ canvas#game {
         }
     }
 
+    &.button-price {
+        text-align: left;
+        font-size: 0.8rem;
+        justify-content: space-between;
+
+        .badge-price {
+            display: flex;
+            width: 50px;
+            padding: 0.3rem;
+            justify-content: flex-end;
+            font-size: var(--text-small);
+            color: var(--color-surface);
+            background-color: var(--color-primary);
+            border-radius: var(--border-radius);
+        }
+    }
+
     &:hover:not([disabled]) {
         background-color: var(--color-primary-hover);
     }
@@ -147,6 +164,10 @@ canvas#game {
 
     ul {
         margin: 0;
+    }
+
+    &.justified {
+        text-align: justify;
     }
 
     &.placeholder {
@@ -368,6 +389,13 @@ canvas#game {
             gap: 0.5rem;
         }
     }
+}
+
+.retro-buttons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
 }
 
 .retro-ui-overlay {

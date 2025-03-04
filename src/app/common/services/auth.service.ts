@@ -26,7 +26,10 @@ export class AuthService {
     }
 
     public isAuth$(): Observable<boolean> {
-        return from(environment.pb.collection('users').authRefresh()).pipe(map(() => environment.pb.authStore.isValid));
+        return from(environment.pb.collection('users').authRefresh()).pipe(
+            map(() => environment.pb.authStore.isValid),
+            catchError(() => of(false))
+        );
     }
 
     public login$(email: string, password: string): Observable<RecordAuthResponse> {

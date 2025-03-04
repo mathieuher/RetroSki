@@ -3,7 +3,7 @@ import { ButtonIconComponent } from '../../common/components/button-icon/button-
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
-import { from, takeUntil, tap } from 'rxjs';
+import { from, map, takeUntil, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import type { Membership } from '../../common/models/membership';
 import { TransactionService } from '../../common/services/transaction.service';

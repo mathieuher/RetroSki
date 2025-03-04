@@ -1,20 +1,27 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal, type Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../common/services/auth.service';
-import type { User } from '../../common/models/user';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ServerService } from '../../common/services/server.service';
 import { catchError, EMPTY, takeUntil, tap } from 'rxjs';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
-import type { Server } from '../../common/models/server';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ExpanderComponent } from '../../common/components/expander/expander.component';
+import { CommunityService } from '../../common/services/community.service';
 
 @Component({
     selector: 'app-ride-online',
     standalone: true,
-    imports: [ButtonIconComponent, ReactiveFormsModule, RouterLink, ToolbarComponent],
+    imports: [
+        ButtonIconComponent,
+        ExpanderComponent,
+        ReactiveFormsModule,
+        RouterLink,
+        ToolbarComponent,
+        ExpanderComponent
+    ],
     templateUrl: './ride-online.component.html',
     styleUrl: './ride-online.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -23,6 +30,7 @@ export class RideOnlineComponent extends Destroyable {
     private authService = inject(AuthService);
     private router = inject(Router);
     private serverService = inject(ServerService);
+    private communityService = inject(CommunityService);
 
     protected user = this.authService.getUser();
     protected serverCode = new FormControl<string>('', [Validators.required]);
@@ -35,6 +43,8 @@ export class RideOnlineComponent extends Destroyable {
     private servers = toSignal(this.serverService.getUserServers$());
     protected userServers = computed(() => this.servers()?.filter(s => s.owner === this.user?.id || s.ridden));
     protected publicServers = computed(() => this.servers()?.filter(s => s.public));
+    protected communities = toSignal(this.communityService.getCommunities$());
+    protected userCommunities = toSignal(this.communityService.getUserCommunities$());
 
     protected connectionError = signal<string | null>(null);
     protected creationError = signal<string | null>(null);
@@ -72,6 +82,7 @@ export class RideOnlineComponent extends Destroyable {
     }
 
     protected openServer(serverId: string): void {
+        // TODO : FIXME
         this.router.navigate(['/server', serverId]);
     }
 }
