@@ -106,7 +106,9 @@ export class ServerService {
     }
 
     private getRiddenServers$(): Observable<Server[]> {
-        return from(environment.pb.collection('public_participations').getFullList()).pipe(
+        return from(
+            environment.pb.collection('public_participations').getFullList({ filter: `server.community = ''` })
+        ).pipe(
             map(participations =>
                 participations.map(participation => {
                     return {
@@ -121,7 +123,9 @@ export class ServerService {
     }
 
     private getOwnedServers$(): Observable<Server[]> {
-        return from(environment.pb.collection('servers').getFullList({ sort: '-updated' })).pipe(
+        return from(
+            environment.pb.collection('servers').getFullList({ filter: `community = ''`, sort: '-updated' })
+        ).pipe(
             map(servers =>
                 servers.map(server => ({
                     id: server['id'],

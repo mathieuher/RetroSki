@@ -12,8 +12,44 @@
 </app-toolbar>
 <div class="retro-content">
     <div class="retro-title">
-        Server : <span class="tertiary">{{ server()?.name }}</span>
+        {{ challenge()?.name || server()?.name }}
     </div>
+
+    @if(challenge()) {
+        <div class="retro-subtitle">Challenge description</div>
+        <div class="retro-text" [innerHTML]="challenge()?.description">{{ challenge()?.description }}</div>
+        <div class="retro-subtitle">
+        <span
+            class="alternative"
+            (click)="challengeResultsDisplay.set('top')"
+            [class.active]="challengeResultsDisplay() === 'top'"
+            >Top riders</span
+        >
+        <span
+            class="alternative"
+            (click)="challengeResultsDisplay.set('all')"
+            [class.active]="challengeResultsDisplay() === 'all'"
+            >All ranked riders</span
+        >
+        </div>
+        <div class="riders-list">
+        @for (challengeResult of (challengeResultsDisplay() === 'top' ? topChallengeResults() :
+            challengeResults()); track challengeResult.riderName) {
+            <div class="rider" [class.active]="challengeResult.riderName === user?.name">
+                <div class="name">{{ challengeResult.riderName }}</div>
+                <div class="rides">
+                    <span class="retro-medal gold">{{ challengeResult.gold || '-' }}</span>
+                    <span class="retro-medal silver">{{ challengeResult.silver || '-' }}</span>
+                    <span class="retro-medal bronze">{{ challengeResult.bronze || '-' }}</span>
+                </div>
+            </div>
+            } @if(!challengeResults()) {
+            <div class="retro-placeholder">Loading ranked riders</div>
+            } @else if(!challengeResults()?.length) {
+            <div class="retro-placeholder">No ranked riders yet</div>
+            }
+        </div>
+    } @else {
     <div class="retro-subtitle">
         <span
             class="alternative"
@@ -43,6 +79,7 @@
         <div class="retro-placeholder">No active riders yet</div>
         }
     </div>
+    }
     <div class="retro-subtitle">
         <span
             class="alternative"

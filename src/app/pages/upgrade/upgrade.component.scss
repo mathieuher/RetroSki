@@ -3,34 +3,4 @@
     flex: 1 1 auto;
     flex-direction: column;
     padding: 1rem;
-
-    .plans-container {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        padding: 0.5rem 0;
-
-        .retro-button {
-            text-align: left;
-            font-size: 0.8rem;
-            /* background-color: var(--color-primary-lightest);
-            color: var(--color-primary);
-            */
-        }
-
-        .button-price {
-            justify-content: space-between;
-
-            .badge-price {
-                display: flex;
-                width: 50px;
-                padding: 0.3rem;
-                justify-content: flex-end;
-                font-size: var(--text-small);
-                color: var(--color-surface);
-                background-color: var(--color-primary);
-                border-radius: var(--border-radius);
-            }
-        }
-    }
 }

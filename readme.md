@@ -29,7 +29,7 @@ Just follow these simple steps:
 
 ### **Ride online**  
 Race against friends and other players online.  
-1. Set up your server or join one.  
+1. Set up your community or join one.  
 2. Race, compete, and share your records with the world.  
 
 ### **Race – It’s time to shred!**  

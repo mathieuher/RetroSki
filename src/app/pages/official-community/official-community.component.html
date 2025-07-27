@@ -1,0 +1,105 @@
+<app-toolbar [hideSettings]="true">
+    <ng-container ngProjectAs="left-actions">
+        <app-button-icon
+            icon="close"
+            routerLink="/ride-online"
+        ></app-button-icon>
+    </ng-container>
+</app-toolbar>
+@if(community(); as community) {
+<div class="retro-content">
+    @if(transactionDone) {
+    <div class="retro-placeholder-image">
+        <span class="icon material-symbols-outlined">sentiment_satisfied</span>
+    </div>
+    <div class="retro-title placeholder">Thank you for the support!</div>
+    <div class="retro-text placeholder">
+        Your transaction is cruising through the system and may take a few
+        minutes to reach the finish line.
+    </div>
+    <div class="retro-text placeholder">
+        We'll sent a confirmation email to your inbox when your community access
+        is ready.
+    </div>
+    <div class="retro-text placeholder">
+        Feel free to explore while we finalize everything!
+    </div>
+    } @else {
+    <div class="retro-title">
+        {{ community?.firstname }} {{ community?.lastname }}
+    </div>
+    <div class="header">
+        <img
+            class="avatar"
+            [src]="community.picture"
+            [alt]="community.firstname + ' ' + community.lastname"
+        />
+        <div class="retro-text">
+            Be part of {{ community.firstname }}'s official RetroSki community!
+        </div>
+    </div>
+
+    <div class="retro-subtitle">Who is {{ community.firstname }}?</div>
+    <div class="retro-text">
+        {{ community.description }}
+    </div>
+
+    <div class="retro-subtitle">
+        Support & Ride with {{ community.firstname }}
+    </div>
+
+    @if(isAuth()) {
+    <div class="retro-text">
+        Join <strong>{{ community.firstname }}'s RetroSki community</strong> and
+        support {{ community.sexe === "man" ? "his" : "her" }} career! A portion
+        of your premium membership goes directly to
+        {{ community.sexe === "man" ? "him" : "her" }}.
+    </div>
+    <div class="retro-text">
+        As a supporter, unlock <strong>premium RetroSki features</strong> and
+        gain <strong>exclusive access</strong> to {{ community.firstname }}'s
+        official community—ride, compete, and connect with
+        {{
+            community.sexe === "man"
+                ? " him and his fans"
+                : " her and her fans"
+        }}!
+    </div>
+    <div class="retro-buttons-list">
+        @for(membership of memberships(); track membership.id) {
+        <button
+            class="retro-button tertiary button-price"
+            (click)="upgrade(membership.id)"
+        >
+            {{ membership.description }}
+            <span class="badge-price">{{ membership.price }} CHF</span>
+        </button>
+        }
+    </div>
+    } @else {
+    <div class="retro-text">
+        The <strong>first step</strong> to supporting
+        {{ community.firstname }} is to
+        <a routerLink="/login" class="retro-link"
+            >create your RetroSki account</a
+        >! This unlocks online features, including the ability to join pro-rider
+        communities.
+    </div>
+    <div class="retro-text">
+        Once you're in, you can support {{ community.firstname }} and gain
+        <strong>exclusive access</strong> to
+        {{ community.sexe === "man" ? "his" : "her" }} official server—ride,
+        compete, and connect with the community!
+    </div>
+    <div class="retro-subtitle">New to RetroSki ?</div>
+    <div class="retro-text">
+        Welcome to the ultimate retro-inspired ski racing experience! Master the
+        slopes, challenge yourself in the academy, and compete online with
+        riders from around the world.
+    </div>
+    <button class="retro-button tertiary" routerLink="/home">
+        Discover RetroSki
+    </button>
+    } }
+</div>
+}

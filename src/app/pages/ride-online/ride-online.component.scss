@@ -4,11 +4,19 @@
     flex-direction: column;
     padding: 1rem;
 
-    .server-infos {
-        padding: 0.1rem 0.3rem;
-        background-color: var(--color-tertiary);
-        color: var(--color-surface);
-        border-radius: var(--border-radius-large);
-        font-size: var(--text-small);
+    .retro-item {
+        .server-infos {
+            padding: 0.1rem 0.3rem;
+            background-color: var(--color-tertiary);
+            color: var(--color-surface);
+            border-radius: var(--border-radius-large);
+            font-size: var(--text-small);
+        }
+
+        &.tertiary {
+            .server-infos {
+                background-color: var(--color-primary);
+            }
+        }
     }
 }

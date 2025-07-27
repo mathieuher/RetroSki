@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class TransactionService {
     private http = inject(HttpClient);
 
-    public getPaymentLink$(membershipId: string): Observable<string> {
+    public getPaymentLink$(membershipId: string, communityId?: string): Observable<string> {
         const headers = {
             Authorization: `Bearer ${environment.pb.authStore.token}`
         };
@@ -17,7 +17,7 @@ export class TransactionService {
         return this.http
             .post<{ link: string }>(
                 `${environment.apiUrl}/payment-link`,
-                { membershipId: membershipId },
+                { membershipId: membershipId, communityId: communityId },
                 { headers: headers }
             )
             .pipe(map(response => response.link));
