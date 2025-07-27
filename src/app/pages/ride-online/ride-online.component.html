@@ -9,13 +9,13 @@
         Welcome on the mountain
         <a class="retro-link">{{ user?.name }}</a> !
     </div>
-    <div class="retro-subtitle">Challenges</div>
+
     @if(publicChallenges()?.length) {
     <div class="retro-items-list no-scrollable">
         @for(challenge of publicChallenges(); track challenge) {
         <div class="retro-item tertiary" (click)="openServer(challenge.serverId)">
             <div class="server-name">
-                <span class="icon material-symbols-outlined">social_leaderboard</span>
+                <span class="icon material-symbols-outlined">trophy</span>
                 {{ challenge.name }}
             </div>
         </div>
@@ -98,6 +98,7 @@
                 [disabled]="!serverCode.valid"
                 (click)="connectServer()"
             >
+                <span class="icon material-symbols-outlined">input</span>
                 Connect
             </button>
         </div>
@@ -125,6 +126,7 @@
                 [disabled]="!serverName.valid || !user?.premium"
                 (click)="createServer()"
             >
+                <span class="icon material-symbols-outlined">group_add</span>
                 Create
             </button>
         </div>

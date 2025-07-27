@@ -26,6 +26,7 @@
                 class="retro-button tertiary"
                 routerLink="/manage-online-tracks"
             >
+                <span class="icon material-symbols-outlined">handyman</span>
                 @if(tracks()?.length) { Manage online tracks } @else { Build
                 your first track}
             </button>
@@ -96,6 +97,7 @@
         (click)="createEvent()"
         [disabled]="!form.valid"
     >
+        <span class="icon material-symbols-outlined">calendar_add_on</span>
         Create event
     </button>
 </div>

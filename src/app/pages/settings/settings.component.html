@@ -71,10 +71,12 @@
     </div>
     @if(!resetAsked()) {
     <button class="retro-button error" (click)="resetAsked.set(true)">
+        <span class="material-symbols-outlined">delete</span>
         Erase all datas and reset
     </button>
     } @else {
     <button class="retro-button error" (click)="restore()">
+        <span class="material-symbols-outlined">delete_forever</span>
         Press again to confirm reset
     </button>
     }

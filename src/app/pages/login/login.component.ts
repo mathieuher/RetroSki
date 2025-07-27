@@ -15,6 +15,7 @@ import { AuthService } from '../../common/services/auth.service';
 import { catchError, of, switchMap, takeUntil, tap } from 'rxjs';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { ExpanderComponent } from '../../common/components/expander/expander.component';
 
 interface LoginForm {
     email: FormControl<string | null>;
@@ -39,7 +40,7 @@ export const emailValidator: ValidatorFn = (control: AbstractControl): Validatio
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [ButtonIconComponent, ReactiveFormsModule, RouterLink, ToolbarComponent],
+    imports: [ButtonIconComponent, ReactiveFormsModule, RouterLink, ToolbarComponent, ExpanderComponent],
     templateUrl: './login.component.html',
     styleUrl: './login.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

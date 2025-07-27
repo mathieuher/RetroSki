@@ -23,6 +23,7 @@
         You still need to complete the verification process.
     </div>
     <button class="retro-button tertiary" routerLink="/verification">
+        <span class="icon material-symbols-outlined">verified</span>
         Continue verification
     </button>
     } @if(user()?.verified) {
@@ -44,6 +45,7 @@
         You’re currently riding with a free standard membership.
     </div>
     <button class="retro-button tertiary" routerLink="/upgrade">
+        <span class="icon material-symbols-outlined">workspace_premium</span>
         Upgrade to premium
     </button>
     <div class="retro-text">
@@ -55,5 +57,8 @@
     } }
 </div>
 <div class="retro-footer">
-    <button class="retro-button" (click)="logout()">Logout</button>
+    <button class="retro-button" (click)="logout()">
+        <span class="icon material-symbols-outlined">logout</span>
+        Logout
+    </button>
 </div>

@@ -45,13 +45,14 @@
             [disabled]="form.invalid || trackAlreadyUse()"
             (click)="generateTrack()"
         >
+            <span class="material-symbols-outlined">front_loader</span>
             Build the track
         </button>
         @if(trackAlreadyUse()) {
         <div class="retro-text error">A similar track already exist</div>
         }
     </div>
-    <div class="retro-title">
+    <div class="retro-subtitle">
         Existing tracks @if(tracks().length) { ({{ tracks().length }}) }
     </div>
     <div class="tracks-container">

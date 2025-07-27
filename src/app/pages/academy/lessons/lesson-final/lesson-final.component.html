@@ -35,7 +35,10 @@
 
         <div class="retro-text">Ready to race? Let's ride!</div>
 
-        <div class="retro-button" (click)="startStep2()">Start the race</div>
+        <div class="retro-button" (click)="startStep2()">
+            <span class="material-symbols-outlined">downhill_skiing</span>
+            Start the race
+        </div>
     </div>
 </ng-template>
 
@@ -79,6 +82,7 @@
         </div>
 
         <button class="retro-button" (click)="exitLesson()">
+            <span class="material-symbols-outlined">arrow_back</span>
             Back to the Academy
         </button>
     </div>
@@ -108,10 +112,12 @@
         </div>
 
         <button class="retro-button tertiary" (click)="exitLesson(true)">
+            <span class="material-symbols-outlined">repeat</span>
             Try again
         </button>
 
         <button class="retro-button" (click)="exitLesson()">
+            <span class="material-symbols-outlined">arrow_back</span>
             Back to the Academy
         </button>
     </div>

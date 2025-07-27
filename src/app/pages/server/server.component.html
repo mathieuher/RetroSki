@@ -1,8 +1,7 @@
 <app-toolbar [hideProfile]="false">
     <ng-container ngProjectAs="left-actions">
         <app-button-icon
-            icon="logout"
-            class="flipped"
+            icon="arrow_back"
             routerLink="/ride-online"
         ></app-button-icon>
     </ng-container>
@@ -142,6 +141,7 @@
         class="retro-button tertiary"
         routerLink="/create-online-event/{{ server()?.id }}"
     >
+        <span class="icon material-symbols-outlined">calendar_add_on</span>
         Create an event
     </button>
 </div>

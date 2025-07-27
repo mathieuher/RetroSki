@@ -26,6 +26,7 @@
             }
         </div>
         <button class="retro-button" routerLink="/manage-tracks">
+            <span class="material-symbols-outlined">handyman</span>
             @if(availableTracks()!.length) { Manage local tracks } @else { Build
             your first track }
         </button>
@@ -59,6 +60,7 @@
             (click)="addRider()"
             [disabled]="form.value.riders?.length! >= 4"
         >
+            <span class="material-symbols-outlined">add</span>
             Add another rider
         </button>
     </div>
@@ -79,6 +81,7 @@
         (click)="startEvent()"
         [disabled]="!form.valid"
     >
+        <span class="material-symbols-outlined">gondola_lift</span>
         Start the event
     </button>
 </div>

@@ -92,6 +92,7 @@ canvas#game {
     flex-direction: column;
     flex: 1 1 auto;
     overflow-y: auto;
+    gap: 0.5rem;
 }
 
 .retro-footer {
@@ -106,10 +107,9 @@ canvas#game {
 
 .retro-title {
     font-size: var(--text-title);
-    z-index: 2;
+    z-index: 3;
     margin: 0;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
     color: var(--color-primary);
     font-weight: 500;
     position: sticky;
@@ -127,13 +127,15 @@ canvas#game {
     align-items: center;
     gap: 0.5rem;
     font-size: var(--text-subtitle);
-    margin-top: 0.5rem;
-    margin-bottom: 0.25rem;
-    color: var(--color-tertiary);
+    color: var(--color-primary);
     font-weight: 500;
     position: sticky;
-    top: 26px;
-    background-color: var(--color-surface);
+    top: 24px;
+    background-color: var(--color-primary-lightest);
+    padding: 0.5rem 0.25rem;
+    border-radius: var(--border-radius);
+    z-index: 2;
+    
 
     .alternative {
         cursor: pointer;
@@ -157,7 +159,7 @@ canvas#game {
 }
 
 .retro-text {
-    padding: 0.25rem 0;
+    padding: 0.25rem;
     font-size: var(--text-standard);
     color: var(--color-primary);
     font-weight: 400;
@@ -228,7 +230,7 @@ canvas#game {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding: 0.5rem 0;
+    padding: 0.25rem 0;
 }
 
 .retro-data-line {
@@ -240,6 +242,7 @@ canvas#game {
 
     .label {
         display: flex;
+        padding: 0 0.25rem;
     }
 
     .value {
@@ -273,6 +276,7 @@ canvas#game {
         flex: 1 1 auto;
         align-items: center;
         justify-content: space-between;
+        padding: 0 0.25rem;
     }
 
     select,
@@ -421,6 +425,7 @@ canvas#game {
         color: var(--color-primary-darkest);
         opacity: 0.95;
         transition: var(--transition-time) ease;
+        gap: 0.5rem;
 
         &.tertiary {
             background-color: var(--color-tertiary);

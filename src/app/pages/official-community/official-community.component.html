@@ -58,12 +58,7 @@
     <div class="retro-text">
         As a supporter, unlock <strong>premium RetroSki features</strong> and
         gain <strong>exclusive access</strong> to {{ community.firstname }}'s
-        official community—ride, compete, and connect with
-        {{
-            community.sexe === "man"
-                ? " him and his fans"
-                : " her and her fans"
-        }}!
+        official community!
     </div>
     <div class="retro-buttons-list">
         @for(membership of memberships(); track membership.id) {
@@ -82,14 +77,13 @@
         {{ community.firstname }} is to
         <a routerLink="/login" class="retro-link"
             >create your RetroSki account</a
-        >! This unlocks online features, including the ability to join pro-rider
+        >! This unlocks online features, including the ability to join online
         communities.
     </div>
     <div class="retro-text">
         Once you're in, you can support {{ community.firstname }} and gain
         <strong>exclusive access</strong> to
-        {{ community.sexe === "man" ? "his" : "her" }} official server—ride,
-        compete, and connect with the community!
+        {{ community.sexe === "man" ? "his" : "her" }} official community!
     </div>
     <div class="retro-subtitle">New to RetroSki ?</div>
     <div class="retro-text">
@@ -98,6 +92,7 @@
         riders from around the world.
     </div>
     <button class="retro-button tertiary" routerLink="/home">
+        <span class="icon material-symbols-outlined">explore</span>
         Discover RetroSki
     </button>
     } }

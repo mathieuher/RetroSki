@@ -66,10 +66,12 @@
         [disabled]="event.type === 'race' && !event.incomingRaces.length"
         (click)="startRace()"
     >
+        <span class="material-symbols-outlined">downhill_skiing</span>
         Start riding
     </button>
     } @else {
     <button class="retro-button" routerLink="/ride-local">
+        <span class="icon material-symbols-outlined">arrow_back</span>
         Leave the event
     </button>
     }

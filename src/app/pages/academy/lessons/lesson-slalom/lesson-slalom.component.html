@@ -40,7 +40,10 @@
             indicators to stay on track and refine your turns.
         </div>
 
-        <div class="retro-button" (click)="startStep2()">Start the lesson</div>
+        <div class="retro-button" (click)="startStep2()">
+            <span class="material-symbols-outlined">downhill_skiing</span>
+            Start the lesson
+        </div>
     </div>
 </ng-template>
 
@@ -79,6 +82,7 @@
         </div>
 
         <div class="retro-button" (click)="exitLesson()">
+            <span class="material-symbols-outlined">arrow_back</span>
             Back to the Academy
         </div>
     </div>
@@ -109,9 +113,11 @@
         </div>
 
         <div class="retro-button tertiary" (click)="exitLesson(true)">
+            <span class="material-symbols-outlined">repeat</span>
             Try again
         </div>
         <div class="retro-button" (click)="exitLesson()">
+            <span class="material-symbols-outlined">arrow_back</span>
             Back to the Academy
         </div>
     </div>

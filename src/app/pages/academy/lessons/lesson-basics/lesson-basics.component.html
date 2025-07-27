@@ -68,6 +68,7 @@
             [disabled]="!controller()"
             (click)="startStep2()"
         >
+            <span class="material-symbols-outlined">downhill_skiing</span>
             Start the lesson
         </button>
     </div>
@@ -146,10 +147,12 @@
         }
 
         <button class="retro-button tertiary" routerLink="/academy">
+            <span class="material-symbols-outlined">arrow_back</span>
             Back to the Academy
         </button>
 
         <button class="retro-button" (click)="this.lessonStep.set(7)">
+            <span class="material-symbols-outlined">downhill_skiing</span>
             Stay practicing the basics
         </button>
     </div>

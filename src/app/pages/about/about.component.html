@@ -10,7 +10,7 @@
         <strong>terms of service</strong>, and everything you need to keep
         shredding the slopes with confidence. Stay informed and ride on!
     </div>
-    <app-expander title="Latest updates" class="updates" [expanded]="true">
+    <app-expander title="Latest updates" class="updates">
         @for(update of updates(); track $index){
         <div class="retro-text subtitle">{{ update.date | date }}</div>
         <ul>

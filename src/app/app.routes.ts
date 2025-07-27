@@ -46,10 +46,6 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/introduction/introduction.component').then(m => m.IntroductionComponent)
     },
     {
-        path: 'learning',
-        loadComponent: () => import('./pages/learning/learning.component').then(m => m.LearningComponent)
-    },
-    {
         path: 'academy',
         loadComponent: () => import('./pages/academy/academy.component').then(m => m.AcademyComponent)
     },

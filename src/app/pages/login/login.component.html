@@ -14,8 +14,8 @@
         Welcome to RetroSki online community, the home place to share rides with
         your friends!
     </div>
-    <div class="retro-subtitle">Login</div>
-    <form [formGroup]="loginForm">
+    <app-expander title="Login" [expanded]="true">
+        <form [formGroup]="loginForm">
         <div class="retro-form-section">
             <div
                 class="retro-form-line"
@@ -60,69 +60,73 @@
                 [disabled]="loginForm.invalid"
                 (click)="login()"
             >
+                <span class="material-symbols-outlined">login</span>
                 Login
             </button>
         </div>
     </form>
-    <div class="retro-subtitle">Register</div>
-    <form [formGroup]="registerForm">
-        <div class="retro-form-section">
-            <div
-                class="retro-form-line"
-                [class.invalid]="
-                    registerForm.get('name')?.invalid &&
-                    registerForm.get('name')?.touched
-                "
-            >
-                <div class="label">Username</div>
-                <input
-                    class="retro-input"
-                    type="text"
-                    formControlName="name"
-                    placeholder="3 to 16 char."
-                />
+    </app-expander>
+     <app-expander title="Create an account">
+        <form [formGroup]="registerForm">
+            <div class="retro-form-section">
+                <div
+                    class="retro-form-line"
+                    [class.invalid]="
+                        registerForm.get('name')?.invalid &&
+                        registerForm.get('name')?.touched
+                    "
+                >
+                    <div class="label">Username</div>
+                    <input
+                        class="retro-input"
+                        type="text"
+                        formControlName="name"
+                        placeholder="3 to 16 char."
+                    />
+                </div>
+                <div
+                    class="retro-form-line"
+                    [class.invalid]="
+                        registerForm.get('email')?.invalid &&
+                        !registerForm.get('email')?.pristine
+                    "
+                >
+                    <div class="label">Email</div>
+                    <input
+                        class="retro-input"
+                        type="email"
+                        formControlName="email"
+                        placeholder="Valid email"
+                    />
+                </div>
+                <div
+                    class="retro-form-line"
+                    [class.invalid]="
+                        registerForm.get('password')?.invalid &&
+                        !registerForm.get('password')?.pristine
+                    "
+                >
+                    <div class="label">Password</div>
+                    <input
+                        class="retro-input"
+                        type="password"
+                        formControlName="password"
+                        placeholder="6 to 16 char."
+                    />
+                </div>
+                @if(registerError()) {
+                <div class="retro-text error">{{ registerError() }}</div>
+                }
+                <button
+                    class="retro-button tertiary"
+                    [disabled]="registerForm.invalid"
+                    (click)="register()"
+                >
+                    <span class="material-symbols-outlined">person_add</span>
+                    Register
+                </button>
             </div>
-            <div
-                class="retro-form-line"
-                [class.invalid]="
-                    registerForm.get('email')?.invalid &&
-                    !registerForm.get('email')?.pristine
-                "
-            >
-                <div class="label">Email</div>
-                <input
-                    class="retro-input"
-                    type="email"
-                    formControlName="email"
-                    placeholder="Valid email"
-                />
-            </div>
-            <div
-                class="retro-form-line"
-                [class.invalid]="
-                    registerForm.get('password')?.invalid &&
-                    !registerForm.get('password')?.pristine
-                "
-            >
-                <div class="label">Password</div>
-                <input
-                    class="retro-input"
-                    type="password"
-                    formControlName="password"
-                    placeholder="6 to 16 char."
-                />
-            </div>
-            @if(registerError()) {
-            <div class="retro-text error">{{ registerError() }}</div>
-            }
-            <button
-                class="retro-button tertiary"
-                [disabled]="registerForm.invalid"
-                (click)="register()"
-            >
-                Register
-            </button>
-        </div>
-    </form>
+        </form>
+     </app-expander>
     }
 </div>
