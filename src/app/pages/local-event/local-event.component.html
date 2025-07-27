@@ -1,7 +1,7 @@
 <app-toolbar>
     <ng-container ngProjectAs="left-actions">
         <app-button-icon
-            icon="logout"
+            icon="arrow_back"
             routerLink="/ride-local"
             [flipped]="true"
         ></app-button-icon>
@@ -46,18 +46,21 @@
     <div class="retro-placeholder">No result to display for the moment</div>
     } @if(event.type === 'race') {
     <div class="retro-subtitle">Incoming races</div>
-    @if(event.incomingRaces.length) { @for(race of event.incomingRaces; track
-    $index) {
-    <app-result-line
-        type="race"
-        [rideNumber]="race.raceNumber"
-        [name]="race.rider"
-        [current]="$index < 1"
-        [track]="race.track.fullName"
-    ></app-result-line>
-    } } @else {
-    <div class="retro-placeholder">No more race to come !</div>
-    } }
+    <div class="retro-list">
+        @if(event.incomingRaces.length) { @for(race of event.incomingRaces; track
+        $index) {
+        <app-result-line
+            type="race"
+            [rideNumber]="race.raceNumber"
+            [name]="race.rider"
+            [current]="$index < 1"
+            [track]="race.track.fullName"
+        ></app-result-line>
+        } } @else {
+        <div class="retro-placeholder">No more race to come !</div>
+        } 
+    </div>
+    }
 </div>
 <div class="retro-footer">
     @if(event.type !== 'race' || event.incomingRaces.length) {
