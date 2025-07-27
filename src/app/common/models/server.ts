@@ -5,4 +5,6 @@ export interface Server {
     riders?: number;
     ridden?: boolean;
     public?: boolean;
+    community?: string;
+    challenge?: string;
 }

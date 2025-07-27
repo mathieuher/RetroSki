@@ -9,17 +9,84 @@
         Welcome on the mountain
         <a class="retro-link">{{ user?.name }}</a> !
     </div>
-    <app-expander title="Connect to a server">
+    <div class="retro-subtitle">Challenges</div>
+    @if(publicChallenges()?.length) {
+    <div class="retro-items-list no-scrollable">
+        @for(challenge of publicChallenges(); track challenge) {
+        <div class="retro-item tertiary" (click)="openServer(challenge.serverId)">
+            <div class="server-name">
+                <span class="icon material-symbols-outlined">social_leaderboard</span>
+                {{ challenge.name }}
+            </div>
+        </div>
+        }
+    </div>
+    } @else {
+        <div class="retro-placeholder">No challenge available at the moment</div>
+    }
+
+    <div class="retro-subtitle">Public communities</div>
+    @if(publicServers()?.length) {
+    <div class="retro-items-list no-scrollable">
+        @for(server of publicServers(); track server) {
+        <div class="retro-item" (click)="openServer(server.id)">
+            <div class="server-name">
+                <span class="icon material-symbols-outlined">public</span>
+                {{ server.name }}
+            </div>
+            @if(server.riders) {
+            <div class="server-infos">
+                {{ server.riders }} rider{{ server.riders > 1 ? "s" : "" }}
+            </div>
+            }
+        </div>
+        }
+    </div>
+    } @else {
+        <div class="retro-placeholder">No public community at the moment</div>
+    }
+
+    <div class="retro-subtitle">Premium communities</div>
+    @if(communities()?.length) {
+    <div class="retro-items-list no-scrollable">
+        @for(community of communities(); track community.id) {
+        <div
+            class="retro-item"
+            [class.tertiary]="community.userIsMember"
+            [routerLink]="
+                community.userIsMember
+                    ? '/server/' + community.serverId
+                    : '/official-community/' + community.id
+            "
+        >
+            <div class="server-name">
+                {{ community.firstname }} {{ community.lastname }}
+            </div>
+            @if(community.members) {
+            <div class="server-infos">
+                {{ community.members }} rider{{
+                    community.members > 1 ? "s" : ""
+                }}
+            </div>
+            }
+        </div>
+        }
+    </div>
+    } @else {
+        <div class="retro-placeholder">Coming soon</div>
+    }
+
+    <app-expander title="Private community access">
         <div class="retro-form-section">
             <div
                 class="retro-form-line"
                 [class.invalid]="serverCode.invalid && !serverCode.pristine"
             >
-                <div class="label">Server code</div>
+                <div class="label">Community code</div>
                 <input
                     type="text"
                     class="retro-input"
-                    placeholder="Valid server code"
+                    placeholder="Valid community code"
                     [formControl]="serverCode"
                 />
             </div>
@@ -35,14 +102,14 @@
             </button>
         </div>
     </app-expander>
-    <app-expander title="Create a new server">
+    <app-expander title="Create a private community">
         @if(user?.premium) {
         <div class="retro-form-section">
             <div
                 class="retro-form-line"
                 [class.invalid]="serverName.invalid && !serverName.pristine"
             >
-                <div class="label">Server name</div>
+                <div class="label">Community name</div>
                 <input
                     type="text"
                     class="retro-input"
@@ -68,75 +135,4 @@
         </div>
         }
     </app-expander>
-    <div class="retro-subtitle">Owned or ridden servers</div>
-    <div class="retro-items-list no-scrollable">
-        @for(server of userServers(); track server) {
-        <div class="retro-item" (click)="openServer(server.id)">
-            <div class="server-name">
-                @if(server.owner === user?.id) {
-                <span class="icon material-symbols-outlined">crown</span>
-                }
-                {{ server.name }}
-            </div>
-            @if(server.riders) {
-            <div class="server-infos">
-                {{ server.riders }} rider{{ server.riders > 1 ? "s" : "" }}
-            </div>
-            }
-        </div>
-        } @if(!userServers()) {
-        <div class="retro-placeholder">Loading servers</div>
-        } @else if(!userServers()?.length) {
-        <div class="retro-placeholder">
-            Join or create a server to start riding
-        </div>
-        }
-    </div>
-    @if(publicServers()?.length) {
-    <div class="retro-subtitle">Public servers</div>
-    <div class="retro-items-list no-scrollable">
-        @for(server of publicServers(); track server) {
-        <div class="retro-item" (click)="openServer(server.id)">
-            <div class="server-name">
-                @if(server.owner === user?.id) {
-                <span class="icon material-symbols-outlined">crown</span>
-                }
-                {{ server.name }}
-            </div>
-            @if(server.riders) {
-            <div class="server-infos">
-                {{ server.riders }} rider{{ server.riders > 1 ? "s" : "" }}
-            </div>
-            }
-        </div>
-        }
-    </div>
-    } @if(communities()?.length) {
-    <div class="retro-subtitle">Official communities</div>
-    <div class="retro-items-list no-scrollable">
-        @for(community of communities(); track community.id) {
-        <div
-            class="retro-item"
-            [class.tertiary]="community.userIsMember"
-            [routerLink]="
-                community.userIsMember
-                    ? '/server/' + community.serverId
-                    : '/official-community/' + community.id
-            "
-        >
-            <div class="server-name">
-                {{ community.firstname }} {{ community.lastname }}
-            </div>
-            @if(community.members) {
-            <div class="server-infos">
-                {{ community.members }} rider{{
-                    community.members > 1 ? "s" : ""
-                }}
-            </div>
-            }
-        </div>
-        }
-    </div>
-
-    }
 </div>

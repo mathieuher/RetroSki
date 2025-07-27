@@ -34,7 +34,6 @@ export class CommunityService {
                     })
                 )
             ),
-            tap(x => console.log(x)),
             reduce((acc, community) => [...acc, community], [] as Community[])
         );
     }
@@ -43,15 +42,15 @@ export class CommunityService {
         return of([]);
     }
 
-    private getCommunityMembers$(id: string): Observable<number> {
-        return from(environment.pb.collection('public_communities_members').getOne(id)).pipe(
-            map(record => record['users'] as number)
+    public isRiderOfCommunity$(communityId: string): Observable<boolean> {
+        return from(environment.pb.collection('public_active_memberships').getFullList()).pipe(
+            map(records => records?.filter(r => r['community'] === communityId)?.length > 0)
         );
     }
 
-    private isRiderOfCommunity$(communityId: string): Observable<boolean> {
-        return from(environment.pb.collection('public_active_memberships').getFullList()).pipe(
-            map(records => records?.filter(r => r['community'] === communityId)?.length > 0)
+    private getCommunityMembers$(id: string): Observable<number> {
+        return from(environment.pb.collection('public_communities_members').getOne(id)).pipe(
+            map(record => record['users'] as number)
         );
     }
 }

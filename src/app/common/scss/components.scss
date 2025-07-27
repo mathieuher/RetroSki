@@ -162,7 +162,7 @@ canvas#game {
     color: var(--color-primary);
     font-weight: 400;
 
-    ul {
+    ul, p {
         margin: 0;
     }
 
@@ -484,6 +484,27 @@ canvas#game {
         height: 16%;
         width: 90%;
         left: 5%;
+    }
+}
+
+.retro-medal {
+    aspect-ratio: 1;
+    height: 18px;
+    display: inline-block;
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 100%;
+    line-height: 18px;
+    background-color: var(--color-gold);
+    margin-left: 0.25rem;
+
+    &.silver {
+        background-color: var(--color-silver);
+    }
+
+    &.bronze {
+        background-color: var(--color-bronze);
     }
 }
 
