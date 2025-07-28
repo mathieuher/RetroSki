@@ -222,7 +222,7 @@ export class Config {
         Resources.Spectator4.toSprite()
     ];
     static SPECTATOR_SHADOW = Resources.SpectatorShadow.toSprite();
-    static SPECTATORS_MAX_DENSITY = 20;
+    static SPECTATORS_MAX_DENSITY = 30;
     static SPECTATORS_MAX_SOUND_DISTANCE = 600;
     static SPECTATORS_SOUND_INTENSITY = 0.15;
     static SPECTATORS_SOUNDS = [
@@ -244,7 +244,7 @@ export class Config {
         Resources.SpectatorHit3Sound
     ];
 
-    static DECORATIONS_AMOUNT_MAX_AMOUNT = 100;
+    static DECORATIONS_AMOUNT_MAX_AMOUNT = 150;
     static DECORATIONS_SPRITES = {
         tree: Resources.Tree.toSprite()
     };

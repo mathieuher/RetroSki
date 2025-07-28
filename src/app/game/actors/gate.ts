@@ -248,7 +248,7 @@ export class Gate extends Actor {
             new Line({
                 start: start,
                 end: end,
-                color: Color.Red,
+                color: Color.Transparent,
                 thickness: 3.5
             })
         );

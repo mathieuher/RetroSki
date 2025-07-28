@@ -202,7 +202,7 @@ export class Race extends Scene {
     private updateGhostOpacity(ghost: Actor) {
         if (this.skier) {
             const distance = ghost.pos.distance(this.skier.pos);
-            ghost.graphics.opacity = Math.min(1, distance * 0.01);
+            ghost.graphics.opacity = Math.min(1, distance * 0.03);
         }
     }
 

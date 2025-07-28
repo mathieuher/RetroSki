@@ -9,7 +9,8 @@
     }
 
     .ui-overlay {
-        display: flex;
+        visibility: hidden;
+        display: none;
         flex-direction: column;
         position: absolute;
         width: 100%;
