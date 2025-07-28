@@ -1,6 +1,6 @@
 <div class="retro-dialog" [class.tertiary]="completed()">
     <div class="title">
-        <span class="material-symbols-outlined">{{
+        <span class="material-symbols-outlined" [class.outlined]="!completed()">{{
             completed() ? "check_circle" : "circle"
         }}</span>
         {{ title() }}
