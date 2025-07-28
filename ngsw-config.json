@@ -7,7 +7,9 @@
             "installMode": "lazy",
             "updateMode": "prefetch",
             "resources": {
-                "files": ["/assets/**/*.(png|svg|mp3)"]
+                "files": [
+                    "/assets/**/*.(png|svg|mp3|mp4)"
+                ]
             }
         }
     ]
