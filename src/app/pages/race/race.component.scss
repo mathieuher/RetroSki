@@ -147,6 +147,9 @@
                 margin-top: 1rem;
                 background-color: var(--color-error-darkest);
                 color: var(--color-surface);
+                .icon {
+                    margin-bottom: 0;
+                }
             }
         }
     }

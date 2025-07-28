@@ -16,8 +16,10 @@
     text-rendering: optimizeLegibility;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "liga";
+    font-variation-settings: "FILL" 1;
 
-    &.filled {
-        font-variation-settings: "FILL" 1;
+    &.outlined {
+        font-variation-settings: "FILL" 0;
     }
+
 }

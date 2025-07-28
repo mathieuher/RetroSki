@@ -1,42 +1,45 @@
-<app-toolbar [hideLogo]="true">
-    <ng-container ngProjectAs="right-actions">
-        <app-button-icon
-            [class.tertiary]="hasNewUpdate()"
-            [filled]="hasNewUpdate()"
-            icon="info"
-            routerLink="/about"
-            [badge]="hasNewUpdate() ? 'New updates!' : ''"
-        ></app-button-icon>
-    </ng-container>
-</app-toolbar>
-<div class="retro-content">
-    <img class="logo" src="./assets/logos/logo.png" alt="RetroSki logo" />
-    <div class="title">Welcome!</div>
-    <div class="subtitle">
-        Join us on the mountain to experience thrilling 2D-generated alpine ski
-        tracks.<br /><br />
-        Enjoy the ride or challenge your friends on some of the most demanding
-        tracks!
+<video autoplay [muted]="true" loop>
+  <source src="../../../assets/videos/demo.mp4" type="video/mp4">
+</video>
+<div class="home-container">
+    <app-toolbar [hideLogo]="true">
+        <ng-container ngProjectAs="right-actions">
+            <app-button-icon
+                [class.tertiary]="hasNewUpdate()"
+                [filled]="hasNewUpdate()"
+                icon="info"
+                routerLink="/about"
+                [badge]="hasNewUpdate() ? 'New updates!' : ''"
+            ></app-button-icon>
+        </ng-container>
+    </app-toolbar>
+    <div class="retro-content">
+        <img class="logo" src="./assets/logos/logo.png" alt="RetroSki logo" />
+        <div class="title">Welcome rider!</div>
+        <div class="subtitle">
+            Join us on the mountain to experience thrilling 2D-generated alpine ski
+            tracks.
+        </div>
     </div>
-</div>
-<div class="retro-footer">
-    <div class="actions-container">
-        <button class="retro-button" routerLink="/introduction">
-            <span class="material-symbols-outlined">description</span>
-            Introduction
-        </button>
-        <button
-            class="retro-button"
-            [class.tertiary]="!academyCompleted"
-            routerLink="/academy"
-        >
-            <span class="material-symbols-outlined">school</span> Ski Academy
-        </button>
-        <button class="retro-button" routerLink="/ride-local">
-            <span class="material-symbols-outlined">group</span> Ride local
-        </button>
-        <button class="retro-button tertiary" routerLink="/login">
-            <span class="material-symbols-outlined">public</span> Ride online
-        </button>
+    <div class="retro-footer">
+        <div class="actions-container">
+            <button class="retro-button" routerLink="/introduction">
+                <span class="material-symbols-outlined">description</span>
+                Introduction
+            </button>
+            <button
+                class="retro-button"
+                [class.tertiary]="!academyCompleted"
+                routerLink="/academy"
+            >
+                <span class="material-symbols-outlined">school</span> Ski Academy
+            </button>
+            <button class="retro-button" routerLink="/ride-local">
+                <span class="material-symbols-outlined">group</span> Ride local
+            </button>
+            <button class="retro-button tertiary" routerLink="/login">
+                <span class="material-symbols-outlined">public</span> Ride online
+            </button>
+        </div>
     </div>
 </div>
