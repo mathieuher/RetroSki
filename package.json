@@ -27,7 +27,7 @@
         "dexie": "^4.0.11",
         "excalibur": "0.30.2",
         "@fontsource-variable/material-symbols-outlined": "5.2.17",
-        "pocketbase": "0.22.1",
+        "pocketbase": "0.26.2",
         "rxjs": "~7.8.2",
         "tslib": "^2.8.1",
         "zone.js": "~0.15.1"

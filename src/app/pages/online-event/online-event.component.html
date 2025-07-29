@@ -114,20 +114,24 @@
             remainingRaces()?.length
         }}/{{ event()!.racesLimit }}) }
     </div>
-    @for (race of remainingRaces(); track race; let index = $index) {
-    <app-result-line
-        type="race"
-        [rideNumber]="race"
-        [current]="index === 0"
-        [track]="track()?.fullName"
-    ></app-result-line>
-    } @if (!remainingRaces()) {
-    <div class="retro-placeholder">Loading remaining races</div>
-    } @else if(!remainingRaces()?.length) {
-    <div class="retro-placeholder">You have completed all races</div>
-    } } } @else {
+    <div class="retro-list">
+        @for (race of remainingRaces(); track race; let index = $index) {
+        <app-result-line
+            type="race"
+            [rideNumber]="race"
+            [current]="index === 0"
+            [track]="track()?.fullName"
+        ></app-result-line>
+        } @if (!remainingRaces()) {
+        <div class="retro-placeholder">Loading remaining races</div>
+        } @else if(!remainingRaces()?.length) {
+        <div class="retro-placeholder">You have completed all races</div>
+        } 
+    </div>
+    } } @else {
     <div class="retro-placeholder">Loading event</div>
     }
+    
 </div>
 @if(!event()?.isClosed && !event()?.isPlanned) {
 <div class="retro-footer">
