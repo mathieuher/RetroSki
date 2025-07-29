@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /#/introduction
+Allow: /#/
+Allow: /#/academy
+Allow: /#/ride-local
+Allow: /#/manage-tracks
+Allow: /#/settings
+Allow: /#/about
+Allow: /#/login
