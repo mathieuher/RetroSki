@@ -376,11 +376,24 @@ canvas#game {
             }
         }
 
-        &.inactive,
+        &.inactive {
+            background-color: var(--color-disabled-extra-lightest);
+            color: var(--color-disabled);
+
+            .badge{
+                background-color: var(--color-disabled);
+                color: var(--color-surface);
+            }
+        }
+
         &.planned {
-            opacity: 0.8;
             background-color: var(--color-primary-lightest);
             color: var(--color-primary-light);
+
+            .badge {
+                background-color: var(--color-primary-light);
+                color: var(--color-surface);
+            }
         }
 
         .icon {

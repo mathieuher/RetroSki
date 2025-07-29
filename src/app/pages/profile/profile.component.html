@@ -36,7 +36,7 @@
         </div>
         <div class="expire">
             @if(membershipStatus()?.endDate) { Valid until:
-            {{ membershipStatus()!.endDate | date : "d MMMM YYY" }}
+            {{ membershipStatus()!.endDate | date : "d MMMM yyy" }}
             } @else { Lifetime validity }
         </div>
     </div>

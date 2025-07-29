@@ -56,13 +56,13 @@ export class OnlineEventComponent {
         this.event = toSignal(this.eventService.getEvent$((this.route.snapshot.params as { id: string }).id));
 
         this.track = rxResource({
-            request: this.event,
-            loader: event => this.trackService.getTrack$('online', event.request?.trackId!)
+            params: this.event,
+            stream: event => this.trackService.getTrack$('online', event.params?.trackId!)
         }).value;
 
         this.results = rxResource({
-            request: this.event,
-            loader: event => this.eventService.getResults$(event.request?.id!)
+            params: this.event,
+            stream: event => this.eventService.getResults$(event.params?.id!)
         }).value;
 
         this.rankings = computed(() =>

@@ -20,18 +20,18 @@
     @if (event()?.isPlanned) {
     <div class="retro-text error">
         Opening :
-        <span>{{ event()?.startingDate | date : "d MMMM YYY HH:mm" }}</span>
+        <span>{{ event()?.startingDate | date : "d MMMM yyy HH:mm" }} </span>
     </div>
     } @else if (event()?.endingDate) { @if(event()?.isClosed) {
     <div class="retro-text error">
         Closed since :
-        <span>{{ event()?.endingDate | date : "d MMMM YYY HH:mm" }}</span>
+        <span>{{ event()?.endingDate | date : "d MMMM yyy HH:mm" }}</span>
     </div>
     } @else {
     <div class="retro-text">
         Open until :
         <span class="tertiary">{{
-            event()?.endingDate | date : "d MMMM YYY HH:mm"
+            event()?.endingDate | date : "d MMMM yyy HH:mm"
         }}</span>
     </div>
     } }

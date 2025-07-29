@@ -105,22 +105,28 @@
             routerLink="/online-event/{{ event.id }}"
         >
             <div class="name">
+                <span class="icon material-symbols-outlined">
+                     @if(event.startingDate && event.startingDate.getTime() > now) {
+                        event_upcoming
+                     } @else if (event.endingDateLabel === 'Closed') {
+                        event_busy
+                     } @else {
+                        event_available
+                     }
+                </span>
                 {{ event.name }}
             </div>
             <div class="status">
                 @if(event.startingDate && event.startingDate.getTime() > now) {
-                <span class="badge"
-                    ><span class="icon material-symbols-outlined"
-                        >calendar_month</span
-                    >Planned</span
+                <span class="badge">Planned</span
                 >
                 } @else if(event.endingDate) {
-                <span class="badge"
-                    ><span class="icon material-symbols-outlined">{{
-                        event.endingDateLabel === "Closed" ? "block" : "timer"
-                    }}</span
-                    >{{ event.endingDateLabel }}</span
-                >
+                <span class="badge">
+                    @if(event.endingDateLabel !== "Closed") {
+                        <span class="icon material-symbols-outlined outlined">timer</span>
+                    }
+                    {{ event.endingDateLabel }}
+                </span>
                 }
             </div>
             <div class="type">

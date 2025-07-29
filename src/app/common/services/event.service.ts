@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { from, map, type Observable } from 'rxjs';
+import { from, map, tap, type Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { OnlineEvent } from '../models/online-event';
 import { EventResult } from '../models/event-result';
@@ -23,7 +23,8 @@ export class EventService {
                         record['endingDate'] ? new Date(record['endingDate']) : undefined,
                         record['startingDate'] ? new Date(record['startingDate']) : undefined
                     )
-            )
+            ),
+            tap(x => console.log(x))
         );
     }
 
