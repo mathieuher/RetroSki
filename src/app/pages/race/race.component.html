@@ -1,5 +1,5 @@
 <canvas id="game"></canvas>
-<div class="ui-overlay">
+<div class="ui-overlay" [class.hidden]="videoMode">
     @if(displayTouchZones) {
     <div class="touch-zone left"></div>
     <div class="touch-zone right"></div>
@@ -55,7 +55,7 @@
 </div>
 
 } @else if(raceRanking()) {
-<div class="timing-overlay">
+<div class="timing-overlay" [class.hidden]="videoMode">
     <div class="ranking">
         <div class="position">{{ raceRanking()!.positionLabel }}</div>
         <div class="timing">{{ raceRanking()!.formattedTime }}</div>
@@ -88,7 +88,7 @@
     </div>
 </div>
 } @else if (processingRide()) {
-<div class="loading-placeholder">
+<div class="loading-placeholder" [class.hidden]="videoMode">
     Hang tight!<br />
     We're verifying your ride on the server.
 </div>

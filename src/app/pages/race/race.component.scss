@@ -6,6 +6,10 @@
 
     .loading-placeholder {
         font-size: 1rem;
+
+        &.hidden {
+            display: none;
+        }
     }
 
     .ui-overlay {
@@ -18,6 +22,10 @@
         left: 0px;
         color: var(--color-primary);
         pointer-events: none;
+
+        &.hidden {
+            display: none;
+        }
 
         .header,
         .footer {
@@ -164,6 +172,10 @@
         left: 0px;
         background-color: rgba(255, 255, 255, 0.95);
         color: var(--color-primary);
+
+        &.hidden {
+            display: none;
+        }
 
         .ranking {
             display: flex;

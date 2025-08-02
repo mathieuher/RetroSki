@@ -39,6 +39,7 @@ export class RaceComponent extends Destroyable implements OnInit {
     protected raceRanking = signal<RaceRanking | undefined>(undefined);
     protected processingError = signal<string | undefined>(undefined);
     protected processingRide = signal<boolean>(false);
+    protected videoMode = this.route.snapshot.queryParamMap.get('video-mode') === 'true';
     protected displayTouchZones = this.settingsService.getSettings().touchZones;
     private game?: Game;
 
