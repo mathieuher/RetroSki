@@ -5,7 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../common/services/auth.service';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ServerService } from '../../common/services/server.service';
-import { catchError, EMPTY, takeUntil, tap } from 'rxjs';
+import { catchError, EMPTY, takeUntil, tap, timeInterval, timeout } from 'rxjs';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ExpanderComponent } from '../../common/components/expander/expander.component';
@@ -35,11 +35,18 @@ export class RideOnlineComponent extends Destroyable {
         Validators.maxLength(16)
     ]);
 
-    private servers = toSignal(this.serverService.getUserServers$());
+    private servers = toSignal(this.serverService.getUserServers$().pipe(tap(() => this.serversLoading.set(false))));
+    protected serversLoading = signal(true);
+    protected communitiesLoading = signal(true);
+    protected challengeLoading = signal(true);
     protected userServers = computed(() => this.servers()?.filter(s => s.owner === this.user?.id || s.ridden));
     protected publicServers = computed(() => this.servers()?.filter(s => s.public && !s.challenge));
-    protected communities = toSignal(this.communityService.getCommunities$());
-    protected publicChallenges = toSignal(this.challengeService.getChallenges$());
+    protected communities = toSignal(
+        this.communityService.getCommunities$().pipe(tap(() => this.communitiesLoading.set(false)))
+    );
+    protected publicChallenges = toSignal(
+        this.challengeService.getChallenges$().pipe(tap(() => this.challengeLoading.set(false)))
+    );
 
     protected connectionError = signal<string | null>(null);
     protected creationError = signal<string | null>(null);
