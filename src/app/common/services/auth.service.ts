@@ -97,8 +97,14 @@ export class AuthService {
         );
     }
 
-    public getRiderRides$(riderId: string): Observable<number> {
-        return from(environment.pb.collection('records').getFullList()).pipe(map(response => response.length));
+    public getRiderRides$(riderName: string): Observable<number> {
+        return from(
+            environment.pb.collection('public_participations').getFullList({ query: { rider: riderName } })
+        ).pipe(
+            map(participations =>
+                participations.reduce((totalRides, participation) => totalRides + participation['rides'], 0)
+            )
+        );
     }
 
     private getMembershipName$(membershipId: string): Observable<string> {
