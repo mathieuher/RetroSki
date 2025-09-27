@@ -244,10 +244,13 @@ export class Config {
         Resources.SpectatorHit3Sound
     ];
 
+    // DECORATION
     static DECORATIONS_AMOUNT_MAX_AMOUNT = 100;
     static DECORATIONS_SPRITES = {
         tree: Resources.Tree.toSprite()
     };
-
     static DECORATION_TREE_SIZE = 65;
+
+    // THROTTLING PERFORMANCE (ratio framerate divider)
+    static THROTTLING_SPECTATOR_GROUP = 10;
 }

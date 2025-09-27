@@ -18,6 +18,7 @@ export class SpectatorGroup extends Actor {
         ? Config.SPECTATORS_BELLS_SOUNDS[~~(Math.random() * Config.SPECTATORS_BELLS_SOUNDS.length)]
         : null;
     private bellsSoundInstance?: Audio;
+    private updateLoop = 0;
 
     constructor(engine: Engine, position: Vector, density: number, side: 'left' | 'right') {
         super({
@@ -35,6 +36,14 @@ export class SpectatorGroup extends Actor {
     }
 
     override update(): void {
+        this.updateLoop++;
+        if (this.updateLoop === Config.THROTTLING_SPECTATOR_GROUP) {
+            this.updateLoop = 0;
+            this.throttledUpdate();
+        }
+    }
+
+    private throttledUpdate(): void {
         if (ScreenManager.isNearScreen(this, this.scene!.camera) && !this.children?.length) {
             this.buildSpectators();
             (this.engine as Game).soundPlayer.playSound(this.sound, 0.001, true, true);
