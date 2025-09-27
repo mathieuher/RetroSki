@@ -33,6 +33,7 @@ export class SkierIntentions {
 const LEFT_ANGLE_OFFSET = (3 / 4) * Math.PI;
 const RIGHT_ANGLE_OFFSET = (1 / 4) * Math.PI;
 const RADIAN_PI = 2 * Math.PI;
+const RADIAN_TO_DEGREE = 180 / Math.PI;
 
 export class Skier extends Actor {
     public speed = 0;
@@ -46,6 +47,8 @@ export class Skier extends Actor {
 
     private leftParticlesEmitter!: GpuParticleEmitter;
     private rightParticlesEmitter!: GpuParticleEmitter;
+    private updateParticlesLoop = 0;
+    private updateSoundLoop = 0;
 
     constructor(skierInfos: SkierInfos, skierConfig: SkierConfig) {
         super({
@@ -67,6 +70,8 @@ export class Skier extends Actor {
     }
 
     override update(engine: Engine): void {
+        this.updateParticlesLoop++;
+        this.updateSoundLoop++;
         this.updateSkierIntentions(engine);
         const skierAction = this.getSkierCurrentAction();
         this.updateGraphics(skierAction);
@@ -88,8 +93,16 @@ export class Skier extends Actor {
                 (this.scene as Race).start();
             }
         }
-        this.emitParticles(engine, skierAction, this.skierIntentions);
-        this.emitSounds(engine as Game, this.finish, this.skierIntentions);
+
+        if (this.updateParticlesLoop === Config.THROTTLING_SKIER_PARTICLES) {
+            this.updateParticlesLoop = 0;
+            this.emitParticles(engine, skierAction, this.skierIntentions);
+        }
+
+        if (this.updateSoundLoop === Config.THROTTLING_SKIER_SOUND) {
+            this.updateSoundLoop = 0;
+            this.emitSounds(engine as Game, this.finish, this.skierIntentions);
+        }
     }
 
     public finishRace(): void {
@@ -149,7 +162,7 @@ export class Skier extends Actor {
                         ? Math.max(this.speed, 1) / this.skierConfig.slidingOptimalSpeed
                         : 1;
                 rotationRate =
-                    (this.skierConfig.slidingRotationRate / (180 / Math.PI)) *
+                    (this.skierConfig.slidingRotationRate / RADIAN_TO_DEGREE) *
                     rotationSpeedMultiplier *
                     Skier.slidingIntention(skierIntentions);
             } else if (Skier.carvingIntention(skierIntentions)) {
@@ -158,7 +171,7 @@ export class Skier extends Actor {
                         ? Math.max(this.speed, 1) / this.skierConfig.carvingOptimalSpeed
                         : 1;
                 rotationRate =
-                    (this.skierConfig.carvingRotationRate / (180 / Math.PI)) *
+                    (this.skierConfig.carvingRotationRate / RADIAN_TO_DEGREE) *
                     rotationSpeedMultiplier *
                     Skier.carvingIntention(skierIntentions);
             }
@@ -166,15 +179,15 @@ export class Skier extends Actor {
                 ? this.rotation - rotationRate
                 : this.rotation + rotationRate;
         } else {
-            const rotationCenterRate = Config.ROTATION_RECENTER_RATE / (180 / Math.PI);
-            const angularRotation = this.rotation * (180 / Math.PI);
+            const rotationCenterRate = Config.ROTATION_RECENTER_RATE / RADIAN_TO_DEGREE;
+            const angularRotation = this.rotation * RADIAN_TO_DEGREE;
             if (angularRotation !== 0) {
                 futurRotation =
                     angularRotation >= 270 ? this.rotation + rotationCenterRate : this.rotation - rotationCenterRate;
             }
         }
 
-        const normalizedRotation = futurRotation * (180 / Math.PI);
+        const normalizedRotation = futurRotation * RADIAN_TO_DEGREE;
 
         if (normalizedRotation > 180 && normalizedRotation < 270) {
             this.rotation = Config.MAX_LEFT_ROTATION_ANGLE;
@@ -186,7 +199,7 @@ export class Skier extends Actor {
     }
 
     private updateSpeed(skierAction: SkierActions, skierIntentions: SkierIntentions): void {
-        let angleOfSkier = this.rotation * (180 / Math.PI);
+        let angleOfSkier = this.rotation * RADIAN_TO_DEGREE;
         if (angleOfSkier >= 270) {
             angleOfSkier = 360 - angleOfSkier;
         }
@@ -215,7 +228,7 @@ export class Skier extends Actor {
         let xVelocity = 0;
         let yVelocity = 0;
         const adherenceRate = this.getAdherenceRate(skierIntentions);
-        const normalizedRotation = this.rotation * (180 / Math.PI);
+        const normalizedRotation = this.rotation * RADIAN_TO_DEGREE;
         if (normalizedRotation === 0) {
             xVelocity = 0;
             yVelocity = this.speed;

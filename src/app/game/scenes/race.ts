@@ -26,7 +26,7 @@ export class Race extends Scene {
 
     private uiManager = new RaceUiManager();
     private uiTimer = new Timer({
-        interval: 60,
+        interval: 120,
         repeats: true,
         fcn: () => {
             this.updateRacingUi();
@@ -46,6 +46,8 @@ export class Race extends Scene {
     private globalRecordGhost?: Actor;
     private eventRecordGhostDatas?: StockableGhost;
     private eventRecordGhost?: Actor;
+
+    private ghostIndex = 0;
 
     constructor(engine: Engine, config: RaceConfig) {
         super();
@@ -167,17 +169,43 @@ export class Race extends Scene {
     }
 
     private updateGhostsPosition(): void {
-        if (this.globalRecordGhost && this.globalRecordGhostDatas?.positions?.length) {
-            this.updateGhostPosition(this.globalRecordGhost, this.globalRecordGhostDatas.positions, 'global');
+        if (this.ghostIndex % Config.THROTTLING_GHOST === 0) {
+            if (
+                this.globalRecordGhost &&
+                this.globalRecordGhostDatas?.positions?.length &&
+                this.globalRecordGhostDatas.positions.length > this.ghostIndex
+            ) {
+                this.updateGhostPosition(
+                    this.globalRecordGhost,
+                    this.globalRecordGhostDatas.positions,
+                    'global',
+                    this.ghostIndex
+                );
+            }
+            if (
+                this.eventRecordGhost &&
+                this.eventRecordGhostDatas?.positions?.length &&
+                this.eventRecordGhostDatas.positions.length > this.ghostIndex
+            ) {
+                this.updateGhostPosition(
+                    this.eventRecordGhost,
+                    this.eventRecordGhostDatas.positions,
+                    'event',
+                    this.ghostIndex
+                );
+            }
         }
-        if (this.eventRecordGhost && this.eventRecordGhostDatas?.positions?.length) {
-            this.updateGhostPosition(this.eventRecordGhost, this.eventRecordGhostDatas.positions, 'event');
-        }
+        this.ghostIndex++;
     }
 
-    private updateGhostPosition(ghost: Actor, positions: SkierPositioning[], type: 'global' | 'event'): void {
-        const position = positions.splice(0, 1)[0];
+    private updateGhostPosition(
+        ghost: Actor,
+        positions: SkierPositioning[],
+        type: 'global' | 'event',
+        ghostIndex: number
+    ): void {
         if ((this.engine as Game).settingsService.getSettings().ghosts) {
+            const position = positions[ghostIndex];
             ghost.pos = vec(position.x, position.y);
             ghost.rotation = position.rotation;
             this.updateGhostGraphics(ghost, position.action, type);

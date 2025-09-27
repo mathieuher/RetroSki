@@ -1,12 +1,13 @@
-import { Actor, type Engine, type Vector, vec, type Audio } from 'excalibur';
+import { type Engine, type Vector, vec, type Audio } from 'excalibur';
 import { Config } from '../config';
 import { ScreenManager } from '../utils/screen-manager';
 import { Spectator } from './spectator';
 import type { Race } from '../scenes/race';
 import type { Game } from '../game';
 import { Resources } from '../resources';
+import { ThrottledActor } from './throttled-actor';
 
-export class SpectatorGroup extends Actor {
+export class SpectatorGroup extends ThrottledActor {
     private engine: Engine;
     private side: 'left' | 'right';
     private density: number;
@@ -18,10 +19,9 @@ export class SpectatorGroup extends Actor {
         ? Config.SPECTATORS_BELLS_SOUNDS[~~(Math.random() * Config.SPECTATORS_BELLS_SOUNDS.length)]
         : null;
     private bellsSoundInstance?: Audio;
-    private updateLoop = 0;
 
     constructor(engine: Engine, position: Vector, density: number, side: 'left' | 'right') {
-        super({
+        super(Config.THROTTLING_SPECTATOR_GROUP, {
             anchor: vec(0, 0),
             pos: position,
             height: density * (Config.SPECTATOR_HEIGHT * 0.7),
@@ -35,15 +35,7 @@ export class SpectatorGroup extends Actor {
         this.listenExitViewportEvent();
     }
 
-    override update(): void {
-        this.updateLoop++;
-        if (this.updateLoop === Config.THROTTLING_SPECTATOR_GROUP) {
-            this.updateLoop = 0;
-            this.throttledUpdate();
-        }
-    }
-
-    private throttledUpdate(): void {
+    protected override throttledUpdate(): void {
         if (ScreenManager.isNearScreen(this, this.scene!.camera) && !this.children?.length) {
             this.buildSpectators();
             (this.engine as Game).soundPlayer.playSound(this.sound, 0.001, true, true);
@@ -89,7 +81,7 @@ export class SpectatorGroup extends Actor {
     }
 
     private adjustSoundVolume(): void {
-        const distanceFromSkier = this.getGlobalPos().distance((this.scene as Race).skier!.pos);
+        const distanceFromSkier = this.globalPos.distance((this.scene as Race).skier!.pos);
         this.soundInstance!.volume =
             Math.max(0.001, 1 - distanceFromSkier / Config.SPECTATORS_MAX_SOUND_DISTANCE) *
             (this.density / Config.SPECTATORS_MAX_DENSITY) *

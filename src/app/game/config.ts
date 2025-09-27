@@ -253,4 +253,9 @@ export class Config {
 
     // THROTTLING PERFORMANCE (ratio framerate divider)
     static THROTTLING_SPECTATOR_GROUP = 10;
+    static THROTTLING_SPECTATOR = 3;
+    static THROTTLING_STARTING_HOUSE = 60;
+    static THROTTLING_SKIER_SOUND = 6;
+    static THROTTLING_SKIER_PARTICLES = 2;
+    static THROTTLING_GHOST = 2;
 }

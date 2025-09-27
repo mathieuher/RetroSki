@@ -1,5 +1,4 @@
 import {
-    Actor,
     CollisionType,
     type Vector,
     toRadians,
@@ -14,13 +13,14 @@ import { Config } from '../config';
 import { Skier } from './skier';
 import type { Game } from '../game';
 import type { Race } from '../scenes/race';
+import { ThrottledActor } from './throttled-actor';
 
-export class Spectator extends Actor {
+export class Spectator extends ThrottledActor {
     private hitSound!: Sound;
     private originalPos!: Vector;
 
     constructor(position: Vector, rotation: number) {
-        super({
+        super(Config.THROTTLING_SPECTATOR, {
             anchor: vec(0.5, 0.5),
             pos: position,
             width: Config.SPECTATOR_WIDTH,
@@ -38,9 +38,9 @@ export class Spectator extends Actor {
         this.on('collisionstart', evt => this.onPreCollision(evt));
     }
 
-    override update(engine: Game, _delta: number): void {
+    protected override throttledUpdate(engine: Game): void {
         if (engine.settingsService.getSettings().spectatorsAnimation) {
-            const distanceFromSkier = this.getGlobalPos().distance((this.scene as Race).skier!.pos);
+            const distanceFromSkier = this.globalPos.distance((this.scene as Race).skier!.pos);
             if (distanceFromSkier < Config.SPECTATORS_MAX_SOUND_DISTANCE) {
                 this.lookAtSkier();
                 this.excitingMove();
@@ -89,7 +89,7 @@ export class Spectator extends Actor {
 
     private lookAtSkier(): void {
         const skier = (this.scene as Race).skier!;
-        const angle = Math.atan2(skier.pos.y - this.getGlobalPos().y, skier.pos.x - this.getGlobalPos().x);
+        const angle = Math.atan2(skier.pos.y - this.globalPos.y, skier.pos.x - this.globalPos.x);
         this.rotation = angle;
     }
 }
