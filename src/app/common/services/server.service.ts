@@ -22,8 +22,8 @@ export class ServerService {
     }
 
     public getUserServers$(): Observable<Server[]> {
-        return combineLatest([this.getPublicServers$(), this.getOwnedServers$(), this.getRiddenServers$()]).pipe(
-            map(([publics, owned, ridden]) => this.combineServers([...publics, ...owned, ...ridden])),
+        return combineLatest([this.getPublicServers$(), this.getOwnedServers$()]).pipe(
+            map(([publics, owned]) => this.combineServers([...publics, ...owned])),
             mergeAll(),
             concatMap(server => {
                 return this.getRiders$(server.id).pipe(
@@ -83,17 +83,17 @@ export class ServerService {
     }
 
     public getRiders$(serverId: string): Observable<ServerRider[]> {
-        return from(environment.pb.collection('public_records').getFullList({ query: { server: serverId } })).pipe(
+        return from(
+            environment.pb.collection('public_participations').getFullList({ query: { server: serverId } })
+        ).pipe(
             map(records =>
                 records.map(record => {
                     return {
-                        name: record['name'],
-                        rides: records.filter(r => r['name'] === record['name'])?.length
+                        name: record['riderName'],
+                        rides: record['rides']
                     };
                 })
-            ),
-            map(riders => riders.filter((rider, index, self) => index === self.findIndex(t => t.name === rider.name))),
-            map(riders => riders.sort((a, b) => b.rides - a.rides))
+            )
         );
     }
 
@@ -101,23 +101,6 @@ export class ServerService {
         return from(environment.pb.collection('tracks').getFullList()).pipe(
             map(records =>
                 records.map(record => ({ id: record['id'], name: `${record['name']} - (${record['style']})` }))
-            )
-        );
-    }
-
-    private getRiddenServers$(): Observable<Server[]> {
-        return from(
-            environment.pb.collection('public_participations').getFullList({ filter: `server.community = ''` })
-        ).pipe(
-            map(participations =>
-                participations.map(participation => {
-                    return {
-                        id: participation['server'] as string,
-                        name: participation['name'] as string,
-                        owner: participation['owner'] as string,
-                        ridden: true
-                    };
-                })
             )
         );
     }
