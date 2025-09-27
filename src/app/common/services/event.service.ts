@@ -23,8 +23,7 @@ export class EventService {
                         record['endingDate'] ? new Date(record['endingDate']) : undefined,
                         record['startingDate'] ? new Date(record['startingDate']) : undefined
                     )
-            ),
-            tap(x => console.log(x))
+            )
         );
     }
 
@@ -37,17 +36,21 @@ export class EventService {
                 sort: 'updated'
             })
         ).pipe(
-            map(records =>
-                records.map(record => new EventResult(0, record['name'], record['timing'], toDate(record['updated'])))
-            ),
-            map(records =>
-                records.map((record, index) => {
-                    const previousRecords = records.filter((r, i) => i < index && r.rider === record.rider);
-                    record.rideNumber = previousRecords.length + 1;
-                    return record;
-                })
-            ),
-            map(records => records.reverse())
+            map(records => {
+                const rideCounts = new Map<string, number>();
+                const eventResults = records.map(record => {
+                    const riderName = record['name'];
+                    const currentRideCount = rideCounts.get(riderName) ?? 0;
+                    rideCounts.set(riderName, currentRideCount + 1);
+                    return new EventResult(
+                        currentRideCount + 1,
+                        riderName,
+                        record['timing'],
+                        toDate(record['updated'])
+                    );
+                });
+                return eventResults.reverse();
+            })
         );
     }
 
@@ -59,13 +62,43 @@ export class EventService {
     }
 
     private buildTimeAttackRankings(results: EventResult[]): EventRanking[] {
-        const rankings = results
-            ?.sort((a, b) => a.time - b.time)
-            .map(result => new EventRanking(result.rider, result.time));
-        return rankings?.filter((ranking, index) => rankings.findIndex(r => r.name === ranking.name) === index);
+        if (!results) return [];
+        const sortedResults = results.sort((a, b) => a.time - b.time);
+        const bestTimeMap = new Map<string, EventRanking>();
+
+        for (const result of sortedResults) {
+            if (!bestTimeMap.has(result.rider)) {
+                bestTimeMap.set(result.rider, new EventRanking(result.rider, result.time));
+            }
+        }
+        return Array.from(bestTimeMap.values());
     }
 
     private buildRaceRankings(raceLimit: number, results: EventResult[]): EventRanking[] {
+        if (!results) return [];
+
+        const rideCounts = new Map<string, number>();
+        const totalTimes = new Map<string, number>();
+
+        for (const result of results) {
+            const currentCount = rideCounts.get(result.rider) ?? 0;
+            rideCounts.set(result.rider, currentCount + 1);
+
+            const accumulatedTime = totalTimes.get(result.rider) ?? 0;
+            totalTimes.set(result.rider, accumulatedTime + result.time);
+        }
+
+        const rankings: EventRanking[] = [];
+
+        for (const [riderId, count] of rideCounts.entries()) {
+            if (count === raceLimit) {
+                const finalTime = totalTimes.get(riderId) ?? 0;
+                rankings.push(new EventRanking(riderId, finalTime));
+            }
+        }
+
+        return rankings.sort((a, b) => a.time - b.time);
+        /*
         const completeResults = results?.filter(
             result => results.filter(r => r.rider === result.rider).length === raceLimit
         );
@@ -75,5 +108,6 @@ export class EventService {
             rankings.set(result.rider, new EventRanking(result.rider, result.time + accumulatedTime));
         }
         return Array.from(rankings.values()).sort((a, b) => a.time - b.time);
+        */
     }
 }

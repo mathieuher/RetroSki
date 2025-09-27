@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { from, map, tap, type Observable } from 'rxjs';
+import { from, map, type Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Challenge } from '../models/challenge';
 import { ChallengeResult } from '../models/challenge-result';
@@ -25,40 +25,39 @@ export class ChallengeService {
             environment.pb.collection('public_challenges_results').getFullList({ query: { challenge: challenge } })
         ).pipe(
             map(rawResults => {
-                const results: ChallengeResult[] = [];
+                const resultsMap = new Map<string, ChallengeResult>();
+
                 for (const rawResult of rawResults) {
                     const tempResult = ChallengeResult.buildFromRecord(rawResult);
-                    const existingResult = results.find(r => r.riderName === tempResult.riderName);
+                    const existingResult = resultsMap.get(tempResult.riderName);
+
                     if (!existingResult) {
-                        results.push(tempResult);
+                        resultsMap.set(tempResult.riderName, tempResult);
                     } else {
                         existingResult.gold += tempResult.gold;
                         existingResult.silver += tempResult.silver;
                         existingResult.bronze += tempResult.bronze;
                     }
                 }
+
+                const results = Array.from(resultsMap.values());
                 results.sort(this.sortByMedals);
                 return results;
             })
         );
     }
 
-    private sortByMedals(a: ChallengeResult, b: ChallengeResult): 1 | -1 {
-        if (a.gold < b.gold) {
-            return 1;
+    private sortByMedals(a: ChallengeResult, b: ChallengeResult): number {
+        const goldDiff = b.gold - a.gold;
+        if (goldDiff !== 0) {
+            return goldDiff;
         }
-        if (a.gold === b.gold) {
-            if (a.silver < b.silver) {
-                return 1;
-            }
-            if (a.silver === b.silver) {
-                if (a.bronze < b.bronze) {
-                    return 1;
-                }
-                return -1;
-            }
-            return -1;
+
+        const silverDiff = b.silver - a.silver;
+        if (silverDiff !== 0) {
+            return silverDiff;
         }
-        return -1;
+
+        return b.bronze - a.bronze;
     }
 }

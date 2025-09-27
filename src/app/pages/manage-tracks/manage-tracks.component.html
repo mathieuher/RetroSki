@@ -42,7 +42,7 @@
         </div>
         <button
             class="retro-button tertiary"
-            [disabled]="form.invalid || trackAlreadyUse()"
+            [disabled]="form.invalid || trackAlreadyUse() || loadingTrack()"
             (click)="generateTrack()"
         >
             <span class="material-symbols-outlined">front_loader</span>
@@ -53,7 +53,7 @@
         }
     </div>
     <div class="retro-subtitle">
-        Existing tracks @if(tracks().length) { ({{ tracks().length }}) }
+        Existing tracks @if(tracks()?.length) { ({{ tracks()!.length }}) }
     </div>
     <div class="tracks-container">
         @for(track of tracks(); track track.id) {
@@ -68,7 +68,10 @@
                 ></app-button-icon>
             </div>
         </div>
-        } @if(!tracks().length) {
+        } 
+        @if(loadingTrack()) {
+        <div class="retro-placeholder">Loading tracks</div>
+        } @else if(!tracks()!.length) {
         <div class="retro-placeholder">No existing track, build one !</div>
         }
     </div>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Signal, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
 import { ButtonIconComponent } from '../../common/components/button-icon/button-icon.component';
 import type { Track } from '../../game/models/track';
@@ -6,7 +6,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TrackStyles } from '../../game/models/track-styles.enum';
 import { TrackBuilder } from '../../game/utils/track-builder';
 import { TrackService } from '../../common/services/track.service';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Location } from '@angular/common';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
 import { switchMap, takeUntil, tap } from 'rxjs';
@@ -31,7 +31,8 @@ export class ManageTracksComponent extends Destroyable {
     protected trackAlreadyUse = signal<boolean>(false);
     protected managerType: 'local' | 'online';
 
-    protected tracks = signal<Track[]>([]);
+    protected tracks = signal<Track[] | undefined>(undefined);
+    protected loadingTrack = computed<boolean>(() => !this.tracks());
 
     protected form = new FormGroup<TrackForm>({
         name: new FormControl(null, [Validators.required, Validators.maxLength(16)]),
@@ -77,6 +78,7 @@ export class ManageTracksComponent extends Destroyable {
                         localStorage.setItem(RideLocalComponent.TRACK_KEY, `${trackNumber}`);
                     }
                 }),
+                tap(() => this.tracks.set(undefined)),
                 switchMap(() => this.trackService.getTracks$(this.managerType)),
                 tap(tracks => this.tracks.set(tracks)),
                 tap(() => this.form.controls.name.reset()),
@@ -86,7 +88,7 @@ export class ManageTracksComponent extends Destroyable {
     }
 
     protected checkSimilarTrack(name: string | undefined, style: TrackStyles): void {
-        const track = this.tracks().find(
+        const track = this.tracks()?.find(
             track => track.name.toLocaleLowerCase() === name?.toLocaleLowerCase() && track.style === style
         );
         this.trackAlreadyUse.set(!!track);
@@ -97,6 +99,7 @@ export class ManageTracksComponent extends Destroyable {
     }
 
     protected deleteTrack(track: Track): void {
+        this.tracks.set(undefined);
         this.trackService
             .removeTrack$(this.managerType, track)
             .pipe(

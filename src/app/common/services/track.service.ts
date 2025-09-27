@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { from, map, of, switchMap, take, type Observable } from 'rxjs';
+import { from, map, switchMap, type Observable } from 'rxjs';
 import type { Track } from '../../game/models/track';
 import { RETROSKI_DB } from '../db/db';
 import { StockableTrack } from '../../game/models/stockable-track';
@@ -82,7 +82,7 @@ export class TrackService {
     }
 
     private getOnlineTracks$(): Observable<Track[]> {
-        return from(environment.pb.collection('tracks').getFullList({ filter: 'active = true' })).pipe(
+        return from(environment.pb.collection('public_tracks').getFullList()).pipe(
             map(tracks => {
                 return tracks.map(track => {
                     const stockableTrack = new StockableTrack();
@@ -90,9 +90,9 @@ export class TrackService {
                     stockableTrack.name = track['name'];
                     stockableTrack.style = track['style'];
                     stockableTrack.builderVersion = track['builderVersion'];
-                    stockableTrack.slope = track['slope'];
-                    stockableTrack.gates = track['gates'];
-                    stockableTrack.decorations = track['decorations'] || [];
+                    // Build fictive gate && decorations
+                    stockableTrack.gates = [];
+                    stockableTrack.decorations = [];
                     return stockableTrack.toTrack();
                 });
             })
