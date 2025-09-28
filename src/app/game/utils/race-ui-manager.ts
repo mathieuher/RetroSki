@@ -3,6 +3,8 @@ import type { Engine } from 'excalibur';
 import { Config } from '../config';
 
 export class RaceUiManager {
+    private previousSpeed: number | undefined;
+
     private globalGhostTimingContainerUi = document.getElementById('global-ghost-timing-container')!;
     private globalGhostTimingUi = document.getElementById('global-ghost-timing')!;
     private eventGhostTimingContainerUi = document.getElementById('event-ghost-timing-container')!;
@@ -16,7 +18,11 @@ export class RaceUiManager {
     }
 
     public updateRacingUi(currentSpeed: number, currentTiming: number): void {
-        this.speedometerUi.innerText = `${Math.floor(currentSpeed)} km/h`;
+        const flooredCurrentSpeed = Math.floor(currentSpeed);
+        if (flooredCurrentSpeed !== this.previousSpeed) {
+            this.previousSpeed = flooredCurrentSpeed;
+            this.speedometerUi.innerText = `${flooredCurrentSpeed} km/h`;
+        }
         this.timerUi.innerText = `${format(currentTiming, 'mm:ss:SS')}`;
     }
 
