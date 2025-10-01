@@ -71,7 +71,7 @@ export class RideLocalComponent implements OnDestroy {
 
     private initForm(tracks: Track[]): void {
         // Load default riders
-        const defaultRiders = localStorage.getItem(RideLocalComponent.RIDERS_KEY)?.split(';') ?? [''];
+        const defaultRiders = localStorage.getItem(RideLocalComponent.RIDERS_KEY)?.split(';') ?? ['Rider'];
         const trackKey = localStorage.getItem(RideLocalComponent.TRACK_KEY);
         const defaultTrack = trackKey && tracks.some(track => +track.id! === +trackKey) ? +trackKey : 0;
         const defaultRaces = localStorage.getItem(RideLocalComponent.RACES_KEY)
