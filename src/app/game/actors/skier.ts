@@ -70,8 +70,6 @@ export class Skier extends Actor {
     }
 
     override update(engine: Engine): void {
-        this.updateParticlesLoop++;
-        this.updateSoundLoop++;
         this.updateSkierIntentions(engine);
         const skierAction = this.getSkierCurrentAction();
         this.updateGraphics(skierAction);
@@ -83,6 +81,9 @@ export class Skier extends Actor {
             // Emit skier-actions for academy lessons
             (this.scene?.engine as Game).customEvents.emit({ name: 'skier-actions', content: this.skierIntentions });
         }
+
+        this.updateParticlesLoop++;
+        this.updateSoundLoop++;
 
         if (this.racing || this.finish) {
             this.updateRotation(this.skierIntentions);
