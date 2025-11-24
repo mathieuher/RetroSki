@@ -35,6 +35,7 @@ const LEFT_ANGLE_OFFSET = (3 / 4) * Math.PI;
 const RIGHT_ANGLE_OFFSET = (1 / 4) * Math.PI;
 const RADIAN_PI = 2 * Math.PI;
 const RADIAN_TO_DEGREE = 180 / Math.PI;
+const DEGREE_TO_RADIAN = Math.PI / 180;
 
 export class Skier extends Actor {
     public speed = 0;
@@ -205,19 +206,30 @@ export class Skier extends Actor {
         if (angleOfSkier >= 270) {
             angleOfSkier = 360 - angleOfSkier;
         }
+        angleOfSkier *= DEGREE_TO_RADIAN;
+        const directionFactor = Math.cos(angleOfSkier);
 
-        const sectionSteep = (this.scene as Race).getSection(this.pos)?.steep;
-        const steep = sectionSteep ? sectionSteep / 100 : (this.scene as Race).config.track.slope;
-        let acceleration = Config.ACCELERATION_RATE * steep;
-        acceleration -= (acceleration * angleOfSkier) / 90;
-        acceleration -= this.skierConfig.windFrictionRate * this.speed;
+        // Get the slope factor
+        const sectionSlope = (this.scene as Race).getSection(this.pos)?.steep;
+        const slopeFactor = sectionSlope
+            ? Math.sin(sectionSlope * DEGREE_TO_RADIAN)
+            : Math.sin((this.scene as Race).config.track.slope * 100 * DEGREE_TO_RADIAN);
+
+        // Get the friction factor (wind + ground)
+        const naturalFrictionFactor = this.skierConfig.windFrictionRate * (this.speed * this.speed);
+
+        let brakingFactor = 0;
+
         if (skierAction === SkierActions.SLIDE_LEFT || skierAction === SkierActions.SLIDE_RIGHT) {
-            acceleration -= Config.SLIDING_BRAKING_RATE * Skier.slidingIntention(skierIntentions);
+            brakingFactor = Config.SLIDING_BRAKING_RATE * Skier.slidingIntention(skierIntentions);
         } else if (skierAction === SkierActions.CARVE_LEFT || skierAction === SkierActions.CARVE_RIGHT) {
-            acceleration -= Config.CARVING_BRAKING_RATE * Skier.carvingIntention(skierIntentions);
+            brakingFactor = Config.CARVING_BRAKING_RATE * Skier.carvingIntention(skierIntentions);
         } else if (skierAction === SkierActions.BRAKE) {
-            acceleration -= Config.BRAKING_RATE;
+            brakingFactor = Config.BRAKING_RATE;
         }
+
+        let acceleration = Config.ACCELERATION_RATE * slopeFactor * directionFactor;
+        acceleration -= naturalFrictionFactor + brakingFactor;
 
         const projectedSpeed = this.speed + acceleration;
 

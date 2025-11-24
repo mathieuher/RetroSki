@@ -69,43 +69,43 @@ export class Config {
     // SLOPE
     static DEFAULT_TRACK_SLOPE = 0.115;
 
-    static SLOPE_MINIMUM_INCLINE = 13;
-    static SLOPE_MAXIMUM_INCLINE = 30;
+    static SLOPE_MINIMUM_INCLINE = 10;
+    static SLOPE_MAXIMUM_INCLINE = 35;
 
     // SKIER
-    static ACCELERATION_RATE = 2;
+    static ACCELERATION_RATE = 1.18;
     static BRAKING_RATE = 1;
     static CARVING_ADHERENCE_RATE = 0.9;
-    static CARVING_BRAKING_RATE = 0.1;
+    static CARVING_BRAKING_RATE = 0.08;
     static SLIDING_ADHERENCE_RATE = 0.75;
     static SLIDING_BRAKING_RATE = 0.9;
     // SKIER SPECIFIC STYLE DYNAMIC
     static SL_SKIER_CONFIG = {
-        windFrictionRate: 0.0025,
+        windFrictionRate: 0.000052,
         carvingRotationRate: 3.2,
         carvingOptimalSpeed: 50,
-        slidingRotationRate: 3.7,
+        slidingRotationRate: 3.3,
         slidingOptimalSpeed: 35
     };
     static GS_SKIER_CONFIG = {
-        windFrictionRate: 0.0022,
+        windFrictionRate: 0.000048,
         carvingRotationRate: 3.1,
         carvingOptimalSpeed: 60,
-        slidingRotationRate: 3.6,
+        slidingRotationRate: 3.2,
         slidingOptimalSpeed: 45
     };
     static SG_SKIER_CONFIG = {
-        windFrictionRate: 0.002,
+        windFrictionRate: 0.000032,
         carvingRotationRate: 2.5,
         carvingOptimalSpeed: 70,
-        slidingRotationRate: 3.0,
+        slidingRotationRate: 2.6,
         slidingOptimalSpeed: 50
     };
     static DH_SKIER_CONFIG = {
-        windFrictionRate: 0.0018,
+        windFrictionRate: 0.000024,
         carvingRotationRate: 2.2,
         carvingOptimalSpeed: 75,
-        slidingRotationRate: 2.7,
+        slidingRotationRate: 2.3,
         slidingOptimalSpeed: 60
     };
 
