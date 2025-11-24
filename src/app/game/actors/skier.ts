@@ -1,4 +1,4 @@
-import { Actor, CollisionType, type Engine, type GpuParticleEmitter, vec } from 'excalibur';
+import { Actor, CollisionType, Color, type Engine, type GpuParticleEmitter, vec } from 'excalibur';
 import { Config } from '../config';
 import { Resources } from '../resources';
 import type { Race } from '../scenes/race';
@@ -10,6 +10,7 @@ import { SkierGraphics } from '../utils/skier-graphics';
 import { SkierFrontCollider } from './skier-front-collider';
 import type { SkierInfos } from '../models/skier-infos';
 import { TrackStyles } from '../models/track-styles.enum';
+import { Section } from './section';
 
 export class SkierIntentions {
     public leftCarvingIntention: number;
@@ -205,7 +206,9 @@ export class Skier extends Actor {
             angleOfSkier = 360 - angleOfSkier;
         }
 
-        let acceleration = Config.ACCELERATION_RATE * (this.scene as Race).config.track.slope;
+        const sectionSteep = (this.scene as Race).getSection(this.pos)?.steep;
+        const steep = sectionSteep ? sectionSteep / 100 : (this.scene as Race).config.track.slope;
+        let acceleration = Config.ACCELERATION_RATE * steep;
         acceleration -= (acceleration * angleOfSkier) / 90;
         acceleration -= this.skierConfig.windFrictionRate * this.speed;
         if (skierAction === SkierActions.SLIDE_LEFT || skierAction === SkierActions.SLIDE_RIGHT) {
@@ -284,6 +287,15 @@ export class Skier extends Actor {
             (engine as Game).settingsService.getSettings().particles
         ) {
             const speedPercentage = this.speed / Config.MAX_SPEED;
+
+            // TODO Use particules color corresponding the slope steep
+            const steep = (this.scene as Race).getSection(this.pos)?.steep;
+            const particulesColor = steep ? Section.getSlopeColor(steep) : Color.Blue;
+
+            this.leftParticlesEmitter.particle.opacity = 0.1;
+
+            this.leftParticlesEmitter.particle.beginColor = particulesColor;
+            this.rightParticlesEmitter.particle.beginColor = particulesColor;
 
             this.computeParticlesAngle();
 

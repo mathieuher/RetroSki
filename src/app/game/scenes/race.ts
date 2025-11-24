@@ -1,4 +1,13 @@
-import { Actor, type Engine, Scene, type SceneActivationContext, Timer, vec } from 'excalibur';
+import {
+    Actor,
+    type Engine,
+    randomIntInRange,
+    Scene,
+    type SceneActivationContext,
+    Timer,
+    vec,
+    Vector
+} from 'excalibur';
 import { Skier } from '../actors/skier';
 import { Gate } from '../actors/gate';
 import type { Game } from '../game';
@@ -18,6 +27,7 @@ import { RaceUiManager } from '../utils/race-ui-manager';
 import type { RaceConfig } from '../models/race-config';
 import { TrackBuilder } from '../utils/track-builder';
 import { Decoration } from '../actors/decoration';
+import { Section } from '../actors/section';
 
 export class Race extends Scene {
     public config: RaceConfig;
@@ -36,6 +46,7 @@ export class Race extends Scene {
     private skierCameraGhost?: Actor;
     private skierPositions: SkierPositioning[] = [];
     private gates: Gate[] = [];
+    private sections: Section[] = [];
     private startingHouse?: StartingHouse;
     private startTime?: number;
     private endTime?: number;
@@ -141,6 +152,10 @@ export class Race extends Scene {
 
     public updateSkierCameraGhost(): void {
         this.skierCameraGhost!.pos = vec(0, this.skier!.pos.y + Config.FRONT_GHOST_DISTANCE);
+    }
+
+    public getSection(position: Vector): Section | null {
+        return this.sections.find(s => s.pos.y >= position.y && s.pos.y - s.height <= position.y) || null;
     }
 
     private displaySectorDifference(timedSector: TimedSector): void {
@@ -343,5 +358,63 @@ export class Race extends Scene {
                 this.add(decoration);
             }
         }
+
+        this.buildSlopeSections();
+    }
+
+    private buildSlopeSections(): void {
+        // Add start section
+        const startSection = new Section(
+            this.engine,
+            new Vector(0, Config.TRACK_START_FINISH_SECTION_LENGTH),
+            Config.TRACK_START_FINISH_SECTION_LENGTH,
+            0
+        );
+        this.add(startSection);
+
+        const trackLength = -this.gates[this.gates.length - 1].pos.y;
+        const sectionLengths = this.getSectionLengths(
+            trackLength,
+            Config.TRACK_SECTION_MAX_NUMBER,
+            Config.TRACK_SECTION_MINMUM_LENGTH
+        );
+
+        sectionLengths.forEach((sectionLength, index) => {
+            const lastSection = this.sections.at(index - 1 || 0);
+            const startPosition = lastSection?.endPosition || Vector.Zero;
+
+            const section = new Section(
+                this.engine,
+                startPosition,
+                sectionLength,
+                randomIntInRange(Config.SLOPE_MINIMUM_INCLINE, Config.SLOPE_MAXIMUM_INCLINE)
+            );
+            this.sections.push(section);
+            this.add(section);
+        });
+
+        // Add finish section
+        const endSection = new Section(
+            this.engine,
+            this.sections.at(this.sections.length - 1)!.endPosition,
+            Config.TRACK_START_FINISH_SECTION_LENGTH,
+            0
+        );
+        this.add(endSection);
+    }
+
+    private getSectionLengths(trackLength: number, sections: number, minimumLength: number): number[] {
+        const sectionLengths: number[] = [];
+        for (let index = 0; index < sections; index++) {
+            const furtherSection = sections - index - 1;
+            const previousSectionsLength = sectionLengths.reduce((acc, cur) => acc + cur, 0);
+            const lengthAvailable = trackLength - previousSectionsLength - furtherSection * minimumLength;
+            if (index + 1 === sections) {
+                sectionLengths.push(lengthAvailable);
+            } else {
+                sectionLengths.push(Math.max(Math.random() * lengthAvailable, minimumLength));
+            }
+        }
+        return sectionLengths;
     }
 }

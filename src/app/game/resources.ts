@@ -1,4 +1,4 @@
-import { ImageSource, Sound } from 'excalibur';
+import { ImageSource, ImageWrapping, Sound } from 'excalibur';
 
 const Resources = {
     Skier: new ImageSource('./assets/images/sprites/skier.png'),
@@ -39,6 +39,11 @@ const Resources = {
 
     Tree: new ImageSource('./assets/images/sprites/tree.png'),
     TreeShadow: new ImageSource('./assets/images/sprites/tree_shadow.png'),
+
+    SnowTexture: new ImageSource('./assets/images/sprites/snow_texture.png', { wrapping: ImageWrapping.Repeat }),
+    SnowTexture15: new ImageSource('./assets/images/sprites/snow_texture_15.png', { wrapping: ImageWrapping.Repeat }),
+    SnowTexture25: new ImageSource('./assets/images/sprites/snow_texture_25.png', { wrapping: ImageWrapping.Repeat }),
+    SnowTexture35: new ImageSource('./assets/images/sprites/snow_texture_35.png', { wrapping: ImageWrapping.Repeat }),
 
     WinterSound: new Sound('./assets/sounds/winter.mp3'),
     FinishRaceSound: new Sound('./assets/sounds/finish_race.mp3'),

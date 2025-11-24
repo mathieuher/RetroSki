@@ -69,13 +69,16 @@ export class Config {
     // SLOPE
     static DEFAULT_TRACK_SLOPE = 0.115;
 
+    static SLOPE_MINIMUM_INCLINE = 13;
+    static SLOPE_MAXIMUM_INCLINE = 30;
+
     // SKIER
-    static ACCELERATION_RATE = 3;
+    static ACCELERATION_RATE = 2;
     static BRAKING_RATE = 1;
     static CARVING_ADHERENCE_RATE = 0.9;
-    static CARVING_BRAKING_RATE = 0.01;
-    static SLIDING_ADHERENCE_RATE = 0.65;
-    static SLIDING_BRAKING_RATE = 0.8;
+    static CARVING_BRAKING_RATE = 0.1;
+    static SLIDING_ADHERENCE_RATE = 0.75;
+    static SLIDING_BRAKING_RATE = 0.9;
     // SKIER SPECIFIC STYLE DYNAMIC
     static SL_SKIER_CONFIG = {
         windFrictionRate: 0.0025,
@@ -105,6 +108,14 @@ export class Config {
         slidingRotationRate: 2.7,
         slidingOptimalSpeed: 60
     };
+
+    // TRACK SECTION
+    static TRACK_SLOPE_15_COLOR = '#0000FF0D';
+    static TRACK_SLOPE_25_COLOR = '#FF9D000D';
+    static TRACK_SLOPE_35_COLOR = '#FF00000D';
+    static TRACK_SECTION_MINMUM_LENGTH = 600;
+    static TRACK_SECTION_MAX_NUMBER = 3;
+    static TRACK_START_FINISH_SECTION_LENGTH = 600;
 
     // GATES
     static GATE_DEFAULT_HEIGHT = 3;
