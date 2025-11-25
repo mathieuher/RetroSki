@@ -1,7 +1,8 @@
-import { Axes, Buttons, Keys } from 'excalibur';
+import { Axes, Buttons, Color, Keys } from 'excalibur';
 import { Resources } from './resources';
 import { TrackStyles } from './models/track-styles.enum';
 import type { GatesConfig } from './models/gates-config';
+import type { SlopeSectionConfig } from './models/slope-section-config';
 
 export class Config {
     // DISPLAY
@@ -57,6 +58,7 @@ export class Config {
 
     static TOUCH_BRAKE_ZONE_RATIO = 0.2;
 
+    // PHYSICS
     // DYNAMIC
     static MAX_SPEED = 150;
     static VELOCITY_MULTIPLIER_RATE = 7 * 0.6;
@@ -65,13 +67,6 @@ export class Config {
     static MAX_RIGHT_ROTATION_ANGLE = Math.PI / 2;
     static MAX_LEFT_ROTATION_ANGLE = (3 * Math.PI) / 2;
     static ROTATION_RECENTER_RATE = 0.2;
-
-    // SLOPE
-    static DEFAULT_TRACK_SLOPE = 0.115;
-
-    static SLOPE_MINIMUM_INCLINE = 10;
-    static SLOPE_MAXIMUM_INCLINE = 35;
-
     // SKIER
     static ACCELERATION_RATE = 1.18;
     static BRAKING_RATE = 1;
@@ -102,20 +97,53 @@ export class Config {
         slidingOptimalSpeed: 50
     };
     static DH_SKIER_CONFIG = {
-        windFrictionRate: 0.000024,
+        windFrictionRate: 0.000026,
         carvingRotationRate: 2.2,
         carvingOptimalSpeed: 75,
         slidingRotationRate: 2.3,
         slidingOptimalSpeed: 60
     };
 
-    // TRACK SECTION
-    static TRACK_SLOPE_15_COLOR = '#0000FF0D';
-    static TRACK_SLOPE_25_COLOR = '#FF9D000D';
-    static TRACK_SLOPE_35_COLOR = '#FF00000D';
+    // SLOPE
+    static DEFAULT_TRACK_SLOPE = 0.115;
+    static SLOPE_MINIMUM_INCLINE = 13;
+    static SLOPE_MAXIMUM_INCLINE = 35;
+
+    // SLOPE SECTION
     static TRACK_SECTION_MINMUM_LENGTH = 600;
-    static TRACK_SECTION_MAX_NUMBER = 3;
-    static TRACK_START_FINISH_SECTION_LENGTH = 600;
+    static TRACK_SECTION_MAX_NUMBER = 4;
+    static TRACK_SECTION_HORIZONTAL_VARIATION = 0;
+    static TRACK_START_FINISH_SECTION_LENGTH = 1200;
+    static SLOPE_SECTION_WHITE_CONFIG: SlopeSectionConfig = {
+        texture: Resources.SnowTexture,
+        labelColor: Color.fromRGB(128, 128, 128, 0.4),
+        dividerColor: Color.Transparent,
+        particlesColor: Color.fromRGB(128, 128, 128, 0.1)
+    };
+    static SLOPE_SECTION_GREEN_CONFIG: SlopeSectionConfig = {
+        texture: Resources.SnowTextureGreen,
+        labelColor: Color.fromRGB(0, 255, 0, 0.4),
+        dividerColor: Color.fromRGB(0, 255, 0, 0.1),
+        particlesColor: Color.fromRGB(0, 255, 0, 0.1)
+    };
+    static SLOPE_SECTION_BLUE_CONFIG: SlopeSectionConfig = {
+        texture: Resources.SnowTextureBlue,
+        labelColor: Color.fromRGB(0, 0, 255, 0.4),
+        dividerColor: Color.fromRGB(0, 0, 255, 0.1),
+        particlesColor: Color.fromRGB(0, 0, 255, 0.1)
+    };
+    static SLOPE_SECTION_RED_CONFIG: SlopeSectionConfig = {
+        texture: Resources.SnowTextureRed,
+        labelColor: Color.fromRGB(255, 0, 0, 0.4),
+        dividerColor: Color.fromRGB(255, 0, 0, 0.1),
+        particlesColor: Color.fromRGB(255, 0, 0, 0.1)
+    };
+    static SLOPE_SECTION_BLACK_CONFIG: SlopeSectionConfig = {
+        texture: Resources.SnowTextureBlack,
+        labelColor: Color.fromRGB(0, 0, 0, 0.4),
+        dividerColor: Color.fromRGB(0, 0, 0, 0.4),
+        particlesColor: Color.fromRGB(0, 0, 0, 0.1)
+    };
 
     // GATES
     static GATE_DEFAULT_HEIGHT = 3;

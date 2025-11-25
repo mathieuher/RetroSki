@@ -41,9 +41,16 @@ const Resources = {
     TreeShadow: new ImageSource('./assets/images/sprites/tree_shadow.png'),
 
     SnowTexture: new ImageSource('./assets/images/sprites/snow_texture.png', { wrapping: ImageWrapping.Repeat }),
-    SnowTexture15: new ImageSource('./assets/images/sprites/snow_texture_15.png', { wrapping: ImageWrapping.Repeat }),
-    SnowTexture25: new ImageSource('./assets/images/sprites/snow_texture_25.png', { wrapping: ImageWrapping.Repeat }),
-    SnowTexture35: new ImageSource('./assets/images/sprites/snow_texture_35.png', { wrapping: ImageWrapping.Repeat }),
+    SnowTextureGreen: new ImageSource('./assets/images/sprites/snow_texture_green.png', {
+        wrapping: ImageWrapping.Repeat
+    }),
+    SnowTextureBlue: new ImageSource('./assets/images/sprites/snow_texture_blue.png', {
+        wrapping: ImageWrapping.Repeat
+    }),
+    SnowTextureRed: new ImageSource('./assets/images/sprites/snow_texture_red.png', { wrapping: ImageWrapping.Repeat }),
+    SnowTextureBlack: new ImageSource('./assets/images/sprites/snow_texture_black.png', {
+        wrapping: ImageWrapping.Repeat
+    }),
 
     WinterSound: new Sound('./assets/sounds/winter.mp3'),
     FinishRaceSound: new Sound('./assets/sounds/finish_race.mp3'),
