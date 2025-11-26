@@ -57,7 +57,7 @@ export class BasicsComponent implements AfterViewInit, OnDestroy {
             new Date(),
             [],
             [],
-            Config.DEFAULT_TRACK_SLOPE
+            []
         );
         const config = new AcademyConfig(track);
         this.game = new Game('academy', config, this.settingsService);

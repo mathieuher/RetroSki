@@ -10,8 +10,7 @@ import { SkierGraphics } from '../utils/skier-graphics';
 import { SkierFrontCollider } from './skier-front-collider';
 import type { SkierInfos } from '../models/skier-infos';
 import { TrackStyles } from '../models/track-styles.enum';
-import { SkierBodyCollider } from './skier-body-collider';
-import { SlopeSection } from './slope-section';
+import type { SlopeSection } from './slope-section';
 
 export class SkierIntentions {
     public leftCarvingIntention: number;
@@ -121,7 +120,7 @@ export class Skier extends Actor {
 
         if (this.updateSoundLoop === Config.THROTTLING_SKIER_SOUND) {
             this.updateSoundLoop = 0;
-            this.emitSounds(engine as Game, this.finish, this.skierIntentions);
+            this.emitSounds(this.finish, this.skierIntentions);
         }
     }
 
@@ -231,10 +230,8 @@ export class Skier extends Actor {
         const directionFactor = Math.cos(angleOfSkier);
 
         // Get the slope factor
-        const sectionIncline = currentSection?.incline || 0;
-        const slopeFactor = sectionIncline
-            ? Math.sin(sectionIncline * DEGREE_TO_RADIAN)
-            : Math.sin((this.scene as Race).config.track.slope * 100 * DEGREE_TO_RADIAN);
+        const sectionIncline = currentSection?.incline || Config.SLOPE_CONFIG.defaultIncline;
+        const slopeFactor = Math.sin(sectionIncline * DEGREE_TO_RADIAN);
 
         // Get the friction factor (wind + ground)
         const naturalFrictionFactor = this.skierConfig.windFrictionRate * (this.speed * this.speed);
@@ -297,7 +294,7 @@ export class Skier extends Actor {
         this.graphics.flipHorizontal = !!graphic.flipHorizontal;
     }
 
-    private emitSounds(engine: Game, forceBreaking: boolean, skierIntentions: SkierIntentions): void {
+    private emitSounds(forceBreaking: boolean, skierIntentions: SkierIntentions): void {
         if ((skierIntentions.hasBrakingIntention || forceBreaking) && this.speed) {
             Resources.TurningSound.volume = Math.min(
                 Config.BRAKING_SOUND_VOLUME,
@@ -326,10 +323,9 @@ export class Skier extends Actor {
         ) {
             const speedPercentage = this.speed / Config.MAX_SPEED;
 
-            const sectionIncline = currentSection?.incline || 0;
-            const particulesColor = sectionIncline
-                ? SlopeSection.getSlopeSectionConfig(sectionIncline).dividerColor
-                : Color.Blue;
+            const particulesColor = currentSection
+                ? currentSection.config.particlesColor
+                : Config.SLOPE_SECTION_WHITE_CONFIG.particlesColor;
 
             this.leftParticlesEmitter.particle.beginColor = particulesColor;
             this.rightParticlesEmitter.particle.beginColor = particulesColor;
@@ -411,6 +407,7 @@ export class Skier extends Actor {
     private hasBreakingIntention(engine: Engine): boolean {
         return (
             engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE) ||
+            engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE_ALT) ||
             (engine as Game).gamepadsManager.isButtonHeld(Config.GAMEPAD_CONTROL_BRAKE) ||
             (this.scene as Race).touchManager.isTouchingBack
         );
@@ -476,12 +473,5 @@ export class Skier extends Actor {
             return (engine as Game).gamepadsManager.getAxes(Config.GAMEPAD_CONTROL_CARVE);
         }
         return 0;
-    }
-
-    private computeParticlesAngle(): void {
-        const leftAngle = this.rotation ? (this.rotation - LEFT_ANGLE_OFFSET) % RADIAN_PI : 3;
-        const rightAngle = this.rotation ? (this.rotation - RIGHT_ANGLE_OFFSET) % RADIAN_PI : 3;
-        this.leftParticlesEmitter.particle.minAngle = this.leftParticlesEmitter.particle.maxAngle = leftAngle;
-        this.rightParticlesEmitter.particle.minAngle = this.rightParticlesEmitter.particle.maxAngle = rightAngle;
     }
 }

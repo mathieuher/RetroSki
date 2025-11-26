@@ -1,5 +1,6 @@
 import type { StockableDecoration } from './stockable-decoration';
 import type { StockableGate } from './stockable-gate';
+import type { StockableSlopeSection } from './stockable-slope-section';
 import { StockableTrack } from './stockable-track';
 import type { TrackStyles } from './track-styles.enum';
 
@@ -11,7 +12,7 @@ export class Track {
     public date: Date;
     public gates: StockableGate[];
     public decorations: StockableDecoration[];
-    public slope: number;
+    public slopeSections: StockableSlopeSection[];
 
     constructor(
         id?: string,
@@ -21,7 +22,7 @@ export class Track {
         date?: Date,
         gates?: StockableGate[],
         decorations?: StockableDecoration[],
-        slope?: number
+        slopeSections?: StockableSlopeSection[]
     ) {
         this.id = id;
         this.builderVersion = builderVersion!;
@@ -30,7 +31,7 @@ export class Track {
         this.date = date!;
         this.gates = gates!;
         this.decorations = decorations!;
-        this.slope = slope!;
+        this.slopeSections = slopeSections!;
     }
 
     public get fullName(): string {
@@ -46,7 +47,7 @@ export class Track {
             this.date,
             this.gates,
             this.decorations,
-            this.slope
+            this.slopeSections
         );
     }
 

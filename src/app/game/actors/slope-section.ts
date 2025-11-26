@@ -1,24 +1,31 @@
-import { Actor, CollisionType, type Engine, Font, Label, Line, RotationType, TextAlign, vec, Vector } from 'excalibur';
+import { Actor, CollisionType, type Engine, Font, Label, Line, TextAlign, vec, Vector } from 'excalibur';
 import { Config } from '../config';
 import type { SlopeSectionConfig } from '../models/slope-section-config';
+import type { Game } from '../game';
 
 export class SlopeSection extends Actor {
     public incline: number;
     public endPosition: Vector;
-
-    private config: SlopeSectionConfig;
+    public config: SlopeSectionConfig;
 
     constructor(engine: Engine, startPosition: Vector, endPosition: Vector, incline: number) {
         super({
-            anchor: new Vector(0.5, 1),
+            anchor: vec(0.5, 1),
             pos: startPosition,
             width: engine.screen.resolution.width,
-            height: Math.abs(endPosition.y) - Math.abs(startPosition.y),
+            height: startPosition.distance(endPosition),
             collisionType: CollisionType.Passive
         });
+
         this.endPosition = endPosition;
         this.incline = incline;
         this.config = SlopeSection.getSlopeSectionConfig(incline);
+
+        // Remove snow colors and particles color regarding riders settings
+        if (!(engine as Game).settingsService.getSettings().snowColors) {
+            this.config.texture = Config.SLOPE_SECTION_WHITE_CONFIG.texture;
+            this.config.particlesColor = Config.SLOPE_SECTION_WHITE_CONFIG.particlesColor;
+        }
 
         this.setRotation();
         this.addBackgroundTexture();
@@ -59,8 +66,8 @@ export class SlopeSection extends Actor {
         const line = new Line({
             color: this.config.dividerColor,
             thickness: lineActor.height,
-            start: new Vector(this.pos.x - this.width / 2, 0),
-            end: new Vector(this.pos.x + this.width / 2, 0)
+            start: vec(this.pos.x - this.width / 2, 0),
+            end: vec(this.pos.x + this.width / 2, 0)
         });
         lineActor.graphics.use(line);
         this.addChild(lineActor);
@@ -70,7 +77,7 @@ export class SlopeSection extends Actor {
         const label = new Label({
             text: `${this.incline}°`,
             color: this.config.labelColor,
-            offset: new Vector(0, -40),
+            offset: vec(0, -40),
             font: new Font({ size: 24, bold: true, textAlign: TextAlign.Center, family: 'Kode mono' }),
             collisionType: CollisionType.Passive
         });
@@ -79,17 +86,17 @@ export class SlopeSection extends Actor {
 
     public static getSlopeSectionConfig(incline: number): SlopeSectionConfig {
         if (incline === 0) {
-            return Config.SLOPE_SECTION_WHITE_CONFIG;
+            return { ...Config.SLOPE_SECTION_WHITE_CONFIG };
         }
         if (incline <= 10) {
-            return Config.SLOPE_SECTION_GREEN_CONFIG;
+            return { ...Config.SLOPE_SECTION_GREEN_CONFIG };
         }
         if (incline <= 20) {
-            return Config.SLOPE_SECTION_BLUE_CONFIG;
+            return { ...Config.SLOPE_SECTION_BLUE_CONFIG };
         }
         if (incline <= 30) {
-            return Config.SLOPE_SECTION_RED_CONFIG;
+            return { ...Config.SLOPE_SECTION_RED_CONFIG };
         }
-        return Config.SLOPE_SECTION_BLACK_CONFIG;
+        return { ...Config.SLOPE_SECTION_BLACK_CONFIG };
     }
 }

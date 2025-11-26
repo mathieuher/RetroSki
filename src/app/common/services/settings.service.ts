@@ -14,6 +14,7 @@ export class SettingsService {
     private static PARTICLES_KEY = 'settings_particles';
     private static DECORATIONS_KEY = 'settings_decorations';
     private static SIDE_INDICATORS_KEY = 'settings_side_indicators';
+    private static SNOW_COLORS_KEY = 'settings_snow_colors';
 
     private settings: Settings;
 
@@ -26,7 +27,8 @@ export class SettingsService {
             localStorage.getItem(SettingsService.SPECTATORS_ANIMATION_KEY) !== 'false',
             localStorage.getItem(SettingsService.PARTICLES_KEY) !== 'false',
             localStorage.getItem(SettingsService.DECORATIONS_KEY) !== 'false',
-            localStorage.getItem(SettingsService.SIDE_INDICATORS_KEY) !== 'false'
+            localStorage.getItem(SettingsService.SIDE_INDICATORS_KEY) !== 'false',
+            localStorage.getItem(SettingsService.SNOW_COLORS_KEY) !== 'false'
         );
         this.settings;
     }
@@ -60,5 +62,6 @@ export class SettingsService {
         StorageManager.save(SettingsService.PARTICLES_KEY, this.settings.particles ? 'true' : 'false');
         StorageManager.save(SettingsService.DECORATIONS_KEY, this.settings.decorations ? 'true' : 'false');
         StorageManager.save(SettingsService.SIDE_INDICATORS_KEY, this.settings.sideIndicators ? 'true' : 'false');
+        StorageManager.save(SettingsService.SNOW_COLORS_KEY, this.settings.snowColors ? 'true' : 'false');
     }
 }

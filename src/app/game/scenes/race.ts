@@ -1,13 +1,4 @@
-import {
-    Actor,
-    type Engine,
-    randomIntInRange,
-    Scene,
-    type SceneActivationContext,
-    Timer,
-    vec,
-    Vector
-} from 'excalibur';
+import { Actor, type Engine, Scene, type SceneActivationContext, Timer, vec, type Vector } from 'excalibur';
 import { Skier } from '../actors/skier';
 import { Gate } from '../actors/gate';
 import type { Game } from '../game';
@@ -46,7 +37,7 @@ export class Race extends Scene {
     private skierCameraGhost?: Actor;
     private skierPositions: SkierPositioning[] = [];
     private gates: Gate[] = [];
-    private sections: SlopeSection[] = [];
+    private slopeSections: SlopeSection[] = [];
     private startingHouse?: StartingHouse;
     private startTime?: number;
     private endTime?: number;
@@ -151,18 +142,14 @@ export class Race extends Scene {
     }
 
     public updateSkierCameraGhost(): void {
-        const currentSection = this.getSectionAtPosition(this.skier!.pos);
-        let cameraPositionX = 0;
-        if (currentSection) {
-            const progress = currentSection.getSectionProgress(this.skier!.pos);
-            cameraPositionX = currentSection.pos.lerp(currentSection.endPosition, progress).x;
-        }
-
-        this.skierCameraGhost!.pos = vec(cameraPositionX, this.skier!.pos.y + Config.FRONT_GHOST_DISTANCE);
+        this.skierCameraGhost!.pos = vec(0, this.skier!.pos.y + Config.FRONT_GHOST_DISTANCE);
     }
 
     public getSectionAtPosition(position: Vector): SlopeSection | null {
-        return this.sections.find(s => s.pos.y >= position.y && s.pos.y - s.height <= position.y) || null;
+        return (
+            this.slopeSections.find(section => section.pos.y >= position.y && section.endPosition.y <= position.y) ||
+            null
+        );
     }
 
     private displaySectorDifference(timedSector: TimedSector): void {
@@ -336,6 +323,16 @@ export class Race extends Scene {
     }
 
     private buildTrack(track: Track): void {
+        this.buildGates(track);
+
+        if ((this.engine as Game).settingsService.getSettings().decorations && track.decorations?.length) {
+            this.buildDecorations(track);
+        }
+
+        this.buildSlopeSections(track);
+    }
+
+    private buildGates(track: Track): void {
         for (const stockableGate of track.gates) {
             const gate = new Gate(
                 this.engine as Game,
@@ -353,81 +350,32 @@ export class Race extends Scene {
             this.gates.push(gate);
             this.add(gate);
         }
-
-        if ((this.engine as Game).settingsService.getSettings().decorations && track.decorations?.length) {
-            for (const stockableDecoration of track.decorations) {
-                const decoration = new Decoration(
-                    vec(stockableDecoration.x, stockableDecoration.y),
-                    stockableDecoration.type,
-                    stockableDecoration.sizeRatio
-                );
-
-                this.add(decoration);
-            }
-        }
-
-        this.buildSlopeSections();
     }
 
-    private buildSlopeSections(): void {
-        // Add start section
-        const startSection = new SlopeSection(
-            this.engine,
-            new Vector(0, Config.TRACK_START_FINISH_SECTION_LENGTH),
-            new Vector(0, Config.TRACK_START_FINISH_SECTION_LENGTH),
-            0
-        );
-        this.add(startSection);
-
-        const trackLength = -this.gates[this.gates.length - 1].pos.y;
-        const sectionLengths = this.getSectionLengths(
-            trackLength,
-            Config.TRACK_SECTION_MAX_NUMBER,
-            Config.TRACK_SECTION_MINMUM_LENGTH
-        );
-
-        sectionLengths.forEach((sectionLength, index) => {
-            const lastSection = this.sections.at(index - 1 || 0);
-            const startPosition = lastSection?.endPosition || Vector.Zero;
-            const endPosition = new Vector(
-                startPosition.x + Math.random() * Config.TRACK_SECTION_HORIZONTAL_VARIATION,
-                startPosition.y - sectionLength
+    private buildDecorations(track: Track): void {
+        for (const stockableDecoration of track.decorations) {
+            const decoration = new Decoration(
+                vec(stockableDecoration.x, stockableDecoration.y),
+                stockableDecoration.type,
+                stockableDecoration.sizeRatio
             );
 
-            const section = new SlopeSection(
+            this.add(decoration);
+        }
+    }
+
+    private buildSlopeSections(track: Track): void {
+        const slopeSections =
+            track.slopeSections || TrackBuilder.designBasicSlopeSections(Math.abs(this.gates.at(-1)!.pos.y));
+        for (const stockableSlopeSection of slopeSections) {
+            const slopeSection = new SlopeSection(
                 this.engine,
-                startPosition,
-                endPosition,
-                randomIntInRange(Config.SLOPE_MINIMUM_INCLINE, Config.SLOPE_MAXIMUM_INCLINE)
+                vec(stockableSlopeSection.startX, stockableSlopeSection.startY),
+                vec(stockableSlopeSection.endX, stockableSlopeSection.endY),
+                stockableSlopeSection.incline
             );
-            this.sections.push(section);
-            this.add(section);
-        });
-
-        // Add finish section
-        const startPositon = this.sections.at(this.sections.length - 1)!.endPosition;
-        const endSection = new SlopeSection(
-            this.engine,
-            startPositon,
-            new Vector(startPositon.x, startPositon.y - Config.TRACK_START_FINISH_SECTION_LENGTH),
-            0
-        );
-        this.add(endSection);
-    }
-
-    // Return a randomize array of section lengths (split the global track length in multiple sections)
-    private getSectionLengths(trackLength: number, sections: number, minimumLength: number): number[] {
-        const sectionLengths: number[] = [];
-        for (let index = 0; index < sections; index++) {
-            const furtherSection = sections - index - 1;
-            const previousSectionsLength = sectionLengths.reduce((acc, cur) => acc + cur, 0);
-            const lengthAvailable = trackLength - previousSectionsLength - furtherSection * minimumLength;
-            if (index + 1 === sections) {
-                sectionLengths.push(lengthAvailable);
-            } else {
-                sectionLengths.push(Math.max(Math.random() * lengthAvailable, minimumLength));
-            }
+            this.slopeSections.push(slopeSection);
+            this.add(slopeSection);
         }
-        return sectionLengths;
     }
 }

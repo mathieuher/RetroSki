@@ -3,6 +3,7 @@ import { Resources } from './resources';
 import { TrackStyles } from './models/track-styles.enum';
 import type { GatesConfig } from './models/gates-config';
 import type { SlopeSectionConfig } from './models/slope-section-config';
+import type { SlopeConfig } from './models/slope-config';
 
 export class Config {
     // DISPLAY
@@ -42,6 +43,7 @@ export class Config {
     static KEYBOARD_CONTROL_CARVE_RIGHT = Keys.ArrowRight;
     static KEYBOARD_CONTROL_CARVE_LEFT = Keys.ArrowLeft;
     static KEYBOARD_CONTROL_BRAKE = Keys.Space;
+    static KEYBOARD_CONTROL_BRAKE_ALT = Keys.ArrowDown;
     static KEYBOARD_DEBUG_KEY = Keys.D;
     static KEYBOARD_RESTART_KEY = Keys.R;
     static KEYBOARD_EXIT_KEY = Keys.Escape;
@@ -68,7 +70,7 @@ export class Config {
     static MAX_LEFT_ROTATION_ANGLE = (3 * Math.PI) / 2;
     static ROTATION_RECENTER_RATE = 0.2;
     // SKIER
-    static ACCELERATION_RATE = 1.18;
+    static ACCELERATION_RATE = 1.19;
     static BRAKING_RATE = 1;
     static CARVING_ADHERENCE_RATE = 0.9;
     static CARVING_BRAKING_RATE = 0.08;
@@ -105,15 +107,24 @@ export class Config {
     };
 
     // SLOPE
-    static DEFAULT_TRACK_SLOPE = 0.115;
-    static SLOPE_MINIMUM_INCLINE = 13;
-    static SLOPE_MAXIMUM_INCLINE = 35;
+    static SLOPE_CONFIG: SlopeConfig = {
+        defaultIncline: 18,
+        minIncline: 13,
+        maxIncline: 35,
+        minSectionLength: 600,
+        maxSections: 4,
+        startFinishLength: 1200
+    };
+    static SLOPE_LEGACY_CONFIG: SlopeConfig = {
+        defaultIncline: Config.SLOPE_CONFIG.defaultIncline,
+        minIncline: Config.SLOPE_CONFIG.defaultIncline,
+        maxIncline: Config.SLOPE_CONFIG.defaultIncline,
+        minSectionLength: 0,
+        maxSections: 1,
+        startFinishLength: Config.SLOPE_CONFIG.startFinishLength
+    };
 
-    // SLOPE SECTION
-    static TRACK_SECTION_MINMUM_LENGTH = 600;
-    static TRACK_SECTION_MAX_NUMBER = 4;
-    static TRACK_SECTION_HORIZONTAL_VARIATION = 0;
-    static TRACK_START_FINISH_SECTION_LENGTH = 1200;
+    // SPECIFIC SLOPE SECTION
     static SLOPE_SECTION_WHITE_CONFIG: SlopeSectionConfig = {
         texture: Resources.SnowTexture,
         labelColor: Color.fromRGB(128, 128, 128, 0.4),

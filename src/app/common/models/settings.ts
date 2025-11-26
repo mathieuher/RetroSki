@@ -7,6 +7,7 @@ export class Settings {
     public particles: boolean;
     public decorations: boolean;
     public sideIndicators: boolean;
+    public snowColors: boolean;
 
     constructor(
         sound = true,
@@ -16,7 +17,8 @@ export class Settings {
         spectatorsAnimation = true,
         particles = true,
         decorations = true,
-        sideIndicators = true
+        sideIndicators = true,
+        snowColors = true
     ) {
         this.sound = sound;
         this.touchZones = touchZones;
@@ -26,5 +28,6 @@ export class Settings {
         this.particles = particles;
         this.decorations = decorations;
         this.sideIndicators = sideIndicators;
+        this.snowColors = snowColors;
     }
 }

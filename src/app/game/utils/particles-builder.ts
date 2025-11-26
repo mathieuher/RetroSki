@@ -14,11 +14,10 @@ export class ParticlesBuilder {
                 maxSpeed: 100,
                 minAngle: side === 'left' ? 3 : 0.1,
                 maxAngle: side === 'left' ? 3 : 0.1,
-                life: 1300,
+                life: 1500,
                 startSize: 2,
                 endSize: 0,
-                opacity: 0.4,
-                endColor: Color.Transparent
+                opacity: 0.25
             }
         });
     }
