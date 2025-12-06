@@ -9,7 +9,7 @@ export class Config {
     // DISPLAY
     static DISPLAY_WIDTH = 800;
     static DISPLAY_HEIGHT = 800;
-    static CAMERA_ZOOM = 1;
+    static CAMERA_ZOOM = 1.05;
     static DISPLAY_MIN_MARGIN = 75;
     static DISPLAY_MAX_RIGHT_POSITION = Config.DISPLAY_WIDTH / 2 - Config.DISPLAY_MIN_MARGIN;
     static DISPLAY_MAX_LEFT_POSITION = -Config.DISPLAY_MAX_RIGHT_POSITION;
@@ -75,36 +75,40 @@ export class Config {
     static CARVING_ADHERENCE_RATE = 0.9;
     static CARVING_BRAKING_RATE = 0.08;
     static SLIDING_ADHERENCE_RATE = 0.75;
-    static SLIDING_BRAKING_RATE = 0.9;
+    static SLIDING_BRAKING_RATE = 0.92;
     // SKIER SPECIFIC STYLE DYNAMIC
     static SL_SKIER_CONFIG = {
         windFrictionRate: 0.000052,
-        carvingRotationRate: 3.2,
+        carvingRotationRate: 3.1,
         carvingOptimalSpeed: 50,
-        slidingRotationRate: 3.3,
+        slidingRotationRate: 3.1,
         slidingOptimalSpeed: 35
     };
     static GS_SKIER_CONFIG = {
         windFrictionRate: 0.000048,
-        carvingRotationRate: 3.1,
+        carvingRotationRate: 3,
         carvingOptimalSpeed: 60,
-        slidingRotationRate: 3.2,
+        slidingRotationRate: 3,
         slidingOptimalSpeed: 45
     };
     static SG_SKIER_CONFIG = {
         windFrictionRate: 0.000032,
         carvingRotationRate: 2.5,
         carvingOptimalSpeed: 70,
-        slidingRotationRate: 2.6,
+        slidingRotationRate: 2.5,
         slidingOptimalSpeed: 50
     };
     static DH_SKIER_CONFIG = {
         windFrictionRate: 0.000026,
-        carvingRotationRate: 2.2,
+        carvingRotationRate: 2.25,
         carvingOptimalSpeed: 75,
-        slidingRotationRate: 2.3,
+        slidingRotationRate: 2.25,
         slidingOptimalSpeed: 60
     };
+    // ANIMATION
+    static ANIMATION_FRAME_DURATION = 2;
+    static ANIMATION_FRAME_AMOUNT = 6;
+    static MAX_ANIMATION_INTENSITY = this.ANIMATION_FRAME_DURATION * this.ANIMATION_FRAME_AMOUNT;
 
     // SLOPE
     static SLOPE_CONFIG: SlopeConfig = {
