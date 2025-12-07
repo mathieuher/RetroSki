@@ -3,7 +3,7 @@ import { SkierActions } from '../models/skier-actions.enum';
 import { Resources } from '../resources';
 import { Config } from '../config';
 
-const animatedSpritesheetGrid = {
+const skierSpritesheetGrid = {
     rows: 1,
     columns: Config.ANIMATION_FRAME_AMOUNT,
     spriteHeight: 32,
@@ -14,15 +14,15 @@ export class SkierGraphics {
     public static SKIER_SPRITE = Resources.Skier.toSprite();
     public static SKIER_SLIDING_SPRITESHEET = SpriteSheet.fromImageSource({
         image: Resources.SkierSliding,
-        grid: animatedSpritesheetGrid
+        grid: skierSpritesheetGrid
     });
     public static SKIER_CARVING_SPRITESHEET = SpriteSheet.fromImageSource({
         image: Resources.SkierCarving,
-        grid: animatedSpritesheetGrid
+        grid: skierSpritesheetGrid
     });
     public static SKIER_BRAKING_SPRITESHEET = SpriteSheet.fromImageSource({
         image: Resources.SkierBraking,
-        grid: animatedSpritesheetGrid
+        grid: skierSpritesheetGrid
     });
     public static EVENT_GHOST_SPRITE = Resources.EventRecordGhost.toSprite();
     public static EVENT_GHOST_SLIDING_SPRITE = Resources.EventRecordGhostSliding.toSprite();

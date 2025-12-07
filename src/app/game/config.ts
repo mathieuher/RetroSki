@@ -1,9 +1,10 @@
-import { Axes, Buttons, Color, Keys } from 'excalibur';
+import { Axes, Buttons, Color, Keys, vec } from 'excalibur';
 import { Resources } from './resources';
 import { TrackStyles } from './models/track-styles.enum';
 import type { GatesConfig } from './models/gates-config';
 import type { SlopeSectionConfig } from './models/slope-section-config';
 import type { SlopeConfig } from './models/slope-config';
+import type { ColliderPosition, SkiCollidersPosition } from './models/collider-position';
 
 export class Config {
     // DISPLAY
@@ -74,7 +75,7 @@ export class Config {
     static BRAKING_RATE = 1;
     static CARVING_ADHERENCE_RATE = 0.9;
     static CARVING_BRAKING_RATE = 0.08;
-    static SLIDING_ADHERENCE_RATE = 0.75;
+    static SLIDING_ADHERENCE_RATE = 0.8;
     static SLIDING_BRAKING_RATE = 0.92;
     // SKIER SPECIFIC STYLE DYNAMIC
     static SL_SKIER_CONFIG = {
@@ -106,9 +107,76 @@ export class Config {
         slidingOptimalSpeed: 60
     };
     // ANIMATION
-    static ANIMATION_FRAME_DURATION = 2;
+    static ANIMATION_FRAME_DURATION = 1;
     static ANIMATION_FRAME_AMOUNT = 6;
     static MAX_ANIMATION_INTENSITY = this.ANIMATION_FRAME_DURATION * this.ANIMATION_FRAME_AMOUNT;
+    // COLLIDERS
+    static COLLIDER_SKI_NOTHING: SkiCollidersPosition = {
+        left: { anchor: vec(1, 0.5), rotation: 0 },
+        right: { anchor: vec(0, 0.5), rotation: 0 }
+    };
+    static COLLIDER_SKI_BRAKE: SkiCollidersPosition = {
+        left: { anchor: vec(1.2, 0.4), rotation: 0.45 },
+        right: { anchor: vec(-0.2, 0.4), rotation: -0.45 }
+    };
+    static COLLIDER_SKI_CARVE_LEFT: SkiCollidersPosition = {
+        left: { anchor: vec(0, 0.55), rotation: 0 },
+        right: { anchor: vec(-0.3, 0.48), rotation: 0 }
+    };
+    static COLLIDER_SKI_CARVE_RIGHT: SkiCollidersPosition = {
+        left: { anchor: vec(1.3, 0.48), rotation: 0 },
+        right: { anchor: vec(1, 0.55), rotation: 0 }
+    };
+    static COLLIDER_SKI_SLIDE_LEFT: SkiCollidersPosition = {
+        left: { anchor: vec(0, 0.55), rotation: -0.45 },
+        right: { anchor: vec(0, 0.42), rotation: -0.45 }
+    };
+    static COLLIDER_SKI_SLIDE_RIGHT: SkiCollidersPosition = {
+        left: { anchor: vec(1, 0.42), rotation: 0.45 },
+        right: { anchor: vec(1, 0.55), rotation: 0.45 }
+    };
+    static COLLIDER_FRONT_NOTHING: ColliderPosition = {
+        anchor: vec(0.5, 4)
+    };
+    static COLLIDER_FRONT_BRAKE: ColliderPosition = {
+        anchor: vec(0.5, 4)
+    };
+    static COLLIDER_FRONT_CARVE_LEFT: ColliderPosition = {
+        anchor: vec(0, 4)
+    };
+    static COLLIDER_FRONT_CARVE_RIGHT: ColliderPosition = {
+        anchor: vec(1, 4)
+    };
+    static COLLIDER_FRONT_SLIDE_LEFT: ColliderPosition = {
+        anchor: vec(0.6, 4)
+    };
+    static COLLIDER_FRONT_SLIDE_RIGHT: ColliderPosition = {
+        anchor: vec(0.4, 4)
+    };
+    static COLLIDER_BODY_NOTHING: ColliderPosition = {
+        anchor: vec(0.5, 0.5),
+        rotation: 0
+    };
+    static COLLIDER_BODY_BRAKE: ColliderPosition = {
+        anchor: vec(0.5, 0.3),
+        rotation: 0
+    };
+    static COLLIDER_BODY_CARVE_LEFT: ColliderPosition = {
+        anchor: vec(0.7, 0.5),
+        rotation: 0
+    };
+    static COLLIDER_BODY_CARVE_RIGHT: ColliderPosition = {
+        anchor: vec(0.3, 0.5),
+        rotation: 0
+    };
+    static COLLIDER_BODY_SLIDE_LEFT: ColliderPosition = {
+        anchor: vec(0.55, 0.5),
+        rotation: 0
+    };
+    static COLLIDER_BODY_SLIDE_RIGHT: ColliderPosition = {
+        anchor: vec(0.45, 0.5),
+        rotation: 0
+    };
 
     // SLOPE
     static SLOPE_CONFIG: SlopeConfig = {

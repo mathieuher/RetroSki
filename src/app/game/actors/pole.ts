@@ -1,11 +1,12 @@
 import { Actor, type CollisionStartEvent, CollisionType, type Vector, vec, Color, GraphicsGroup } from 'excalibur';
 import { Config } from '../config';
 import { Resources } from '../resources';
-import { Skier } from './skier';
 import type { Game } from '../game';
 import type { GatesConfig } from '../models/gates-config';
 import { TrackStyles } from '../models/track-styles.enum';
-import { SkierFrontCollider } from './skier-front-collider';
+import { SkierBodyCollider } from './skier-body-collider';
+import { SkiFrontCollider } from './ski-front-collider';
+import { SkiCollider } from './ski-collider';
 
 export class Pole extends Actor {
     private poleColor: 'red' | 'blue';
@@ -20,7 +21,7 @@ export class Pole extends Actor {
             anchor: vec(0, 1),
             collisionType: CollisionType.Active,
             color: isFinalPole ? Color.fromHex('#DA2F2F') : Color.Transparent,
-            z: 5
+            z: 3
         });
 
         this.poleColor = color;
@@ -34,7 +35,7 @@ export class Pole extends Actor {
                 {
                     graphic: gatesConfig.poleShadow,
                     useBounds: false,
-                    offset: vec(0, 0)
+                    offset: vec(0, -2)
                 }
             ]
         });
@@ -57,10 +58,10 @@ export class Pole extends Actor {
     }
 
     private onPreCollision(evt: CollisionStartEvent): void {
-        if (evt.other.owner instanceof SkierFrontCollider) {
+        if (evt.other.owner instanceof SkiFrontCollider) {
             this.parent?.emit('straddled');
         }
-        if (evt.other.owner instanceof Skier) {
+        if (evt.other.owner instanceof SkierBodyCollider || evt.other.owner instanceof SkiCollider) {
             (this.scene!.engine as Game).soundPlayer.playSound(
                 Resources.PoleHittingSound,
                 Config.POLE_HIT_SOUND_VOLUME

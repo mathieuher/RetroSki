@@ -7,10 +7,12 @@ import type { SkierConfig } from '../models/skier-config';
 import type { Game } from '../game';
 import { SkierActions } from '../models/skier-actions.enum';
 import { SkierGraphics } from '../utils/skier-graphics';
-import { SkierFrontCollider } from './skier-front-collider';
 import type { SkierInfos } from '../models/skier-infos';
 import { TrackStyles } from '../models/track-styles.enum';
 import type { SlopeSection } from './slope-section';
+import { SkiCollider } from './ski-collider';
+import { SkierBodyCollider } from './skier-body-collider';
+import { SkiFrontCollider } from './ski-front-collider';
 
 export class SkierIntentions {
     public leftCarvingIntention: number;
@@ -31,12 +33,8 @@ export class SkierIntentions {
     }
 }
 
-const LEFT_ANGLE_OFFSET = (3 / 4) * Math.PI;
-const RIGHT_ANGLE_OFFSET = (1 / 4) * Math.PI;
-const RADIAN_PI = 2 * Math.PI;
 const RADIAN_TO_DEGREE = 180 / Math.PI;
 const DEGREE_TO_RADIAN = Math.PI / 180;
-
 export class Skier extends Actor {
     public speed = 0;
     public skierInfos: SkierInfos;
@@ -46,7 +44,6 @@ export class Skier extends Actor {
     public finish = false;
 
     private skierIntentions = new SkierIntentions();
-    // private skierBody = new SkierBodyCollider();
 
     private previousAction: SkierActions = SkierActions.NOTHING;
     private skierActionIntensity = 0;
@@ -55,6 +52,11 @@ export class Skier extends Actor {
     private updateParticlesLoop = 0;
     private updateSoundLoop = 0;
 
+    private leftSkiCollider = new SkiCollider('left');
+    private rightSkiCollider = new SkiCollider('right');
+    private frontSkiCollider = new SkiFrontCollider();
+    private bodyCollider = new SkierBodyCollider();
+
     constructor(skierInfos: SkierInfos, skierConfig: SkierConfig) {
         super({
             pos: vec(0, 0),
@@ -62,7 +64,7 @@ export class Skier extends Actor {
             height: 32,
             z: 4,
             anchor: vec(0.5, 0.5),
-            collisionType: CollisionType.Fixed
+            collisionType: CollisionType.Passive
         });
         this.skierInfos = skierInfos;
         this.skierConfig = skierConfig;
@@ -71,9 +73,11 @@ export class Skier extends Actor {
         this.rightParticlesEmitter = ParticlesBuilder.getGpuParticlesEmitter('right');
         this.addChild(this.leftParticlesEmitter);
         this.addChild(this.rightParticlesEmitter);
-        this.addChild(new SkierFrontCollider());
 
-        //this.addChild(this.skierBody);
+        this.addChild(this.leftSkiCollider);
+        this.addChild(this.rightSkiCollider);
+        this.addChild(this.frontSkiCollider);
+        this.addChild(this.bodyCollider);
     }
 
     override update(engine: Engine): void {
@@ -82,8 +86,7 @@ export class Skier extends Actor {
         // Build action intensity if same action as before
         this.updateActionIntensity(skierAction);
         this.updateGraphics(skierAction);
-
-        // TODO Update colliders (body + ski) to match animation position
+        this.updateColliders(skierAction);
 
         if (this.skierInfos.type === 'academy') {
             if ((this.scene?.engine as Game).paused) {
@@ -526,5 +529,12 @@ export class Skier extends Actor {
         }
         // Every other interaction
         return 0;
+    }
+
+    private updateColliders(action: SkierActions) {
+        this.leftSkiCollider.updatePosition(action);
+        this.rightSkiCollider.updatePosition(action);
+        this.frontSkiCollider.updatePosition(action);
+        this.bodyCollider.updatePosition(action);
     }
 }
