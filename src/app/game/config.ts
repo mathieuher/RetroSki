@@ -181,8 +181,8 @@ export class Config {
     // SLOPE
     static SLOPE_CONFIG: SlopeConfig = {
         defaultIncline: 18,
-        minIncline: 13,
-        maxIncline: 35,
+        minIncline: 15,
+        maxIncline: 30,
         minSectionLength: 600,
         maxSections: 4,
         startFinishLength: 1200

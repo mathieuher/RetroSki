@@ -7,6 +7,7 @@ import { TrackStyles } from '../models/track-styles.enum';
 import { SkierBodyCollider } from './skier-body-collider';
 import { SkiFrontCollider } from './ski-front-collider';
 import type { Race } from '../scenes/race';
+import { SkiCollider } from './ski-collider';
 
 class PoleCollider extends Actor {
     constructor(width: number) {
@@ -26,10 +27,7 @@ class PoleCollider extends Actor {
     private onPreCollision(evt: CollisionStartEvent): void {
         if (evt.other.owner instanceof SkierBodyCollider) {
             (this.parent as Pole).animate();
-            (this.scene!.engine as Game).soundPlayer.playSound(
-                Resources.PoleHittingSound,
-                Config.POLE_HIT_SOUND_VOLUME
-            );
+            (this.scene!.engine as Game).soundPlayer.playSound(Resources.PoleHitSound, Config.POLE_HIT_SOUND_VOLUME);
         }
     }
 }
@@ -79,7 +77,7 @@ export class Pole extends Actor {
         const animation = this.gatesConfig.poleCollideAnimations.get(this.poleColor)?.get(side)?.clone();
 
         if (animation) {
-            this.graphics.use(animation);
+            this.graphicsGroup?.members.splice(0, 1, animation);
         }
     }
 
@@ -101,6 +99,10 @@ export class Pole extends Actor {
     }
 
     private onPreCollision(evt: CollisionStartEvent): void {
+        if (evt.other.owner instanceof SkiCollider) {
+            (this.scene!.engine as Game).soundPlayer.playSound(Resources.PoleBumpSound, Config.POLE_HIT_SOUND_VOLUME);
+        }
+
         if (evt.other.owner instanceof SkiFrontCollider) {
             this.parent?.emit('straddled');
         }
