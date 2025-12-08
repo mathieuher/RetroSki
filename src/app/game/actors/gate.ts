@@ -143,7 +143,7 @@ export class Gate extends Actor {
     }
 
     private isBehind(): boolean {
-        return ScreenManager.isBehind(this.scene!.camera.pos.y, this.pos.y - this.height * 4);
+        return ScreenManager.isBehind(this.scene!.camera.pos.y, this.pos.y - this.height - 10);
     }
 
     private buildComponents(): void {
