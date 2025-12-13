@@ -1,6 +1,6 @@
 import { Actor, type CollisionStartEvent, CollisionType, Color, type Vector, vec } from 'excalibur';
-import { SkiFrontCollider } from './ski-front-collider';
 import type { Gate } from './gate';
+import { SkisCollider } from './skis-collider';
 
 export class GateDetector extends Actor {
     private gate: Gate;
@@ -24,7 +24,7 @@ export class GateDetector extends Actor {
     }
 
     private onPreCollision(event: CollisionStartEvent): void {
-        if (event.other.owner instanceof SkiFrontCollider) {
+        if (event.other.owner instanceof SkisCollider) {
             this.gate.emit('passed');
             this.kill();
         }

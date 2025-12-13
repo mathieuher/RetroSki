@@ -70,36 +70,36 @@ export class Config {
     static MAX_LEFT_ROTATION_ANGLE = (3 * Math.PI) / 2;
     static ROTATION_RECENTER_RATE = 0.2;
     // SKIER
-    static ACCELERATION_RATE = 1.19;
+    static ACCELERATION_RATE = 1.16;
     static BRAKING_RATE = 1;
     static CARVING_ADHERENCE_RATE = 0.9;
     static CARVING_BRAKING_RATE = 0.08;
     static SLIDING_ADHERENCE_RATE = 0.8;
-    static SLIDING_BRAKING_RATE = 0.92;
+    static SLIDING_BRAKING_RATE = 0.93;
     // SKIER SPECIFIC STYLE DYNAMIC
     static SL_SKIER_CONFIG = {
-        windFrictionRate: 0.000052,
+        windFrictionRate: 0.000048,
         carvingRotationRate: 3.1,
         carvingOptimalSpeed: 50,
         slidingRotationRate: 3.1,
         slidingOptimalSpeed: 35
     };
     static GS_SKIER_CONFIG = {
-        windFrictionRate: 0.000048,
-        carvingRotationRate: 3,
+        windFrictionRate: 0.00004,
+        carvingRotationRate: 2.9,
         carvingOptimalSpeed: 60,
-        slidingRotationRate: 3,
+        slidingRotationRate: 2.9,
         slidingOptimalSpeed: 45
     };
     static SG_SKIER_CONFIG = {
-        windFrictionRate: 0.000032,
+        windFrictionRate: 0.000025,
         carvingRotationRate: 2.5,
         carvingOptimalSpeed: 70,
         slidingRotationRate: 2.5,
         slidingOptimalSpeed: 50
     };
     static DH_SKIER_CONFIG = {
-        windFrictionRate: 0.000026,
+        windFrictionRate: 0.00002,
         carvingRotationRate: 2.25,
         carvingOptimalSpeed: 75,
         slidingRotationRate: 2.25,
@@ -112,9 +112,9 @@ export class Config {
 
     // SLOPE
     static SLOPE_CONFIG: SlopeConfig = {
-        defaultIncline: 18,
-        minIncline: 15,
-        maxIncline: 30,
+        defaultIncline: 16,
+        minIncline: 14,
+        maxIncline: 29,
         minSectionLength: 600,
         maxSections: 4,
         startFinishLength: 1200
@@ -170,6 +170,7 @@ export class Config {
     static GATE_VERTICAL_HEIGHT = 100;
     static GATE_VERTICAL_BETWEEN_MARGIN = 10;
     // POLE
+    static POLE_STRADDLED_DISTANCE_LIMIT = 1;
     static POLE_SPRITESHEET_GRID = {
         columns: 13,
         rows: 1,

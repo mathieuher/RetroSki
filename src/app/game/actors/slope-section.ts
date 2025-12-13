@@ -3,6 +3,11 @@ import { Config } from '../config';
 import type { SlopeSectionConfig } from '../models/slope-section-config';
 import type { Game } from '../game';
 
+const SECTION_WHITE_MAX_INCLINE = 0;
+const SECTION_GREEN_MAX_INCLINE = 10;
+const SECTION_BLUE_MAX_INCLINE = 17;
+const SECTION_RED_MAX_INCLINE = 24;
+
 export class SlopeSection extends Actor {
     public incline: number;
     public endPosition: Vector;
@@ -85,16 +90,16 @@ export class SlopeSection extends Actor {
     }
 
     public static getSlopeSectionConfig(incline: number): SlopeSectionConfig {
-        if (incline === 0) {
+        if (incline === SECTION_WHITE_MAX_INCLINE) {
             return { ...Config.SLOPE_SECTION_WHITE_CONFIG };
         }
-        if (incline <= 10) {
+        if (incline <= SECTION_GREEN_MAX_INCLINE) {
             return { ...Config.SLOPE_SECTION_GREEN_CONFIG };
         }
-        if (incline <= 20) {
+        if (incline <= SECTION_BLUE_MAX_INCLINE) {
             return { ...Config.SLOPE_SECTION_BLUE_CONFIG };
         }
-        if (incline <= 30) {
+        if (incline <= SECTION_RED_MAX_INCLINE) {
             return { ...Config.SLOPE_SECTION_RED_CONFIG };
         }
         return { ...Config.SLOPE_SECTION_BLACK_CONFIG };

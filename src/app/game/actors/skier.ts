@@ -10,7 +10,6 @@ import { SkierGraphics } from '../utils/skier-graphics';
 import type { SkierInfos } from '../models/skier-infos';
 import { TrackStyles } from '../models/track-styles.enum';
 import type { SlopeSection } from './slope-section';
-import { SkiFrontCollider } from './ski-front-collider';
 import { SkisCollider } from './skis-collider';
 import { SkierBodyCollider } from './skier-body-collider';
 
@@ -53,7 +52,6 @@ export class Skier extends Actor {
     private updateSoundLoop = 0;
 
     private skisCollider = new SkisCollider();
-    private frontSkiCollider = new SkiFrontCollider();
     private bodyCollider = new SkierBodyCollider();
 
     constructor(skierInfos: SkierInfos, skierConfig: SkierConfig) {
@@ -74,7 +72,6 @@ export class Skier extends Actor {
         this.addChild(this.rightParticlesEmitter);
 
         this.addChild(this.skisCollider);
-        this.addChild(this.frontSkiCollider);
         this.addChild(this.bodyCollider);
     }
 
@@ -531,7 +528,6 @@ export class Skier extends Actor {
 
     private updateColliders(action: SkierActions) {
         this.skisCollider.updatePosition(action);
-        this.frontSkiCollider.updatePosition(action);
         this.bodyCollider.updatePosition(action);
     }
 }

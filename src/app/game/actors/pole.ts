@@ -5,7 +5,6 @@ import type { Game } from '../game';
 import type { GatesConfig, PoleSideConfig } from '../models/gates-config';
 import { TrackStyles } from '../models/track-styles.enum';
 import { SkierBodyCollider } from './skier-body-collider';
-import { SkiFrontCollider } from './ski-front-collider';
 import type { Race } from '../scenes/race';
 import { SkisCollider } from './skis-collider';
 
@@ -101,10 +100,11 @@ export class Pole extends Actor {
     private onPreCollision(evt: CollisionStartEvent): void {
         if (evt.other.owner instanceof SkisCollider) {
             (this.scene!.engine as Game).soundPlayer.playSound(Resources.PoleBumpSound, Config.POLE_HIT_SOUND_VOLUME);
-        }
 
-        if (evt.other.owner instanceof SkiFrontCollider) {
-            this.parent?.emit('straddled');
+            // Straddled the pole if it is moving a sufficient amount
+            if (evt.contact.mtv.distance() >= Config.POLE_STRADDLED_DISTANCE_LIMIT) {
+                this.parent?.emit('straddled');
+            }
         }
     }
 }
