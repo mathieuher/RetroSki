@@ -1,42 +1,43 @@
-import { Actor, CollisionType, Color, vec } from 'excalibur';
+import { Actor, CollisionType, vec } from 'excalibur';
 import { SkierActions } from '../models/skier-actions.enum';
-import { Config } from '../config';
+
+// Skier body collider anchors regarding skier position
+const COLLIDER_BODY_NOTHING_ANCHOR = vec(0.5, 0.5);
+const COLLIDER_BODY_BRAKE_ANCHOR = vec(0.5, 0.3);
+const COLLIDER_BODY_CARVE_LEFT_ANCHOR = vec(0.7, 0.5);
+const COLLIDER_BODY_CARVE_RIGHT_ANCHOR = vec(0.3, 0.5);
+const COLLIDER_BODY_SLIDE_LEFT_ANCHOR = vec(0.55, 0.5);
+const COLLIDER_BODY_SLIDE_RIGHT_ANCHOR = vec(0.45, 0.5);
 
 export class SkierBodyCollider extends Actor {
     constructor() {
         super({
-            anchor: Config.COLLIDER_BODY_NOTHING.anchor,
+            anchor: COLLIDER_BODY_NOTHING_ANCHOR,
             width: 22,
             height: 12,
-            rotation: Config.COLLIDER_BODY_NOTHING.rotation,
             collisionType: CollisionType.Passive
         });
     }
 
     public updatePosition(action: SkierActions): void {
-        if (action === SkierActions.NOTHING) {
-            this.anchor = Config.COLLIDER_BODY_NOTHING.anchor!;
-            this.rotation = Config.COLLIDER_BODY_NOTHING.rotation!;
-        }
-        if (action === SkierActions.BRAKE) {
-            this.anchor = Config.COLLIDER_BODY_BRAKE.anchor!;
-            this.rotation = Config.COLLIDER_BODY_BRAKE.rotation!;
-        }
-        if (action === SkierActions.CARVE_LEFT) {
-            this.anchor = Config.COLLIDER_BODY_CARVE_LEFT.anchor!;
-            this.rotation = Config.COLLIDER_BODY_CARVE_LEFT.rotation!;
-        }
-        if (action === SkierActions.CARVE_RIGHT) {
-            this.anchor = Config.COLLIDER_BODY_CARVE_RIGHT.anchor!;
-            this.rotation = Config.COLLIDER_BODY_CARVE_RIGHT.rotation!;
-        }
-        if (action === SkierActions.SLIDE_LEFT) {
-            this.anchor = Config.COLLIDER_BODY_SLIDE_LEFT.anchor!;
-            this.rotation = Config.COLLIDER_BODY_SLIDE_LEFT.rotation!;
-        }
-        if (action === SkierActions.SLIDE_RIGHT) {
-            this.anchor = Config.COLLIDER_BODY_SLIDE_RIGHT.anchor!;
-            this.rotation = Config.COLLIDER_BODY_SLIDE_RIGHT.rotation!;
+        switch (action) {
+            case SkierActions.NOTHING:
+                this.anchor = COLLIDER_BODY_NOTHING_ANCHOR;
+                break;
+            case SkierActions.BRAKE:
+                this.anchor = COLLIDER_BODY_BRAKE_ANCHOR;
+                break;
+            case SkierActions.CARVE_LEFT:
+                this.anchor = COLLIDER_BODY_CARVE_LEFT_ANCHOR;
+                break;
+            case SkierActions.CARVE_RIGHT:
+                this.anchor = COLLIDER_BODY_CARVE_RIGHT_ANCHOR;
+                break;
+            case SkierActions.SLIDE_LEFT:
+                this.anchor = COLLIDER_BODY_SLIDE_LEFT_ANCHOR;
+                break;
+            case SkierActions.SLIDE_RIGHT:
+                this.anchor = COLLIDER_BODY_SLIDE_RIGHT_ANCHOR;
         }
     }
 }

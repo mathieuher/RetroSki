@@ -7,7 +7,7 @@ import { TrackStyles } from '../models/track-styles.enum';
 import { SkierBodyCollider } from './skier-body-collider';
 import { SkiFrontCollider } from './ski-front-collider';
 import type { Race } from '../scenes/race';
-import { SkiCollider } from './ski-collider';
+import { SkisCollider } from './skis-collider';
 
 class PoleCollider extends Actor {
     constructor(width: number) {
@@ -99,7 +99,7 @@ export class Pole extends Actor {
     }
 
     private onPreCollision(evt: CollisionStartEvent): void {
-        if (evt.other.owner instanceof SkiCollider) {
+        if (evt.other.owner instanceof SkisCollider) {
             (this.scene!.engine as Game).soundPlayer.playSound(Resources.PoleBumpSound, Config.POLE_HIT_SOUND_VOLUME);
         }
 

@@ -10,9 +10,9 @@ import { SkierGraphics } from '../utils/skier-graphics';
 import type { SkierInfos } from '../models/skier-infos';
 import { TrackStyles } from '../models/track-styles.enum';
 import type { SlopeSection } from './slope-section';
-import { SkiCollider } from './ski-collider';
-import { SkierBodyCollider } from './skier-body-collider';
 import { SkiFrontCollider } from './ski-front-collider';
+import { SkisCollider } from './skis-collider';
+import { SkierBodyCollider } from './skier-body-collider';
 
 export class SkierIntentions {
     public leftCarvingIntention: number;
@@ -52,8 +52,7 @@ export class Skier extends Actor {
     private updateParticlesLoop = 0;
     private updateSoundLoop = 0;
 
-    private leftSkiCollider = new SkiCollider('left');
-    private rightSkiCollider = new SkiCollider('right');
+    private skisCollider = new SkisCollider();
     private frontSkiCollider = new SkiFrontCollider();
     private bodyCollider = new SkierBodyCollider();
 
@@ -74,8 +73,7 @@ export class Skier extends Actor {
         this.addChild(this.leftParticlesEmitter);
         this.addChild(this.rightParticlesEmitter);
 
-        this.addChild(this.leftSkiCollider);
-        this.addChild(this.rightSkiCollider);
+        this.addChild(this.skisCollider);
         this.addChild(this.frontSkiCollider);
         this.addChild(this.bodyCollider);
     }
@@ -532,8 +530,7 @@ export class Skier extends Actor {
     }
 
     private updateColliders(action: SkierActions) {
-        this.leftSkiCollider.updatePosition(action);
-        this.rightSkiCollider.updatePosition(action);
+        this.skisCollider.updatePosition(action);
         this.frontSkiCollider.updatePosition(action);
         this.bodyCollider.updatePosition(action);
     }
