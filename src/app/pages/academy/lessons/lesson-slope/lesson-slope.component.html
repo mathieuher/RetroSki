@@ -1,0 +1,137 @@
+<canvas id="game"></canvas>
+<div class="retro-ui-overlay">
+    <app-button-icon icon="arrow_back" (click)="exitLesson()"></app-button-icon>
+    @if(lessonFailed()) {
+    <ng-container *ngTemplateOutlet="lesson_failed"></ng-container>
+    } @else { @if(lessonStep() === 1) {
+    <ng-container *ngTemplateOutlet="step_1"></ng-container>
+    } @else if(lessonStep() === 2) {
+    <ng-container *ngTemplateOutlet="step_2"></ng-container>
+    } @else if(lessonStep() === 3) {
+    <ng-container *ngTemplateOutlet="step_3"></ng-container>
+    } }
+</div>
+
+<ng-template #step_1>
+    <div class="retro-dialog">
+        <div class="retro-title">6. Cope with the slope</div>
+
+        <div class="retro-text">
+            Every mountain is different, and in RetroSki the slope itself can
+            change the way you ride.
+        </div>
+
+        <div class="retro-text">
+            During a race, the track is divided into colored sections based on the
+            <strong>standard ski slope color system</strong>, representing the
+            <strong>slope incline</strong>. Each section displays its angle at the
+            start:
+            <ul>
+                <li>🟢 <strong>Green</strong>: 1° to 10°</li>
+                <li>🔵 <strong>Blue</strong>: 11° to 17°</li>
+                <li>🔴 <strong>Red</strong>: 18° to 24°</li>
+                <li>⚫️ <strong>Black</strong>: 25° to 29°</li>
+            </ul>
+        </div>
+
+        <div class="retro-text">
+            The steeper the slope, the more <strong>speed</strong> you build
+            and the faster the gates come at you.
+        </div>
+
+        <div class="retro-text">
+            <strong>Your goal:</strong> Finish the run and pass every gate by
+            adapting your trajectory, timing, and speed to the incline.
+            On steep sections, using <strong>braking and sliding</strong> is essential
+            to stay in control.
+        </div>
+
+        <div class="retro-button" (click)="startStep2()">
+            <span class="material-symbols-outlined">downhill_skiing</span>
+            Start the lesson
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #step_2>
+    <app-academy-objective
+        title="Pass all gates and finish the run"
+        detail="Adjust speed and line to match each slope section"
+        [completed]="step2Completed()"
+    >
+    </app-academy-objective>
+</ng-template>
+
+<ng-template #step_3>
+    <div class="retro-dialog">
+        <div class="retro-title">Lesson Completed!</div>
+
+        <div class="retro-text">
+            <strong>Well done, rider!</strong> You've learned how to read the slope
+            and adapt your skiing to every incline.
+        </div>
+
+        <div class="retro-text">
+            By adjusting your line, speed, and timing based on the terrain,
+            you stayed in control while keeping your momentum, exactly what
+            separates fast riders from great ones.
+        </div>
+
+        <div class="retro-text">
+            Remember: steeper sections demand <strong>anticipation</strong>.
+            Early turns, smart braking, and controlled sliding will always
+            give you the edge when the mountain gets aggressive.
+        </div>
+
+        <div class="retro-text">
+            Prefer a cleaner view of the track?
+            You can <strong>disable section colored snow</strong> at any time
+            in the settings once you're confident reading the terrain.
+        </div>
+
+        <div class="retro-button" (click)="exitLesson()">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Back to the Academy
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #lesson_failed>
+    <div class="retro-dialog error">
+        <div class="retro-title">Lesson Failed</div>
+
+        <div class="retro-text">
+            <strong>Not quite there yet, rider!</strong> The slope can be tricky, and
+            maintaining control while adapting to each section is key.
+        </div>
+
+        <div class="retro-text">
+            You didn't pass all the gates by riding according to the incline.
+            Steeper sections require more <strong>braking, sliding, and precise turns</strong>.
+        </div>
+
+        <div class="retro-text">
+            Focus on:
+            <ul>
+                <li>Adjusting your speed and line to the slope</li>
+                <li>Using <strong>early turns</strong> to prepare for fast sections</li>
+                <li>Controlling your momentum with <strong>braking and sliding</strong> on steep parts</li>
+            </ul>
+        </div>
+
+        <div class="retro-text">
+            Keep practicing, and soon you'll be able to handle any slope like a pro!
+        </div>
+
+        <div class="retro-buttons-list">
+            <button class="retro-button tertiary" (click)="exitLesson(true)">
+                <span class="material-symbols-outlined">repeat</span>
+                Try again
+            </button>
+            <button class="retro-button" (click)="exitLesson()">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Back to the Academy
+            </button>
+        </div>
+    </div>
+</ng-template>

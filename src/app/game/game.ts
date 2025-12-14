@@ -14,7 +14,7 @@ import { EventEmitter } from '@angular/core';
 import type { SkierIntentions } from './actors/skier';
 
 export type GameMode = 'academy' | 'career' | 'race';
-export type GateEvent = 'passed' | 'missed';
+export type GateEvent = 'passed' | 'missed' | 'hit';
 export type AcademyEvent = 'stopped';
 export interface CustomGameEvent {
     name: string;

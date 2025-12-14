@@ -27,6 +27,7 @@ class PoleCollider extends Actor {
         if (evt.other.owner instanceof SkierBodyCollider) {
             (this.parent as Pole).animate();
             (this.scene!.engine as Game).soundPlayer.playSound(Resources.PoleHitSound, Config.POLE_HIT_SOUND_VOLUME);
+            (this.scene?.engine as Game).customEvents.emit({ name: 'gate-event', content: 'hit' });
         }
     }
 }

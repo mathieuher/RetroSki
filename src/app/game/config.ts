@@ -72,13 +72,13 @@ export class Config {
     // SKIER
     static ACCELERATION_RATE = 1.16;
     static BRAKING_RATE = 1;
-    static CARVING_ADHERENCE_RATE = 0.9;
+    static CARVING_ADHERENCE_RATE = 0.92;
     static CARVING_BRAKING_RATE = 0.08;
     static SLIDING_ADHERENCE_RATE = 0.8;
     static SLIDING_BRAKING_RATE = 0.93;
     // SKIER SPECIFIC STYLE DYNAMIC
     static SL_SKIER_CONFIG = {
-        windFrictionRate: 0.000048,
+        windFrictionRate: 0.000052,
         carvingRotationRate: 3.1,
         carvingOptimalSpeed: 50,
         slidingRotationRate: 3.1,
@@ -112,7 +112,7 @@ export class Config {
 
     // SLOPE
     static SLOPE_CONFIG: SlopeConfig = {
-        defaultIncline: 16,
+        defaultIncline: 17,
         minIncline: 14,
         maxIncline: 29,
         minSectionLength: 600,
@@ -263,9 +263,9 @@ export class Config {
         trackStyle: TrackStyles.SL,
         maxWidth: 120,
         minWidth: 80,
-        maxHorizontalDistance: 105,
-        minVerticalDistance: 120,
-        maxVerticalDistance: 150,
+        maxHorizontalDistance: 110,
+        minVerticalDistance: 115,
+        maxVerticalDistance: 145,
         minNumber: 54,
         maxNumber: 66,
         poleWidth: 4,

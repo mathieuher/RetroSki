@@ -15,12 +15,16 @@ export class AcademyComponent {
     public static readonly LESSON_TRAJECTORY_COMPLETED_KEY = 'lesson_faster_completed';
     public static readonly LESSON_PRECISION_COMPLETED_KEY = 'lesson_precision_completed';
     public static readonly LESSON_SLALOM_COMPLETED_KEY = 'lesson_slalom_completed';
-    public static readonly LESSON_FINAL_COMPLETED_KEY = 'lesson_final_completed';
+    public static readonly LESSON_ATTACK_COMPLETED_KEY = 'lesson_attack_completed';
+    public static readonly LESSON_SLOPE_COMPLETED_KEY = 'lesson_slope_completed';
+    public static readonly LESSON_GHOST_COMPLETED_KEY = 'lesson_ghost_completed';
 
     protected racing = signal(false);
     protected basicsCompleted = localStorage.getItem(AcademyComponent.LESSON_BASICS_COMPLETED_KEY) === 'true';
     protected trajectoryCompleted = localStorage.getItem(AcademyComponent.LESSON_TRAJECTORY_COMPLETED_KEY) === 'true';
     protected precisionCompleted = localStorage.getItem(AcademyComponent.LESSON_PRECISION_COMPLETED_KEY) === 'true';
     protected slalomCompleted = localStorage.getItem(AcademyComponent.LESSON_SLALOM_COMPLETED_KEY) === 'true';
-    protected finalCompleted = localStorage.getItem(AcademyComponent.LESSON_FINAL_COMPLETED_KEY) === 'true';
+    protected attackCompleted = localStorage.getItem(AcademyComponent.LESSON_ATTACK_COMPLETED_KEY) === 'true';
+    protected slopeCompleted = localStorage.getItem(AcademyComponent.LESSON_SLOPE_COMPLETED_KEY) === 'true';
+    protected ghostCompleted = localStorage.getItem(AcademyComponent.LESSON_GHOST_COMPLETED_KEY) === 'true';
 }
