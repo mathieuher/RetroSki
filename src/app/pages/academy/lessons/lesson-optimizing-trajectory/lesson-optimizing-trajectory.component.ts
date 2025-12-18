@@ -37,6 +37,7 @@ export class OptimizingTrajectoryComponent implements AfterViewInit {
         const track = TrackBuilder.designTrack(
             'Academy slalom',
             TrackStyles.SG,
+            Config.SLOPE_CONFIG.defaultIncline,
             40,
             40,
             true,

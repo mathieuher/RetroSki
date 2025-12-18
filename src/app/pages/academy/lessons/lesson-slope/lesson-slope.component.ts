@@ -36,6 +36,7 @@ export class SlopeComponent implements AfterViewInit {
         const track = TrackBuilder.designTrack(
             'Academy GS',
             TrackStyles.GS,
+            Config.SLOPE_CONFIG.defaultIncline,
             45,
             45,
             true,

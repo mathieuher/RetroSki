@@ -37,6 +37,7 @@ export class PrecisionComponent {
         const track = TrackBuilder.designTrack(
             'Academy precision',
             TrackStyles.GS,
+            Config.SLOPE_CONFIG.defaultIncline,
             100,
             undefined,
             undefined,

@@ -19,6 +19,7 @@ export class TrackBuilder {
     public static designTrack(
         name: string,
         trackStyle: TrackStyles,
+        averageIncline: number,
         gatesAmount?: number,
         decorationsAmount?: number,
         disableSectors = false,
@@ -51,7 +52,7 @@ export class TrackBuilder {
 
         const slopeConfig = forcedSlopeConfig || Config.SLOPE_CONFIG;
         const trackLength = Math.abs(gates.at(-1)!.y);
-        const slopeSections = TrackBuilder.designSlopeSections(trackLength, slopeConfig);
+        const slopeSections = TrackBuilder.designSlopeSections(trackLength, slopeConfig, averageIncline);
 
         return new Track(
             undefined,
@@ -464,7 +465,11 @@ export class TrackBuilder {
         return originalWidth;
     }
 
-    private static designSlopeSections(trackLength: number, config: SlopeConfig): StockableSlopeSection[] {
+    private static designSlopeSections(
+        trackLength: number,
+        config: SlopeConfig,
+        averageIncline: number
+    ): StockableSlopeSection[] {
         const slopeSections: StockableSlopeSection[] = [];
 
         // Build start section (before the starting house)
@@ -472,21 +477,25 @@ export class TrackBuilder {
         slopeSections.push(startSection);
 
         // Build variable sections
-        const sectionLengths = TrackBuilder.buildSectionLengths(
+        const sectionLengths = TrackBuilder.generateSectionLengths(
             trackLength,
             config.maxSections,
             config.minSectionLength
         );
+
+        const slopeInclines = TrackBuilder.generateSlopeInclines(
+            sectionLengths.length,
+            config.minIncline,
+            config.maxIncline,
+            averageIncline
+        );
+
         sectionLengths.forEach((sectionLength, index) => {
             const lastSection = slopeSections.at(index);
             const startPosition = lastSection ? vec(lastSection.endX, lastSection.endY) : Vector.Zero;
             const endPosition = vec(startPosition.x, startPosition.y - sectionLength);
 
-            const section = new StockableSlopeSection(
-                startPosition,
-                endPosition,
-                randomIntInRange(config.minIncline, config.maxIncline)
-            );
+            const section = new StockableSlopeSection(startPosition, endPosition, slopeInclines[index]);
             slopeSections.push(section);
         });
 
@@ -505,11 +514,11 @@ export class TrackBuilder {
     // Build default slope section (use for legacy track without section)
     public static designBasicSlopeSections(trackLength: number): StockableSlopeSection[] {
         const config = Config.SLOPE_LEGACY_CONFIG;
-        return TrackBuilder.designSlopeSections(trackLength, config);
+        return TrackBuilder.designSlopeSections(trackLength, config, config.defaultIncline);
     }
 
     // Return a randomize array of section lengths (split the global track length in multiple sections)
-    private static buildSectionLengths(trackLength: number, sections: number, minSectionLength: number): number[] {
+    private static generateSectionLengths(trackLength: number, sections: number, minSectionLength: number): number[] {
         const sectionLengths: number[] = [];
         for (let index = 0; index < sections; index++) {
             const furtherSection = sections - (index + 1);
@@ -522,5 +531,34 @@ export class TrackBuilder {
             }
         }
         return sectionLengths;
+    }
+
+    // Return randomize slope inclines in the range and averaging close to the requested average incline
+    private static generateSlopeInclines(sections: number, min: number, max: number, averageIncline: number): number[] {
+        // Generate random inclines in the min-max range
+        const randomInclines: number[] = [];
+        for (let index = 0; index < sections; index++) {
+            randomInclines.push(randomIntInRange(min, max));
+        }
+
+        // Get the average incline from the randomly generated inclines
+        let currentAvgIncline = 0;
+        for (const i of randomInclines) {
+            currentAvgIncline += i;
+        }
+        currentAvgIncline /= sections;
+
+        // Get the deviation from the requested averageIncline
+        const deviation = averageIncline / currentAvgIncline;
+
+        // Adjust the incline with the deviation to be closer to the requested average incline
+        const adjustedInclines = randomInclines.map(i => {
+            if (deviation > 1) {
+                return Math.round(Math.min(max, i * deviation));
+            }
+            return Math.round(Math.max(min, i * deviation));
+        });
+
+        return adjustedInclines;
     }
 }

@@ -21,7 +21,7 @@
     <div class="retro-form-section" [formGroup]="form">
         <div
             class="retro-form-line"
-            [class.invalid]="form.invalid && !form.pristine"
+            [class.invalid]="form.controls.name.invalid && !form.pristine"
         >
             <div class="label">Name</div>
             <input
@@ -39,6 +39,18 @@
                 <option value="SG">Super-G</option>
                 <option value="DH">Downhill</option>
             </select>
+        </div>
+        <div
+            class="retro-form-line"
+            [class.invalid]="form.controls.incline.invalid && !form.pristine"
+        >
+            <div class="label">Average slope incline</div>
+            <input
+                type="number"
+                class="retro-input"
+                formControlName="incline"
+                [placeholder]="inclinePlaceholder"
+            />
         </div>
         <button
             class="retro-button tertiary"
@@ -59,7 +71,6 @@
         @for(track of tracks(); track track.id) {
         <div class="track-line">
             <span class="label">{{ track.fullName }}</span>
-            <span class="gates">{{ track.gates.length }} gates</span>
             <div class="actions">
                 <app-button-icon
                     icon="delete"

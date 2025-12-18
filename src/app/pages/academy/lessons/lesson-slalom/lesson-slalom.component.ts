@@ -39,6 +39,7 @@ export class SlalomComponent implements AfterViewInit {
         const track = TrackBuilder.designTrack(
             'Academy slalom',
             TrackStyles.SL,
+            Config.SLOPE_CONFIG.defaultIncline,
             20,
             20,
             true,

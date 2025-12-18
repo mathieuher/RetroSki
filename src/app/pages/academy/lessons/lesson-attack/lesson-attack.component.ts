@@ -37,6 +37,7 @@ export class AttackComponent implements AfterViewInit {
         const track = TrackBuilder.designTrack(
             'Academy GS',
             TrackStyles.GS,
+            Config.SLOPE_CONFIG.defaultIncline,
             20,
             20,
             true,
