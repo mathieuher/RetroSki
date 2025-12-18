@@ -47,31 +47,26 @@ export class RaceComponent extends Destroyable implements OnInit {
     private eventId = (this.route.snapshot.params as { eventId: string }).eventId;
     private user = inject(AuthService).getUser();
 
-    constructor() {
-        super();
-        if (this.type === 'local') {
-            if (!this.localEventService.getEvent()) {
-                this.router.navigate(['/local-event']);
-            }
-        }
-    }
-
     ngOnInit(): void {
-        const config$: Observable<RaceConfig> =
-            this.type === 'local'
-                ? this.buildLocalRaceConfig$(this.localEventService.getEvent()!)
-                : this.buildOnlineRaceConfig$(this.eventId);
-        config$
-            .pipe(
-                tap(config => {
-                    this.game = new Game('race', config, this.settingsService);
-                    this.game.initialize();
-                }),
-                tap(config => this.raceConfig.set(config)),
-                tap(() => this.listenToRaceStop()),
-                takeUntil(this.destroyed$)
-            )
-            .subscribe();
+        if (this.type === 'local' && !this.localEventService.getEvent()) {
+            this.router.navigate(['/local-event']);
+        } else {
+            const config$: Observable<RaceConfig> =
+                this.type === 'local'
+                    ? this.buildLocalRaceConfig$(this.localEventService.getEvent()!)
+                    : this.buildOnlineRaceConfig$(this.eventId);
+            config$
+                .pipe(
+                    tap(config => {
+                        this.game = new Game('race', config, this.settingsService);
+                        this.game.initialize();
+                    }),
+                    tap(config => this.raceConfig.set(config)),
+                    tap(() => this.listenToRaceStop()),
+                    takeUntil(this.destroyed$)
+                )
+                .subscribe();
+        }
     }
 
     public override ngOnDestroy(): void {

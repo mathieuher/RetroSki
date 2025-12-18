@@ -217,7 +217,7 @@ export class Config {
                     'left',
                     Animation.fromSpriteSheet(
                         Config.POLE_RED_SPRITESHEET,
-                        range(0, this.POLE_SPRITESHEET_GRID.columns),
+                        range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
                         30,
                         AnimationStrategy.Freeze
                     )
@@ -226,7 +226,7 @@ export class Config {
                     'right',
                     Animation.fromSpriteSheet(
                         Config.POLE_RED_INVERTED_SPRITESHEET,
-                        range(0, this.POLE_SPRITESHEET_GRID.columns),
+                        range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
                         30,
                         AnimationStrategy.Freeze
                     )
@@ -240,7 +240,7 @@ export class Config {
                     'left',
                     Animation.fromSpriteSheet(
                         Config.POLE_BLUE_SPRITESHEET,
-                        range(0, this.POLE_SPRITESHEET_GRID.columns),
+                        range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
                         30,
                         AnimationStrategy.Freeze
                     )
@@ -249,7 +249,7 @@ export class Config {
                     'right',
                     Animation.fromSpriteSheet(
                         Config.POLE_BLUE_INVERTED_SPRITESHEET,
-                        range(0, this.POLE_SPRITESHEET_GRID.columns),
+                        range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
                         30,
                         AnimationStrategy.Freeze
                     )
@@ -286,7 +286,7 @@ export class Config {
                         'left',
                         Animation.fromSpriteSheet(
                             Config.POLE_SL_RED_SPRITESHEET,
-                            range(0, this.POLE_SPRITESHEET_GRID.columns),
+                            range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
                             30,
                             AnimationStrategy.Freeze
                         )
@@ -295,7 +295,7 @@ export class Config {
                         'right',
                         Animation.fromSpriteSheet(
                             Config.POLE_SL_RED_INVERTED_SPRITESHEET,
-                            range(0, this.POLE_SPRITESHEET_GRID.columns),
+                            range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
                             30,
                             AnimationStrategy.Freeze
                         )
@@ -309,7 +309,7 @@ export class Config {
                         'left',
                         Animation.fromSpriteSheet(
                             Config.POLE_SL_BLUE_SPRITESHEET,
-                            range(0, this.POLE_SPRITESHEET_GRID.columns),
+                            range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
                             30,
                             AnimationStrategy.Freeze
                         )
@@ -318,7 +318,7 @@ export class Config {
                         'right',
                         Animation.fromSpriteSheet(
                             Config.POLE_SL_BLUE_INVERTED_SPRITESHEET,
-                            range(0, this.POLE_SPRITESHEET_GRID.columns),
+                            range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
                             30,
                             AnimationStrategy.Freeze
                         )
