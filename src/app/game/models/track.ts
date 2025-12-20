@@ -1,3 +1,4 @@
+import { Config } from '../config';
 import type { StockableDecoration } from './stockable-decoration';
 import type { StockableGate } from './stockable-gate';
 import type { StockableSlopeSection } from './stockable-slope-section';
@@ -36,6 +37,38 @@ export class Track {
 
     public get fullName(): string {
         return `${Track.formatTrackName(this.name)} - ${this.style}`;
+    }
+
+    public get gatesNumber(): number {
+        return this.gates.length;
+    }
+
+    public get leftGatesNumber(): number {
+        return this.gates.filter(g => g.pivot === 'left').length;
+    }
+
+    public get rightGatesNumber(): number {
+        return this.gates.filter(g => g.pivot === 'right').length;
+    }
+
+    public get minIncline(): number {
+        return (
+            this.slopeSections
+                ?.filter(s => s.incline > 0)
+                .map(s => s.incline)
+                .sort((a, b) => a - b)
+                .at(0) || Config.SLOPE_CONFIG.defaultIncline
+        );
+    }
+
+    public get maxIncline(): number {
+        return (
+            this.slopeSections
+                ?.filter(s => s.incline > 0)
+                .map(s => s.incline)
+                .sort((a, b) => b - a)
+                .at(0) || Config.SLOPE_CONFIG.defaultIncline
+        );
     }
 
     public toStockable(): StockableTrack {

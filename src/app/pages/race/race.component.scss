@@ -220,4 +220,33 @@
             }
         }
     }
+
+
+    .retro-ui-overlay {
+
+        &.presenting {
+            $overlay-top-margin: 40px;
+            top: $overlay-top-margin;
+            height: calc(100% - 1rem - $overlay-top-margin);
+
+            canvas#presentingTrackCanvas {
+                background-color: var(--color-surface);
+                max-width: 100%;
+                border-radius: var(--border-radius);
+            }
+
+        }
+
+        .retro-title, .retro-subtitle, .retro-dialog {
+            color: var(--color-surface);
+        }
+
+        .retro-dialog { 
+            background-color: var(--color-primary);
+
+            ul {
+                margin: 0;
+            }
+        }
+    }
 }

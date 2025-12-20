@@ -133,31 +133,36 @@ export class Config {
         texture: Resources.SnowTexture,
         labelColor: Color.fromRGB(128, 128, 128, 0.4),
         dividerColor: Color.Transparent,
-        particlesColor: Color.fromRGB(128, 128, 128, 0.1)
+        particlesColor: Color.fromRGB(128, 128, 128, 0.1),
+        profileColor: Color.fromRGB(128, 128, 128, 0.4)
     };
     static SLOPE_SECTION_GREEN_CONFIG: SlopeSectionConfig = {
         texture: Resources.SnowTextureGreen,
         labelColor: Color.fromRGB(0, 255, 0, 0.4),
         dividerColor: Color.fromRGB(0, 255, 0, 0.1),
-        particlesColor: Color.fromRGB(0, 255, 0, 0.1)
+        particlesColor: Color.fromRGB(0, 255, 0, 0.1),
+        profileColor: Color.fromRGB(0, 255, 0, 0.4)
     };
     static SLOPE_SECTION_BLUE_CONFIG: SlopeSectionConfig = {
         texture: Resources.SnowTextureBlue,
         labelColor: Color.fromRGB(0, 0, 255, 0.4),
         dividerColor: Color.fromRGB(0, 0, 255, 0.1),
-        particlesColor: Color.fromRGB(0, 0, 255, 0.1)
+        particlesColor: Color.fromRGB(0, 0, 255, 0.1),
+        profileColor: Color.fromRGB(0, 0, 255, 0.4)
     };
     static SLOPE_SECTION_RED_CONFIG: SlopeSectionConfig = {
         texture: Resources.SnowTextureRed,
         labelColor: Color.fromRGB(255, 0, 0, 0.4),
         dividerColor: Color.fromRGB(255, 0, 0, 0.1),
-        particlesColor: Color.fromRGB(255, 0, 0, 0.1)
+        particlesColor: Color.fromRGB(255, 0, 0, 0.1),
+        profileColor: Color.fromRGB(255, 0, 0, 0.4)
     };
     static SLOPE_SECTION_BLACK_CONFIG: SlopeSectionConfig = {
         texture: Resources.SnowTextureBlack,
         labelColor: Color.fromRGB(0, 0, 0, 0.4),
         dividerColor: Color.fromRGB(0, 0, 0, 0.4),
-        particlesColor: Color.fromRGB(0, 0, 0, 0.1)
+        particlesColor: Color.fromRGB(0, 0, 0, 0.1),
+        profileColor: Color.fromRGB(0, 0, 0, 0.4)
     };
 
     // GATES

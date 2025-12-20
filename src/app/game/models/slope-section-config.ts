@@ -5,4 +5,5 @@ export interface SlopeSectionConfig {
     labelColor: Color;
     dividerColor: Color;
     particlesColor: Color;
+    profileColor: Color;
 }

@@ -76,6 +76,9 @@ export class Skier extends Actor {
     }
 
     override update(engine: Engine): void {
+        if ((this.scene?.engine as Game).paused) {
+            return;
+        }
         this.updateSkierIntentions(engine);
         const skierAction = this.getSkierCurrentAction();
         // Build action intensity if same action as before
@@ -84,9 +87,6 @@ export class Skier extends Actor {
         this.updateColliders(skierAction);
 
         if (this.skierInfos.type === 'academy') {
-            if ((this.scene?.engine as Game).paused) {
-                return;
-            }
             // Emit skier-actions for academy lessons
             (this.scene?.engine as Game).customEvents.emit({ name: 'skier-actions', content: this.skierIntentions });
         }

@@ -68,6 +68,7 @@ export class Game extends Engine {
             this.addScene('race', new Race(this, this.rideConfig as RaceConfig));
             this.start(this.getLoader()).then(() => {
                 this.goToScene('race');
+                this.paused = true;
             });
         } else if (this.mode === 'academy') {
             this.addScene('academy', new Academy(this, this.rideConfig));
