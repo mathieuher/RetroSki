@@ -1,4 +1,13 @@
-import { type AfterViewInit, ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    effect,
+    type ElementRef,
+    inject,
+    type OnInit,
+    signal,
+    viewChild
+} from '@angular/core';
 import { Game } from '../../game/game';
 import { SettingsService } from '../../common/services/settings.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,9 +28,6 @@ import type { StockableGhost } from '../../game/models/stockable-ghost';
 import type { HttpErrorResponse } from '@angular/common/http';
 import { SkierInfos } from '../../game/models/skier-infos';
 import { SlopeSection } from '../../game/actors/slope-section';
-import { Config } from '../../game/config';
-import { StockableSlopeSection } from '../../game/models/stockable-slope-section';
-import { toRadians, vec, Vector } from 'excalibur';
 
 @Component({
     selector: 'app-race',
@@ -32,6 +38,7 @@ import { toRadians, vec, Vector } from 'excalibur';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RaceComponent extends Destroyable implements OnInit {
+    private profileCanvas = viewChild<ElementRef>('trackPreview');
     private router = inject(Router);
     private localEventService = inject(LocalEventService);
     private eventService = inject(EventService);
@@ -46,11 +53,27 @@ export class RaceComponent extends Destroyable implements OnInit {
     protected processingRide = signal<boolean>(false);
     protected videoMode = this.route.snapshot.queryParamMap.get('video-mode') === 'true';
     protected displayTouchZones = this.settingsService.getSettings().touchZones;
-    protected game?: Game;
+    protected game = signal<Game | undefined>(undefined);
 
     private type = (this.route.snapshot.data as { type: 'local' | 'online' }).type;
     private eventId = (this.route.snapshot.params as { eventId: string }).eventId;
     private user = inject(AuthService).getUser();
+
+    constructor() {
+        super();
+
+        // Draw slope section profile when the profileCanvas is displayed
+        effect(() => {
+            if (this.profileCanvas()) {
+                SlopeSection.drawSlopeSectionsProfile(
+                    this.profileCanvas()!.nativeElement,
+                    600,
+                    320,
+                    this.raceConfig()?.track.slopeSections
+                );
+            }
+        });
+    }
 
     ngOnInit(): void {
         if (this.type === 'local' && !this.localEventService.getEvent()) {
@@ -63,14 +86,11 @@ export class RaceComponent extends Destroyable implements OnInit {
             config$
                 .pipe(
                     tap(config => {
-                        this.game = new Game('race', config, this.settingsService);
-                        this.game.initialize();
+                        this.game.set(new Game('race', config, this.settingsService));
+                        this.game()!.initialize();
                     }),
                     tap(config => this.raceConfig.set(config)),
-                    // DEV
                     tap(() => this.presentingTrack.set(true)),
-                    tap(() => setTimeout(() => this.drawSlope(), 1000)),
-
                     tap(() => this.listenToRaceStop()),
                     takeUntil(this.destroyed$)
                 )
@@ -79,11 +99,11 @@ export class RaceComponent extends Destroyable implements OnInit {
     }
 
     public override ngOnDestroy(): void {
-        this.game?.stopProperly();
+        this.game()?.stopProperly();
     }
 
     protected startRiding(): void {
-        this.game!.paused = false;
+        this.game()!.paused = false;
         this.presentingTrack.set(false);
     }
 
@@ -141,7 +161,7 @@ export class RaceComponent extends Destroyable implements OnInit {
 
     private listenToRaceStop(): void {
         let raceResult: RaceResult;
-        from(this.game!.raceStopped)
+        from(this.game()!.raceStopped)
             .pipe(
                 tap(result => {
                     if (!result) {
@@ -201,81 +221,5 @@ export class RaceComponent extends Destroyable implements OnInit {
 
     private isGlobalBest(raceResult: RaceResult, globalGhost?: StockableGhost): boolean {
         return !globalGhost?.totalTime || raceResult.timing < globalGhost.totalTime!;
-    }
-
-    private drawSlope(): void {
-        const canvas = document.getElementById('presentingTrackCanvas') as HTMLCanvasElement;
-        canvas.height = 170;
-        canvas.width = 300;
-        const ctx = canvas.getContext('2d')!;
-
-        let slopeSections = this.raceConfig()!.track.slopeSections;
-        let trackLength: number;
-        if (slopeSections) {
-            slopeSections = [...slopeSections];
-            slopeSections.splice(0, 1);
-            slopeSections.splice(-1, 1);
-            trackLength = Math.abs(slopeSections.at(-1)!.endY);
-        } else {
-            trackLength = 100;
-            slopeSections = [
-                new StockableSlopeSection(
-                    vec(0, 0),
-                    vec(canvas.width, canvas.height),
-                    Config.SLOPE_CONFIG.defaultIncline
-                )
-            ];
-        }
-
-        const projectedTrackLength = slopeSections
-            .filter(s => s.incline > 0)
-            .map(s => {
-                const absLength = Math.abs(s.endY - s.startY);
-                return absLength * Math.cos(toRadians(s.incline));
-            })
-            .reduce((acc, curr) => acc + curr);
-
-        let startPosition = vec(canvas.width, canvas.height);
-        for (const section of slopeSections.reverse()) {
-            const sectionAbsLength = Math.abs(section.endY - section.startY);
-            const projectedLength = sectionAbsLength * Math.cos(toRadians(section.incline));
-            const lengthRatio = projectedLength / projectedTrackLength;
-
-            // Get
-            const lengthX = lengthRatio * canvas.width;
-            const lengthY = lengthX * Math.tan(toRadians(section.incline));
-
-            const endX = startPosition.x - lengthX;
-            // Get
-            const endY = startPosition.y - lengthY;
-
-            this.drawSection(ctx, vec(startPosition.x, startPosition.y), vec(endX, endY), section.incline, canvas);
-            startPosition = vec(endX, endY);
-        }
-    }
-
-    private drawSection(
-        ctx: CanvasRenderingContext2D,
-        start: Vector,
-        end: Vector,
-        incline: number,
-        canvas: HTMLCanvasElement
-    ): void {
-        ctx.beginPath();
-        ctx.moveTo(start.x, start.y);
-        ctx.lineTo(end.x, end.y);
-        ctx.lineTo(end.x, canvas.height);
-        ctx.lineTo(start.x, canvas.height);
-        ctx.lineTo(start.x, start.y);
-        ctx.closePath();
-        ctx.fillStyle = SlopeSection.getSlopeSectionConfig(incline).profileColor.toRGBA();
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.moveTo(end.x, end.y);
-        ctx.lineTo(end.x, canvas.height);
-        ctx.closePath();
-        ctx.strokeStyle = 'white';
-        ctx.stroke();
     }
 }

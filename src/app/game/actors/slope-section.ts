@@ -1,7 +1,8 @@
-import { Actor, CollisionType, type Engine, Font, Label, Line, TextAlign, vec, Vector } from 'excalibur';
+import { Actor, CollisionType, type Engine, Font, Label, Line, TextAlign, toRadians, vec, Vector } from 'excalibur';
 import { Config } from '../config';
 import type { SlopeSectionConfig } from '../models/slope-section-config';
 import type { Game } from '../game';
+import { StockableSlopeSection } from '../models/stockable-slope-section';
 
 const SECTION_WHITE_MAX_INCLINE = 0;
 const SECTION_GREEN_MAX_INCLINE = 10;
@@ -103,5 +104,92 @@ export class SlopeSection extends Actor {
             return { ...Config.SLOPE_SECTION_RED_CONFIG };
         }
         return { ...Config.SLOPE_SECTION_BLACK_CONFIG };
+    }
+
+    public static drawSlopeSectionsProfile(
+        canvas: HTMLCanvasElement,
+        width: number,
+        height: number,
+        slopeSections?: StockableSlopeSection[]
+    ): void {
+        // Define canvas size
+        canvas.height = height;
+        canvas.width = width;
+
+        // Clone the sections or build an default one
+        const sections = slopeSections
+            ? slopeSections.filter(s => s.incline)
+            : [
+                  new StockableSlopeSection(
+                      vec(0, 0),
+                      vec(canvas.width, canvas.height),
+                      Config.SLOPE_CONFIG.defaultIncline
+                  )
+              ];
+
+        // Get the projected track length (X-axis without the incline)
+        const projectedTrackLength = sections
+            .map(s => {
+                const absLength = Math.abs(s.endY - s.startY);
+                return absLength * Math.cos(toRadians(s.incline));
+            })
+            .reduce((acc, curr) => acc + curr);
+
+        // Registrer the start position (we're drawing from the end of the slope)
+        let startPosition = vec(canvas.width, canvas.height);
+        for (const section of sections.reverse()) {
+            const sectionAbsLength = Math.abs(section.endY - section.startY);
+            const projectedLength = sectionAbsLength * Math.cos(toRadians(section.incline));
+            const lengthRatio = projectedLength / projectedTrackLength;
+
+            const lengthX = lengthRatio * canvas.width;
+            const lengthY = lengthX * Math.tan(toRadians(section.incline));
+
+            const endX = startPosition.x - lengthX;
+            const endY = startPosition.y - lengthY;
+
+            SlopeSection.drawSlopeSection(
+                vec(startPosition.x, startPosition.y),
+                vec(endX, endY),
+                section.incline,
+                canvas
+            );
+            startPosition = vec(endX, endY);
+        }
+    }
+
+    public static drawSlopeSection(start: Vector, end: Vector, incline: number, canvas: HTMLCanvasElement): void {
+        const ctx = canvas.getContext('2d')!;
+
+        // Draw the section polygon
+        ctx.beginPath();
+        ctx.moveTo(start.x, start.y);
+        ctx.lineTo(end.x, end.y);
+        ctx.lineTo(end.x, canvas.height);
+        ctx.lineTo(start.x, canvas.height);
+        ctx.lineTo(start.x, start.y);
+        ctx.closePath();
+        ctx.fillStyle = SlopeSection.getSlopeSectionConfig(incline).profileColor.toRGBA();
+        ctx.fill();
+
+        // Draw the top line
+        ctx.beginPath();
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = SlopeSection.getSlopeSectionConfig(incline).labelColor.toRGBA();
+        ctx.moveTo(start.x, start.y);
+        ctx.lineTo(end.x, end.y);
+        ctx.closePath();
+        ctx.stroke();
+
+        // Draw the left separation line between section (except the first on the left)
+        if (end.x > 0) {
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = SlopeSection.getSlopeSectionConfig(incline).labelColor.toRGBA();
+            ctx.moveTo(end.x, end.y);
+            ctx.lineTo(end.x, canvas.height);
+            ctx.closePath();
+            ctx.stroke();
+        }
     }
 }

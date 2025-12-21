@@ -71,6 +71,17 @@ export class Track {
         );
     }
 
+    public get avgIncline(): number {
+        if (this.slopeSections) {
+            const inclines = this.slopeSections
+                .filter(s => s.incline)
+                .map(s => s.incline)
+                .reduce((acc, curr) => acc + curr);
+            return Math.round(inclines / this.slopeSections.filter(s => s.incline).length);
+        }
+        return Config.SLOPE_CONFIG.defaultIncline;
+    }
+
     public toStockable(): StockableTrack {
         return new StockableTrack(
             this.id,
