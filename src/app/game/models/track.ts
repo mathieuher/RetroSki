@@ -75,11 +75,17 @@ export class Track {
         if (this.slopeSections) {
             const inclines = this.slopeSections
                 .filter(s => s.incline)
-                .map(s => s.incline)
+                // Ponderate each section incline with it's length ratio
+                .map(s => s.incline * (Math.abs(s.endY - s.startY) / this.trackLength))
                 .reduce((acc, curr) => acc + curr);
-            return Math.round(inclines / this.slopeSections.filter(s => s.incline).length);
+            return Math.round(inclines);
         }
         return Config.SLOPE_CONFIG.defaultIncline;
+    }
+
+    // Track length is based on the last gate position (finish line)
+    private get trackLength(): number {
+        return Math.abs([...this.gates].reverse().at(0)?.y || 0);
     }
 
     public toStockable(): StockableTrack {
