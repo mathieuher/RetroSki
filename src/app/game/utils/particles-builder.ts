@@ -3,7 +3,7 @@ import { Color, EmitterType, GpuParticleEmitter, ParticleEmitter, vec } from 'ex
 export class ParticlesBuilder {
     public static getGpuParticlesEmitter(side: 'left' | 'right'): GpuParticleEmitter {
         return new GpuParticleEmitter({
-            pos: vec(side === 'left' ? -8 : 8, -4),
+            pos: vec(side === 'left' ? -11 : 11, -4),
             emitterType: EmitterType.Circle,
             radius: 1,
             emitRate: 100,
