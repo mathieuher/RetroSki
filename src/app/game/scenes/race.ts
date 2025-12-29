@@ -1,4 +1,4 @@
-import { Actor, type Engine, Scene, type SceneActivationContext, Timer, vec } from 'excalibur';
+import { Actor, type Engine, Scene, type SceneActivationContext, Timer, vec, type Vector } from 'excalibur';
 import { Skier } from '../actors/skier';
 import { Gate } from '../actors/gate';
 import type { Game } from '../game';
@@ -18,6 +18,7 @@ import { RaceUiManager } from '../utils/race-ui-manager';
 import type { RaceConfig } from '../models/race-config';
 import { TrackBuilder } from '../utils/track-builder';
 import { Decoration } from '../actors/decoration';
+import { SlopeSection } from '../actors/slope-section';
 
 export class Race extends Scene {
     public config: RaceConfig;
@@ -36,6 +37,7 @@ export class Race extends Scene {
     private skierCameraGhost?: Actor;
     private skierPositions: SkierPositioning[] = [];
     private gates: Gate[] = [];
+    private slopeSections: SlopeSection[] = [];
     private startingHouse?: StartingHouse;
     private startTime?: number;
     private endTime?: number;
@@ -143,6 +145,13 @@ export class Race extends Scene {
         this.skierCameraGhost!.pos = vec(0, this.skier!.pos.y + Config.FRONT_GHOST_DISTANCE);
     }
 
+    public getSectionAtPosition(position: Vector): SlopeSection | null {
+        return (
+            this.slopeSections.find(section => section.pos.y >= position.y && section.endPosition.y <= position.y) ||
+            null
+        );
+    }
+
     private displaySectorDifference(timedSector: TimedSector): void {
         const skierSectorTime = timedSector.time;
         const globalRecordSectorTime = this.globalRecordGhostDatas?.getSectorTime(timedSector.sectorNumber);
@@ -163,7 +172,8 @@ export class Race extends Scene {
                 this.skier!.pos.x,
                 this.skier!.pos.y,
                 this.skier!.rotation,
-                this.skier!.getSkierCurrentAction()
+                this.skier!.getSkierCurrentAction(),
+                this.getSectionAtPosition(this.skier!.pos)?.incline || 0
             )
         );
     }
@@ -314,6 +324,16 @@ export class Race extends Scene {
     }
 
     private buildTrack(track: Track): void {
+        this.buildGates(track);
+
+        if ((this.engine as Game).settingsService.getSettings().decorations && track.decorations?.length) {
+            this.buildDecorations(track);
+        }
+
+        this.buildSlopeSections(track);
+    }
+
+    private buildGates(track: Track): void {
         for (const stockableGate of track.gates) {
             const gate = new Gate(
                 this.engine as Game,
@@ -331,17 +351,32 @@ export class Race extends Scene {
             this.gates.push(gate);
             this.add(gate);
         }
+    }
 
-        if ((this.engine as Game).settingsService.getSettings().decorations && track.decorations?.length) {
-            for (const stockableDecoration of track.decorations) {
-                const decoration = new Decoration(
-                    vec(stockableDecoration.x, stockableDecoration.y),
-                    stockableDecoration.type,
-                    stockableDecoration.sizeRatio
-                );
+    private buildDecorations(track: Track): void {
+        for (const stockableDecoration of track.decorations) {
+            const decoration = new Decoration(
+                vec(stockableDecoration.x, stockableDecoration.y),
+                stockableDecoration.type,
+                stockableDecoration.sizeRatio
+            );
 
-                this.add(decoration);
-            }
+            this.add(decoration);
+        }
+    }
+
+    private buildSlopeSections(track: Track): void {
+        const slopeSections =
+            track.slopeSections || TrackBuilder.designBasicSlopeSections(Math.abs(this.gates.at(-1)!.pos.y));
+        for (const stockableSlopeSection of slopeSections) {
+            const slopeSection = new SlopeSection(
+                this.engine,
+                vec(stockableSlopeSection.startX, stockableSlopeSection.startY),
+                vec(stockableSlopeSection.endX, stockableSlopeSection.endY),
+                stockableSlopeSection.incline
+            );
+            this.slopeSections.push(slopeSection);
+            this.add(slopeSection);
         }
     }
 }

@@ -92,4 +92,30 @@
     Hang tight!<br />
     We're verifying your ride on the server.
 </div>
+} @else if (presentingTrack()) {
+    <div class="retro-ui-overlay presenting">
+        <div class="retro-dialog">
+            <div class="retro-title">Track preview</div>
+            <div class="retro-subtitle">Slope profile</div>
+            <div class="canvas-container">
+                <div class="profile-details">
+                    <div><strong>{{ raceConfig()?.track?.avgIncline }}°</strong> avg.</div>
+                    <div><strong>{{ raceConfig()?.track?.minIncline }}°</strong> min.</div>
+                    <div><strong>{{ raceConfig()?.track?.maxIncline }}°</strong> max.</div>
+                </div>
+                <canvas #trackPreview></canvas>
+            </div>
+            <div class="retro-subtitle">Details</div>
+            <ul>
+                <li>Gates: <strong>{{ raceConfig()?.track?.gatesNumber }}</strong></li>
+                <li>Turns: <strong>{{ raceConfig()?.track?.leftGatesNumber }}</strong> left & <strong>{{ raceConfig()?.track?.rightGatesNumber }}</strong> right</li>
+            </ul>
+            @if(this.game()) {
+                <div class="retro-button tertiary" (click)="startRiding()">
+                        <span class="material-symbols-outlined">downhill_skiing</span>
+                        Start riding
+                </div>
+            }
+        </div>
+    </div>   
 }

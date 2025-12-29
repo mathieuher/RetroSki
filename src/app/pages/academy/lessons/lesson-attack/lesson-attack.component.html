@@ -1,0 +1,136 @@
+<canvas id="game"></canvas>
+<div class="retro-ui-overlay">
+    <app-button-icon icon="arrow_back" (click)="exitLesson()"></app-button-icon>
+    @if(lessonFailed()) {
+    <ng-container *ngTemplateOutlet="lesson_failed"></ng-container>
+    } @else { @if(lessonStep() === 1) {
+    <ng-container *ngTemplateOutlet="step_1"></ng-container>
+    } @else if(lessonStep() === 2) {
+    <ng-container *ngTemplateOutlet="step_2"></ng-container>
+    } @else if(lessonStep() === 3) {
+    <ng-container *ngTemplateOutlet="step_3"></ng-container>
+    } }
+</div>
+
+<ng-template #step_1>
+    <div class="retro-dialog">
+        <div class="retro-title">5. Attack the gates</div>
+
+        <div class="retro-text">
+            You’ve learned how to build a clean trajectory. Now it’s time to ski
+            like a racer and take the most direct line possible.
+        </div>
+
+        <div class="retro-text">
+            In this lesson, you’ll discover how to:
+            <ul>
+                <li>
+                    <strong>Attack the gate</strong> by passing through it with your body
+                </li>
+                <li>
+                    Keep your <strong>inside ski tight to the gate</strong> for maximum efficiency
+                </li>
+            </ul>
+        </div>
+
+        <div class="retro-text">
+            <strong>Your goal:</strong> Complete the 20-gate course and
+            <strong>hit at least {{ objectiveGateNumber }} gates with your body</strong>
+            without missing a single one.
+        </div>
+
+        <div class="retro-text">
+            <strong>Stay sharp!</strong> Attacking the gates means skiing very close to them.
+            Make sure <strong>both skis pass on the same side</strong>, straddling a gate
+            will cause you to <strong>fail the lesson</strong>.
+        </div>
+
+        <div class="retro-button" (click)="startStep2()">
+            <span class="material-symbols-outlined">downhill_skiing</span>
+            Start the lesson
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #step_2>
+    <app-academy-objective
+        [title]="
+            'Attack ' +
+            objectiveGateNumber +
+            ' gates with your body and finish the run'
+        "
+        [detail]="gatesHit() + '/' + objectiveGateNumber"
+        [completed]="step2Completed()"
+    >
+    </app-academy-objective>
+</ng-template>
+
+<ng-template #step_3>
+    <div class="retro-dialog">
+        <div class="retro-title">Lesson Completed!</div>
+
+        <div class="retro-text">
+            <strong>Great job, rider!</strong> You've learned how to truly attack the gates.
+        </div>
+
+        <div class="retro-text">
+            Driving your body through the gate lets you take the
+            <strong>shortest and fastest line</strong>, saving valuable time on every turn.
+        </div>
+
+        <div class="retro-text">
+            Remember: ski racing is a balance between
+            <strong>aggression and control</strong>.
+            Get close, stay committed, but make sure both skis pass cleanly,
+            touching a gate with your skis can lead to penalties or a fall.
+        </div>
+
+        <div class="retro-button" (click)="exitLesson()">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Back to the Academy
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #lesson_failed>
+    <div class="retro-dialog error">
+        <div class="retro-title">Lesson Failed</div>
+
+        <div class="retro-text">
+            <strong>Not quite there yet, rider!</strong>
+        </div>
+
+        <div class="retro-text">
+            To shorten your racing line, you must <strong>attack the gates</strong>
+            with your body and <strong>drive your skis</strong> close to the pole,
+            <strong>but with precision</strong>.
+        </div>
+
+        <div class="retro-text">
+            Try again and focus on:
+            <ul>
+                <li>
+                    Driving your body <strong>through the gate</strong>
+                </li>
+                <li>
+                    <strong>Starting your turn early</strong> to stay close without touching the gate
+                </li>
+            </ul>
+        </div>
+
+        <div class="retro-text">
+            Stay committed, stay clean. With practice, full attack mode will feel natural.
+        </div>
+
+        <div class="retro-buttons-list">
+            <button class="retro-button tertiary" (click)="exitLesson(true)">
+                <span class="material-symbols-outlined">repeat</span>
+                Try again
+            </button>
+            <button class="retro-button" (click)="exitLesson()">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Back to the Academy
+            </button>
+        </div>
+    </div>
+</ng-template>

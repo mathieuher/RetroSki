@@ -74,6 +74,16 @@ export const routes: Routes = [
             )
     },
     {
+        path: 'academy-attack',
+        loadComponent: () =>
+            import('./pages/academy/lessons/lesson-attack/lesson-attack.component').then(m => m.AttackComponent)
+    },
+    {
+        path: 'academy-slope',
+        loadComponent: () =>
+            import('./pages/academy/lessons/lesson-slope/lesson-slope.component').then(m => m.SlopeComponent)
+    },
+    {
         path: 'academy-final',
         loadComponent: () =>
             import('./pages/academy/lessons/lesson-final/lesson-final.component').then(m => m.LessonFinalComponent)

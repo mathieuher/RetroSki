@@ -14,7 +14,7 @@ import { EventEmitter } from '@angular/core';
 import type { SkierIntentions } from './actors/skier';
 
 export type GameMode = 'academy' | 'career' | 'race';
-export type GateEvent = 'passed' | 'missed';
+export type GateEvent = 'passed' | 'missed' | 'hit';
 export type AcademyEvent = 'stopped';
 export interface CustomGameEvent {
     name: string;
@@ -68,6 +68,7 @@ export class Game extends Engine {
             this.addScene('race', new Race(this, this.rideConfig as RaceConfig));
             this.start(this.getLoader()).then(() => {
                 this.goToScene('race');
+                this.paused = true;
             });
         } else if (this.mode === 'academy') {
             this.addScene('academy', new Academy(this, this.rideConfig));

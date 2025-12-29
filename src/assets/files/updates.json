@@ -1,23 +1,45 @@
 [
     {
+        "date": "2025-12-29",
+        "items": [
+            "New physics and collisions for all disciplines",
+            "Variable slope",
+            "New academy lessons (slope & physics)"
+        ]
+    },
+    {
         "date": "2025-09-27",
-        "items": ["Online hub performance improvement", "Race performance improvement"]
+        "items": [
+            "Online hub performance improvement",
+            "Race performance improvement"
+        ]
     },
     {
         "date": "2025-07-27",
-        "items": ["Refresh UI look", "Add online Weekly challenge"]
+        "items": [
+            "Refresh UI look",
+            "Add online Weekly challenge"
+        ]
     },
     {
         "date": "2025-02-27",
-        "items": ["Add the number of missed gates on the global track ranking"]
+        "items": [
+            "Add the number of missed gates on the global track ranking"
+        ]
     },
     {
         "date": "2025-02-23",
-        "items": ["Add the new RetroSki Academy", "Add option to display touch zones", "Update home page design"]
+        "items": [
+            "Add the new RetroSki Academy",
+            "Add option to display touch zones",
+            "Update home page design"
+        ]
     },
     {
         "date": "2025-02-14",
-        "items": ["Improve updates visibility"]
+        "items": [
+            "Improve updates visibility"
+        ]
     },
     {
         "date": "2025-02-13",
@@ -46,10 +68,16 @@
     },
     {
         "date": "2025-02-05",
-        "items": ["Reduce ghost opacity when close to rider", "Fix alignment on ranking overlay"]
+        "items": [
+            "Reduce ghost opacity when close to rider",
+            "Fix alignment on ranking overlay"
+        ]
     },
     {
         "date": "2025-02-01",
-        "items": ["Add 4 default tracks to ride local", "Limit auto-translate features"]
+        "items": [
+            "Add 4 default tracks to ride local",
+            "Limit auto-translate features"
+        ]
     }
 ]

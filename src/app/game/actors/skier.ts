@@ -7,9 +7,11 @@ import type { SkierConfig } from '../models/skier-config';
 import type { Game } from '../game';
 import { SkierActions } from '../models/skier-actions.enum';
 import { SkierGraphics } from '../utils/skier-graphics';
-import { SkierFrontCollider } from './skier-front-collider';
 import type { SkierInfos } from '../models/skier-infos';
 import { TrackStyles } from '../models/track-styles.enum';
+import type { SlopeSection } from './slope-section';
+import { SkisCollider } from './skis-collider';
+import { SkierBodyCollider } from './skier-body-collider';
 
 export class SkierIntentions {
     public leftCarvingIntention: number;
@@ -30,11 +32,8 @@ export class SkierIntentions {
     }
 }
 
-const LEFT_ANGLE_OFFSET = (3 / 4) * Math.PI;
-const RIGHT_ANGLE_OFFSET = (1 / 4) * Math.PI;
-const RADIAN_PI = 2 * Math.PI;
 const RADIAN_TO_DEGREE = 180 / Math.PI;
-
+const DEGREE_TO_RADIAN = Math.PI / 180;
 export class Skier extends Actor {
     public speed = 0;
     public skierInfos: SkierInfos;
@@ -45,19 +44,24 @@ export class Skier extends Actor {
 
     private skierIntentions = new SkierIntentions();
 
+    private previousAction: SkierActions = SkierActions.NOTHING;
+    private skierActionIntensity = 0;
     private leftParticlesEmitter!: GpuParticleEmitter;
     private rightParticlesEmitter!: GpuParticleEmitter;
     private updateParticlesLoop = 0;
     private updateSoundLoop = 0;
 
+    private skisCollider = new SkisCollider();
+    private bodyCollider = new SkierBodyCollider();
+
     constructor(skierInfos: SkierInfos, skierConfig: SkierConfig) {
         super({
             pos: vec(0, 0),
-            width: 21,
-            height: 30,
+            width: 32,
+            height: 32,
             z: 4,
             anchor: vec(0.5, 0.5),
-            collisionType: CollisionType.Fixed
+            collisionType: CollisionType.Passive
         });
         this.skierInfos = skierInfos;
         this.skierConfig = skierConfig;
@@ -66,18 +70,23 @@ export class Skier extends Actor {
         this.rightParticlesEmitter = ParticlesBuilder.getGpuParticlesEmitter('right');
         this.addChild(this.leftParticlesEmitter);
         this.addChild(this.rightParticlesEmitter);
-        this.addChild(new SkierFrontCollider());
+
+        this.addChild(this.skisCollider);
+        this.addChild(this.bodyCollider);
     }
 
     override update(engine: Engine): void {
+        if ((this.scene?.engine as Game).paused) {
+            return;
+        }
         this.updateSkierIntentions(engine);
         const skierAction = this.getSkierCurrentAction();
+        // Build action intensity if same action as before
+        this.updateActionIntensity(skierAction);
         this.updateGraphics(skierAction);
+        this.updateColliders(skierAction);
 
         if (this.skierInfos.type === 'academy') {
-            if ((this.scene?.engine as Game).paused) {
-                return;
-            }
             // Emit skier-actions for academy lessons
             (this.scene?.engine as Game).customEvents.emit({ name: 'skier-actions', content: this.skierIntentions });
         }
@@ -85,9 +94,13 @@ export class Skier extends Actor {
         this.updateParticlesLoop++;
         this.updateSoundLoop++;
 
+        const currentSection = (this.scene as Race).getSectionAtPosition(this.pos);
+
+        const actionIntensityRatio = this.skierActionIntensity / Config.MAX_ANIMATION_INTENSITY;
+
         if (this.racing || this.finish) {
-            this.updateRotation(this.skierIntentions);
-            this.updateSpeed(skierAction, this.skierIntentions);
+            this.updateRotation(this.skierIntentions, actionIntensityRatio);
+            this.updateSpeed(skierAction, this.skierIntentions, currentSection, actionIntensityRatio);
             this.updateVelocity(this.skierIntentions);
         } else {
             if (this.skierIntentions.hasStartingIntention) {
@@ -97,12 +110,12 @@ export class Skier extends Actor {
 
         if (this.updateParticlesLoop === Config.THROTTLING_SKIER_PARTICLES) {
             this.updateParticlesLoop = 0;
-            this.emitParticles(engine, skierAction, this.skierIntentions);
+            this.emitParticles(engine, skierAction, this.skierIntentions, currentSection, actionIntensityRatio);
         }
 
         if (this.updateSoundLoop === Config.THROTTLING_SKIER_SOUND) {
             this.updateSoundLoop = 0;
-            this.emitSounds(engine as Game, this.finish, this.skierIntentions);
+            this.emitSounds(this.finish, this.skierIntentions, actionIntensityRatio);
         }
     }
 
@@ -152,7 +165,7 @@ export class Skier extends Actor {
         this.skierIntentions.hasStartingIntention = this.hasStartingIntention(engine);
     }
 
-    private updateRotation(skierIntentions: SkierIntentions): void {
+    private updateRotation(skierIntentions: SkierIntentions, actionIntensityRatio: number): void {
         let rotationRate = 0;
         let futurRotation = 0;
 
@@ -165,6 +178,7 @@ export class Skier extends Actor {
                 rotationRate =
                     (this.skierConfig.slidingRotationRate / RADIAN_TO_DEGREE) *
                     rotationSpeedMultiplier *
+                    actionIntensityRatio *
                     Skier.slidingIntention(skierIntentions);
             } else if (Skier.carvingIntention(skierIntentions)) {
                 const rotationSpeedMultiplier =
@@ -174,6 +188,7 @@ export class Skier extends Actor {
                 rotationRate =
                     (this.skierConfig.carvingRotationRate / RADIAN_TO_DEGREE) *
                     rotationSpeedMultiplier *
+                    actionIntensityRatio *
                     Skier.carvingIntention(skierIntentions);
             }
             futurRotation = Skier.hasLeftTurningIntention(skierIntentions)
@@ -199,22 +214,40 @@ export class Skier extends Actor {
         }
     }
 
-    private updateSpeed(skierAction: SkierActions, skierIntentions: SkierIntentions): void {
+    private updateSpeed(
+        skierAction: SkierActions,
+        skierIntentions: SkierIntentions,
+        currentSection: SlopeSection | null,
+        actionIntensityRatio: number
+    ): void {
         let angleOfSkier = this.rotation * RADIAN_TO_DEGREE;
         if (angleOfSkier >= 270) {
             angleOfSkier = 360 - angleOfSkier;
         }
+        angleOfSkier *= DEGREE_TO_RADIAN;
+        const directionFactor = Math.cos(angleOfSkier);
 
-        let acceleration = Config.ACCELERATION_RATE * (this.scene as Race).config.track.slope;
-        acceleration -= (acceleration * angleOfSkier) / 90;
-        acceleration -= this.skierConfig.windFrictionRate * this.speed;
+        // Get the slope factor
+        const sectionIncline = currentSection?.incline || Config.SLOPE_CONFIG.defaultIncline;
+        const slopeFactor = Math.sin(sectionIncline * DEGREE_TO_RADIAN);
+
+        // Get the friction factor (wind + ground)
+        const naturalFrictionFactor = this.skierConfig.windFrictionRate * (this.speed * this.speed);
+
+        let brakingFactor = 0;
+
         if (skierAction === SkierActions.SLIDE_LEFT || skierAction === SkierActions.SLIDE_RIGHT) {
-            acceleration -= Config.SLIDING_BRAKING_RATE * Skier.slidingIntention(skierIntentions);
+            brakingFactor =
+                Config.SLIDING_BRAKING_RATE * actionIntensityRatio * Skier.slidingIntention(skierIntentions);
         } else if (skierAction === SkierActions.CARVE_LEFT || skierAction === SkierActions.CARVE_RIGHT) {
-            acceleration -= Config.CARVING_BRAKING_RATE * Skier.carvingIntention(skierIntentions);
+            brakingFactor =
+                Config.CARVING_BRAKING_RATE * actionIntensityRatio * Skier.carvingIntention(skierIntentions);
         } else if (skierAction === SkierActions.BRAKE) {
-            acceleration -= Config.BRAKING_RATE;
+            brakingFactor = Config.BRAKING_RATE * actionIntensityRatio;
         }
+
+        let acceleration = Config.ACCELERATION_RATE * slopeFactor * directionFactor;
+        acceleration -= naturalFrictionFactor + brakingFactor;
 
         const projectedSpeed = this.speed + acceleration;
 
@@ -256,28 +289,37 @@ export class Skier extends Actor {
     }
 
     private updateGraphics(currentAction: SkierActions): void {
-        const graphic = SkierGraphics.getSpriteForAction('skier', currentAction);
+        const graphic = SkierGraphics.getSpriteForAction('skier', currentAction, this.skierActionIntensity);
         this.graphics.use(graphic.sprite);
         this.graphics.flipHorizontal = !!graphic.flipHorizontal;
     }
 
-    private emitSounds(engine: Game, forceBreaking: boolean, skierIntentions: SkierIntentions): void {
+    private emitSounds(forceBreaking: boolean, skierIntentions: SkierIntentions, actionIntensityRatio: number): void {
         if ((skierIntentions.hasBrakingIntention || forceBreaking) && this.speed) {
             Resources.TurningSound.volume = Math.min(
                 Config.BRAKING_SOUND_VOLUME,
-                (this.speed / Config.MAX_SPEED) * Config.BRAKING_SOUND_VOLUME
+                (this.speed / Config.MAX_SPEED) * Config.BRAKING_SOUND_VOLUME * actionIntensityRatio
             );
         } else if (Skier.carvingIntention(skierIntentions) && this.speed) {
             Resources.TurningSound.volume = Math.min(
                 Config.CARVING_SOUND_VOLUME,
-                (this.speed / Config.MAX_SPEED) * Config.CARVING_SOUND_VOLUME * Skier.carvingIntention(skierIntentions)
+                (this.speed / Config.MAX_SPEED) *
+                    Config.CARVING_SOUND_VOLUME *
+                    Skier.carvingIntention(skierIntentions) *
+                    actionIntensityRatio
             );
         } else {
             Resources.TurningSound.volume = 0;
         }
     }
 
-    private emitParticles(engine: Engine, skierAction: SkierActions, skierIntentions: SkierIntentions): void {
+    private emitParticles(
+        engine: Engine,
+        skierAction: SkierActions,
+        skierIntentions: SkierIntentions,
+        currentSection: SlopeSection | null,
+        actionIntensityRatio: number
+    ): void {
         if (
             this.leftParticlesEmitter &&
             this.rightParticlesEmitter &&
@@ -285,52 +327,101 @@ export class Skier extends Actor {
         ) {
             const speedPercentage = this.speed / Config.MAX_SPEED;
 
-            this.computeParticlesAngle();
+            const particulesColor = currentSection
+                ? currentSection.config.particlesColor
+                : Config.SLOPE_SECTION_WHITE_CONFIG.particlesColor;
+
+            this.leftParticlesEmitter.particle.beginColor = particulesColor;
+            this.rightParticlesEmitter.particle.beginColor = particulesColor;
 
             if (skierAction === SkierActions.SLIDE_LEFT || skierAction === SkierActions.SLIDE_RIGHT) {
-                this.emitSlidingParticles(speedPercentage, Skier.slidingIntention(skierIntentions), skierAction);
+                this.emitSlidingParticles(
+                    speedPercentage,
+                    Skier.slidingIntention(skierIntentions),
+                    skierAction,
+                    actionIntensityRatio
+                );
             } else if (skierAction === SkierActions.CARVE_LEFT || skierAction === SkierActions.CARVE_RIGHT) {
-                this.emitCarvingParticles(speedPercentage, Skier.carvingIntention(skierIntentions), skierAction);
+                this.emitCarvingParticles(
+                    speedPercentage,
+                    Skier.carvingIntention(skierIntentions),
+                    skierAction,
+                    actionIntensityRatio
+                );
             } else if (skierAction === SkierActions.BRAKE) {
-                this.emitBrakingParticles(speedPercentage);
+                this.emitBrakingParticles(speedPercentage, actionIntensityRatio);
             }
         }
     }
 
-    private emitSlidingParticles(speedPercentage: number, slidingIntensity: number, skierAction: SkierActions): void {
-        const emittingRate = speedPercentage * slidingIntensity * 50;
+    private emitSlidingParticles(
+        speedPercentage: number,
+        slidingIntensity: number,
+        skierAction: SkierActions,
+        actionIntensityRatio: number
+    ): void {
+        const emittingRate = speedPercentage * slidingIntensity * actionIntensityRatio * 60;
+        const minSpeed = 30;
+        const maxSpeed = speedPercentage * 250;
         if (skierAction === SkierActions.SLIDE_LEFT) {
-            this.rightParticlesEmitter.particle.minSpeed = 10;
-            this.rightParticlesEmitter.particle.maxSpeed = speedPercentage * 200;
+            this.rightParticlesEmitter.particle.minSpeed = minSpeed;
+            this.rightParticlesEmitter.particle.maxSpeed = maxSpeed;
+            this.rightParticlesEmitter.particle.minAngle = -90 * DEGREE_TO_RADIAN;
+            this.rightParticlesEmitter.particle.maxAngle = -45 * DEGREE_TO_RADIAN;
             this.rightParticlesEmitter.emitParticles(emittingRate);
         } else {
-            this.leftParticlesEmitter.particle.minSpeed = 10;
-            this.leftParticlesEmitter.particle.maxSpeed = speedPercentage * 100;
+            this.leftParticlesEmitter.particle.minSpeed = minSpeed;
+            this.leftParticlesEmitter.particle.maxSpeed = maxSpeed;
+            this.leftParticlesEmitter.particle.minAngle = -90 * DEGREE_TO_RADIAN;
+            this.leftParticlesEmitter.particle.maxAngle = -135 * DEGREE_TO_RADIAN;
             this.leftParticlesEmitter.emitParticles(emittingRate);
         }
     }
 
-    private emitCarvingParticles(speedPercentage: number, carvingIntensity: number, skierAction: SkierActions): void {
-        const emittingRate = carvingIntensity * speedPercentage * 20;
+    private emitCarvingParticles(
+        speedPercentage: number,
+        carvingIntensity: number,
+        skierAction: SkierActions,
+        actionIntensityRatio: number
+    ): void {
+        const emittingRate = carvingIntensity * speedPercentage * actionIntensityRatio * 15;
+        const minSpeed = 10;
+        const maxSpeed = 50;
         if (skierAction === SkierActions.CARVE_RIGHT) {
-            this.leftParticlesEmitter.particle.minSpeed = 0;
-            this.leftParticlesEmitter.particle.maxSpeed = 0;
+            this.leftParticlesEmitter.particle.minSpeed = minSpeed;
+            this.leftParticlesEmitter.particle.maxSpeed = maxSpeed;
+            this.leftParticlesEmitter.particle.minAngle = 90 * DEGREE_TO_RADIAN;
+            this.leftParticlesEmitter.particle.maxAngle = 90 * DEGREE_TO_RADIAN;
             this.leftParticlesEmitter.emitParticles(emittingRate);
         } else {
-            this.rightParticlesEmitter.particle.minSpeed = 0;
-            this.rightParticlesEmitter.particle.maxSpeed = 0;
+            this.rightParticlesEmitter.particle.minSpeed = minSpeed;
+            this.rightParticlesEmitter.particle.maxSpeed = maxSpeed;
+            this.rightParticlesEmitter.particle.minAngle = 90 * DEGREE_TO_RADIAN;
+            this.rightParticlesEmitter.particle.maxAngle = 90 * DEGREE_TO_RADIAN;
             this.rightParticlesEmitter.emitParticles(emittingRate);
         }
     }
 
-    private emitBrakingParticles(speedPercentage: number): void {
-        this.leftParticlesEmitter.particle.minSpeed = -10;
-        this.leftParticlesEmitter.particle.maxSpeed = 30;
+    private emitBrakingParticles(speedPercentage: number, actionIntensityRatio: number): void {
+        const rightAngle = -30 * DEGREE_TO_RADIAN;
+        const medianAngle = -90 * DEGREE_TO_RADIAN;
+        const leftAngle = -150 * DEGREE_TO_RADIAN;
+        const minSpeed = 50;
+        const maxSpeed = 60;
 
-        this.rightParticlesEmitter.particle.minSpeed = -10;
-        this.rightParticlesEmitter.particle.maxSpeed = 30;
+        this.leftParticlesEmitter.particle.minSpeed = minSpeed;
+        this.leftParticlesEmitter.particle.maxSpeed = maxSpeed;
 
-        const emittingRate = speedPercentage * 20;
+        this.leftParticlesEmitter.particle.minAngle = medianAngle;
+        this.leftParticlesEmitter.particle.maxAngle = leftAngle;
+
+        this.rightParticlesEmitter.particle.minSpeed = minSpeed;
+        this.rightParticlesEmitter.particle.maxSpeed = maxSpeed;
+
+        this.rightParticlesEmitter.particle.minAngle = rightAngle;
+        this.rightParticlesEmitter.particle.maxAngle = medianAngle;
+
+        const emittingRate = speedPercentage * actionIntensityRatio * 30;
         this.leftParticlesEmitter.emitParticles(emittingRate);
         this.rightParticlesEmitter.emitParticles(emittingRate);
     }
@@ -338,6 +429,7 @@ export class Skier extends Actor {
     private hasBreakingIntention(engine: Engine): boolean {
         return (
             engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE) ||
+            engine.input.keyboard.isHeld(Config.KEYBOARD_CONTROL_BRAKE_ALT) ||
             (engine as Game).gamepadsManager.isButtonHeld(Config.GAMEPAD_CONTROL_BRAKE) ||
             (this.scene as Race).touchManager.isTouchingBack
         );
@@ -405,10 +497,37 @@ export class Skier extends Actor {
         return 0;
     }
 
-    private computeParticlesAngle(): void {
-        const leftAngle = this.rotation ? (this.rotation - LEFT_ANGLE_OFFSET) % RADIAN_PI : 3;
-        const rightAngle = this.rotation ? (this.rotation - RIGHT_ANGLE_OFFSET) % RADIAN_PI : 3;
-        this.leftParticlesEmitter.particle.minAngle = this.leftParticlesEmitter.particle.maxAngle = leftAngle;
-        this.rightParticlesEmitter.particle.minAngle = this.rightParticlesEmitter.particle.maxAngle = rightAngle;
+    private updateActionIntensity(action: SkierActions): void {
+        if (action === this.previousAction) {
+            this.skierActionIntensity = Math.min(this.skierActionIntensity + 1, Config.MAX_ANIMATION_INTENSITY);
+            return;
+        }
+        const intensity = this.getIntensityInteraction(this.previousAction, action);
+        this.skierActionIntensity = intensity ? Math.max(this.skierActionIntensity + intensity, 0) : intensity;
+        this.previousAction = action;
+    }
+
+    private getIntensityInteraction(previousAction: SkierActions, action: SkierActions): number {
+        // Carve -> slide
+        if (
+            (previousAction === SkierActions.CARVE_LEFT && action === SkierActions.SLIDE_LEFT) ||
+            (previousAction === SkierActions.CARVE_RIGHT && action === SkierActions.SLIDE_RIGHT)
+        ) {
+            return -Config.ANIMATION_FRAME_DURATION;
+        }
+        // Slide -> carve
+        if (
+            (previousAction === SkierActions.SLIDE_LEFT && action === SkierActions.CARVE_LEFT) ||
+            (previousAction === SkierActions.SLIDE_RIGHT && action === SkierActions.CARVE_RIGHT)
+        ) {
+            return -Config.ANIMATION_FRAME_DURATION;
+        }
+        // Every other interaction
+        return 0;
+    }
+
+    private updateColliders(action: SkierActions) {
+        this.skisCollider.updatePosition(action);
+        this.bodyCollider.updatePosition(action);
     }
 }

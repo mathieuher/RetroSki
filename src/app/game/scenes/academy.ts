@@ -1,4 +1,4 @@
-import { Actor, type Engine, Scene, vec } from 'excalibur';
+import { Actor, type Engine, Scene, vec, type Vector } from 'excalibur';
 import { Skier } from '../actors/skier';
 import { Config } from '../config';
 import { StartingHouse } from '../actors/starting-house';
@@ -14,6 +14,7 @@ import { StockableGhost } from '../models/stockable-ghost';
 import type { SkierPositioning } from '../models/skier-positioning';
 import type { SkierActions } from '../models/skier-actions.enum';
 import { SkierGraphics } from '../utils/skier-graphics';
+import { SlopeSection } from '../actors/slope-section';
 
 export class Academy extends Scene {
     public touchManager: TouchManager;
@@ -21,6 +22,7 @@ export class Academy extends Scene {
     private skier?: Skier;
     private cameraGhost?: Actor;
     private gates: Gate[] = [];
+    private slopeSections: SlopeSection[] = [];
     private startingHouse = new StartingHouse();
     private ghostData?: StockableGhost;
     private ghost?: Actor;
@@ -72,6 +74,13 @@ export class Academy extends Scene {
         this.clear();
     }
 
+    public getSectionAtPosition(position: Vector): SlopeSection | null {
+        return (
+            this.slopeSections.find(section => section.pos.y >= position.y && section.endPosition.y <= position.y) ||
+            null
+        );
+    }
+
     private prepare(config: AcademyConfig): void {
         this.buildTrack(config.track);
         this.skier = new Skier(this.config.skierInfos, Skier.getSkierConfig(config.track.style));
@@ -99,6 +108,16 @@ export class Academy extends Scene {
     }
 
     private buildTrack(track: Track): void {
+        this.buildGates(track);
+
+        if ((this.engine as Game).settingsService.getSettings().decorations && track.decorations?.length) {
+            this.buildDecorations(track);
+        }
+
+        this.buildSlopeSections(track);
+    }
+
+    private buildGates(track: Track): void {
         for (const stockableGate of track.gates) {
             const gate = new Gate(
                 this.engine as Game,
@@ -116,17 +135,32 @@ export class Academy extends Scene {
             this.gates.push(gate);
             this.add(gate);
         }
+    }
 
-        if ((this.engine as Game).settingsService.getSettings().decorations && track.decorations?.length) {
-            for (const stockableDecoration of track.decorations) {
-                const decoration = new Decoration(
-                    vec(stockableDecoration.x, stockableDecoration.y),
-                    stockableDecoration.type,
-                    stockableDecoration.sizeRatio
-                );
+    private buildDecorations(track: Track): void {
+        for (const stockableDecoration of track.decorations) {
+            const decoration = new Decoration(
+                vec(stockableDecoration.x, stockableDecoration.y),
+                stockableDecoration.type,
+                stockableDecoration.sizeRatio
+            );
 
-                this.add(decoration);
-            }
+            this.add(decoration);
+        }
+    }
+
+    private buildSlopeSections(track: Track): void {
+        const slopeSections =
+            track.slopeSections || TrackBuilder.designBasicSlopeSections(Math.abs(this.gates.at(-1)!.pos.y));
+        for (const stockableSlopeSection of slopeSections) {
+            const slopeSection = new SlopeSection(
+                this.engine,
+                vec(stockableSlopeSection.startX, stockableSlopeSection.startY),
+                vec(stockableSlopeSection.endX, stockableSlopeSection.endY),
+                stockableSlopeSection.incline
+            );
+            this.slopeSections.push(slopeSection);
+            this.add(slopeSection);
         }
     }
 

@@ -143,7 +143,7 @@ export class Gate extends Actor {
     }
 
     private isBehind(): boolean {
-        return ScreenManager.isBehind(this.scene!.camera.pos.y, this.pos.y - this.height);
+        return ScreenManager.isBehind(this.scene!.camera.pos.y, this.pos.y - this.height - 10);
     }
 
     private buildComponents(): void {
@@ -203,6 +203,7 @@ export class Gate extends Actor {
 
         if (vertical) {
             this.gateDetector = new GateDetector(
+                this,
                 vec(0, -poleHeight),
                 adjustedGateWidth,
                 gateHeight - poleHeight,
@@ -220,7 +221,13 @@ export class Gate extends Actor {
                 detectorStartPosition = vec(poleWidth + Config.POLE_DETECTOR_MARGIN - adjustedGateWidth / 2, 0);
             }
 
-            this.gateDetector = new GateDetector(detectorStartPosition, detectorSize, gateHeight, detectorVisibility);
+            this.gateDetector = new GateDetector(
+                this,
+                detectorStartPosition,
+                detectorSize,
+                gateHeight,
+                detectorVisibility
+            );
         }
         this.addChild(this.gateDetector);
     }

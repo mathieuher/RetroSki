@@ -34,7 +34,16 @@ export class PrecisionComponent {
     private game?: Game;
 
     ngAfterViewInit(): void {
-        const track = TrackBuilder.designTrack('Academy precision', TrackStyles.GS, 100);
+        const track = TrackBuilder.designTrack(
+            'Academy precision',
+            TrackStyles.GS,
+            Config.SLOPE_CONFIG.defaultIncline,
+            100,
+            undefined,
+            undefined,
+            undefined,
+            Config.SLOPE_LEGACY_CONFIG
+        );
         const config = new AcademyConfig(track);
         this.game = new Game('academy', config, this.settingsService);
         this.game.initialize();

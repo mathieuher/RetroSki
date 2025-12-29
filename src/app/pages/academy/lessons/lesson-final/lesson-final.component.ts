@@ -97,7 +97,7 @@ export class LessonFinalComponent extends Destroyable implements AfterViewInit {
     protected startStep3(): void {
         this.lessonStep.set(3);
         this.game?.soundPlayer.playSound(Resources.FinishRaceSound, Config.FINISH_SOUND_VOLUME);
-        localStorage.setItem(AcademyComponent.LESSON_FINAL_COMPLETED_KEY, 'true');
+        localStorage.setItem(AcademyComponent.LESSON_GHOST_COMPLETED_KEY, 'true');
     }
 
     private getTrack$(): Observable<Track> {

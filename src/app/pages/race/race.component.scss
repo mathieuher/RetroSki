@@ -220,4 +220,54 @@
             }
         }
     }
+
+
+    .retro-ui-overlay {
+
+        &.presenting {
+            $overlay-top-margin: 40px;
+            top: $overlay-top-margin;
+            height: calc(100% - 1rem - $overlay-top-margin);
+
+            .retro-dialog { 
+                background-color: var(--color-primary);
+                opacity: 1;
+
+                ul {
+                    margin: 0;
+                }
+            }
+
+            .retro-title, .retro-subtitle, .retro-dialog {
+            color: var(--color-surface);
+            }
+
+
+            .canvas-container {
+                position: relative;
+
+                .profile-details {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.2rem;
+                    position: absolute;
+                    top: 0.5rem;
+                    right: 0.5rem;
+                    padding: 0.5rem;
+                    border-radius: var(--border-radius);
+                    text-align: right;
+                    background-color: var(--color-primary-lightest);
+                    color: var(--color-primary);
+                    font-size: var(--text-small);
+                }
+                
+                canvas {
+                    background-color: var(--color-surface);
+                    width: 100%;
+                    border-radius: var(--border-radius);
+                }
+            }
+
+        }
+    }
 }

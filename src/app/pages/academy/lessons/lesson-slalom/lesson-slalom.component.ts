@@ -36,7 +36,16 @@ export class SlalomComponent implements AfterViewInit {
         gatesConfig.doubleGateAmount = 1;
         gatesConfig.tripleGateAmount = 1;
         gatesConfig.followingGateAmount = 1;
-        const track = TrackBuilder.designTrack('Academy slalom', TrackStyles.SL, 20, 20, true, gatesConfig);
+        const track = TrackBuilder.designTrack(
+            'Academy slalom',
+            TrackStyles.SL,
+            Config.SLOPE_CONFIG.defaultIncline,
+            20,
+            20,
+            true,
+            gatesConfig,
+            Config.SLOPE_LEGACY_CONFIG
+        );
         const config = new AcademyConfig(track);
         this.game = new Game('academy', config, this.settingsService);
         this.game.initialize();

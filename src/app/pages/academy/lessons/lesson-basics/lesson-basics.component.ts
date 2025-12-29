@@ -57,7 +57,7 @@ export class BasicsComponent implements AfterViewInit, OnDestroy {
             new Date(),
             [],
             [],
-            Config.DEFAULT_TRACK_SLOPE
+            []
         );
         const config = new AcademyConfig(track);
         this.game = new Game('academy', config, this.settingsService);
@@ -135,6 +135,7 @@ export class BasicsComponent implements AfterViewInit, OnDestroy {
                 (event.content.leftCarvingIntention || event.content.rightCarvingIntention)
             ) {
                 this.step5Completed.set(true);
+
                 setTimeout(() => {
                     this.lessonStep.set(6);
                     this.game?.soundPlayer.playSound(Resources.FinishRaceSound, Config.FINISH_SOUND_VOLUME);

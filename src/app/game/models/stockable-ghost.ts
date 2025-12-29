@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import type { SkierPositioning } from './skier-positioning';
 import type { TimedSector } from './timed-sector';
 export class StockableGhost {
@@ -29,6 +30,10 @@ export class StockableGhost {
 
     public getSectorTime(sectorNumber: number): number | undefined {
         return this.timedSectors ? this.timedSectors[sectorNumber - 1]?.time : undefined;
+    }
+
+    public get formattedTime(): string {
+        return format(this.totalTime || 0, 'mm:ss:SS');
     }
 
     public static duplicate(ghost: StockableGhost): StockableGhost {

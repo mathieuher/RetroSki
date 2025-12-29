@@ -56,11 +56,31 @@
     </button>
     <button
         class="retro-button"
-        [class.tertiary]="!finalCompleted"
+        [class.tertiary]="!attackCompleted"
         [disabled]="!trajectoryCompleted"
+        routerLink="/academy-attack"
+    >
+        5. Attack the gates @if(attackCompleted) {
+        <span class="material-symbols-outlined">check</span>
+        }
+    </button>
+    <button
+        class="retro-button"
+        [class.tertiary]="!slopeCompleted"
+        [disabled]="!attackCompleted"
+        routerLink="/academy-slope"
+    >
+        6. Cope with the slope @if(slopeCompleted) {
+        <span class="material-symbols-outlined">check</span>
+        }
+    </button>
+    <button
+        class="retro-button"
+        [class.tertiary]="!ghostCompleted"
+        [disabled]="!slopeCompleted"
         routerLink="/academy-final"
     >
-        5. Final lesson: Race the ghost! @if(finalCompleted) {
+        7. Final lesson: Race the ghost! @if(ghostCompleted) {
         <span class="material-symbols-outlined">check</span>
         }
     </button>

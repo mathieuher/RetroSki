@@ -16,6 +16,6 @@ import { AcademyComponent } from '../academy/academy.component';
 })
 export class HomeComponent {
     private updatesService = inject(UpdatesService);
-    protected academyCompleted = localStorage.getItem(AcademyComponent.LESSON_FINAL_COMPLETED_KEY) === 'true';
+    protected academyCompleted = localStorage.getItem(AcademyComponent.LESSON_GHOST_COMPLETED_KEY) === 'true';
     protected hasNewUpdate = toSignal(this.updatesService.hasNewUpdates$());
 }

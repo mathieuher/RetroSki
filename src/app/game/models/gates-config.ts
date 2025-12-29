@@ -1,5 +1,8 @@
 import type { TrackStyles } from './track-styles.enum';
-import type { Sprite } from 'excalibur';
+import type { Animation, Sprite } from 'excalibur';
+
+export type PoleColorConfig = 'blue' | 'red';
+export type PoleSideConfig = 'left' | 'right';
 
 export interface GatesConfig {
     trackStyle: TrackStyles;
@@ -12,9 +15,9 @@ export interface GatesConfig {
     maxNumber: number;
     poleWidth: number;
     poleHeight: number;
-    poleSprites: Map<string, Sprite>;
-    poleCheckSprites: Map<string, Sprite>;
-    poleShadow: Sprite;
+    poleSprites: Map<PoleColorConfig, Sprite>;
+    poleCheckSprites: Map<PoleColorConfig, Sprite>;
+    poleCollideAnimations: Map<PoleColorConfig, Map<PoleSideConfig, Animation>>;
     followingGateAmount: number;
     doubleGateAmount: number;
     tripleGateAmount: number;

@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    effect,
+    type ElementRef,
+    inject,
+    type OnInit,
+    signal,
+    viewChild
+} from '@angular/core';
 import { Game } from '../../game/game';
 import { SettingsService } from '../../common/services/settings.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,6 +27,7 @@ import { AuthService } from '../../common/services/auth.service';
 import type { StockableGhost } from '../../game/models/stockable-ghost';
 import type { HttpErrorResponse } from '@angular/common/http';
 import { SkierInfos } from '../../game/models/skier-infos';
+import { SlopeSection } from '../../game/actors/slope-section';
 
 @Component({
     selector: 'app-race',
@@ -28,6 +38,7 @@ import { SkierInfos } from '../../game/models/skier-infos';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RaceComponent extends Destroyable implements OnInit {
+    private profileCanvas = viewChild<ElementRef>('trackPreview');
     private router = inject(Router);
     private localEventService = inject(LocalEventService);
     private eventService = inject(EventService);
@@ -36,12 +47,13 @@ export class RaceComponent extends Destroyable implements OnInit {
     private settingsService = inject(SettingsService);
 
     protected raceConfig = signal<RaceConfig | undefined>(undefined);
+    protected presentingTrack = signal<boolean>(false);
     protected raceRanking = signal<RaceRanking | undefined>(undefined);
     protected processingError = signal<string | undefined>(undefined);
     protected processingRide = signal<boolean>(false);
     protected videoMode = this.route.snapshot.queryParamMap.get('video-mode') === 'true';
     protected displayTouchZones = this.settingsService.getSettings().touchZones;
-    private game?: Game;
+    protected game = signal<Game | undefined>(undefined);
 
     private type = (this.route.snapshot.data as { type: 'local' | 'online' }).type;
     private eventId = (this.route.snapshot.params as { eventId: string }).eventId;
@@ -49,33 +61,50 @@ export class RaceComponent extends Destroyable implements OnInit {
 
     constructor() {
         super();
-        if (this.type === 'local') {
-            if (!this.localEventService.getEvent()) {
-                this.router.navigate(['/local-event']);
+
+        // Draw slope section profile when the profileCanvas is displayed
+        effect(() => {
+            if (this.profileCanvas()) {
+                SlopeSection.drawSlopeSectionsProfile(
+                    this.profileCanvas()!.nativeElement,
+                    600,
+                    320,
+                    this.raceConfig()?.track.slopeSections
+                );
             }
-        }
+        });
     }
 
     ngOnInit(): void {
-        const config$: Observable<RaceConfig> =
-            this.type === 'local'
-                ? this.buildLocalRaceConfig$(this.localEventService.getEvent()!)
-                : this.buildOnlineRaceConfig$(this.eventId);
-        config$
-            .pipe(
-                tap(config => {
-                    this.game = new Game('race', config, this.settingsService);
-                    this.game.initialize();
-                }),
-                tap(config => this.raceConfig.set(config)),
-                tap(() => this.listenToRaceStop()),
-                takeUntil(this.destroyed$)
-            )
-            .subscribe();
+        if (this.type === 'local' && !this.localEventService.getEvent()) {
+            this.router.navigate(['/local-event']);
+        } else {
+            const config$: Observable<RaceConfig> =
+                this.type === 'local'
+                    ? this.buildLocalRaceConfig$(this.localEventService.getEvent()!)
+                    : this.buildOnlineRaceConfig$(this.eventId);
+            config$
+                .pipe(
+                    tap(config => {
+                        this.game.set(new Game('race', config, this.settingsService));
+                        this.game()!.initialize();
+                    }),
+                    tap(config => this.raceConfig.set(config)),
+                    tap(() => this.presentingTrack.set(true)),
+                    tap(() => this.listenToRaceStop()),
+                    takeUntil(this.destroyed$)
+                )
+                .subscribe();
+        }
     }
 
     public override ngOnDestroy(): void {
-        this.game?.stopProperly();
+        this.game()?.stopProperly();
+    }
+
+    protected startRiding(): void {
+        this.game()!.paused = false;
+        this.presentingTrack.set(false);
     }
 
     protected exitRace(): void {
@@ -132,7 +161,7 @@ export class RaceComponent extends Destroyable implements OnInit {
 
     private listenToRaceStop(): void {
         let raceResult: RaceResult;
-        from(this.game!.raceStopped)
+        from(this.game()!.raceStopped)
             .pipe(
                 tap(result => {
                     if (!result) {

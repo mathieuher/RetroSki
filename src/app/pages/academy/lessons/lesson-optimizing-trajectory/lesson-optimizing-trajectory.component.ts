@@ -34,7 +34,16 @@ export class OptimizingTrajectoryComponent implements AfterViewInit {
     private gateEvents?: Subscription;
 
     ngAfterViewInit(): void {
-        const track = TrackBuilder.designTrack('Academy slalom', TrackStyles.SG, 40, 40, true);
+        const track = TrackBuilder.designTrack(
+            'Academy slalom',
+            TrackStyles.SG,
+            Config.SLOPE_CONFIG.defaultIncline,
+            40,
+            40,
+            true,
+            undefined,
+            Config.SLOPE_LEGACY_CONFIG
+        );
         const config = new AcademyConfig(track);
         this.game = new Game('academy', config, this.settingsService, { useOptimizedTrajectoryDetector: true });
         this.game.initialize();

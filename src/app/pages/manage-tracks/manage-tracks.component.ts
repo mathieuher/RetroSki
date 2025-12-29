@@ -12,10 +12,12 @@ import { Destroyable } from '../../common/components/destroyable/destroyable.com
 import { switchMap, takeUntil, tap } from 'rxjs';
 import { RideLocalComponent } from '../ride-local/ride-local.component';
 import { ActivatedRoute } from '@angular/router';
+import { Config } from '../../game/config';
 
 interface TrackForm {
     name: FormControl<string | null>;
     style: FormControl<TrackStyles | null>;
+    incline: FormControl<number | null>;
 }
 
 @Component({
@@ -33,10 +35,16 @@ export class ManageTracksComponent extends Destroyable {
 
     protected tracks = signal<Track[] | undefined>(undefined);
     protected loadingTrack = computed<boolean>(() => !this.tracks());
+    protected inclinePlaceholder = `${Config.SLOPE_CONFIG.minIncline}° to ${Config.SLOPE_CONFIG.maxIncline}°`;
 
     protected form = new FormGroup<TrackForm>({
         name: new FormControl(null, [Validators.required, Validators.maxLength(16)]),
-        style: new FormControl(TrackStyles.SG, [Validators.required])
+        style: new FormControl(TrackStyles.SG, [Validators.required]),
+        incline: new FormControl(null, [
+            Validators.min(Config.SLOPE_CONFIG.minIncline),
+            Validators.max(Config.SLOPE_CONFIG.maxIncline),
+            Validators.required
+        ])
     });
 
     private trackService = inject(TrackService);
@@ -63,7 +71,11 @@ export class ManageTracksComponent extends Destroyable {
     protected generateTrack(): void {
         if (this.form.valid) {
             this.generatedTrack.set(
-                TrackBuilder.designTrack(this.form.value.name!.toLocaleLowerCase(), this.form.value.style!)
+                TrackBuilder.designTrack(
+                    this.form.value.name!.toLocaleLowerCase(),
+                    this.form.value.style!,
+                    this.form.value.incline!
+                )
             );
             this.saveTrack();
         }

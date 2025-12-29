@@ -1,13 +1,15 @@
-import { Axes, Buttons, Keys } from 'excalibur';
+import { Animation, AnimationStrategy, Axes, Buttons, Color, Keys, range, SpriteSheet, vec } from 'excalibur';
 import { Resources } from './resources';
 import { TrackStyles } from './models/track-styles.enum';
-import type { GatesConfig } from './models/gates-config';
+import type { GatesConfig, PoleColorConfig, PoleSideConfig } from './models/gates-config';
+import type { SlopeSectionConfig } from './models/slope-section-config';
+import type { SlopeConfig } from './models/slope-config';
 
 export class Config {
     // DISPLAY
     static DISPLAY_WIDTH = 800;
     static DISPLAY_HEIGHT = 800;
-    static CAMERA_ZOOM = 1;
+    static CAMERA_ZOOM = 1.05;
     static DISPLAY_MIN_MARGIN = 75;
     static DISPLAY_MAX_RIGHT_POSITION = Config.DISPLAY_WIDTH / 2 - Config.DISPLAY_MIN_MARGIN;
     static DISPLAY_MAX_LEFT_POSITION = -Config.DISPLAY_MAX_RIGHT_POSITION;
@@ -41,6 +43,7 @@ export class Config {
     static KEYBOARD_CONTROL_CARVE_RIGHT = Keys.ArrowRight;
     static KEYBOARD_CONTROL_CARVE_LEFT = Keys.ArrowLeft;
     static KEYBOARD_CONTROL_BRAKE = Keys.Space;
+    static KEYBOARD_CONTROL_BRAKE_ALT = Keys.ArrowDown;
     static KEYBOARD_DEBUG_KEY = Keys.D;
     static KEYBOARD_RESTART_KEY = Keys.R;
     static KEYBOARD_EXIT_KEY = Keys.Escape;
@@ -57,6 +60,7 @@ export class Config {
 
     static TOUCH_BRAKE_ZONE_RATIO = 0.2;
 
+    // PHYSICS
     // DYNAMIC
     static MAX_SPEED = 150;
     static VELOCITY_MULTIPLIER_RATE = 7 * 0.6;
@@ -65,45 +69,100 @@ export class Config {
     static MAX_RIGHT_ROTATION_ANGLE = Math.PI / 2;
     static MAX_LEFT_ROTATION_ANGLE = (3 * Math.PI) / 2;
     static ROTATION_RECENTER_RATE = 0.2;
-
-    // SLOPE
-    static DEFAULT_TRACK_SLOPE = 0.115;
-
     // SKIER
-    static ACCELERATION_RATE = 3;
+    static ACCELERATION_RATE = 1.16;
     static BRAKING_RATE = 1;
-    static CARVING_ADHERENCE_RATE = 0.9;
-    static CARVING_BRAKING_RATE = 0.01;
-    static SLIDING_ADHERENCE_RATE = 0.65;
-    static SLIDING_BRAKING_RATE = 0.8;
+    static CARVING_ADHERENCE_RATE = 0.92;
+    static CARVING_BRAKING_RATE = 0.08;
+    static SLIDING_ADHERENCE_RATE = 0.8;
+    static SLIDING_BRAKING_RATE = 0.93;
     // SKIER SPECIFIC STYLE DYNAMIC
     static SL_SKIER_CONFIG = {
-        windFrictionRate: 0.0025,
-        carvingRotationRate: 3.2,
+        windFrictionRate: 0.000052,
+        carvingRotationRate: 3.1,
         carvingOptimalSpeed: 50,
-        slidingRotationRate: 3.7,
+        slidingRotationRate: 3.1,
         slidingOptimalSpeed: 35
     };
     static GS_SKIER_CONFIG = {
-        windFrictionRate: 0.0022,
-        carvingRotationRate: 3.1,
+        windFrictionRate: 0.00004,
+        carvingRotationRate: 2.9,
         carvingOptimalSpeed: 60,
-        slidingRotationRate: 3.6,
+        slidingRotationRate: 2.9,
         slidingOptimalSpeed: 45
     };
     static SG_SKIER_CONFIG = {
-        windFrictionRate: 0.002,
+        windFrictionRate: 0.000025,
         carvingRotationRate: 2.5,
         carvingOptimalSpeed: 70,
-        slidingRotationRate: 3.0,
+        slidingRotationRate: 2.5,
         slidingOptimalSpeed: 50
     };
     static DH_SKIER_CONFIG = {
-        windFrictionRate: 0.0018,
-        carvingRotationRate: 2.2,
+        windFrictionRate: 0.00002,
+        carvingRotationRate: 2.25,
         carvingOptimalSpeed: 75,
-        slidingRotationRate: 2.7,
+        slidingRotationRate: 2.25,
         slidingOptimalSpeed: 60
+    };
+    // ANIMATION
+    static ANIMATION_FRAME_DURATION = 1;
+    static ANIMATION_FRAME_AMOUNT = 6;
+    static MAX_ANIMATION_INTENSITY = this.ANIMATION_FRAME_DURATION * this.ANIMATION_FRAME_AMOUNT;
+
+    // SLOPE
+    static SLOPE_CONFIG: SlopeConfig = {
+        defaultIncline: 17,
+        minIncline: 14,
+        maxIncline: 29,
+        minSectionLength: 600,
+        maxSections: 4,
+        startFinishLength: 1200
+    };
+    static SLOPE_LEGACY_CONFIG: SlopeConfig = {
+        defaultIncline: Config.SLOPE_CONFIG.defaultIncline,
+        minIncline: Config.SLOPE_CONFIG.defaultIncline,
+        maxIncline: Config.SLOPE_CONFIG.defaultIncline,
+        minSectionLength: 0,
+        maxSections: 1,
+        startFinishLength: Config.SLOPE_CONFIG.startFinishLength
+    };
+
+    // SPECIFIC SLOPE SECTION
+    static SLOPE_SECTION_WHITE_CONFIG: SlopeSectionConfig = {
+        texture: Resources.SnowTexture,
+        labelColor: Color.fromRGB(128, 128, 128, 0.4),
+        dividerColor: Color.Transparent,
+        particlesColor: Color.fromRGB(128, 128, 128, 0.1),
+        profileColor: Color.fromRGB(128, 128, 128, 0.2)
+    };
+    static SLOPE_SECTION_GREEN_CONFIG: SlopeSectionConfig = {
+        texture: Resources.SnowTextureGreen,
+        labelColor: Color.fromRGB(0, 255, 0, 0.4),
+        dividerColor: Color.fromRGB(0, 255, 0, 0.1),
+        particlesColor: Color.fromRGB(0, 255, 0, 0.1),
+        profileColor: Color.fromRGB(0, 255, 0, 0.2)
+    };
+    static SLOPE_SECTION_BLUE_CONFIG: SlopeSectionConfig = {
+        texture: Resources.SnowTextureBlue,
+        labelColor: Color.fromRGB(0, 0, 255, 0.4),
+        dividerColor: Color.fromRGB(0, 0, 255, 0.1),
+        particlesColor: Color.fromRGB(0, 0, 255, 0.1),
+        profileColor: Color.fromRGB(0, 0, 255, 0.2)
+    };
+    static SLOPE_SECTION_RED_CONFIG: SlopeSectionConfig = {
+        texture: Resources.SnowTextureRed,
+        labelColor: Color.fromRGB(255, 0, 0, 0.4),
+        dividerColor: Color.fromRGB(255, 0, 0, 0.1),
+        particlesColor: Color.fromRGB(255, 0, 0, 0.1),
+        profileColor: Color.fromRGB(255, 0, 0, 0.2)
+    };
+    static SLOPE_SECTION_BLACK_CONFIG: SlopeSectionConfig = {
+        texture: Resources.SnowTextureBlack,
+        labelColor: Color.fromRGB(0, 0, 0, 0.4),
+        dividerColor: Color.fromRGB(0, 0, 0, 0.4),
+        particlesColor: Color.fromRGB(0, 0, 0, 0.1),
+        profileColor: Color.fromRGB(0, 0, 0, 0.2)
     };
 
     // GATES
@@ -115,27 +174,163 @@ export class Config {
     static GATE_FOLLOWING_DISTANCE_RATIO = 0.8;
     static GATE_VERTICAL_HEIGHT = 100;
     static GATE_VERTICAL_BETWEEN_MARGIN = 10;
+    // POLE
+    static POLE_STRADDLED_DISTANCE_LIMIT = 1;
+    static POLE_SPRITESHEET_GRID = {
+        columns: 13,
+        rows: 1,
+        spriteHeight: 32,
+        spriteWidth: 32
+    };
+    static POLE_SL_BLUE_SPRITESHEET = SpriteSheet.fromImageSource({
+        image: Resources.PoleSlBlue,
+        grid: Config.POLE_SPRITESHEET_GRID
+    });
+    static POLE_SL_BLUE_INVERTED_SPRITESHEET = SpriteSheet.fromImageSource({
+        image: Resources.PoleSlBlueInverted,
+        grid: Config.POLE_SPRITESHEET_GRID
+    });
+    static POLE_SL_RED_SPRITESHEET = SpriteSheet.fromImageSource({
+        image: Resources.PoleSlRed,
+        grid: Config.POLE_SPRITESHEET_GRID
+    });
+    static POLE_SL_RED_INVERTED_SPRITESHEET = SpriteSheet.fromImageSource({
+        image: Resources.PoleSlRedInverted,
+        grid: Config.POLE_SPRITESHEET_GRID
+    });
+    static POLE_BLUE_SPRITESHEET = SpriteSheet.fromImageSource({
+        image: Resources.PoleBlue,
+        grid: Config.POLE_SPRITESHEET_GRID
+    });
+    static POLE_RED_SPRITESHEET = SpriteSheet.fromImageSource({
+        image: Resources.PoleRed,
+        grid: Config.POLE_SPRITESHEET_GRID
+    });
+    static POLE_RED_INVERTED_SPRITESHEET = SpriteSheet.fromImageSource({
+        image: Resources.PoleRedInverted,
+        grid: Config.POLE_SPRITESHEET_GRID
+    });
+    static POLE_BLUE_INVERTED_SPRITESHEET = SpriteSheet.fromImageSource({
+        image: Resources.PoleBlueInverted,
+        grid: Config.POLE_SPRITESHEET_GRID
+    });
+    static POLE_COLLIDE_ANIMATIONS: Map<PoleColorConfig, Map<PoleSideConfig, Animation>> = new Map([
+        [
+            'red',
+            new Map([
+                [
+                    'left',
+                    Animation.fromSpriteSheet(
+                        Config.POLE_RED_SPRITESHEET,
+                        range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
+                        30,
+                        AnimationStrategy.Freeze
+                    )
+                ],
+                [
+                    'right',
+                    Animation.fromSpriteSheet(
+                        Config.POLE_RED_INVERTED_SPRITESHEET,
+                        range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
+                        30,
+                        AnimationStrategy.Freeze
+                    )
+                ]
+            ])
+        ],
+        [
+            'blue',
+            new Map([
+                [
+                    'left',
+                    Animation.fromSpriteSheet(
+                        Config.POLE_BLUE_SPRITESHEET,
+                        range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
+                        30,
+                        AnimationStrategy.Freeze
+                    )
+                ],
+                [
+                    'right',
+                    Animation.fromSpriteSheet(
+                        Config.POLE_BLUE_INVERTED_SPRITESHEET,
+                        range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
+                        30,
+                        AnimationStrategy.Freeze
+                    )
+                ]
+            ])
+        ]
+    ]);
+
     // SPECIFIC TRACK STYLE CONFIG
     static SL_GATES_CONFIG: GatesConfig = {
         trackStyle: TrackStyles.SL,
         maxWidth: 120,
         minWidth: 80,
-        maxHorizontalDistance: 105,
-        minVerticalDistance: 120,
-        maxVerticalDistance: 150,
+        maxHorizontalDistance: 110,
+        minVerticalDistance: 115,
+        maxVerticalDistance: 145,
         minNumber: 54,
         maxNumber: 66,
-        poleWidth: 3,
+        poleWidth: 4,
         poleHeight: 3,
         poleSprites: new Map([
-            ['red', Resources.PoleSlRed.toSprite()],
-            ['blue', Resources.PoleSlBlue.toSprite()]
+            ['red', Config.POLE_SL_RED_SPRITESHEET.getSprite(0, 0)],
+            ['blue', Config.POLE_SL_BLUE_SPRITESHEET.getSprite(0, 0)]
         ]),
         poleCheckSprites: new Map([
             ['red', Resources.PoleCheckRed.toSprite()],
             ['blue', Resources.PoleCheckBlue.toSprite()]
         ]),
-        poleShadow: Resources.PoleSlShadow.toSprite(),
+        poleCollideAnimations: new Map([
+            [
+                'red',
+                new Map([
+                    [
+                        'left',
+                        Animation.fromSpriteSheet(
+                            Config.POLE_SL_RED_SPRITESHEET,
+                            range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
+                            30,
+                            AnimationStrategy.Freeze
+                        )
+                    ],
+                    [
+                        'right',
+                        Animation.fromSpriteSheet(
+                            Config.POLE_SL_RED_INVERTED_SPRITESHEET,
+                            range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
+                            30,
+                            AnimationStrategy.Freeze
+                        )
+                    ]
+                ])
+            ],
+            [
+                'blue',
+                new Map([
+                    [
+                        'left',
+                        Animation.fromSpriteSheet(
+                            Config.POLE_SL_BLUE_SPRITESHEET,
+                            range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
+                            30,
+                            AnimationStrategy.Freeze
+                        )
+                    ],
+                    [
+                        'right',
+                        Animation.fromSpriteSheet(
+                            Config.POLE_SL_BLUE_INVERTED_SPRITESHEET,
+                            range(0, this.POLE_SPRITESHEET_GRID.columns - 1),
+                            30,
+                            AnimationStrategy.Freeze
+                        )
+                    ]
+                ])
+            ]
+        ]),
         followingGateAmount: 3,
         doubleGateAmount: 2,
         tripleGateAmount: 2
@@ -152,14 +347,14 @@ export class Config {
         poleWidth: 12,
         poleHeight: 3,
         poleSprites: new Map([
-            ['red', Resources.PoleRed.toSprite()],
-            ['blue', Resources.PoleBlue.toSprite()]
+            ['red', Config.POLE_RED_SPRITESHEET.getSprite(0, 0)],
+            ['blue', Config.POLE_BLUE_SPRITESHEET.getSprite(0, 0)]
         ]),
         poleCheckSprites: new Map([
             ['red', Resources.PoleCheckRed.toSprite()],
             ['blue', Resources.PoleCheckBlue.toSprite()]
         ]),
-        poleShadow: Resources.PoleShadow.toSprite(),
+        poleCollideAnimations: Config.POLE_COLLIDE_ANIMATIONS,
         followingGateAmount: 3,
         doubleGateAmount: 0,
         tripleGateAmount: 0
@@ -176,19 +371,19 @@ export class Config {
         poleWidth: 12,
         poleHeight: 3,
         poleSprites: new Map([
-            ['red', Resources.PoleRed.toSprite()],
-            ['blue', Resources.PoleBlue.toSprite()]
+            ['red', Config.POLE_RED_SPRITESHEET.getSprite(0, 0)],
+            ['blue', Config.POLE_BLUE_SPRITESHEET.getSprite(0, 0)]
         ]),
         poleCheckSprites: new Map([
             ['red', Resources.PoleCheckRed.toSprite()],
             ['blue', Resources.PoleCheckBlue.toSprite()]
         ]),
-        poleShadow: Resources.PoleShadow.toSprite(),
+        poleCollideAnimations: Config.POLE_COLLIDE_ANIMATIONS,
         followingGateAmount: 3,
         doubleGateAmount: 0,
         tripleGateAmount: 0
     };
-    static DH_GATES_CONFIG = {
+    static DH_GATES_CONFIG: GatesConfig = {
         trackStyle: TrackStyles.DH,
         maxWidth: 160,
         minWidth: 130,
@@ -199,9 +394,9 @@ export class Config {
         maxNumber: 58,
         poleWidth: 12,
         poleHeight: 3,
-        poleSprites: new Map([['red', Resources.PoleRed.toSprite()]]),
+        poleSprites: new Map([['red', Config.POLE_RED_SPRITESHEET.getSprite(0, 0)]]),
         poleCheckSprites: new Map([['red', Resources.PoleCheckRed.toSprite()]]),
-        poleShadow: Resources.PoleShadow.toSprite(),
+        poleCollideAnimations: Config.POLE_COLLIDE_ANIMATIONS,
         followingGateAmount: 3,
         doubleGateAmount: 0,
         tripleGateAmount: 0

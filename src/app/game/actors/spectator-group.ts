@@ -1,4 +1,4 @@
-import { type Engine, type Vector, vec, type Audio } from 'excalibur';
+import { type Engine, type Vector, vec, type Audio, CollisionType } from 'excalibur';
 import { Config } from '../config';
 import { ScreenManager } from '../utils/screen-manager';
 import { Spectator } from './spectator';
@@ -25,7 +25,8 @@ export class SpectatorGroup extends ThrottledActor {
             anchor: vec(0, 0),
             pos: position,
             height: density * (Config.SPECTATOR_HEIGHT * 0.7),
-            width: Config.DISPLAY_MIN_MARGIN
+            width: Config.DISPLAY_MIN_MARGIN,
+            collisionType: CollisionType.Passive
         });
 
         this.engine = engine;
