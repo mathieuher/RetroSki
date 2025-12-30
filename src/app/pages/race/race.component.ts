@@ -103,7 +103,11 @@ export class RaceComponent extends Destroyable implements OnInit {
     }
 
     protected startRiding(): void {
-        this.game()!.paused = false;
+        this.game()
+            ?.gameLoaded.pipe(filter(Boolean), takeUntil(this.destroyed$))
+            .subscribe(() => {
+                this.game()!.paused = false;
+            });
         this.presentingTrack.set(false);
     }
 
