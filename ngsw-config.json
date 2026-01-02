@@ -21,7 +21,7 @@
             "resources": {
                 "files": [
                     "/assets/**",
-                    "/*.woff2"
+                    "/media/**"
                 ]
             }
         }
