@@ -1,5 +1,6 @@
 :host {
     display: flex;
+    position: relative;
     justify-content: center;
     width: 600px;
     height: 1000px;
@@ -10,5 +11,10 @@
     app-notification {
         position: fixed;
         top: 10dvh;
+    }
+
+    .retro-dialog {
+        max-width: 80%;
+        border-radius: var(--border-radius-large);
     }
 }

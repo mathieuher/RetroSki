@@ -425,55 +425,70 @@ canvas#game {
     padding: 0.5rem;
     display: flex;
     flex-direction: column;
+}
 
-    .retro-dialog {
-        display: flex;
-        pointer-events: all;
-        flex-direction: column;
-        overflow-y: auto;
-        width: calc(100% - 2rem);
-        border-radius: var(--border-radius);
-        padding: 1rem;
-        background-color: var(--color-primary-lightest);
-        color: var(--color-primary-darkest);
-        opacity: 0.95;
-        transition: var(--transition-time) ease;
-        gap: 0.5rem;
+.retro-dialog {
+    z-index: 55;
+    display: flex;
+    pointer-events: all;
+    flex-direction: column;
+    overflow-y: auto;
+    width: calc(100% - 2rem);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    background-color: var(--color-primary-lightest);
+    color: var(--color-primary-darkest);
+    opacity: 0.95;
+    transition: var(--transition-time) ease;
+    gap: 0.5rem;
 
-        &.tertiary {
-            background-color: var(--color-tertiary);
-            color: var(--color-surface);
-        }
+    &.tertiary {
+        background-color: var(--color-tertiary);
+        color: var(--color-surface);
+    }
 
-        &.error {
-            background-color: var(--color-error-lightest);
+    &.error {
+        background-color: var(--color-error-lightest);
+        color: var(--color-error-darkest);
+
+        .retro-title,
+        .retro-text {
             color: var(--color-error-darkest);
-
-            .retro-title,
-            .retro-text {
-                color: var(--color-error-darkest);
-            }
-        }
-
-        .retro-title {
-            margin-top: 0;
-            background-color: inherit;
-        }
-
-        .retro-subtitle {
-            background-color: inherit;
-        }
-
-        .retro-button {
-            margin-top: 1rem;
-        }
-
-        .objective {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
     }
+
+    .retro-title {
+        margin-top: 0;
+        background-color: inherit;
+    }
+
+    .retro-subtitle {
+        background-color: inherit;
+    }
+
+    .retro-button {
+        margin-top: 1rem;
+    }
+
+    .objective {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+.retro-backdrop {
+    z-index: 50;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--color-backdrop);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
 }
 
 .touch-zone {

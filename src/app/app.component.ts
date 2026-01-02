@@ -3,6 +3,7 @@ import { RouteConfigLoadEnd, RouteConfigLoadStart, Router, RouterOutlet } from '
 import { NotificationComponent } from './common/components/notification/notification.component';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
     selector: 'app-root',
@@ -15,6 +16,8 @@ export class AppComponent {
     protected screenCompatible: WritableSignal<boolean>;
     protected routeLoading: Signal<boolean | undefined>;
     private router = inject(Router);
+    private swUpdate = inject(SwUpdate);
+    protected updateAvailable = signal(false);
 
     constructor() {
         this.routeLoading = toSignal(
@@ -24,6 +27,14 @@ export class AppComponent {
                 takeUntilDestroyed()
             )
         );
+
+        if (this.swUpdate.isEnabled) {
+            this.swUpdate.versionUpdates.pipe(takeUntilDestroyed()).subscribe(event => {
+                if (event.type === 'VERSION_READY') {
+                    this.updateAvailable.set(true);
+                }
+            });
+        }
 
         this.screenCompatible = signal(screen.height >= 500);
 
@@ -35,5 +46,9 @@ export class AppComponent {
             return false;
         });
         addEventListener('gesturestart', event => event.preventDefault());
+    }
+
+    protected reload(): void {
+        window.location.reload();
     }
 }

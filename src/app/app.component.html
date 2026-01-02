@@ -8,3 +8,17 @@
     mode or use a device with a screen height of at least 500 pixels.
 </app-notification>
 }
+@if(updateAvailable()) {
+<div class="retro-backdrop">
+    <div class="retro-dialog">
+        <div class="retro-title">New version available!</div>
+        <div class="retro-text">Hey rider,</div>
+        <div class="retro-text">Update RetroSki to ride the latest version of the mountain!</div>
+        <div class="retro-button tertiary" (click)="reload()">
+                <span class="material-symbols-outlined">refresh</span>
+                Update RetroSki
+        </div>
+    </div>
+</div>
+}
+
