@@ -26,14 +26,14 @@
     Header set Expires "0"
   </Files>
 
-  # Service Worker & manifest : no long cache
-  <FilesMatch "(ngsw-worker\.js|ngsw\.json|manifest\.webmanifest)$">
-    Header set Cache-Control "no-cache"
-  </FilesMatch>
-
   # Assets hashed assets : very long cache
   <FilesMatch "\.(js|css|png|jpg|jpeg|gif|svg|webp|mp3|mp4)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Service Worker & manifest : no long cache
+  <FilesMatch "(ngsw-worker\.js|ngsw\.json|manifest\.webmanifest)$">
+    Header set Cache-Control "no-cache"
   </FilesMatch>
 
 </IfModule>
