@@ -27,7 +27,7 @@
   </Files>
 
   # Assets hashed assets : very long cache
-  <FilesMatch "\.(js|css|png|jpg|jpeg|gif|svg|webp|mp3|mp4)$">
+  <FilesMatch "\.(js|css|png|jpg|jpeg|gif|svg|webp|mp3|mp4|woff2)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 
