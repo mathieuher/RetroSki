@@ -1,5 +1,11 @@
 [
     {
+        "date": "2026-01-02",
+        "items": [
+            "Offline riding support"
+        ]
+    },
+    {
         "date": "2025-12-29",
         "items": [
             "New physics and collisions for all disciplines",
