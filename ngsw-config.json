@@ -3,14 +3,27 @@
     "index": "/index.html",
     "assetGroups": [
         {
-            "name": "assets",
-            "installMode": "lazy",
+            "name": "app",
+            "installMode": "prefetch",
             "updateMode": "prefetch",
             "resources": {
                 "files": [
-                    "/assets/**/*.(png|svg|mp3|mp4)"
+                    "/index.html",
+                    "/*.css",
+                    "/*.js"
+                ]
+            }
+        },
+        {
+            "name": "assets",
+            "installMode": "prefetch",
+            "updateMode": "prefetch",
+            "resources": {
+                "files": [
+                    "/assets/**"
                 ]
             }
         }
-    ]
+    ],
+    "navigationRequestStrategy": "freshness"
 }
