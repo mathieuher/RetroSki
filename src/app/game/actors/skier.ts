@@ -291,9 +291,9 @@ export class Skier extends Actor {
     }
 
     private updateGraphics(currentAction: SkierActions): void {
-        // const graphic = SkierGraphics.getSpriteForAction('skier', currentAction, this.skierActionIntensity);
-        // this.graphics.use(graphic.sprite);
-        // this.graphics.flipHorizontal = !!graphic.flipHorizontal;
+        const graphic = SkierGraphics.getSpriteForAction('skier', currentAction, this.skierActionIntensity);
+        this.graphics.use(graphic.sprite);
+        this.graphics.flipHorizontal = !!graphic.flipHorizontal;
     }
 
     private emitSounds(forceBreaking: boolean, skierIntentions: SkierIntentions, actionIntensityRatio: number): void {
