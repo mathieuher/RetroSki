@@ -1,4 +1,4 @@
-import { Actor, CollisionType, type Engine, type GpuParticleEmitter, vec } from 'excalibur';
+import { Actor, CollisionGroupManager, type Engine, type GpuParticleEmitter, vec } from 'excalibur';
 import { Config } from '../config';
 import { Resources } from '../resources';
 import type { Race } from '../scenes/race';
@@ -34,6 +34,9 @@ export class SkierIntentions {
 
 const RADIAN_TO_DEGREE = 180 / Math.PI;
 const DEGREE_TO_RADIAN = Math.PI / 180;
+
+export const SKIER_COLLISION_GROUP = CollisionGroupManager.create('skier');
+
 export class Skier extends Actor {
     public speed = 0;
     public skierInfos: SkierInfos;
@@ -60,8 +63,7 @@ export class Skier extends Actor {
             width: 32,
             height: 32,
             z: 4,
-            anchor: vec(0.5, 0.5),
-            collisionType: CollisionType.Passive
+            anchor: vec(0.5, 0.5)
         });
         this.skierInfos = skierInfos;
         this.skierConfig = skierConfig;
@@ -289,9 +291,9 @@ export class Skier extends Actor {
     }
 
     private updateGraphics(currentAction: SkierActions): void {
-        const graphic = SkierGraphics.getSpriteForAction('skier', currentAction, this.skierActionIntensity);
-        this.graphics.use(graphic.sprite);
-        this.graphics.flipHorizontal = !!graphic.flipHorizontal;
+        // const graphic = SkierGraphics.getSpriteForAction('skier', currentAction, this.skierActionIntensity);
+        // this.graphics.use(graphic.sprite);
+        // this.graphics.flipHorizontal = !!graphic.flipHorizontal;
     }
 
     private emitSounds(forceBreaking: boolean, skierIntentions: SkierIntentions, actionIntensityRatio: number): void {

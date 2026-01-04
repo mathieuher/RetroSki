@@ -7,6 +7,7 @@ import { TrackStyles } from '../models/track-styles.enum';
 import { SkierBodyCollider } from './skier-body-collider';
 import type { Race } from '../scenes/race';
 import { SkisCollider } from './skis-collider';
+import { GATE_COLLISION_GROUP } from './gate';
 
 class PoleCollider extends Actor {
     constructor(width: number) {
@@ -15,6 +16,7 @@ class PoleCollider extends Actor {
             height: 10,
             anchor: vec(0, 1.3),
             collisionType: CollisionType.Passive,
+            collisionGroup: GATE_COLLISION_GROUP,
             z: 10
         });
     }
@@ -46,6 +48,7 @@ export class Pole extends Actor {
             height: isFinalPole ? Config.FINAL_POLE_HEIGHT : gatesConfig.poleHeight,
             anchor: gatesConfig.trackStyle === TrackStyles.SL ? vec(0.4, 0.9) : vec(0.3, 0.9),
             collisionType: CollisionType.Active,
+            collisionGroup: GATE_COLLISION_GROUP,
             color: isFinalPole ? Color.fromHex('#DA2F2F') : Color.Transparent,
             z: 3
         });

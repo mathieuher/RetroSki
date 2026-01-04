@@ -1,5 +1,6 @@
-import { Actor, CollisionType, Color, PolygonCollider, vec, type Vector } from 'excalibur';
+import { Actor, CollisionType, vec, type Vector } from 'excalibur';
 import { SkierActions } from '../models/skier-actions.enum';
+import { SKIER_COLLISION_GROUP } from './skier';
 
 // Definition of skis collider regarding skier position
 const NOTHING_COLLIDER_POINTS = [vec(7, -15), vec(-7, -15), vec(-7, 15), vec(7, 15)];
@@ -15,7 +16,8 @@ export class SkisCollider extends Actor {
             anchor: vec(0.5, 0.5),
             width: 32,
             height: 32,
-            collisionType: CollisionType.Fixed
+            collisionType: CollisionType.Fixed,
+            collisionGroup: SKIER_COLLISION_GROUP
         });
 
         this.collider.usePolygonCollider(NOTHING_COLLIDER_POINTS);

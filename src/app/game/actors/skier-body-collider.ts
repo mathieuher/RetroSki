@@ -1,5 +1,6 @@
 import { Actor, CollisionType, vec } from 'excalibur';
 import { SkierActions } from '../models/skier-actions.enum';
+import { SKIER_COLLISION_GROUP } from './skier';
 
 // Skier body collider anchors regarding skier position
 const COLLIDER_BODY_NOTHING_ANCHOR = vec(0.5, 0.5);
@@ -15,7 +16,8 @@ export class SkierBodyCollider extends Actor {
             anchor: COLLIDER_BODY_NOTHING_ANCHOR,
             width: 22,
             height: 12,
-            collisionType: CollisionType.Passive
+            collisionType: CollisionType.Passive,
+            collisionGroup: SKIER_COLLISION_GROUP
         });
     }
 

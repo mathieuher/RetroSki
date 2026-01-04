@@ -1,4 +1,4 @@
-import { Actor, Color, GraphicsGroup, Line, type Vector, toRadians, vec } from 'excalibur';
+import { Actor, CollisionGroupManager, Color, GraphicsGroup, Line, type Vector, toRadians, vec } from 'excalibur';
 import { Config } from '../config';
 import { Pole } from './pole';
 import { GateDetector } from './gate-detector';
@@ -10,6 +10,8 @@ import { ScreenManager } from '../utils/screen-manager';
 import type { Game, GameMode } from '../game';
 import type { Settings } from '../../common/models/settings';
 import type { Academy } from '../scenes/academy';
+
+export const GATE_COLLISION_GROUP = CollisionGroupManager.create('gate');
 
 export class Gate extends Actor {
     public config: GatesConfig;

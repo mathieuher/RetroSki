@@ -1,5 +1,5 @@
 import { Actor, type CollisionStartEvent, CollisionType, Color, type Vector, vec } from 'excalibur';
-import type { Gate } from './gate';
+import { GATE_COLLISION_GROUP, type Gate } from './gate';
 import { SkisCollider } from './skis-collider';
 
 export class GateDetector extends Actor {
@@ -12,6 +12,7 @@ export class GateDetector extends Actor {
             height: height,
             anchor: vec(0, 1),
             collisionType: CollisionType.Passive,
+            collisionGroup: GATE_COLLISION_GROUP,
             color: Color.fromHex('#9747ff'),
             opacity: visible ? 0.7 : 0
         });
