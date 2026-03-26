@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
     selector: 'app-button-icon',
@@ -8,10 +8,12 @@ import { ChangeDetectionStrategy, Component, HostBinding, input } from '@angular
     styleUrl: './button-icon.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
-        '[class.flipped]': 'flipped()'
+        '[class.flipped]': 'flipped()',
+        '[class.hidden]': 'hidden()'
     }
 })
 export class ButtonIconComponent {
+    public hidden = input<boolean>();
     public flipped = input<boolean>();
     public badge = input<string>();
     public icon = input<string>();

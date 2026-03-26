@@ -3,6 +3,7 @@ import type { StockableGhost } from './stockable-ghost';
 import type { Track } from './track';
 
 export interface RideConfig {
+    racesLimit?: number;
     eventId?: string;
     skierInfos: SkierInfos;
     track: Track;

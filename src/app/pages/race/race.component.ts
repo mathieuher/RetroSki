@@ -19,7 +19,20 @@ import { RankingLineComponent } from '../../common/components/ranking-line/ranki
 import { LocalEventService } from '../../common/services/local-event.service';
 import type { LocalEvent } from '../../common/models/local-event';
 import { TrackService } from '../../common/services/track.service';
-import { catchError, concatMap, EMPTY, filter, from, map, type Observable, of, takeUntil, tap } from 'rxjs';
+import {
+    catchError,
+    concatMap,
+    EMPTY,
+    filter,
+    from,
+    map,
+    type Observable,
+    of,
+    switchMap,
+    take,
+    takeUntil,
+    tap
+} from 'rxjs';
 import { Destroyable } from '../../common/components/destroyable/destroyable.component';
 import { RaceRanking } from '../../common/models/race-ranking';
 import { EventService } from '../../common/services/event.service';
@@ -57,6 +70,7 @@ export class RaceComponent extends Destroyable implements OnInit {
 
     private type = (this.route.snapshot.data as { type: 'local' | 'online' }).type;
     private eventId = (this.route.snapshot.params as { eventId: string }).eventId;
+    private trackRecordId?: string;
     private user = inject(AuthService).getUser();
 
     constructor() {
@@ -104,10 +118,16 @@ export class RaceComponent extends Destroyable implements OnInit {
 
     protected startRiding(): void {
         this.game()
-            ?.gameLoaded.pipe(filter(Boolean), takeUntil(this.destroyed$))
-            .subscribe(() => {
-                this.game()!.paused = false;
-            });
+            ?.gameLoaded.pipe(
+                filter(Boolean),
+
+                tap(() => {
+                    this.listenToRaceStart();
+                    this.game()!.paused = false;
+                }),
+                takeUntil(this.destroyed$)
+            )
+            .subscribe();
         this.presentingTrack.set(false);
     }
 
@@ -129,6 +149,7 @@ export class RaceComponent extends Destroyable implements OnInit {
                             event.id,
                             new SkierInfos(event.incomingRaces[0].rider, 'race'),
                             event.track!,
+                            event.racesLimit,
                             globalGhost,
                             event.ghost
                         )
@@ -141,7 +162,17 @@ export class RaceComponent extends Destroyable implements OnInit {
             concatMap(event =>
                 this.trackService
                     .getTrack$('online', event.trackId!)
-                    .pipe(map(track => new RaceConfig(event.id, new SkierInfos(this.user!.name!, 'race'), track)))
+                    .pipe(
+                        map(
+                            track =>
+                                new RaceConfig(
+                                    event.id,
+                                    new SkierInfos(this.user!.name!, 'race'),
+                                    track,
+                                    event.racesLimit
+                                )
+                        )
+                    )
             ),
             concatMap(config =>
                 this.trackService.getTrackGhost$('online', config.track.id!).pipe(
@@ -161,6 +192,23 @@ export class RaceComponent extends Destroyable implements OnInit {
             ),
             tap(config => this.raceConfig.set(config))
         );
+    }
+
+    private listenToRaceStart(): void {
+        from(this.game()!.raceStarted)
+            .pipe(
+                switchMap(() => {
+                    if (this.type === 'online') {
+                        return this.trackService.addPreTrackRecord$(this.raceConfig()!.eventId);
+                    }
+                    return EMPTY;
+                }),
+                tap(preRecord => {
+                    this.trackRecordId = preRecord.recordId;
+                }),
+                takeUntil(this.destroyed$)
+            )
+            .subscribe();
     }
 
     private listenToRaceStop(): void {
@@ -191,9 +239,17 @@ export class RaceComponent extends Destroyable implements OnInit {
                             result.avgCheck
                         )
                 ),
-                concatMap(result =>
-                    this.trackService.addTrackRecord$(this.type, this.eventId, result, raceResult.ghost)
-                ),
+                concatMap(result => {
+                    if (this.type === 'local') {
+                        return this.trackService.addLocalTrackRecord$(result);
+                    }
+                    return this.trackService.updatePostTrackRecord$(
+                        this.trackRecordId!,
+                        this.eventId,
+                        result,
+                        raceResult.ghost
+                    );
+                }),
                 concatMap(() => this.trackService.getTrackRecords$(this.type, this.raceConfig()!.track.id!)),
                 tap(results =>
                     this.raceRanking.set(new RaceRanking(results, raceResult.timing, raceResult.missedGates))

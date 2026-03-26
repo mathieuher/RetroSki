@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { catchError, from, map, of, switchMap, type Observable } from 'rxjs';
+import { catchError, filter, from, map, of, switchMap, tap, type Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import type { RecordAuthResponse, RecordModel } from 'pocketbase';
 import { User } from '../models/user';
@@ -97,10 +97,11 @@ export class AuthService {
         );
     }
 
-    public getRiderRides$(riderName: string): Observable<number> {
-        return from(
-            environment.pb.collection('public_participations').getFullList({ query: { rider: riderName } })
-        ).pipe(
+    public getRiderRides$(riderName: string, onlyCompletedRides: boolean): Observable<number> {
+        const collection = onlyCompletedRides ? 'public_completed_participations' : 'public_participations';
+
+        return from(environment.pb.collection(collection).getFullList({ query: { rider: riderName } })).pipe(
+            tap(x => console.log(x)),
             map(participations =>
                 participations.reduce((totalRides, participation) => totalRides + participation['rides'], 0)
             )

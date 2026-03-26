@@ -7,10 +7,6 @@
     <div class="retro-title">Profile</div>
     <div class="profile-card">
         <div class="name">{{ user()?.name }}</div>
-        <div class="rides">
-            <strong>{{ rides() ?? 0 }}</strong> online ride@if(rides() ?? 0 > 1)
-            {s}
-        </div>
         <div class="email">{{ user()?.email }}</div>
     </div>
     <div class="retro-subtitle">Verification status</div>
@@ -26,7 +22,19 @@
         <span class="icon material-symbols-outlined">verified</span>
         Continue verification
     </button>
-    } @if(user()?.verified) {
+    }
+    <div class="retro-subtitle">Online rides</div>
+    <div class="rides">
+        <div class="ride-card primary">
+            <div class="number">{{ startedRides() ?? 0 }}</div>
+            <div class="description">Started</div>
+        </div>
+        <div class="ride-card">
+            <div class="number">{{ completedRides() ?? 0 }}</div>
+            <div class="description">Completed</div>
+        </div>
+    </div>
+    @if(user()?.verified) {
     <div class="retro-subtitle">Membership</div>
     @if(user()?.premium) { @if(membershipStatus()) {
     <div class="membership-card">

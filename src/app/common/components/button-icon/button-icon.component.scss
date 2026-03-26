@@ -11,6 +11,10 @@
     transition: background-color var(--transition-time) ease-in-out;
     position: relative;
 
+    &.hidden {
+        visibility: hidden;
+    }
+
     &.flipped > span {
         transform: scaleX(-1);
     }

@@ -22,7 +22,8 @@ export class ProfileComponent {
 
     protected user = toSignal(this.authService.getRefreshedUser$());
     protected membershipStatus = toSignal(this.authService.getMembershipStatus());
-    protected rides = toSignal(this.authService.getRiderRides$(this.authService.getUser()!.name));
+    protected startedRides = toSignal(this.authService.getRiderRides$(this.authService.getUser()!.name, false));
+    protected completedRides = toSignal(this.authService.getRiderRides$(this.authService.getUser()!.name, true));
 
     protected logout(): void {
         this.authService.logout();

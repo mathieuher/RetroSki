@@ -30,6 +30,7 @@ export class Game extends Engine {
     public soundPlayer: SoundPlayer;
     public gamepadsManager = new GamepadsManager(this);
     public raceStopped = new EventEmitter<RaceResult | undefined>();
+    public raceStarted = new EventEmitter<Date>();
     public customEvents = new EventEmitter<CustomGameEvent>();
     public paused = false;
     public mode: GameMode;

@@ -9,7 +9,7 @@
         justify-content: center;
         flex-direction: column;
         padding: 1rem;
-        gap: 1rem;
+        gap: 0.25rem;
         background-color: var(--color-primary-lightest);
         color: var(--color-primary);
         align-items: center;
@@ -20,7 +20,6 @@
             font-weight: 500;
         }
 
-        .rides,
         .email {
             font-size: var(--text-small);
         }
@@ -32,6 +31,36 @@
             background-color: var(--color-primary);
             padding: 0.5rem 1rem;
             border-radius: var(--border-radius);
+        }
+    }
+
+    .rides {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        font-size: var(--text-small);
+
+        .ride-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            border-radius: var(--border-radius-large);
+            aspect-ratio: 1;
+
+            &.primary .number {
+                color: var(--color-primary);
+            }
+
+            .number {
+                font-size: var(--text-big);
+                color: var(--color-tertiary);
+            }
+
+            .description {
+                font-size: var(--text-small);
+                color: var(--color-primary);
+            }
         }
     }
 

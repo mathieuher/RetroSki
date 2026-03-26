@@ -20,7 +20,7 @@ export class LocalEventRace {
 
 export class LocalEvent {
     public id: string;
-    public racesLimit?: number;
+    public racesLimit: number;
     public track?: Track;
     public riders?: Rider[];
     public ghost?: StockableGhost;

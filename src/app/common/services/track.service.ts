@@ -13,6 +13,10 @@ interface TrackRecordResponse {
     recordSaved: boolean;
     ghostSaved: boolean;
 }
+
+interface PreRaceRecordResponse {
+    recordId: string;
+}
 @Injectable({
     providedIn: 'root'
 })
@@ -39,15 +43,44 @@ export class TrackService {
         return type === 'local' ? this.removeLocalTrack$(track) : this.removeOnlineTrack$(track);
     }
 
-    public addTrackRecord$(
-        type: TrackType,
+    public addPreTrackRecord$(eventId: string): Observable<PreRaceRecordResponse> {
+        return this.http.post<PreRaceRecordResponse>(
+            `${environment.apiUrl}/pre-track-record`,
+            {
+                eventId: eventId
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${environment.pb.authStore.token}`
+                }
+            }
+        );
+    }
+
+    public updatePostTrackRecord$(
+        recordId: string,
         eventId: string,
         record: StockableRecord,
         ghost: StockableGhost
-    ): Observable<string | TrackRecordResponse> {
-        return type === 'local'
-            ? this.addLocalTrackRecord$(record)
-            : this.addOnlineTrackRecord$(eventId, record, ghost);
+    ): Observable<TrackRecordResponse> {
+        return this.http.post<TrackRecordResponse>(
+            `${environment.apiUrl}/post-track-record`,
+            {
+                recordId: recordId,
+                eventId: eventId,
+                record: record,
+                ghost: ghost
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${environment.pb.authStore.token}`
+                }
+            }
+        );
+    }
+
+    public addLocalTrackRecord$(record: StockableRecord): Observable<string> {
+        return from(RETROSKI_DB.records.put(record));
     }
 
     public updateLocalTrackGhost$(ghost: StockableGhost): Observable<string> {
@@ -111,26 +144,6 @@ export class TrackService {
         ).pipe(switchMap(() => this.getTracks$('online')));
     }
 
-    private addOnlineTrackRecord$(
-        eventId: string,
-        record: StockableRecord,
-        ghost: StockableGhost
-    ): Observable<TrackRecordResponse> {
-        return this.http.post<TrackRecordResponse>(
-            `${environment.apiUrl}/track-record`,
-            {
-                eventId: eventId,
-                record: record,
-                ghost: ghost
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${environment.pb.authStore.token}`
-                }
-            }
-        );
-    }
-
     private getOnlineTrackRecords$(trackId: string): Observable<StockableRecord[]> {
         return from(
             environment.pb.collection('public_records').getFullList({ query: { track: trackId }, sort: 'timing' })
@@ -176,10 +189,6 @@ export class TrackService {
 
     private removeLocalTrack$(track: Track): Observable<Track[]> {
         return from(RETROSKI_DB.tracks.delete(track.id!)).pipe(switchMap(() => this.getTracks$('local')));
-    }
-
-    private addLocalTrackRecord$(record: StockableRecord): Observable<string> {
-        return from(RETROSKI_DB.records.put(record));
     }
 
     private getLocalTrackRecords$(trackId: string): Observable<StockableRecord[]> {

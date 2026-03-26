@@ -9,6 +9,7 @@
         <app-button-icon
             icon="arrow_back"
             (click)="exitRace()"
+            [hidden]="!!raceConfig()?.racesLimit"
         ></app-button-icon>
         <div class="track-name">
             {{ raceConfig()?.track?.fullName }}

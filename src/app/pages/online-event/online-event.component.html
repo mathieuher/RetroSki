@@ -99,7 +99,7 @@
             [type]="event()!.racesLimit ? 'race' : 'time-attack'"
             [rideNumber]="result.rideNumber"
             [name]="result.rider"
-            [time]="result.formattedTime"
+            [time]="result.time === 600000 ? 'dnf' : result.formattedTime"
             [current]="result.rider === user?.name"
         ></app-result-line>
         } @if (!results()) {

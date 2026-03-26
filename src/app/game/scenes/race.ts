@@ -86,6 +86,7 @@ export class Race extends Scene {
         this.uiManager.displayRacingUi();
         this.startTime = this.engine.clock.now();
         this.uiTimer.start();
+        (this.engine as Game).raceStarted.emit(new Date());
         this.listenStopRaceEvent();
         this.skier!.startRace();
         (this.engine as Game).soundPlayer.playSound(Resources.StartRaceSound, 0.3);
