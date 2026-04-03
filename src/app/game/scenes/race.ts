@@ -49,7 +49,8 @@ export class Race extends Scene {
     private eventRecordGhostDatas?: StockableGhost;
     private eventRecordGhost?: Actor;
 
-    private ghostIndex = 0;
+    private ghostPositionIndex = 0;
+    private skierPositionIndex = 0;
 
     constructor(engine: Engine, config: RaceConfig) {
         super();
@@ -61,8 +62,12 @@ export class Race extends Scene {
     override onPreUpdate(_engine: Engine, _delta: number): void {
         if (this.skier?.racing) {
             this.updateSkierCameraGhost();
-            this.saveSkierPosition();
-            this.updateGhostsPosition();
+            // Throttle position saving and ghost update (every X frame)
+            if (this.skierPositionIndex % Config.THROTTLING_GHOST === 0) {
+                this.saveSkierPosition();
+                this.updateGhostsPosition();
+            }
+            this.skierPositionIndex++;
         }
     }
 
@@ -170,9 +175,9 @@ export class Race extends Scene {
     private saveSkierPosition(): void {
         this.skierPositions?.push(
             new SkierPositioning(
-                this.skier!.pos.x,
-                this.skier!.pos.y,
-                this.skier!.rotation,
+                +this.skier!.pos.x.toFixed(3),
+                +this.skier!.pos.y.toFixed(3),
+                +this.skier!.rotation.toFixed(3),
                 this.skier!.getSkierCurrentAction(),
                 this.getSectionAtPosition(this.skier!.pos)?.incline || 0
             )
@@ -180,33 +185,31 @@ export class Race extends Scene {
     }
 
     private updateGhostsPosition(): void {
-        if (this.ghostIndex % Config.THROTTLING_GHOST === 0) {
-            if (
-                this.globalRecordGhost &&
-                this.globalRecordGhostDatas?.positions?.length &&
-                this.globalRecordGhostDatas.positions.length > this.ghostIndex
-            ) {
-                this.updateGhostPosition(
-                    this.globalRecordGhost,
-                    this.globalRecordGhostDatas.positions,
-                    'global',
-                    this.ghostIndex
-                );
-            }
-            if (
-                this.eventRecordGhost &&
-                this.eventRecordGhostDatas?.positions?.length &&
-                this.eventRecordGhostDatas.positions.length > this.ghostIndex
-            ) {
-                this.updateGhostPosition(
-                    this.eventRecordGhost,
-                    this.eventRecordGhostDatas.positions,
-                    'event',
-                    this.ghostIndex
-                );
-            }
+        if (
+            this.globalRecordGhost &&
+            this.globalRecordGhostDatas?.positions?.length &&
+            this.globalRecordGhostDatas.positions.length > this.ghostPositionIndex
+        ) {
+            this.updateGhostPosition(
+                this.globalRecordGhost,
+                this.globalRecordGhostDatas.positions,
+                'global',
+                this.ghostPositionIndex
+            );
         }
-        this.ghostIndex++;
+        if (
+            this.eventRecordGhost &&
+            this.eventRecordGhostDatas?.positions?.length &&
+            this.eventRecordGhostDatas.positions.length > this.ghostPositionIndex
+        ) {
+            this.updateGhostPosition(
+                this.eventRecordGhost,
+                this.eventRecordGhostDatas.positions,
+                'event',
+                this.ghostPositionIndex
+            );
+        }
+        this.ghostPositionIndex++;
     }
 
     private updateGhostPosition(

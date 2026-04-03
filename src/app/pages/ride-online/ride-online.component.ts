@@ -40,7 +40,6 @@ export class RideOnlineComponent extends Destroyable {
     protected communitiesLoading = signal(true);
     protected challengeLoading = signal(true);
     protected userServers = computed(() => this.servers()?.filter(s => s.owner === this.user?.id || s.ridden));
-    protected publicServers = computed(() => this.servers()?.filter(s => s.public && !s.challenge));
     protected communities = toSignal(
         this.communityService.getCommunities$().pipe(tap(() => this.communitiesLoading.set(false)))
     );

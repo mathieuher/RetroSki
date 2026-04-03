@@ -10,6 +10,7 @@
         <a class="retro-link">{{ user?.name }}</a> !
     </div>
 
+    <div class="retro-subtitle">Open challenges</div>
     @if(challengeLoading()) {
     <div class="retro-placeholder">
         Loading challenge
@@ -27,35 +28,10 @@
     </div>
     }
 
-    <div class="retro-subtitle">Open communities</div>
-    @if(serversLoading()) {
-    <div class="retro-placeholder">
-        Loading open communities
-    </div>
-    } @else if(publicServers()?.length) {
-     <div class="retro-items-list no-scrollable">
-        @for(server of publicServers(); track server) {
-        <div class="retro-item" (click)="openServer(server.id)">
-            <div class="server-name">
-                <span class="icon material-symbols-outlined">public</span>
-                {{ server.name }}
-            </div>
-            @if(server.riders) {
-            <div class="server-infos">
-                {{ server.riders }} rider{{ server.riders > 1 ? "s" : "" }}
-            </div>
-            }
-        </div>
-        }
-    </div>
-    } @else {
-    <div class="retro-placeholder">No open community at the moment</div>
-    }
-
-    <div class="retro-subtitle">Premium communities</div>
+    <div class="retro-subtitle">Official communities</div>
     @if(communitiesLoading()) {
     <div class="retro-placeholder">
-        Loading premium communities
+        Loading official communities
     </div>
     } @else if(communities()?.length) {
     <div class="retro-items-list no-scrollable">

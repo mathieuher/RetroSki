@@ -1,5 +1,11 @@
 [
     {
+        "date": "2026-04-03",
+        "items": [
+            "Reduce ghost bundle size to increase network and device performance"
+        ]
+    },
+    {
         "date": "2026-03-26",
         "items": [
             "Daily race challenge support",
