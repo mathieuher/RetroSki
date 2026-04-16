@@ -26,16 +26,20 @@
     <div class="retro-subtitle">Online ride statistics</div>
     <div class="rides">
         <div class="ride-card primary">
-            <div class="number">{{ startedRides() ?? 0 }}</div>
+            <div class="number">{{ rideStatistics()?.started }}</div>
             <div class="description">Started</div>
         </div>
-        <div class="ride-card">
-            <div class="number">{{ finishedRides() ?? 0 }}</div>
+        <div class="ride-card primary">
+            <div class="number">{{ rideStatistics()?.finished }}</div>
             <div class="description">Finished</div>
         </div>
-        <div class="ride-card primary">
-            <div class="number">{{ finishedRatio() }}%</div>
+        <div class="ride-card">
+            <div class="number">{{ rideStatistics()?.finishedRatio }}%</div>
             <div class="description">Ratio</div>
+        </div>
+        <div class="ride-card error">
+            <div class="number">{{ rideStatistics()?.avgMissedGates }}</div>
+            <div class="description">Avg. missed gates</div>
         </div>
     </div>
     @if(user()?.verified) {

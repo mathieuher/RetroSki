@@ -84,13 +84,13 @@ export class ServerService {
 
     public getRiders$(serverId: string): Observable<ServerRider[]> {
         return from(
-            environment.pb.collection('public_participations').getFullList({ query: { server: serverId } })
+            environment.pb.collection('public_participations').getFullList({ query: { _server: serverId } })
         ).pipe(
             map(records =>
                 records.map(record => {
                     return {
-                        name: record['riderName'],
-                        rides: record['rides']
+                        name: record['rider'],
+                        rides: record['started']
                     };
                 })
             )

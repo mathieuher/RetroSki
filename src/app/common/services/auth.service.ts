@@ -97,13 +97,40 @@ export class AuthService {
         );
     }
 
-    public getRiderStatistics$(riderName: string, onlyCompletedRides: boolean): Observable<number> {
-        const collection = onlyCompletedRides ? 'public_completed_participations' : 'public_participations';
+    public getRiderStatistics$(riderName: string): Observable<{
+        started: number;
+        finished: number;
+        missedGates: number;
+        finishedRatio: number;
+        avgMissedGates: number;
+    }> {
+        return from(
+            environment.pb.collection('public_participations').getFullList({ query: { rider: riderName } })
+        ).pipe(
+            map(participations => {
+                // Combine all the participations of the rider to get overall statistics
+                const statistics = participations.reduce(
+                    (acc, curr) => {
+                        return {
+                            started: acc.started + curr['started'],
+                            finished: acc.finished + curr['finished'],
+                            missedGates: acc.missedGates + curr['missedGates'],
+                            finishedRatio: 0,
+                            avgMissedGates: 0
+                        };
+                    },
+                    { started: 0, finished: 0, missedGates: 0, finishedRatio: 0, avgMissedGates: 0 }
+                );
 
-        return from(environment.pb.collection(collection).getFullList({ query: { rider: riderName } })).pipe(
-            map(participations =>
-                participations.reduce((totalRides, participation) => totalRides + participation['rides'], 0)
-            )
+                // Calculate the started / finished ratio
+                statistics.finishedRatio =
+                    statistics.started > 0 ? Math.round((statistics.finished / statistics.started) * 1000) / 10 : 0;
+
+                // Calculate the average missed gates
+                statistics.avgMissedGates =
+                    statistics.finished > 0 ? Math.round((statistics.missedGates / statistics.finished) * 10) / 10 : 0;
+                return statistics;
+            })
         );
     }
 

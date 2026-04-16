@@ -54,6 +54,14 @@
                 color: var(--color-primary);
             }
 
+            &.success .number {
+                color: var(--color-success);
+            }
+
+            &.error .number {
+                color: var(--color-error);
+            }
+
             .number {
                 font-size: var(--text-large);
                 color: var(--color-tertiary);

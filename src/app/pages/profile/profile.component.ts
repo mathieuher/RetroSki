@@ -22,15 +22,7 @@ export class ProfileComponent {
 
     protected user = toSignal(this.authService.getRefreshedUser$());
     protected membershipStatus = toSignal(this.authService.getMembershipStatus());
-    protected startedRides = toSignal(this.authService.getRiderStatistics$(this.authService.getUser()!.name, false));
-    protected finishedRides = toSignal(this.authService.getRiderStatistics$(this.authService.getUser()!.name, true));
-    protected finishedRatio = computed(() => {
-        if (this.startedRides() && this.startedRides()! > 0) {
-            const ratio = (this.finishedRides() || 0) / this.startedRides()!;
-            return Math.round(ratio * 10000) / 100;
-        }
-        return 0;
-    });
+    protected rideStatistics = toSignal(this.authService.getRiderStatistics$(this.authService.getUser()!.name));
 
     protected logout(): void {
         this.authService.logout();
