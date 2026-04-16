@@ -1,6 +1,7 @@
 {
     "name": "retroski",
     "version": "1.1.2",
+    "license": "GPL-3.0-only",
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
