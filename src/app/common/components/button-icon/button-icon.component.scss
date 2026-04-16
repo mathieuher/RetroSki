@@ -3,21 +3,37 @@
     pointer-events: all;
     align-items: center;
     justify-content: center;
-    height: 34px;
-    width: 34px;
+    padding: 0.25rem;
+    gap: 0.25rem;
     border-radius: 50px;
     color: var(--color-primary);
     cursor: pointer;
     transition: background-color var(--transition-time) ease-in-out;
-    position: relative;
+
+    &:hover {
+        background-color: var(--color-primary-lightest);
+    }
 
     &.hidden {
         visibility: hidden;
     }
 
-    &.flipped > span {
+    &.flipped > .icon {
         transform: scaleX(-1);
     }
+
+    &.rotating {
+        > .icon {
+            color: var(--color-primary-light);
+            animation: rotation 1s infinite linear;
+            cursor: default;
+        }
+
+        &:hover {
+            background-color: transparent;
+        }
+        
+    }   
 
     &.tertiary {
         color: var(--color-tertiary);
@@ -26,23 +42,31 @@
         }
     }
 
-    > span {
-        font-size: 24px;
+    > .icon {
+        font-size: var(--icon-standard);
     }
 
-    &:hover {
-        background-color: var(--color-primary-lightest);
-    }
-
-    .badge {
-        position: absolute;
-        right: 30px;
+    > .badge {
+        order: -1;
+        margin-left: 0.25rem;
         font-size: var(--text-small);
-        background-color: var(--color-tertiary-lightest);
-        color: var(--color-tertiary-darkest);
-        border-radius: var(--border-radius);
-        padding: 0.1rem 1rem;
         text-align: center;
         width: max-content;
+    }
+
+    &:has(>.badge) {
+        background-color : var(--color-primary-lightest);
+        &.tertiary {
+            background-color: var(--color-tertiary-lightest);
+        }
+    }
+
+    @keyframes rotation {
+        from {
+            transform: rotate(0);
+        }
+        to {
+            transform: rotate(360deg);
+        }
     }
 }

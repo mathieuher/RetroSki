@@ -3,6 +3,13 @@
 </div>
 
 <div class="logo-container">
+    @if(updatesService.checkingUpdates()) {
+    <app-button-icon
+        [outlined]="true"
+        [rotating]="true"
+        icon="app_badging"
+    ></app-button-icon>
+    }
     @if(!hideLogo()) {
     <img
         class="small-logo"

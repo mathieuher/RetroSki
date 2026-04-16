@@ -9,7 +9,8 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.flipped]': 'flipped()',
-        '[class.hidden]': 'hidden()'
+        '[class.hidden]': 'hidden()',
+        '[class.rotating]': 'rotating()'
     }
 })
 export class ButtonIconComponent {
@@ -17,5 +18,6 @@ export class ButtonIconComponent {
     public flipped = input<boolean>();
     public badge = input<string>();
     public icon = input<string>();
-    public filled = input<boolean>();
+    public outlined = input<boolean>();
+    public rotating = input<boolean>();
 }

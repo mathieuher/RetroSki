@@ -6,10 +6,9 @@
         <ng-container ngProjectAs="right-actions">
             <app-button-icon
                 [class.tertiary]="hasNewUpdate()"
-                [filled]="hasNewUpdate()"
                 icon="info"
                 routerLink="/about"
-                [badge]="hasNewUpdate() ? 'New updates!' : ''"
+                [badge]="hasNewUpdate() ? 'Updates' : ''"
             ></app-button-icon>
         </ng-container>
     </app-toolbar>

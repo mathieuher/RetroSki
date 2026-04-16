@@ -1,18 +1,32 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, type WritableSignal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SwUpdate } from '@angular/service-worker';
 import { map, type Observable, of } from 'rxjs';
-
 export interface Update {
     date: Date;
     items: string[];
 }
-
 @Injectable({
     providedIn: 'root'
 })
 export class UpdatesService {
     private static readonly LAST_CONSULTED_DATE_KEY = 'last_consulted_date';
     private http = inject(HttpClient);
+    private sw = inject(SwUpdate);
+
+    public checkingUpdates: WritableSignal<boolean>;
+
+    constructor() {
+        if (this.sw.isEnabled) {
+            this.checkingUpdates = signal(true);
+            this.sw.versionUpdates.pipe(takeUntilDestroyed()).subscribe(() => {
+                this.checkingUpdates.set(false);
+            });
+        } else {
+            this.checkingUpdates = signal(false);
+        }
+    }
 
     public getUpdates$(): Observable<Update[]> {
         return this.http.get<Update[]>('/assets/files/updates.json').pipe(

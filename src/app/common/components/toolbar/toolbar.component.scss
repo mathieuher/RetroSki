@@ -10,12 +10,28 @@
     }
 
     .logo-container {
+        position: relative;
         display: flex;
         width: 40%;
+        height: 40px;
         justify-content: center;
+
+        >app-button-icon {
+            position: absolute;
+            top: 4px;
+        }
+
         .small-logo {
             width: 40px;
             height: 40px;
+            cursor: pointer;
+            transition: opacity var(--transition-time) ease-in-out;
+        }
+
+        &:has(app-button-icon) {
+            .small-logo {
+                opacity: 0.1;
+            }
         }
     }
 

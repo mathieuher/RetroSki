@@ -85,10 +85,6 @@ For better performance, consider disabling particles and other heavy game object
 ### **Crash recovery**  
 In case of a crash, try resetting the game via the settings menu to reload the original content and keep shredding!
 
-## 👷‍♂️ **What’s next?**  
-Check out our **roadmap** to see the exciting features coming soon!  
-<a href="roadmap.md">Draft of the roadmap</a>
-
 ## ❤️ **Support the project**  
 Enjoying your time on the slopes? Help us keep improving the game!  
 Consider upgrading to a premium membership or supporting the project. 🙏  

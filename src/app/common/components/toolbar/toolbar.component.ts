@@ -2,6 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { RouterLink } from '@angular/router';
 import { ButtonIconComponent } from '../button-icon/button-icon.component';
+import { UpdatesService } from '../../services/updates.service';
 
 @Component({
     selector: 'app-toolbar',
@@ -12,6 +13,7 @@ import { ButtonIconComponent } from '../button-icon/button-icon.component';
 })
 export class ToolbarComponent {
     protected readonly authService = inject(AuthService);
+    protected readonly updatesService = inject(UpdatesService);
 
     public hideSettings = input<boolean>(false);
     public hideProfile = input<boolean>(true);
