@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { AuthService } from '../../common/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { ToolbarComponent } from '../../common/components/toolbar/toolbar.component';
@@ -23,7 +23,14 @@ export class ProfileComponent {
     protected user = toSignal(this.authService.getRefreshedUser$());
     protected membershipStatus = toSignal(this.authService.getMembershipStatus());
     protected startedRides = toSignal(this.authService.getRiderRides$(this.authService.getUser()!.name, false));
-    protected completedRides = toSignal(this.authService.getRiderRides$(this.authService.getUser()!.name, true));
+    protected finishedRides = toSignal(this.authService.getRiderRides$(this.authService.getUser()!.name, true));
+    protected finishedRatio = computed(() => {
+        if (this.startedRides() && this.startedRides()! > 0) {
+            const ratio = (this.finishedRides() || 0) / this.startedRides()!;
+            return Math.round(ratio * 100);
+        }
+        return 0;
+    });
 
     protected logout(): void {
         this.authService.logout();

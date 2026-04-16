@@ -101,7 +101,6 @@ export class AuthService {
         const collection = onlyCompletedRides ? 'public_completed_participations' : 'public_participations';
 
         return from(environment.pb.collection(collection).getFullList({ query: { rider: riderName } })).pipe(
-            tap(x => console.log(x)),
             map(participations =>
                 participations.reduce((totalRides, participation) => totalRides + participation['rides'], 0)
             )

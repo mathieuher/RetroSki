@@ -39,6 +39,7 @@
         width: 100%;
         justify-content: space-around;
         font-size: var(--text-small);
+        flex-wrap: wrap;
 
         .ride-card {
             display: flex;
@@ -46,7 +47,6 @@
             align-items: center;
             padding: 1rem;
             border-radius: var(--border-radius-large);
-            aspect-ratio: 1;
 
             &.primary .number {
                 color: var(--color-primary);
