@@ -97,7 +97,7 @@ export class AuthService {
         );
     }
 
-    public getRiderRides$(riderName: string, onlyCompletedRides: boolean): Observable<number> {
+    public getRiderStatistics$(riderName: string, onlyCompletedRides: boolean): Observable<number> {
         const collection = onlyCompletedRides ? 'public_completed_participations' : 'public_participations';
 
         return from(environment.pb.collection(collection).getFullList({ query: { rider: riderName } })).pipe(

@@ -22,12 +22,12 @@ export class ProfileComponent {
 
     protected user = toSignal(this.authService.getRefreshedUser$());
     protected membershipStatus = toSignal(this.authService.getMembershipStatus());
-    protected startedRides = toSignal(this.authService.getRiderRides$(this.authService.getUser()!.name, false));
-    protected finishedRides = toSignal(this.authService.getRiderRides$(this.authService.getUser()!.name, true));
+    protected startedRides = toSignal(this.authService.getRiderStatistics$(this.authService.getUser()!.name, false));
+    protected finishedRides = toSignal(this.authService.getRiderStatistics$(this.authService.getUser()!.name, true));
     protected finishedRatio = computed(() => {
         if (this.startedRides() && this.startedRides()! > 0) {
             const ratio = (this.finishedRides() || 0) / this.startedRides()!;
-            return Math.round(ratio * 100);
+            return Math.round(ratio * 10000) / 100;
         }
         return 0;
     });
